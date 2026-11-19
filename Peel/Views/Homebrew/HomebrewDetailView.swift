@@ -21,6 +21,9 @@ struct HomebrewDetailView: View {
     let package: HomebrewPackage
 
     static let dependencyNote: LocalizedStringResource = "Homebrew installed this for another package, not because you asked for it."
+    static let packagesGoneNote: LocalizedStringResource = "Its packages were uninstalled, or their receipts forgotten. If nothing of it is left, Forget Cask moves its Homebrew receipt to the Trash, and History can put it back."
+    static let stoppedMidUpgradeNote: LocalizedStringResource = "Its app is still in a Homebrew folder. Reinstalling the cask in Terminal puts it back."
+    static let appGoneNote: LocalizedStringResource = "Its app is no longer where Homebrew put it, so Homebrew cannot upgrade it. Forget Cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."
 
     var body: some View {
         Form {
@@ -88,13 +91,13 @@ struct HomebrewDetailView: View {
             if package.isMissingWhatItInstalled, package.appTargets.isEmpty {
                 Notice(
                     title: Text("macOS has no receipt for its packages"),
-                    detail: Text("Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the Homebrew receipt of the cask to the Trash, so Homebrew stops listing it, and History can put it back."),
+                    detail: Text(Self.packagesGoneNote),
                     kind: .note
                 ) {}
             } else if package.isStoppedMidUpgrade {
                 Notice(
                     title: Text("The upgrade was stopped"),
-                    detail: Text("Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back."),
+                    detail: Text(Self.stoppedMidUpgradeNote),
                     kind: .caution
                 ) {
                     CopyButton(
@@ -106,7 +109,7 @@ struct HomebrewDetailView: View {
             } else if package.isMissingWhatItInstalled {
                 Notice(
                     title: Text("The app is already gone"),
-                    detail: Text("Homebrew still lists this cask, but its app isn’t where Homebrew put it anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
+                    detail: Text(Self.appGoneNote),
                     kind: .note
                 ) {}
             }
@@ -130,11 +133,15 @@ struct HomebrewDetailView: View {
 
             Section {
                 if let reason = homebrew.whyItCantChange(isAdministrator: helper.isAdministrator) {
-                    HStack(spacing: 8) {
-                        Text(reason.detail)
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                        if let command = reason.command {
+                    NotedStatus(
+                        title: Text(reason.noteTitle), note: Text(reason.detail),
+                        systemImage: "person.crop.circle.badge.exclamationmark"
+                    )
+                    if let step = reason.step, let command = reason.command {
+                        HStack(spacing: 8) {
+                            Text(step)
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
                             Spacer(minLength: 8)
                             CopyButton(text: command)
                         }

@@ -872,338 +872,214 @@
         }
       }
     },
-    "%@ belongs to root, so Homebrew cannot change it, and Homebrew does not run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and the short name of an administrator: %@" : {
+    "%@ belongs to root, and Homebrew does not run as root." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Složka %1$@ patří uživateli root, takže ji Homebrew nemůže měnit, a pod uživatelem root Homebrew neběží. Chcete-li složku vrátit tomuto účtu, ať tento příkaz spustí v Terminálu správce, nebo ho spusťte sami po zadání `su` a krátkého jména správce: %2$@"
+            "value" : "Složka %@ patří uživateli root a Homebrew pod uživatelem root neběží."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ gehört root, daher kann Homebrew diesen Ordner nicht ändern, und Homebrew läuft nicht als root. Damit der Ordner wieder diesem Benutzeraccount gehört, führt ein Administrator diesen Befehl im Terminal aus, oder du führst ihn aus, nachdem du `su` und den Kurznamen eines Administrators eingegeben hast: %2$@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ belongs to root, so Homebrew cannot change it, and Homebrew does not run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and the short name of an administrator: %2$@"
+            "value" : "%@ gehört root, und Homebrew läuft nicht als root."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ pertenece a root, así que Homebrew no puede modificar esa carpeta, y Homebrew no se ejecuta como root. Para devolver la carpeta a esta cuenta, un administrador tiene que ejecutar esto en Terminal, o puedes ejecutarlo tú después de `su` y el nombre corto de un administrador: %@"
+            "value" : "%@ pertenece a root, y Homebrew no se ejecuta como root."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ appartient à root : Homebrew ne peut donc pas le modifier, et Homebrew ne s’exécute pas en tant que root. Pour rendre le dossier à ce compte, un administrateur doit exécuter ceci dans Terminal, ou vous pouvez l’exécuter après `su` suivi du nom abrégé d’un administrateur : %2$@"
+            "value" : "%@ appartient à root, et Homebrew ne s’exécute pas en tant que root."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ appartiene a root, quindi Homebrew non può modificarla, e Homebrew non viene eseguito come root. Per restituire la cartella a questo account, un amministratore esegue questo comando in Terminale, oppure lo esegui tu dopo `su` e il nome breve di un amministratore: %2$@"
+            "value" : "%@ appartiene a root, e Homebrew non viene eseguito come root."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@はrootが所有しているため、Homebrewは変更できません。また、Homebrewはrootとして実行されません。このフォルダの所有権をこのアカウントに戻すには、管理者がターミナルで以下のコマンドを実行するか、`su`と管理者のアカウント名を入力した後でこのコマンドを実行してください: %@"
+            "value" : "%@はrootが所有しており、Homebrewはrootとして実行されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@은(는) Root 사용자에게 속해 있으므로 Homebrew가 변경할 수 없으며, Homebrew는 Root 사용자로 실행되지 않습니다. 이 폴더를 이 계정에 되돌려 주려면 관리자가 터미널에서 다음을 실행해야 합니다. 또는 `su`와 관리자의 계정 이름을 입력한 다음 직접 실행하십시오: %2$@"
+            "value" : "%@은(는) Root 사용자에게 속해 있으며, Homebrew는 Root 사용자로 실행되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ is van root, dus Homebrew kan die map niet wijzigen, en Homebrew wordt niet als root uitgevoerd. Om de map terug te geven aan deze account, voert een beheerder dit uit in Terminal, of voer je het zelf uit na `su` en de korte naam van een beheerder: %2$@"
+            "value" : "%@ is van root, en Homebrew wordt niet als root uitgevoerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Folder %1$@ należy do użytkownika root, więc Homebrew nie może go zmieniać, a Homebrew nie działa jako root. Aby oddać ten folder temu kontu, administrator musi uruchomić w Terminalu to polecenie albo uruchom je po wpisaniu `su` i krótkiej nazwy administratora: %2$@"
+            "value" : "Folder %@ należy do użytkownika root, a Homebrew nie działa jako root."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A pasta %1$@ pertence ao root, então o Homebrew não pode alterá-la, e o Homebrew não é executado como root. Para devolver a pasta a esta conta, um administrador deve executar isto no Terminal, ou você pode executá-lo depois de `su` e do nome abreviado de um administrador: %2$@"
+            "value" : "A pasta %@ pertence ao root, e o Homebrew não é executado como root."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ aparține utilizatorului Root, așa că Homebrew nu îl poate modifica, iar Homebrew nu rulează ca utilizator Root. Pentru a da dosarul înapoi acestui cont, această comandă trebuie rulată în Terminal de un administrator sau de dvs., după `su` și numele scurt al unui administrator: %2$@"
+            "value" : "%@ aparține utilizatorului Root, iar Homebrew nu rulează ca utilizator Root."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка %1$@ принадлежит root, поэтому Homebrew не может ее изменить, а от имени root Homebrew не запускается. Чтобы вернуть папку этой учетной записи, эту команду должен выполнить в Терминале администратор, или Вы можете выполнить ее сами, предварительно введя `su` и имя учетной записи администратора: %2$@"
+            "value" : "Папка %@ принадлежит root, а Homebrew не запускается от имени root."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ tillhör rotanvändaren, så Homebrew kan inte ändra den, och Homebrew körs inte som rotanvändare. För att ge tillbaka mappen till det här kontot kör en administratör följande i Terminal, eller så kör du det själv efter `su` och en administratörs kontonamn: %2$@"
+            "value" : "%@ tillhör rotanvändaren, och Homebrew körs inte som rotanvändare."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ klasörünün sahibi root, bu yüzden Homebrew onu değiştiremez; Homebrew root olarak da çalışmaz. Klasörü bu hesaba geri vermek için bir yöneticinin şu komutu Terminal’de çalıştırması gerekir; ya da siz `su` ve bir yöneticinin kısa adını yazdıktan sonra komutu kendiniz çalıştırabilirsiniz: %@"
+            "value" : "%@ klasörünün sahibi root ve Homebrew root olarak çalışmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка %1$@ належить root, тож Homebrew не може її змінювати, а від імені root Homebrew не працює. Щоб повернути папку цьому обліковому запису, адміністратор може виконати в Терміналі цю команду, або ви можете виконати її після команди `su` з коротким іменем адміністратора: %2$@"
+            "value" : "Папка %@ належить root, а від імені root Homebrew не працює."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@归root所有，因此Homebrew无法更改它，而Homebrew也不会以root身份运行。若要将该文件夹交还给此账户，请由管理员在“终端”中运行以下命令，或者由你先输入`su`和管理员的短名称，再运行该命令：%2$@"
+            "value" : "%@归root所有，而Homebrew不会以root身份运行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@屬於root，因此Homebrew無法更改它，而Homebrew也不會以root身分執行。若要將該檔案夾交還給此帳號，需由管理者在「終端機」中執行此指令，或在輸入`su`和管理者的帳號名稱之後自行執行：%2$@"
+            "value" : "%@屬於root，而Homebrew不會以root身分執行。"
           }
         }
       }
     },
-    "%@ belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: %@" : {
+    "%@ belongs to this account but cannot be written to." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Složka %1$@ patří uživateli root, takže ji Homebrew nemůže měnit, a pod uživatelem root Homebrew neběží. Vraťte složku tomuto účtu spuštěním tohoto příkazu v Terminálu: %2$@"
+            "value" : "Složka %@ patří tomuto účtu, ale nelze do ní zapisovat."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ gehört root, daher kann Homebrew diesen Ordner nicht ändern, und Homebrew läuft nicht als root. Gib den Ordner diesem Benutzeraccount zurück, indem du diesen Befehl im Terminal ausführst: %2$@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: %2$@"
+            "value" : "%@ gehört diesem Benutzeraccount, ist aber schreibgeschützt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ pertenece a root, así que Homebrew no puede modificar esa carpeta, y Homebrew no se ejecuta como root. Devuelve la carpeta a esta cuenta ejecutando esto en Terminal: %2$@"
+            "value" : "%@ pertenece a esta cuenta, pero no se puede escribir en esa carpeta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ appartient à root : Homebrew ne peut donc pas le modifier, et Homebrew ne s’exécute pas en tant que root. Rendez le dossier à ce compte en exécutant ceci dans Terminal : %2$@"
+            "value" : "%@ appartient à ce compte, mais il est impossible d’y écrire."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ appartiene a root, quindi Homebrew non può modificarla, e Homebrew non viene eseguito come root. Restituisci la cartella a questo account eseguendo questo comando in Terminale: %2$@"
+            "value" : "%@ appartiene a questo account ma non consente la scrittura."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@はrootが所有しているため、Homebrewは変更できません。また、Homebrewはrootとして実行されません。ターミナルで以下のコマンドを実行して、このフォルダの所有権をこのアカウントに戻してください: %2$@"
+            "value" : "%@はこのアカウントが所有していますが、書き込みができません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@은(는) Root 사용자에게 속해 있으므로 Homebrew가 변경할 수 없으며, Homebrew는 Root 사용자로 실행되지 않습니다. 이 폴더를 이 계정에 되돌려 주려면 터미널에서 다음을 실행하십시오: %2$@"
+            "value" : "%@은(는) 이 계정에 속해 있지만 쓸 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ is van root, dus Homebrew kan die map niet wijzigen, en Homebrew wordt niet als root uitgevoerd. Geef de map terug aan deze account door dit uit te voeren in Terminal: %2$@"
+            "value" : "%@ is van deze account, maar er kan niet naar worden geschreven."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Folder %1$@ należy do użytkownika root, więc Homebrew nie może go zmieniać, a Homebrew nie działa jako root. Oddaj ten folder temu kontu, uruchamiając w Terminalu to polecenie: %2$@"
+            "value" : "Folder %@ należy do tego konta, ale nie można w nim zapisywać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A pasta %1$@ pertence ao root, então o Homebrew não pode alterá-la, e o Homebrew não é executado como root. Devolva a pasta a esta conta executando isto no Terminal: %2$@"
+            "value" : "A pasta %@ pertence a esta conta, mas não é possível gravar nela."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ aparține utilizatorului Root, așa că Homebrew nu îl poate modifica, iar Homebrew nu rulează ca utilizator Root. Dați dosarul înapoi acestui cont rulând această comandă în Terminal: %2$@"
+            "value" : "%@ aparține acestui cont, dar nu se poate scrie în el."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка %1$@ принадлежит root, поэтому Homebrew не может ее изменить, а от имени root Homebrew не запускается. Верните папку этой учетной записи, выполнив эту команду в Терминале: %2$@"
+            "value" : "Папка %@ принадлежит этой учетной записи, но запись в нее запрещена."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ tillhör rotanvändaren, så Homebrew kan inte ändra den, och Homebrew körs inte som rotanvändare. Ge tillbaka mappen till det här kontot genom att köra följande i Terminal: %2$@"
+            "value" : "%@ tillhör det här kontot men går inte att skriva till."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ klasörünün sahibi root, bu yüzden Homebrew onu değiştiremez; Homebrew root olarak da çalışmaz. Terminal’de şunu çalıştırarak klasörü bu hesaba geri verin: %2$@"
+            "value" : "%@ klasörü bu hesaba ait ancak ona yazılamıyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка %1$@ належить root, тож Homebrew не може її змінювати, а від імені root Homebrew не працює. Поверніть папку цьому обліковому запису, виконавши в Терміналі цю команду: %2$@"
+            "value" : "Папка %@ належить цьому обліковому запису, але недоступна для запису."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@归root所有，因此Homebrew无法更改它，而Homebrew也不会以root身份运行。请在“终端”中运行以下命令，将该文件夹交还给此账户：%2$@"
+            "value" : "%@属于此账户，但无法写入。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@屬於root，因此Homebrew無法更改它，而Homebrew也不會以root身分執行。請在「終端機」中執行此指令，將該檔案夾交還給此帳號：%2$@"
-          }
-        }
-      }
-    },
-    "%@ belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: %@" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Složka %1$@ patří tomuto účtu, ale nelze do ní zapisovat, takže ji Homebrew nemůže měnit. Povolte zápis spuštěním tohoto příkazu v Terminálu: %2$@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ gehört diesem Benutzeraccount, ist aber schreibgeschützt, daher kann Homebrew diesen Ordner nicht ändern. Erlaube das Schreiben, indem du diesen Befehl im Terminal ausführst: %2$@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: %2$@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ pertenece a esta cuenta, pero no se puede escribir en esa carpeta, así que Homebrew no puede modificarla. Permítelo ejecutando esto en Terminal: %2$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ appartient à ce compte, mais il est impossible d’y écrire : Homebrew ne peut donc pas le modifier. Autorisez l’écriture en exécutant ceci dans Terminal : %2$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ appartiene a questo account ma non consente la scrittura, quindi Homebrew non può modificarla. Consentila eseguendo questo comando in Terminale: %2$@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@はこのアカウントが所有していますが、書き込みができないため、Homebrewは変更できません。ターミナルで以下のコマンドを実行して、書き込みを許可してください: %2$@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@은(는) 이 계정에 속해 있지만 쓸 수 없으므로 Homebrew가 변경할 수 없습니다. 쓰기를 허용하려면 터미널에서 다음을 실행하십시오: %2$@"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ is van deze account, maar er kan niet naar worden geschreven, dus Homebrew kan die map niet wijzigen. Sta het toe door dit uit te voeren in Terminal: %2$@"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folder %1$@ należy do tego konta, ale nie można w nim zapisywać, więc Homebrew nie może go zmieniać. Pozwól na to, uruchamiając w Terminalu to polecenie: %2$@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A pasta %1$@ pertence a esta conta, mas não é possível gravar nela, então o Homebrew não pode alterá-la. Permita a gravação executando isto no Terminal: %2$@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ aparține acestui cont, dar nu se poate scrie în el, așa că Homebrew nu îl poate modifica. Permiteți scrierea rulând această comandă în Terminal: %2$@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка %1$@ принадлежит этой учетной записи, но запись в нее запрещена, поэтому Homebrew не может ее изменить. Разрешите запись, выполнив эту команду в Терминале: %2$@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ tillhör det här kontot men går inte att skriva till, så Homebrew kan inte ändra den. Tillåt det genom att köra följande i Terminal: %2$@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ klasörü bu hesaba ait ancak ona yazılamıyor, bu yüzden Homebrew onu değiştiremez. Terminal’de şunu çalıştırarak yazmaya izin verin: %2$@"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папка %1$@ належить цьому обліковому запису, але недоступна для запису, тож Homebrew не може її змінювати. Дозвольте запис, виконавши в Терміналі цю команду: %2$@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@属于此账户，但无法写入，因此Homebrew无法更改它。请在“终端”中运行以下命令以允许写入：%2$@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@屬於此帳號，但無法寫入，因此Homebrew無法更改它。請在「終端機」中執行此指令以允許寫入：%2$@"
+            "value" : "%@屬於此帳號，但無法寫入。"
           }
         }
       }
@@ -16324,108 +16200,108 @@
         }
       }
     },
-    "A package Homebrew is in the middle of installing may be left half installed, and may need installing again. A cask’s app can stay in Homebrew’s folder until you reinstall the cask." : {
+    "A package being installed may be left half installed and need installing again. An app may stay in a Homebrew folder until you reinstall its cask." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Balíček, který Homebrew právě instaluje, může zůstat napůl nainstalovaný a možná ho bude potřeba nainstalovat znovu. Aplikace, kterou instaluje cask, může zůstat ve složce Homebrew, dokud cask znovu nenainstalujete."
+            "value" : "Balíček, který se právě instaluje, může zůstat napůl nainstalovaný a možná ho bude potřeba nainstalovat znovu. Aplikace může zůstat ve složce Homebrew, dokud znovu nenainstalujete její cask."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein Paket, das Homebrew gerade installiert, bleibt möglicherweise nur teilweise installiert und muss eventuell erneut installiert werden. Die App eines Casks kann im Ordner von Homebrew bleiben, bis du den Cask erneut installierst."
+            "value" : "Ein Paket, das gerade installiert wird, bleibt möglicherweise nur teilweise installiert und muss dann erneut installiert werden. Eine App kann in einem Ordner von Homebrew bleiben, bis du ihren Cask erneut installierst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un paquete que Homebrew esté instalando en este momento puede quedar a medio instalar, y puede que haya que volver a instalarlo. La app de un cask puede quedarse en la carpeta de Homebrew hasta que vuelvas a instalar el cask."
+            "value" : "Un paquete que se esté instalando puede quedar a medio instalar y tener que volver a instalarse. Una app puede quedarse en una carpeta de Homebrew hasta que vuelvas a instalar su cask."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un paquet que Homebrew est en train d’installer pourrait rester partiellement installé, et il faudrait peut-être le réinstaller. L’app d’un cask peut rester dans le dossier de Homebrew jusqu’à ce que vous réinstalliez le cask."
+            "value" : "Un paquet en cours d’installation pourrait rester partiellement installé et devoir être réinstallé. Une app peut rester dans un dossier de Homebrew jusqu’à ce que vous réinstalliez son cask."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un pacchetto che Homebrew sta installando potrebbe restare installato a metà e dover essere reinstallato. L’app di un cask può restare nella cartella di Homebrew finché non reinstalli il cask."
+            "value" : "Un pacchetto in fase di installazione potrebbe restare installato a metà e dover essere reinstallato. Un’app potrebbe restare in una cartella di Homebrew finché non reinstalli il suo cask."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewがインストールしている途中のパッケージは、不完全にインストールされたままになり、再インストールが必要になる場合があります。caskのアプリは、caskを再インストールするまでHomebrewのフォルダに残ることがあります。"
+            "value" : "インストール中のパッケージは、不完全にインストールされたままになり、再インストールが必要になる場合があります。アプリは、そのcaskを再インストールするまでHomebrewのフォルダに残ることがあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 설치 중인 패키지는 일부만 설치된 상태로 남을 수 있으며, 다시 설치해야 할 수도 있습니다. cask의 앱은 cask를 다시 설치할 때까지 Homebrew의 폴더에 남아 있을 수 있습니다."
+            "value" : "설치 중인 패키지는 일부만 설치된 상태로 남아 다시 설치해야 할 수 있습니다. 앱은 cask를 다시 설치할 때까지 Homebrew 폴더에 남아 있을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een pakket dat Homebrew nog aan het installeren is, kan half geïnstalleerd achterblijven en moet dan misschien opnieuw worden geïnstalleerd. De app van een cask kan in de map van Homebrew blijven staan totdat je de cask opnieuw installeert."
+            "value" : "Een pakket dat wordt geïnstalleerd, kan half geïnstalleerd achterblijven en moet dan opnieuw worden geïnstalleerd. Een app kan in een map van Homebrew blijven staan totdat je de cask ervan opnieuw installeert."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pakiet, który Homebrew właśnie instaluje, może zostać zainstalowany częściowo i może wymagać ponownej instalacji. Aplikacja danego cask może pozostać w folderze Homebrew, dopóki ponownie nie zainstalujesz tego cask."
+            "value" : "Instalowany pakiet może zostać zainstalowany częściowo i wymagać ponownej instalacji. Aplikacja może pozostać w folderze Homebrew, dopóki ponownie nie zainstalujesz jej cask."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um pacote que o Homebrew estiver instalando no momento pode ficar instalado pela metade, e talvez precise ser instalado de novo. O app de um cask pode ficar na pasta do Homebrew até você reinstalar o cask."
+            "value" : "Um pacote que estiver sendo instalado pode ficar instalado pela metade e precisar ser instalado de novo. Um app pode ficar em uma pasta do Homebrew até você reinstalar o cask dele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un pachet pe care Homebrew încă îl instalează poate rămâne instalat pe jumătate și s‑ar putea să trebuiască reinstalat. Aplicația unui cask poate rămâne în dosarul Homebrew până când reinstalați cask‑ul."
+            "value" : "Un pachet aflat în curs de instalare poate rămâne instalat pe jumătate și s‑ar putea să trebuiască reinstalat. O aplicație poate rămâne într‑un dosar Homebrew până când îi reinstalați cask‑ul."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пакет, который Homebrew устанавливает в этот момент, может остаться установленным наполовину, и его, возможно, придется установить снова. Приложение из cask может остаться в папке Homebrew, пока Вы не переустановите этот cask."
+            "value" : "Пакет, который Homebrew устанавливает в этот момент, может остаться установленным наполовину, и его, возможно, придется установить снова. Приложение может остаться в папке Homebrew, пока Вы не переустановите его cask."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ett paket som Homebrew håller på att installera kan bli halvt installerat och behöva installeras igen. En casks app kan ligga kvar i Homebrews mapp tills du installerar om casken."
+            "value" : "Ett paket som håller på att installeras kan bli halvt installerat och behöva installeras igen. En app kan ligga kvar i en Homebrew-mapp tills du installerar om dess cask."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un yüklemekte olduğu bir paket yarım yüklenmiş hâlde kalabilir ve yeniden yüklenmesi gerekebilir. Bir cask paketinin uygulaması, siz o cask paketini yeniden yükleyene kadar Homebrew’un klasöründe kalabilir."
+            "value" : "Yüklenmekte olan bir paket yarım yüklenmiş hâlde kalabilir ve yeniden yüklenmesi gerekebilir. Bir uygulama, siz onun cask paketini yeniden yükleyene kadar bir Homebrew klasöründe kalabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пакет, який Homebrew саме інсталює, може залишитися інстальованим лише частково, і його, можливо, доведеться інсталювати знову. Програма, яку інсталює cask, може лишитися в папці Homebrew, доки ви не перевстановите цей cask."
+            "value" : "Пакет, який саме інсталюється, може залишитися інстальованим лише частково, і його, можливо, доведеться інсталювати знову. Програма може лишитися в папці Homebrew, доки ви не перевстановите її cask."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew正在安装的软件包可能只安装了部分，之后可能需要重新安装。cask的App可能会留在Homebrew的文件夹中，直到你重新安装该cask。"
+            "value" : "正在安装的软件包可能只安装了一部分，需要重新安装。App可能会留在Homebrew的某个文件夹中，直到你重新安装其cask。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew正在安裝的套件可能只有一部分完成安裝，因此可能需要重新安裝。cask的App可能會留在Homebrew的檔案夾中，直到你重新安裝該cask。"
+            "value" : "正在安裝的套件可能只完成了一部分，而需要重新安裝。App可能會留在Homebrew的檔案夾中，直到你重新安裝其cask。"
           }
         }
       }
@@ -21733,6 +21609,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "管理者未允許此動作。"
+          }
+        }
+      }
+    },
+    "An administrator runs this in Terminal, or you run it after `su` and the short name of an administrator: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento příkaz spustí v Terminálu správce, nebo ho spusťte sami po zadání `su` a krátkého jména správce: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Administrator führt diesen Befehl im Terminal aus, oder du führst ihn aus, nachdem du `su` und den Kurznamen eines Administrators eingegeben hast: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrador tiene que ejecutar esto en Terminal, o puedes ejecutarlo tú después de `su` y el nombre corto de un administrador: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrateur doit exécuter ceci dans Terminal, ou vous pouvez l’exécuter après `su` suivi du nom abrégé d’un administrateur : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo comando lo esegue in Terminale un amministratore, oppure lo esegui tu dopo `su` e il nome breve di un amministratore: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者がターミナルでこれを実行するか、`su`と管理者のアカウント名を入力した後でこれを実行してください: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자가 터미널에서 이 명령을 실행하거나, `su`와 관리자의 계정 이름을 입력한 다음 직접 실행하십시오: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een beheerder voert dit uit in Terminal, of je voert het zelf uit na `su` en de korte naam van een beheerder: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To polecenie może uruchomić w Terminalu administrator albo Ty, po wpisaniu `su` i krótkiej nazwy administratora: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um administrador deve executar isto no Terminal, ou você pode executá-lo depois de `su` e do nome abreviado de um administrador: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această comandă trebuie rulată în Terminal de un administrator sau de dvs., după `su` și numele scurt al unui administrator: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту команду должен выполнить в Терминале администратор, или Вы можете выполнить ее сами, введя сначала `su` и короткое имя администратора: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En administratör kör det här i Terminal, eller så kör du det efter `su` och en administratörs kontonamn: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu Terminal’de bir yönetici çalıştırır ya da siz `su` ve bir yöneticinin kısa adını yazdıktan sonra kendiniz çalıştırırsınız: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю команду має виконати в Терміналі адміністратор, або ви можете виконати її після `su` з коротким іменем адміністратора: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需由管理员在“终端”中运行以下命令，或者由你先输入`su`和管理员的短名称，再运行该命令：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需由管理者在「終端機」中執行此指令，或在輸入`su`和管理者的帳號名稱之後自行執行：%@"
           }
         }
       }
@@ -28075,6 +28057,112 @@
         }
       }
     },
+    "Asking Homebrew would download its list of packages again, which Peel does not start on its own." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dotaz na Homebrew by znovu stáhl jeho seznam balíčků, což Peel sám od sebe nespouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Anfrage an Homebrew würde seine Paketliste erneut laden, was Peel nicht von sich aus startet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntar a Homebrew volvería a descargar su lista de paquetes, algo que Peel no inicia por su cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interroger Homebrew téléchargerait à nouveau sa liste de paquets, ce que Peel ne lance pas de lui-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiedere a Homebrew farebbe scaricare di nuovo il suo elenco di pacchetti, cosa che Peel non avvia di sua iniziativa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewに問い合わせるとパッケージリストが再ダウンロードされますが、Peelがそれを自動的に始めることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew에 물으면 패키지 목록을 다시 다운로드하게 되며, Peel은 이 작업을 스스로 시작하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Peel het aan Homebrew vraagt, zou de lijst met pakketten van Homebrew opnieuw worden gedownload, en daar begint Peel niet uit zichzelf aan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapytanie Homebrew spowodowałoby ponowne pobranie jego listy pakietów, a Peel nie uruchamia tego samodzielnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perguntar ao Homebrew baixaria a lista de pacotes dele de novo, o que o Peel não inicia por conta própria."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La orice întrebare, Homebrew ar descărca din nou lista de pachete, lucru pe care Peel nu îl pornește de la sine."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запрос к Homebrew заново загрузил бы его список пакетов, а такую загрузку Peel сам не запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om Peel frågade Homebrew skulle paketlistan hämtas på nytt, och det startar Peel inte på egen hand."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’a sormak paket listesini yeniden indirir; Peel bunu kendiliğinden başlatmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запит до Homebrew знову викачав би список його пакетів, а Peel сама цього не запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向Homebrew查询会重新下载它的软件包列表，而Peel不会自行启动此操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向Homebrew查詢會重新下載它的套件列表，而Peel不會自行開始這項操作。"
+          }
+        }
+      }
+    },
     "Asking Homebrew…" : {
       "localizations" : {
         "cs" : {
@@ -28181,108 +28269,108 @@
         }
       }
     },
-    "Asks Homebrew to check itself and report anything out of place, such as a broken link. It only looks and changes nothing. It can’t see the PATH your Terminal uses, so problems there don’t show up here." : {
+    "Asks Homebrew to check itself and report anything out of place, such as a broken link. It changes nothing, and it cannot see the PATH your Terminal uses." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Požádá Homebrew, aby zkontroloval sám sebe a nahlásil vše, co není v pořádku, například nefunkční odkaz. Jen se dívá a nic nemění. Nevidí proměnnou PATH, kterou používá váš Terminál, takže problémy s ní se tu neprojeví."
+            "value" : "Požádá Homebrew, aby zkontroloval sám sebe a nahlásil vše, co není v pořádku, například nefunkční odkaz. Nic nemění a nevidí proměnnou PATH, kterou používá váš Terminál."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lässt Homebrew sich selbst prüfen und alles melden, was nicht stimmt, etwa einen defekten Link. Es sieht nur nach und ändert nichts. Den PATH, den dein Terminal verwendet, sieht es nicht, daher werden Probleme damit hier nicht angezeigt."
+            "value" : "Lässt Homebrew sich selbst prüfen und alles melden, was nicht stimmt, etwa einen defekten Link. Es ändert nichts und sieht den PATH nicht, den dein Terminal verwendet."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pide a Homebrew que se revise a sí mismo e informe de cualquier cosa fuera de lugar, como un enlace roto. Solo mira y no cambia nada. No puede ver el PATH que usa tu Terminal, así que los problemas que haya ahí no aparecen aquí."
+            "value" : "Pide a Homebrew que se revise a sí mismo e informe de cualquier cosa fuera de lugar, como un enlace roto. No cambia nada, y no puede ver el PATH que usa tu Terminal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Demande à Homebrew de s’examiner et de signaler toute anomalie, comme un lien rompu. Cette vérification se contente d’observer et ne modifie rien. Elle ne voit pas le PATH utilisé dans Terminal : les problèmes qui s’y trouvent n’apparaissent donc pas ici."
+            "value" : "Demande à Homebrew de s’examiner et de signaler toute anomalie, comme un lien rompu. Cette vérification ne modifie rien, et elle ne voit pas le PATH utilisé dans Terminal."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chiede a Homebrew di verificare sé stesso e di segnalare qualsiasi cosa fuori posto, come un link interrotto. Si limita a guardare e non cambia nulla. Non vede il PATH usato da Terminale, quindi eventuali problemi lì non compaiono qui."
+            "value" : "Chiede a Homebrew di verificare sé stesso e di segnalare qualsiasi cosa fuori posto, come un link interrotto. Non cambia nulla, e non vede il PATH usato da Terminale."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewに自己診断を依頼し、壊れたリンクなどの問題を報告させます。確認するだけで、何も変更しません。ターミナルで使われるPATHは参照できないため、そこにある問題はここには表示されません。"
+            "value" : "Homebrewに自己診断を依頼し、壊れたリンクなどの問題を報告させます。何も変更せず、ターミナルで使われるPATHは参照できません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 스스로를 점검하여 깨진 링크 같은 이상 사항을 보고하도록 요청합니다. 살펴보기만 하고 아무것도 변경하지 않습니다. 터미널이 사용하는 PATH는 볼 수 없으므로 그곳의 문제는 여기에 나타나지 않습니다."
+            "value" : "Homebrew가 스스로를 점검하여 깨진 링크 같은 이상 사항을 보고하도록 요청합니다. 아무것도 변경하지 않으며, 터미널이 사용하는 PATH는 볼 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vraagt Homebrew zichzelf te controleren en alles te melden wat niet klopt, zoals een kapotte link. Het kijkt alleen en wijzigt niets. Het kan het PATH dat je Terminal gebruikt niet zien, dus problemen daarin verschijnen hier niet."
+            "value" : "Vraagt Homebrew zichzelf te controleren en alles te melden wat niet klopt, zoals een kapotte link. Het wijzigt niets en kan het PATH dat je Terminal gebruikt niet zien."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prosi Homebrew, aby sprawdził sam siebie i zgłosił wszystko, co jest nie na miejscu, na przykład uszkodzone dowiązanie. Tylko sprawdza i niczego nie zmienia. Nie widzi zmiennej PATH, której używa Twój Terminal, więc problemy z nią nie pojawią się tutaj."
+            "value" : "Prosi Homebrew, aby sprawdził sam siebie i zgłosił wszystko, co jest nie na miejscu, na przykład uszkodzone dowiązanie. Niczego nie zmienia i nie widzi zmiennej PATH, której używa Twój Terminal."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pede ao Homebrew que verifique a si mesmo e informe qualquer coisa fora do lugar, como um link quebrado. Ele só examina e não altera nada. Ele não enxerga o PATH que o seu Terminal usa, então problemas ali não aparecem aqui."
+            "value" : "Pede ao Homebrew que verifique a si mesmo e informe qualquer coisa fora do lugar, como um link quebrado. Não altera nada e não enxerga o PATH que o seu Terminal usa."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Îi cere lui Homebrew să se verifice singur și să raporteze orice nu este în regulă, cum ar fi un link rupt. Doar examinează și nu modifică nimic. Nu poate vedea variabila PATH pe care o folosește Terminal, așa că problemele de acolo nu apar aici."
+            "value" : "Îi cere lui Homebrew să se verifice singur și să raporteze orice nu este în regulă, cum ar fi un link rupt. Nu modifică nimic și nu poate vedea variabila PATH pe care o folosește Terminal."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Просит Homebrew проверить себя и сообщить о любых неполадках, например о неработающей ссылке. При этом ничего не меняется. Проверка не видит PATH, который использует Ваш Терминал, поэтому проблемы с ним здесь не отображаются."
+            "value" : "Просит Homebrew проверить себя и сообщить о любых неполадках, например о неработающей ссылке. При этом ничего не меняется, и проверка не видит PATH, который использует Ваш Терминал."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ber Homebrew att kontrollera sig själv och rapportera allt som inte stämmer, till exempel en trasig länk. Kontrollen tittar bara och ändrar ingenting. Den kan inte se den PATH som Terminal använder, så problem där syns inte här."
+            "value" : "Ber Homebrew att kontrollera sig själv och rapportera allt som inte stämmer, till exempel en trasig länk. Kontrollen ändrar ingenting, och den kan inte se den PATH som Terminal använder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’dan kendini denetlemesini ve bozuk bir bağlantı gibi yolunda gitmeyen her şeyi bildirmesini ister. Yalnızca bakar, hiçbir şeyi değiştirmez. Terminal’de kullandığınız PATH değişkenini göremez, bu yüzden oradaki sorunlar burada görünmez."
+            "value" : "Homebrew’dan kendini denetlemesini ve bozuk bir bağlantı gibi yolunda gitmeyen her şeyi bildirmesini ister. Hiçbir şeyi değiştirmez ve Terminal’de kullandığınız PATH değişkenini göremez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Просить Homebrew перевірити себе й повідомити про все, що не так, як-от пошкоджене посилання. Перевірка лише переглядає і нічого не змінює. Вона не бачить змінної PATH, яку використовує ваш Термінал, тож проблем із нею тут не видно."
+            "value" : "Просить Homebrew перевірити себе й повідомити про все, що не так, як-от пошкоджене посилання. Перевірка нічого не змінює й не бачить змінної PATH, яку використовує ваш Термінал."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "让Homebrew检查自身，并报告任何异常，例如失效的链接。它只查看，不做任何更改。它看不到你的“终端”所使用的PATH，因此那里的问题不会在此显示。"
+            "value" : "让Homebrew检查自身，并报告任何异常，例如失效的链接。它不会做任何更改，也看不到你的“终端”所使用的PATH。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要求Homebrew自我檢查，並回報任何異常，例如損壞的連結。它只會查看，不會更改任何內容。它看不到你的「終端機」所使用的PATH，因此那裡的問題不會顯示在此處。"
+            "value" : "要求Homebrew自我檢查，並回報任何異常，例如損壞的連結。它不會更改任何內容，也看不到你的「終端機」所使用的PATH。"
           }
         }
       }
@@ -66940,109 +67028,108 @@
         }
       }
     },
-    "Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, reinstall pkgconf after a macOS update, or delete an old copy of its core taps it no longer needs." : {
-      "comment" : "The note of the Update Homebrew row on the Homebrew page. pkgconf is a formula's name and stays as it is.",
+    "Gets the newest Homebrew and its list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may rename a package, reinstall pkgconf, or delete an old copy of its core taps." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stáhne nejnovější Homebrew a jeho nejnovější seznam balíčků, proto to spusťte dřív, než začnete hledat aktualizace. Nic neupgraduje, i když Homebrew může přejmenovaný balíček přesunout pod nový název, po aktualizaci macOS znovu nainstalovat pkgconf nebo smazat starou kopii svých základních taps, kterou už nepotřebuje."
+            "value" : "Stáhne nejnovější Homebrew a jeho seznam balíčků, proto to spusťte dřív, než začnete hledat aktualizace. Nic neupgraduje, i když Homebrew může přejmenovat balíček, znovu nainstalovat pkgconf nebo smazat starou kopii svých základních taps."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Holt die neueste Version von Homebrew und seine neueste Paketliste. Führe dies daher aus, bevor du nach Updates suchst. Dabei werden keine Upgrades ausgeführt, allerdings kann Homebrew ein umbenanntes Paket auf seinen neuen Namen umstellen, pkgconf nach einem macOS-Update neu installieren oder eine alte Kopie seiner Kern-Taps löschen, die es nicht mehr benötigt."
+            "value" : "Holt die neueste Version von Homebrew und seine Paketliste. Führe dies daher aus, bevor du nach Updates suchst. Dabei werden keine Upgrades ausgeführt, allerdings kann Homebrew ein Paket umbenennen, pkgconf neu installieren oder eine alte Kopie seiner Kern-Taps löschen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obtiene la versión más reciente de Homebrew y su lista de paquetes más reciente, así que ejecútalo antes de buscar actualizaciones. No actualiza ningún paquete, aunque Homebrew puede pasar un paquete renombrado a su nombre nuevo, reinstalar pkgconf tras una actualización de macOS o borrar una copia antigua de sus taps principales que ya no necesita."
+            "value" : "Obtiene la versión más reciente de Homebrew y su lista de paquetes, así que ejecútalo antes de buscar actualizaciones. No actualiza ningún paquete, aunque Homebrew puede renombrar un paquete, reinstalar pkgconf o borrar una copia antigua de sus taps principales."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Récupère la dernière version de Homebrew et sa liste de paquets la plus récente : exécutez donc cette commande avant de rechercher des mises à jour. Elle ne met rien à niveau, mais Homebrew peut déplacer un paquet renommé vers son nouveau nom, réinstaller pkgconf après une mise à jour de macOS, ou supprimer une ancienne copie de ses taps principaux dont il n’a plus besoin."
+            "value" : "Récupère la dernière version de Homebrew et sa liste de paquets : exécutez donc cette commande avant de rechercher des mises à jour. Elle ne met rien à niveau, mais Homebrew peut renommer un paquet, réinstaller pkgconf ou supprimer une ancienne copie de ses taps principaux."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scarica l’ultima versione di Homebrew e il suo elenco di pacchetti più recente, quindi eseguilo prima di cercare aggiornamenti. Non aggiorna nessun pacchetto, anche se Homebrew potrebbe spostare un pacchetto rinominato sotto il suo nuovo nome, reinstallare pkgconf dopo un aggiornamento di macOS o eliminare una vecchia copia dei suoi tap principali che non gli serve più."
+            "value" : "Scarica l’ultima versione di Homebrew e il suo elenco di pacchetti, quindi eseguilo prima di cercare aggiornamenti. Non aggiorna nessun pacchetto, anche se Homebrew potrebbe rinominare un pacchetto, reinstallare pkgconf o eliminare una vecchia copia dei suoi tap principali."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最新のHomebrewと最新のパッケージリストを取得します。アップデートを確認する前に実行してください。何もアップグレードしませんが、名前が変わったパッケージをHomebrewが新しい名前に移したり、macOSのアップデート後にpkgconfを再インストールしたり、不要になったコアtapsの古いコピーを削除したりすることがあります。"
+            "value" : "最新のHomebrewとパッケージリストを取得します。アップデートを確認する前に実行してください。何もアップグレードしませんが、Homebrewがパッケージの名前を変更したり、pkgconfを再インストールしたり、コアtapsの古いコピーを削除したりすることがあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "최신 Homebrew와 최신 패키지 목록을 가져오므로, 업데이트를 확인하기 전에 실행하십시오. 아무것도 업그레이드하지 않지만, Homebrew가 이름이 바뀐 패키지를 새 이름으로 옮기거나, macOS 업데이트 후 pkgconf를 다시 설치하거나, 더 이상 필요 없는 핵심 tap의 오래된 복사본을 삭제할 수는 있습니다."
+            "value" : "최신 Homebrew와 패키지 목록을 가져오므로, 업데이트를 확인하기 전에 실행하십시오. 아무것도 업그레이드하지 않지만, Homebrew가 패키지의 이름을 바꾸거나, pkgconf를 다시 설치하거나, 핵심 tap의 오래된 복사본을 삭제할 수는 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Haalt de nieuwste versie van Homebrew en de nieuwste lijst met pakketten op, dus voer dit uit voordat je naar updates zoekt. Het upgradet niets, al kan Homebrew een hernoemd pakket naar de nieuwe naam verplaatsen, pkgconf opnieuw installeren na een macOS-update of een oude kopie van zijn core-taps die het niet meer nodig heeft, definitief verwijderen."
+            "value" : "Haalt de nieuwste versie van Homebrew en de lijst met pakketten op, dus voer dit uit voordat je naar updates zoekt. Het upgradet niets, al kan Homebrew een pakket hernoemen, pkgconf opnieuw installeren of een oude kopie van zijn core-taps definitief verwijderen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pobiera najnowszą wersję Homebrew i najnowszą listę pakietów, więc uruchom to przed szukaniem uaktualnień. Niczego nie uaktualnia, choć Homebrew może przenieść pakiet o zmienionej nazwie pod nową nazwę, ponownie zainstalować pkgconf po uaktualnieniu macOS albo usunąć starą kopię swoich podstawowych tapów, której już nie potrzebuje."
+            "value" : "Pobiera najnowszą wersję Homebrew i jego listę pakietów, więc uruchom to przed szukaniem uaktualnień. Niczego nie uaktualnia, choć Homebrew może zmienić nazwę pakietu, ponownie zainstalować pkgconf albo usunąć starą kopię swoich podstawowych tapów."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obtém a versão mais recente do Homebrew e a lista de pacotes mais recente dele, então execute isto antes de procurar atualizações. Não faz upgrade de nada, embora o Homebrew possa passar um pacote renomeado para o novo nome, reinstalar o pkgconf depois de uma atualização do macOS ou apagar uma cópia antiga dos taps principais dele que não seja mais necessária."
+            "value" : "Obtém a versão mais recente do Homebrew e a lista de pacotes dele, então execute isto antes de procurar atualizações. Não faz upgrade de nada, embora o Homebrew possa renomear um pacote, reinstalar o pkgconf ou apagar uma cópia antiga dos taps principais dele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obține cea mai nouă versiune Homebrew și cea mai nouă listă de pachete, așa că rulați această comandă înainte de a căuta actualizări. Nu face upgrade la nimic, deși Homebrew poate trece un pachet redenumit la noul său nume, poate reinstala pkgconf după o actualizare macOS sau poate șterge o copie veche a tap‑urilor sale de bază, de care nu mai are nevoie."
+            "value" : "Obține cea mai nouă versiune Homebrew și lista sa de pachete, așa că rulați această comandă înainte de a căuta actualizări. Nu face upgrade la nimic, deși Homebrew poate redenumi un pachet, poate reinstala pkgconf sau poate șterge o copie veche a tap‑urilor sale de bază."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Загружает новейшую версию Homebrew и новейший список пакетов, поэтому выполняйте эту команду перед поиском обновлений. Пакеты при этом не обновляются, хотя Homebrew может перенести переименованный пакет под новое имя, переустановить pkgconf после обновления macOS или удалить старую копию своих основных taps, которая ему больше не нужна."
+            "value" : "Загружает новейшую версию Homebrew и его список пакетов, поэтому выполняйте эту команду перед поиском обновлений. Пакеты при этом не обновляются, хотя Homebrew может переименовать пакет, переустановить pkgconf или удалить старую копию своих основных taps."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hämtar den senaste versionen av Homebrew och dess senaste paketlista, så kör det innan du letar efter uppdateringar. Det uppgraderar ingenting, men Homebrew kan flytta ett paket som har bytt namn till det nya namnet, installera om pkgconf efter en macOS-uppdatering eller radera en gammal kopia av sina centrala taps som Homebrew inte längre behöver."
+            "value" : "Hämtar den senaste versionen av Homebrew och dess paketlista, så kör det innan du letar efter uppdateringar. Det uppgraderar ingenting, men Homebrew kan byta namn på ett paket, installera om pkgconf eller radera en gammal kopia av sina centrala taps."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un en yeni sürümünü ve en yeni paket listesini alır, bu yüzden güncellemelere bakmadan önce bunu çalıştırın. Hiçbir şeyi yükseltmez; yine de Homebrew adı değişmiş bir paketi yeni adına taşıyabilir, bir macOS güncellemesinden sonra pkgconf paketini yeniden yükleyebilir veya çekirdek tap depolarının artık gerekmeyen eski bir kopyasını silebilir."
+            "value" : "Homebrew’un en yeni sürümünü ve paket listesini alır, bu yüzden güncellemelere bakmadan önce bunu çalıştırın. Hiçbir şeyi yükseltmez; yine de Homebrew bir paketin adını değiştirebilir, pkgconf paketini yeniden yükleyebilir veya çekirdek tap depolarının eski bir kopyasını silebilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Викачує найновіший Homebrew і найновіший список його пакетів, тож запускайте це, перш ніж шукати оновлення. Самі пакети при цьому не оновлюються, хоча Homebrew може перенести перейменований пакет під нову назву, перевстановити pkgconf після оновлення macOS або видалити стару копію своїх основних taps, яка йому більше не потрібна."
+            "value" : "Викачує найновіший Homebrew і список його пакетів, тож запускайте це, перш ніж шукати оновлення. Пакети при цьому не оновлюються, хоча Homebrew може перейменувати пакет, перевстановити pkgconf або видалити стару копію своїх основних taps."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "获取最新的Homebrew及其最新的软件包列表，因此请在查找更新之前运行它。它不会升级任何内容，不过Homebrew可能会将已改名的软件包迁移到新名称下、在macOS更新后重新安装pkgconf，或删除它不再需要的核心taps旧副本。"
+            "value" : "获取最新的Homebrew及其软件包列表，因此请在查找更新之前运行它。它不会升级任何内容，不过Homebrew可能会重命名某个软件包、重新安装pkgconf，或删除其核心taps的旧副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "取得最新版的Homebrew及其最新的套件列表，因此請在尋找更新項目前先執行。它不會升級任何項目，但Homebrew可能會將已更名的套件移至新名稱、在macOS更新後重新安裝pkgconf，或刪除它不再需要的核心taps舊副本。"
+            "value" : "取得最新版的Homebrew及其套件列表，因此請在尋找更新項目前先執行。它不會升級任何項目，但Homebrew可能會將套件更名、重新安裝pkgconf，或刪除其核心taps的舊副本。"
           }
         }
       }
@@ -67789,6 +67876,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git表示：%@"
+          }
+        }
+      }
+    },
+    "Give it back to this account by running this in Terminal: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vraťte ji tomuto účtu spuštěním tohoto příkazu v Terminálu: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib den Ordner diesem Benutzeraccount zurück, indem du diesen Befehl im Terminal ausführst: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devuelve la carpeta a esta cuenta ejecutando esto en Terminal: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendez-le à ce compte en exécutant ceci dans Terminal : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restituiscila a questo account eseguendo questo comando in Terminale: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで以下のコマンドを実行して、所有権をこのアカウントに戻してください: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더를 이 계정에 되돌려 주려면 터미널에서 다음을 실행하십시오: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geef de map terug aan deze account door dit uit te voeren in Terminal: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oddaj go temu kontu, uruchamiając w Terminalu to polecenie: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devolva a pasta a esta conta executando isto no Terminal: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dați‑l înapoi acestui cont rulând această comandă în Terminal: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Верните ее этой учетной записи, выполнив эту команду в Терминале: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ge tillbaka mappen till det här kontot genom att köra följande i Terminal: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal’de şunu çalıştırarak klasörü bu hesaba geri verin: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поверніть її цьому обліковому запису, виконавши в Терміналі цю команду: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在“终端”中运行以下命令，将它交还给此账户：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在「終端機」中執行此指令，將該檔案夾交還給此帳號：%@"
           }
         }
       }
@@ -72613,6 +72806,112 @@
         }
       }
     },
+    "Homebrew cannot change %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nemůže měnit složku %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kann %@ nicht ändern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew no puede modificar %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ne peut pas modifier %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew non può modificare %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは%@を変更できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 %@을(를) 변경할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kan %@ niet wijzigen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nie może zmieniać folderu %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew não pode alterar %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nu poate modifica %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не может изменить папку %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kan inte ändra %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, %@ klasörünü değiştiremez"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не може змінювати папку %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew无法更改%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew無法更改%@"
+          }
+        }
+      }
+    },
     "Homebrew checked the current version of this formula, not the one installed on this Mac, since it can’t tell what that one was built from. Upgrade it and scan again for an answer about yours." : {
       "localizations" : {
         "cs" : {
@@ -72719,108 +73018,108 @@
         }
       }
     },
-    "Homebrew checked this formula against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them." : {
+    "Homebrew checked this formula against OSV.dev, an open list of known vulnerabilities, leaving out those its own patches fix. “Fixed by its developers, version unknown” means OSV.dev names a fix but no version that carries it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew porovnal tuto formula s OSV.dev, otevřenou databází známých zranitelností, a vynechal ty, které už opravuje svými vlastními záplatami. „Opraveno vývojáři projektu, verze s opravou není známa“ znamená, že OSV.dev uvádí změny, které zranitelnost opravují, ale neuvádí žádnou verzi, která by je obsahovala."
+            "value" : "Homebrew porovnal tuto formulu s OSV.dev, otevřeným seznamem známých zranitelností, a vynechal ty, které opravují jeho vlastní záplaty. „Opraveno vývojáři projektu, verze s opravou není známa“ znamená, že OSV.dev uvádí opravu, ale žádnou verzi, která by ji obsahovala."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew hat diese Formula mit OSV.dev, einer offenen Datenbank bekannter Sicherheitslücken, abgeglichen und diejenigen ausgelassen, die bereits durch seine eigenen Patches behoben sind. „Von den Entwicklern behoben, Version unbekannt“ bedeutet, dass OSV.dev die Änderungen nennt, die die Sicherheitslücke beheben, aber keine Version, die sie enthält."
+            "value" : "Homebrew hat diese Formula mit OSV.dev, einer offenen Liste bekannter Sicherheitslücken, abgeglichen und diejenigen ausgelassen, die seine eigenen Patches beheben. „Von den Entwicklern behoben, Version unbekannt“ bedeutet, dass OSV.dev eine Korrektur nennt, aber keine Version, die sie enthält."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew ha comparado esta formula con OSV.dev, una base de datos abierta de vulnerabilidades conocidas, y ha dejado fuera las que sus propios parches ya corrigen. “Corregida por sus desarrolladores, versión desconocida” significa que OSV.dev indica qué cambios corrigen la vulnerabilidad, pero no qué versión los incluye."
+            "value" : "Homebrew ha comparado esta formula con OSV.dev, una lista abierta de vulnerabilidades conocidas, y ha dejado fuera las que corrigen sus propios parches. “Corregida por sus desarrolladores, versión desconocida” significa que OSV.dev indica una corrección, pero ninguna versión que la incluya."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a comparé cette formula à OSV.dev, une base de données ouverte de vulnérabilités connues, et a écarté celles que ses propres correctifs corrigent déjà. « Corrigée par les développeurs du logiciel, version inconnue » signifie qu’OSV.dev indique les modifications qui corrigent la vulnérabilité, mais aucune version qui les intègre."
+            "value" : "Homebrew a comparé cette formula à OSV.dev, une liste ouverte de vulnérabilités connues, en écartant celles que ses propres correctifs corrigent. « Corrigée par les développeurs du logiciel, version inconnue » signifie qu’OSV.dev indique un correctif, mais aucune version qui l’intègre."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew ha confrontato questa formula con OSV.dev, un database aperto di vulnerabilità note, e ha lasciato fuori quelle già corrette dalle proprie patch. “Corretta dal team di sviluppo, versione sconosciuta” significa che OSV.dev indica le modifiche che correggono la vulnerabilità, ma nessuna versione che le contenga."
+            "value" : "Homebrew ha confrontato questa formula con OSV.dev, un elenco aperto di vulnerabilità note, lasciando fuori quelle corrette dalle proprie patch. “Corretta dal team di sviluppo, versione sconosciuta” significa che OSV.dev indica una correzione ma nessuna versione che la contenga."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewは、このformulaをOSV.dev（既知の脆弱性のオープンなデータベース）と照合し、自身のパッチですでに修正されている脆弱性を除外しました。“開発元により修正済み、修正を含むバージョンは不明”は、OSV.devがその脆弱性を修正する変更を示しているものの、それらを含むバージョンを示していないことを意味します。"
+            "value" : "Homebrewは、このformulaをOSV.dev（既知の脆弱性のオープンなリスト）と照合し、自身のパッチで修正されている脆弱性を除外しました。“開発元により修正済み、修正を含むバージョンは不明”は、OSV.devが修正を示しているものの、それを含むバージョンを示していないことを意味します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 이 formula를 알려진 취약점의 공개 데이터베이스인 OSV.dev와 대조하고, 자체 패치로 이미 수정된 취약점은 제외했습니다. ‘프로젝트 개발자가 수정했으나 수정된 버전은 알 수 없음’은 OSV.dev가 취약점을 수정하는 변경 사항은 알려 주지만, 그 변경 사항이 포함된 버전은 알려 주지 않는다는 뜻입니다."
+            "value" : "Homebrew는 이 formula를 알려진 취약점의 공개 목록인 OSV.dev와 대조하고, 자체 패치로 수정된 취약점은 제외했습니다. ‘프로젝트 개발자가 수정했으나 수정된 버전은 알 수 없음’은 OSV.dev가 수정 사항은 알려 주지만, 그 수정 사항이 포함된 버전은 알려 주지 않는다는 뜻입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew heeft deze formula gecontroleerd aan de hand van OSV.dev, een open database met bekende kwetsbaarheden, en heeft weggelaten wat zijn eigen patches al oplossen. 'Opgelost door de ontwikkelaars van het project, versie onbekend' betekent dat OSV.dev de wijzigingen noemt die de kwetsbaarheid oplossen, maar geen versie waarin ze zijn opgenomen."
+            "value" : "Homebrew heeft deze formula gecontroleerd aan de hand van OSV.dev, een open lijst met bekende kwetsbaarheden, en heeft weggelaten wat zijn eigen patches oplossen. 'Opgelost door de ontwikkelaars van het project, versie onbekend' betekent dat OSV.dev een oplossing noemt, maar geen versie waarin die is opgenomen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew porównał tę formula z OSV.dev, otwartą bazą danych znanych luk w zabezpieczeniach, i pominął te, które naprawił już własnymi łatkami. „Naprawiona przez deweloperów projektu, wersja nieznana” oznacza, że OSV.dev podaje zmiany, które naprawiają lukę, ale nie podaje żadnej wersji, która je zawiera."
+            "value" : "Homebrew porównał tę formula z OSV.dev, otwartą listą znanych luk w zabezpieczeniach, pomijając te, które naprawiają jego własne łatki. „Naprawiona przez deweloperów projektu, wersja nieznana” oznacza, że OSV.dev podaje poprawkę, ale nie podaje żadnej wersji, która ją zawiera."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew comparou esta formula com o OSV.dev, um banco de dados aberto de vulnerabilidades conhecidas, e deixou de fora aquelas que as correções do próprio Homebrew já resolvem. “Corrigida pelos desenvolvedores do projeto, versão desconhecida” significa que o OSV.dev indica as alterações que corrigem a vulnerabilidade, mas nenhuma versão que as inclua."
+            "value" : "O Homebrew comparou esta formula com o OSV.dev, uma lista aberta de vulnerabilidades conhecidas, deixando de fora aquelas que as correções do próprio Homebrew resolvem. “Corrigida pelos desenvolvedores do projeto, versão desconhecida” significa que o OSV.dev indica uma correção, mas nenhuma versão que a inclua."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a comparat această formulă cu OSV.dev, o bază de date deschisă de vulnerabilități cunoscute, și le‑a omis pe cele remediate deja de propriile sale corecții. „Remediată de dezvoltatorii proiectului, versiune necunoscută” înseamnă că OSV.dev indică modificările care o remediază, dar nu și o versiune care să le conțină."
+            "value" : "Homebrew a comparat această formulă cu OSV.dev, o listă deschisă de vulnerabilități cunoscute, omițându‑le pe cele remediate de propriile sale corecții. „Remediată de dezvoltatorii proiectului, versiune necunoscută” înseamnă că OSV.dev indică o remediere, dar nicio versiune care să o conțină."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew сверил эту formula с OSV.dev, открытой базой данных известных уязвимостей, и не включил те из них, которые уже исправлены патчами самого Homebrew. «Исправлено разработчиками проекта, но неизвестно, в какой версии» означает, что OSV.dev называет изменения, которые исправляют уязвимость, но не называет ни одной версии, которая их содержит."
+            "value" : "Homebrew сверил эту formula с OSV.dev, открытым списком известных уязвимостей, и не включил те, которые исправлены его собственными патчами. «Исправлено разработчиками проекта, но неизвестно, в какой версии» означает, что OSV.dev называет исправление, но не называет версию, которая его содержит."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew kontrollerade den här formulan mot OSV.dev, en öppen databas över kända sårbarheter, och utelämnade dem som Homebrews egna patchar redan korrigerar. ”Korrigerad av projektets utvecklare, okänt i vilken version” betyder att OSV.dev anger de ändringar som korrigerar sårbarheten, men ingen version som innehåller dem."
+            "value" : "Homebrew kontrollerade den här formulan mot OSV.dev, en öppen lista över kända sårbarheter, och utelämnade dem som Homebrews egna patchar korrigerar. ”Korrigerad av projektets utvecklare, okänt i vilken version” betyder att OSV.dev anger en korrigering men ingen version som innehåller den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bu formula için, bilinen güvenlik açıklarını içeren herkese açık bir veritabanı olan OSV.dev ile karşılaştırma yaptı ve kendi yamalarıyla zaten düzeltilmiş olanları dışarıda bıraktı. “Geliştiricileri tarafından düzeltildi, sürüm bilinmiyor” ifadesi, OSV.dev’in güvenlik açığını düzelten değişiklikleri belirttiği ama bu değişiklikleri içeren hiçbir sürüm belirtmediği anlamına gelir."
+            "value" : "Homebrew bu formula için, bilinen güvenlik açıklarının herkese açık bir listesi olan OSV.dev ile karşılaştırma yaptı ve kendi yamalarıyla düzeltilenleri dışarıda bıraktı. “Geliştiricileri tarafından düzeltildi, sürüm bilinmiyor” ifadesi, OSV.dev’in bir düzeltme belirttiği ama onu içeren hiçbir sürüm belirtmediği anlamına gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew перевірив цю formula за OSV.dev, відкритою базою даних відомих вразливостей, і не врахував ті, що їх уже виправляють його власні патчі. «Виправлено в коді проєкту, версія невідома» означає, що OSV.dev називає зміни, які виправляють вразливість, але не називає жодної версії, яка їх містить."
+            "value" : "Homebrew перевірив цю formula за OSV.dev, відкритим списком відомих вразливостей, і не врахував ті, що їх виправляють його власні патчі. «Виправлено в коді проєкту, версія невідома» означає, що OSV.dev називає виправлення, але не називає версії, яка його містить."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew已对照开放的已知漏洞数据库OSV.dev检查了此formula，并略去了自己的补丁已修复的漏洞。“已由其开发者修复，但包含修复的版本未知”表示OSV.dev指明了修复该漏洞的更改，但没有指明包含这些更改的版本。"
+            "value" : "Homebrew已对照开放的已知漏洞列表OSV.dev检查了此formula，并略去了自己的补丁已修复的漏洞。“已由其开发者修复，但包含修复的版本未知”表示OSV.dev指明了修复，但没有指明包含该修复的版本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew已依據開放的已知漏洞資料庫OSV.dev檢查此formula，並略過了它自己的修補程式已修正的漏洞。「已由其開發者修正，含有修正的版本未知」表示OSV.dev列出了修正此漏洞的變更，但沒有列出包含這些變更的版本。"
+            "value" : "Homebrew已依據開放的已知漏洞列表OSV.dev檢查此formula，並略過了它自己的修補程式所修正的漏洞。「已由其開發者修正，含有修正的版本未知」表示OSV.dev列出了修正，但沒有列出包含該修正的版本。"
           }
         }
       }
@@ -74309,108 +74608,108 @@
         }
       }
     },
-    "Homebrew deprecates a package it means to stop offering, and disables it when it stops. A disabled package can’t be installed again and gets no more upgrades. What is installed stays until you uninstall it." : {
+    "Homebrew deprecates a package before it stops offering it, then disables it: no new installs and no more upgrades. What is installed stays until you uninstall it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew označí balíček za zastaralý, když ho hodlá přestat nabízet, a vyřadí ho, jakmile ho nabízet přestane. Vyřazený balíček nelze znovu nainstalovat a nedostává žádné další upgrady. Co je nainstalováno, zůstane, dokud to neodinstalujete."
+            "value" : "Homebrew označí balíček za zastaralý dřív, než ho přestane nabízet, a pak ho vyřadí: už žádné nové instalace ani upgrady. Co je nainstalováno, zůstane, dokud to neodinstalujete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew kündigt ein Paket ab, wenn es nicht mehr angeboten werden soll, und deaktiviert es, sobald es nicht mehr angeboten wird. Ein deaktiviertes Paket kann nicht erneut installiert werden und erhält keine Upgrades mehr. Was installiert ist, bleibt, bis du es deinstallierst."
+            "value" : "Homebrew kündigt ein Paket ab, bevor es nicht mehr angeboten wird, und deaktiviert es dann: keine neuen Installationen und keine Upgrades mehr. Was installiert ist, bleibt, bis du es deinstallierst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew marca como obsoleto un paquete que tiene previsto dejar de ofrecer, y lo desactiva cuando deja de ofrecerlo. Un paquete desactivado no se puede volver a instalar y ya no recibe actualizaciones. Lo que está instalado se queda hasta que lo desinstales."
+            "value" : "Homebrew marca como obsoleto un paquete antes de dejar de ofrecerlo, y después lo desactiva: ya no se puede instalar ni recibe actualizaciones. Lo que está instalado se queda hasta que lo desinstales."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew déclare obsolète un paquet qu’il compte cesser de proposer, et le désactive lorsqu’il cesse de le proposer. Un paquet désactivé ne peut plus être installé et ne reçoit plus de mises à niveau. Ce qui est installé reste en place jusqu’à ce que vous le désinstalliez."
+            "value" : "Homebrew déclare obsolète un paquet avant de cesser de le proposer, puis le désactive : plus aucune nouvelle installation ni mise à niveau. Ce qui est installé reste en place jusqu’à ce que vous le désinstalliez."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew segna come sconsigliato un pacchetto quando intende smettere di offrirlo, e lo disabilita quando smette. Un pacchetto disabilitato non può più essere installato e non riceve più aggiornamenti. Ciò che è installato resta finché non lo disinstalli."
+            "value" : "Homebrew segna come sconsigliato un pacchetto prima di smettere di offrirlo, poi lo disabilita: niente più nuove installazioni né aggiornamenti. Ciò che è installato resta finché non lo disinstalli."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewは、提供をやめる予定のパッケージを非推奨にし、実際にやめるときに提供終了にします。提供終了になったパッケージは、再インストールできず、今後はアップグレードもされません。インストール済みのものは、アンインストールするまで残ります。"
+            "value" : "Homebrewは、提供をやめる前にパッケージを非推奨にし、その後提供終了にします。提供終了になると、新規インストールもアップグレードもできなくなります。インストール済みのものは、アンインストールするまで残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 제공을 중단하려는 패키지를 지원 중단 예정으로 지정하고, 제공을 중단할 때 비활성화합니다. 비활성화된 패키지는 다시 설치할 수 없으며 더 이상 업그레이드되지 않습니다. 이미 설치된 항목은 제거할 때까지 그대로 남습니다."
+            "value" : "Homebrew는 패키지 제공을 중단하기 전에 지원 중단 예정으로 지정한 다음, 비활성화합니다. 비활성화되면 새로 설치할 수 없고 더 이상 업그레이드되지 않습니다. 이미 설치된 항목은 제거할 때까지 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew markeert een pakket als verouderd wanneer het van plan is om het niet meer aan te bieden, en schakelt het uit zodra het daarmee stopt. Een uitgeschakeld pakket kan niet opnieuw worden geïnstalleerd en krijgt geen upgrades meer. Wat al is geïnstalleerd, blijft staan totdat je het deïnstalleert."
+            "value" : "Homebrew markeert een pakket als verouderd voordat het dat pakket niet meer aanbiedt, en schakelt het daarna uit: geen nieuwe installaties en geen upgrades meer. Wat al is geïnstalleerd, blijft staan totdat je het deïnstalleert."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew oznacza pakiet jako wycofywany, gdy zamierza przestać go udostępniać, i wyłącza go, gdy przestaje. Wyłączonego pakietu nie można ponownie zainstalować ani uaktualnić. To, co jest zainstalowane, zostaje, dopóki tego nie odinstalujesz."
+            "value" : "Homebrew oznacza pakiet jako wycofywany, zanim przestanie go udostępniać, a potem go wyłącza: nie można go już instalować ani uaktualniać. To, co jest zainstalowane, zostaje, dopóki tego nie odinstalujesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew marca como obsoleto um pacote que pretende deixar de oferecer, e o desativa quando deixa de oferecê-lo. Um pacote desativado não pode ser instalado de novo e não recebe mais upgrades. O que já está instalado permanece até você desinstalá-lo."
+            "value" : "O Homebrew marca um pacote como obsoleto antes de deixar de oferecê-lo e depois o desativa: sem novas instalações e sem mais upgrades. O que está instalado permanece até você desinstalá-lo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew declară perimat un pachet pe care intenționează să nu îl mai ofere, iar când încetează să îl ofere, îl dezactivează. Un pachet dezactivat nu poate fi instalat din nou și nu mai primește upgrade‑uri. Ce este instalat rămâne până când îl dezinstalați."
+            "value" : "Homebrew declară perimat un pachet înainte de a înceta să îl ofere, apoi îl dezactivează: pachetul nu mai poate fi instalat și nu mai primește upgrade‑uri. Ce este instalat rămâne până când îl dezinstalați."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew объявляет пакет устаревшим, когда собирается перестать его предлагать, и отключает его, когда перестает. Отключенный пакет нельзя установить снова, и он больше не получает обновлений. Уже установленный пакет остается, пока Вы его не удалите."
+            "value" : "Homebrew объявляет пакет устаревшим, прежде чем перестать его предлагать, а затем отключает его: новые установки и обновления становятся недоступны. Установленное остается, пока Вы его не удалите."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew markerar ett paket som föråldrat när det ska sluta erbjudas, och avaktiverar det när det inte längre erbjuds. Ett avaktiverat paket kan inte installeras igen och får inga fler uppgraderingar. Det som är installerat finns kvar tills du avinstallerar det."
+            "value" : "Homebrew markerar ett paket som föråldrat innan det slutar erbjudas, och avaktiverar det sedan: inga nya installationer och inga fler uppgraderingar. Det som är installerat finns kvar tills du avinstallerar det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew, sunmayı bırakmayı planladığı bir paketi kullanımdan kaldırır ve sunmayı bıraktığında onu etkisizleştirir. Etkisizleştirilmiş bir paket yeniden yüklenemez ve başka yükseltme almaz. Yüklü olan, siz yüklemesini kaldırana kadar kalır."
+            "value" : "Homebrew, sunmayı bırakmadan önce bir paketi kullanımdan kaldırır, ardından onu etkisizleştirir: yeni yükleme yapılamaz ve başka yükseltme gelmez. Yüklü olan, siz yüklemesini kaldırana kadar kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли Homebrew збирається перестати пропонувати пакет, він позначає його як застарілий, а коли перестає, вимикає його. Вимкнений пакет не можна інсталювати знову, і оновлень для нього більше не буде. Те, що вже інстальовано, лишається, доки ви його не деінсталюєте."
+            "value" : "Homebrew позначає пакет як застарілий, перш ніж перестати його пропонувати, а потім вимикає його: пакет більше не можна інсталювати, і оновлень для нього не буде. Те, що вже інстальовано, лишається, доки ви його не деінсталюєте."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会先弃用打算停止提供的软件包，等到停止提供时再将其停用。已停用的软件包无法再次安装，也不会再获得升级。已安装的内容会一直保留，直到你将其卸载。"
+            "value" : "Homebrew会在停止提供某个软件包之前先将其弃用，然后再将其停用：届时无法再安装，也不会再有升级。已安装的内容会一直保留，直到你将其卸载。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew會棄用打算停止提供的套件，並在停止提供時將它停用。已停用的套件無法再次安裝，也不會再收到升級。已安裝的版本仍會保留，直到你將它解除安裝。"
+            "value" : "Homebrew會先棄用即將停止提供的套件，之後再將它停用：無法再新安裝，也不會再收到升級。已安裝的版本會保留，直到你將它解除安裝。"
           }
         }
       }
@@ -76429,108 +76728,108 @@
         }
       }
     },
-    "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel runs Homebrew’s own commands and reads what they report. Forget, which Peel does itself, moves a cask’s Homebrew receipt to the Trash." : {
+    "Homebrew installs command-line tools as formulae and apps as casks. Peel runs Homebrew commands here and shows what they report. Forget is done by Peel itself: it moves the Homebrew receipt of a cask to the Trash." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instaluje nástroje příkazového řádku jako formulae a aplikace jako casks. Na této stránce Peel spouští vlastní příkazy Homebrew a čte, co hlásí. Akci Zapomenout provádí Peel sám: přesune do koše záznam Homebrew pro daný cask."
+            "value" : "Homebrew instaluje nástroje příkazového řádku jako formulae a aplikace jako casks. Peel tu spouští příkazy Homebrew a zobrazuje, co hlásí. Akci Zapomenout provádí Peel sám: přesune do koše záznam Homebrew pro daný cask."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installiert Befehlszeilentools als Formulae und Apps als Casks. Auf dieser Seite führt Peel die eigenen Befehle von Homebrew aus und liest, was sie melden. „Vergessen“, das Peel selbst ausführt, legt die Homebrew-Quittung eines Casks in den Papierkorb."
+            "value" : "Homebrew installiert Befehlszeilentools als Formulae und Apps als Casks. Peel führt hier Befehle von Homebrew aus und zeigt an, was sie melden. „Vergessen“ erledigt Peel selbst: Peel legt dabei die Homebrew-Quittung eines Casks in den Papierkorb."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instala las herramientas de línea de comandos como formulae y las apps como casks. En esta página, Peel ejecuta los propios comandos de Homebrew y lee lo que indican. “Olvidar”, que hace el propio Peel, traslada a la papelera el recibo de Homebrew de un cask."
+            "value" : "Homebrew instala las herramientas de línea de comandos como formulae y las apps como casks. Aquí Peel ejecuta comandos de Homebrew y muestra lo que indican. “Olvidar” lo hace el propio Peel: traslada a la papelera el recibo de Homebrew de un cask."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installe les outils de ligne de commande sous forme de formulae et les apps sous forme de casks. Sur cette page, Peel exécute les commandes de Homebrew et lit ce qu’elles renvoient. La commande Oublier, que Peel effectue lui-même, place le reçu Homebrew d’un cask dans la corbeille."
+            "value" : "Homebrew installe les outils de ligne de commande sous forme de formulae et les apps sous forme de casks. Ici, Peel exécute les commandes de Homebrew et affiche ce qu’elles renvoient. La commande Oublier est effectuée par Peel lui-même : elle place le reçu Homebrew d’un cask dans la corbeille."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installa gli strumenti da riga di comando come formulae e le app come casks. In questa pagina Peel esegue i comandi di Homebrew e legge ciò che riportano. Il comando Dimentica, che Peel esegue da sé, sposta nel Cestino la ricevuta Homebrew di un cask."
+            "value" : "Homebrew installa gli strumenti da riga di comando come formulae e le app come casks. Qui Peel esegue i comandi di Homebrew e mostra ciò che riportano. Il comando Dimentica lo esegue Peel stesso: sposta nel Cestino la ricevuta Homebrew di un cask."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewは、コマンドラインツールをformulaeとして、アプリをcasksとしてインストールします。このページでは、PeelはHomebrew自身のコマンドを実行し、その報告を読み取ります。ただし、caskのHomebrewレシートをゴミ箱に入れる操作は、Peel自身が行います。"
+            "value" : "Homebrewは、コマンドラインツールをformulaeとして、アプリをcasksとしてインストールします。ここでは、PeelはHomebrewのコマンドを実行し、その報告を表示します。ただし、caskのHomebrewレシートをゴミ箱に入れる操作は、Peel自身が行います。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 명령어 라인 도구를 formulae로, 앱을 casks로 설치합니다. 이 페이지에서 Peel은 Homebrew 자체 명령을 실행하고 그 결과를 읽습니다. ‘수신 정보 제거’는 Peel이 직접 수행하며, cask의 Homebrew 수신 정보를 휴지통으로 이동합니다."
+            "value" : "Homebrew는 명령어 라인 도구를 formulae로, 앱을 casks로 설치합니다. Peel은 여기에서 Homebrew 명령을 실행하고 그 결과를 보여 줍니다. ‘수신 정보 제거’는 Peel이 직접 수행하며, cask의 Homebrew 수신 정보를 휴지통으로 이동합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installeert commandoregeltools als formulae en apps als casks. Op deze pagina voert Peel de eigen commando's van Homebrew uit en leest wat die melden. 'Vergeet', dat Peel zelf uitvoert, verplaatst het Homebrew-bewijs van een cask naar de prullenmand."
+            "value" : "Homebrew installeert commandoregeltools als formulae en apps als casks. Peel voert hier commando's van Homebrew uit en toont wat die melden. 'Vergeet' voert Peel zelf uit: dat verplaatst het Homebrew-bewijs van een cask naar de prullenmand."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instaluje narzędzia wiersza polecenia jako formulae, a aplikacje jako casks. Na tej stronie Peel uruchamia polecenia samego Homebrew i odczytuje to, co zgłaszają. Polecenie Zapomnij, które Peel wykonuje samodzielnie, przenosi potwierdzenie Homebrew danego cask do Kosza."
+            "value" : "Homebrew instaluje narzędzia wiersza polecenia jako formulae, a aplikacje jako casks. Peel uruchamia tutaj polecenia Homebrew i pokazuje to, co zgłaszają. Polecenie Zapomnij Peel wykonuje samodzielnie: przenosi ono potwierdzenie Homebrew danego cask do Kosza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew instala ferramentas de linha de comando como formulae e apps como casks. Nesta página, o Peel executa os comandos do próprio Homebrew e lê o que eles informam. O comando Esquecer, que o próprio Peel executa, move para o Lixo o recibo do Homebrew de um cask."
+            "value" : "O Homebrew instala ferramentas de linha de comando como formulae e apps como casks. Aqui, o Peel executa comandos do Homebrew e mostra o que eles informam. O comando Esquecer é executado pelo próprio Peel: ele move para o Lixo o recibo do Homebrew de um cask."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Pe această pagină, Peel rulează comenzile proprii ale Homebrew și citește ce raportează acestea. Comanda „Uitați”, pe care o execută chiar Peel, mută în Coș înregistrarea Homebrew a unui cask."
+            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Aici, Peel rulează comenzi Homebrew și arată ce raportează acestea. Comanda „Uitați” este executată chiar de Peel: mută în Coș înregistrarea Homebrew a unui cask."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew устанавливает инструменты командной строки как formulae, а приложения как casks. На этой странице Peel выполняет собственные команды Homebrew и читает то, что они сообщают. Команда «Забыть», которую Peel выполняет сам, перемещает квитанцию Homebrew для cask в Корзину."
+            "value" : "Homebrew устанавливает инструменты командной строки как formulae, а приложения как casks. Здесь Peel выполняет команды Homebrew и показывает то, что они сообщают. Команду «Забыть» выполняет сам Peel: она перемещает квитанцию Homebrew для cask в Корзину."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installerar kommandoradsverktyg som formulae och appar som casks. På den här sidan kör Peel Homebrews egna kommandon och läser vad de rapporterar. ”Glöm”, som Peel utför själv, flyttar en casks Homebrew-kvitto till papperskorgen."
+            "value" : "Homebrew installerar kommandoradsverktyg som formulae och appar som casks. Peel kör Homebrew-kommandon här och visar vad de rapporterar. ”Glöm” utförs av Peel själv: det flyttar en casks Homebrew-kvitto till papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew komut satırı araçlarını formulae olarak, uygulamaları ise casks olarak yükler. Bu sayfada Peel, Homebrew’un kendi komutlarını çalıştırır ve onların bildirdiklerini okur. Peel’in kendisinin yaptığı Unut işlemi ise bir cask paketinin Homebrew makbuzunu Çöp Sepeti’ne taşır."
+            "value" : "Homebrew komut satırı araçlarını formulae olarak, uygulamaları ise casks olarak yükler. Peel burada Homebrew komutlarını çalıştırır ve bildirdiklerini gösterir. Unut işlemini Peel’in kendisi yapar: bir cask paketinin Homebrew makbuzunu Çöp Sepeti’ne taşır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew інсталює інструменти командного рядка як formulae, а програми як casks. На цій сторінці Peel виконує власні команди Homebrew і читає те, що вони повідомляють. Команду «Забути» Peel виконує сама: вона переміщує в Смітник квитанцію Homebrew для cask."
+            "value" : "Homebrew інсталює інструменти командного рядка як formulae, а програми як casks. Тут Peel виконує команди Homebrew і показує те, що вони повідомляють. Команду «Забути» Peel виконує сама: вона переміщує в Смітник квитанцію Homebrew для cask."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew以formulae的形式安装命令行工具，以casks的形式安装App。在此页面上，Peel会运行Homebrew自己的命令，并读取它们报告的内容。“移除记录”由Peel自己执行，它会将cask的Homebrew回执移到废纸篓。"
+            "value" : "Homebrew以formulae的形式安装命令行工具，以casks的形式安装App。Peel会在此处运行Homebrew命令，并显示它们报告的内容。“移除记录”由Peel自己执行：它会将cask的Homebrew回执移到废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew以formulae安裝命令列工具，以casks安裝App。在此頁面上，Peel會執行Homebrew自己的指令，並讀取它們回報的內容。「移除cask」由Peel自己執行，會將cask的Homebrew收據丟到「垃圾桶」。"
+            "value" : "Homebrew以formulae安裝命令列工具，以casks安裝App。Peel會在這裡執行Homebrew指令，並顯示它們回報的內容。「移除cask」由Peel自己執行：它會將cask的Homebrew收據丟到「垃圾桶」。"
           }
         }
       }
@@ -78125,112 +78424,6 @@
         }
       }
     },
-    "Homebrew on this Mac belongs to another account, so only that account can update or change it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew v tomto Macu patří jinému účtu, takže ho může aktualizovat nebo měnit jen ten účet."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew auf diesem Mac gehört einem anderen Benutzeraccount, daher kann nur dieser Benutzeraccount Homebrew aktualisieren oder ändern."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El Homebrew de este Mac pertenece a otra cuenta, así que solo esa cuenta puede actualizarlo o modificarlo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sur ce Mac, Homebrew appartient à un autre compte : seul ce compte peut donc le mettre à jour ou le modifier."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew su questo Mac appartiene a un altro account, quindi solo quell’account può aggiornarlo o modificarlo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacのHomebrewは別のアカウントのものであるため、アップデートや変更ができるのはそのアカウントだけです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 Mac의 Homebrew는 다른 계정에 속해 있으므로 해당 계정만 Homebrew를 업데이트하거나 변경할 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew op deze Mac hoort bij een andere account, dus alleen die account kan Homebrew bijwerken of wijzigen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew na tym Macu należy do innego konta, więc tylko tamto konto może go odświeżać lub zmieniać."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew deste Mac pertence a outra conta, então só essa conta pode atualizá-lo ou alterá-lo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew de pe acest Mac aparține altui cont, așa că doar acel cont îl poate actualiza sau modifica."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew на этом Mac принадлежит другой учетной записи, поэтому обновлять или изменять его может только она."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew på den här datorn tillhör ett annat konto, så bara det kontot kan uppdatera eller ändra det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu Mac’teki Homebrew başka bir hesaba ait, bu yüzden onu yalnızca o hesap güncelleyebilir veya değiştirebilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew на цьому Mac належить іншому обліковому запису, тож лише той обліковий запис може оновлювати чи змінювати його."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这台Mac上的Homebrew属于其他账户，因此只有该账户才能更新或更改它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這部Mac上的Homebrew屬於另一個帳號，因此只有該帳號可以更新或更改它。"
-          }
-        }
-      }
-    },
     "Homebrew ran into a problem. What it said is on the app’s page in Peel, if that page is still open." : {
       "localizations" : {
         "cs" : {
@@ -78333,112 +78526,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew遇到問題。如果Peel中該App的頁面仍開著，你可以在那裡看到它的訊息。"
-          }
-        }
-      }
-    },
-    "Homebrew reads %@ only from a shell that sets XDG_CONFIG_HOME to ~/.config. Peel runs Homebrew without your shell’s settings, so there it reads ~/.homebrew/brew.env. Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew čte soubor %@ jen při spuštění ze shellu, který nastavuje XDG_CONFIG_HOME na ~/.config. Peel spouští Homebrew bez nastavení vašeho shellu, takže v tom případě čte soubor ~/.homebrew/brew.env. Co má Homebrew při spuštění z Peelu dodržovat, například proxy, zapište do souboru ~/.homebrew/brew.env."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew liest %@ nur, wenn es in einer Shell läuft, die XDG_CONFIG_HOME auf ~/.config setzt. Peel führt Homebrew ohne die Einstellungen deiner Shell aus, daher liest Homebrew dann ~/.homebrew/brew.env. Trage in ~/.homebrew/brew.env ein, was Homebrew beachten soll, wenn Peel es ausführt, etwa einen Proxy."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew solo lee %@ desde un shell que establece XDG_CONFIG_HOME en ~/.config. Peel ejecuta Homebrew sin los ajustes de tu shell, así que desde Peel lee ~/.homebrew/brew.env. Pon en ~/.homebrew/brew.env lo que quieras que tenga en cuenta cuando se ejecuta desde Peel, como un proxy."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew ne lit %@ que lorsqu’il est exécuté depuis un shell qui définit XDG_CONFIG_HOME sur ~/.config. Peel exécute Homebrew sans les réglages de votre shell : dans ce cas, Homebrew lit donc ~/.homebrew/brew.env. Placez dans ~/.homebrew/brew.env ce que vous voulez qu’il applique lorsqu’il est exécuté depuis Peel, comme un proxy."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew legge %@ solo da una shell che imposta XDG_CONFIG_HOME su ~/.config. Peel esegue Homebrew senza le impostazioni della tua shell, quindi in quel caso Homebrew legge ~/.homebrew/brew.env. Inserisci in ~/.homebrew/brew.env ciò che vuoi che Homebrew segua quando viene eseguito da Peel, come un proxy."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewが%@を読み込むのは、XDG_CONFIG_HOMEを~/.configに設定しているシェルから実行した場合だけです。Peelはシェルの設定を使わずにHomebrewを実行するため、Peelから実行したHomebrewは~/.homebrew/brew.envを読み込みます。プロキシなど、Peelから実行したHomebrewにも適用したい設定は、~/.homebrew/brew.envに記述してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew는 XDG_CONFIG_HOME을 ~/.config로 설정하는 셸에서만 %@을(를) 읽습니다. Peel은 사용자의 셸 설정 없이 Homebrew를 실행하므로, 이 경우 Homebrew는 ~/.homebrew/brew.env를 읽습니다. 프록시처럼 Peel에서 실행할 때 Homebrew가 따라야 할 설정은 ~/.homebrew/brew.env에 넣으십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew leest %@ alleen vanuit een shell die XDG_CONFIG_HOME instelt op ~/.config. Peel voert Homebrew uit zonder de instellingen van je shell, dus daar leest Homebrew ~/.homebrew/brew.env. Zet wat Homebrew vanuit Peel moet volgen, zoals een proxy, in ~/.homebrew/brew.env."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew odczytuje plik %@ tylko w powłoce, która ustawia XDG_CONFIG_HOME na ~/.config. Peel uruchamia Homebrew bez ustawień Twojej powłoki, więc w tym przypadku Homebrew odczytuje plik ~/.homebrew/brew.env. Ustawienia, których ma używać Homebrew uruchamiany przez Peel, na przykład ustawienia serwera proxy, umieść w pliku ~/.homebrew/brew.env."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew só lê o %@ em um shell que define XDG_CONFIG_HOME como ~/.config. O Peel executa o Homebrew sem os ajustes do seu shell, então, nesse caso, ele lê o ~/.homebrew/brew.env. Coloque no ~/.homebrew/brew.env o que você quer que ele siga quando for executado pelo Peel, como um proxy."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew citește %@ doar dintr‑un shell care stabilește XDG_CONFIG_HOME la ~/.config. Peel rulează Homebrew fără configurările shellului dvs., așa că, din Peel, Homebrew citește ~/.homebrew/brew.env. Puneți în ~/.homebrew/brew.env ce doriți ca Homebrew să respecte când este rulat din Peel, cum ar fi un proxy."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew читает %@ только при запуске из оболочки, в которой для XDG_CONFIG_HOME задано значение ~/.config. Peel запускает Homebrew без настроек Вашей оболочки, поэтому в этом случае он читает ~/.homebrew/brew.env. Укажите в ~/.homebrew/brew.env то, что он должен учитывать при запуске из Peel, например прокси."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew läser %@ bara från en kommandotolk som ställer in XDG_CONFIG_HOME på ~/.config. Peel kör Homebrew utan din kommandotolks inställningar, så där läser Homebrew ~/.homebrew/brew.env. Lägg det som du vill att Homebrew ska följa när det körs från Peel, till exempel en proxy, i ~/.homebrew/brew.env."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew, %@ dosyasını yalnızca XDG_CONFIG_HOME değerini ~/.config olarak ayarlayan bir kabuktan çalıştırıldığında okur. Peel, Homebrew’u kabuğunuzun ayarları olmadan çalıştırır; bu yüzden Homebrew bu durumda ~/.homebrew/brew.env dosyasını okur. Peel’den çalıştırıldığında Homebrew’un uymasını istediğiniz ayarları, örneğin bir proxy ayarını, ~/.homebrew/brew.env dosyasına yazın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew читає %@ лише під час запуску з оболонки, яка задає для XDG_CONFIG_HOME значення ~/.config. Peel запускає Homebrew без налаштувань вашої оболонки, тож під час такого запуску він читає ~/.homebrew/brew.env. Те, чого він має дотримуватися під час запуску з Peel, як-от проксі, вкажіть у ~/.homebrew/brew.env."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有在将XDG_CONFIG_HOME设为~/.config的shell中，Homebrew才会读取%@。Peel运行Homebrew时不会使用你的shell设置，因此这时Homebrew读取的是~/.homebrew/brew.env。请将你希望它在从Peel运行时遵循的设置（例如代理）放在~/.homebrew/brew.env中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew只有在將XDG_CONFIG_HOME設為~/.config的Shell中才會讀取%@。Peel執行Homebrew時不會套用你的Shell設定，因此這時它會讀取~/.homebrew/brew.env。請將你希望它從Peel執行時遵循的設定（例如代理伺服器）放入~/.homebrew/brew.env。"
           }
         }
       }
@@ -79207,320 +79294,108 @@
         }
       }
     },
-    "Homebrew still lists these casks, but their apps are not where Homebrew put them anymore, or macOS has no receipt left for the packages they installed. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back." : {
+    "Homebrew still lists these casks, but their apps are no longer where Homebrew put them, or macOS has no receipt left for their packages. Forgetting a cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tyto casks stále uvádí, ale jejich aplikace už nejsou tam, kam je Homebrew umístil, nebo systému macOS nezůstal žádný záznam o instalaci balíčků, které tyto casks nainstalovaly. Když cask zapomenete, jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil ve svých složkách pro příkazy a doplňování, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
+            "value" : "Homebrew tyto casks stále uvádí, ale jejich aplikace už nejsou tam, kam je Homebrew umístil, nebo systému macOS nezůstal žádný záznam o instalaci jejich balíčků. Když cask zapomenete, jeho záznam Homebrew se přesune do koše, takže ho Homebrew přestane uvádět, a Historie ho může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew führt diese Casks weiterhin, aber ihre Apps sind nicht mehr dort, wo Homebrew sie abgelegt hat, oder macOS hat keine Quittung mehr für die Pakete, die sie installiert haben. Beim Vergessen eines Casks wird seine Homebrew-Quittung zusammen mit den Links, die Homebrew in seinen Ordnern für Befehle und Shell-Vervollständigungen angelegt hat und die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
+            "value" : "Homebrew führt diese Casks weiterhin, aber ihre Apps sind nicht mehr dort, wo Homebrew sie abgelegt hat, oder macOS hat keine Quittung mehr für ihre Pakete. Beim Vergessen eines Casks wird seine Homebrew-Quittung in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt, und im Verlauf kannst du sie zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew sigue mostrando estos casks, pero sus apps ya no están donde Homebrew las puso, o macOS ya no tiene ningún recibo de los paquetes que instalaron. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, junto con los enlaces que Homebrew creó hacia él en sus carpetas de comandos y de autocompletado, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
+            "value" : "Homebrew sigue mostrando estos casks, pero sus apps ya no están donde Homebrew las puso, o macOS ya no tiene ningún recibo de sus paquetes. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew liste encore ces casks, mais leurs apps ne se trouvent plus là où Homebrew les a placées, ou macOS n’a plus aucun reçu pour les paquets qu’ils ont installés. Oublier un cask place son reçu Homebrew dans la corbeille, avec les liens que Homebrew a créés vers ce reçu dans ses dossiers de commandes et de complétions : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+            "value" : "Homebrew liste encore ces casks, mais leurs apps ne se trouvent plus là où Homebrew les a placées, ou macOS n’a plus aucun reçu pour leurs paquets. Oublier un cask place son reçu Homebrew dans la corbeille, si bien que Homebrew cesse de le lister, et l’Historique peut le remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elenca ancora questi casks, ma le loro app non sono più dove Homebrew le aveva messe, oppure macOS non ha più alcuna ricevuta dei pacchetti che hanno installato. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, insieme ai link che Homebrew ha creato verso di essa nelle sue cartelle dei comandi e dei completamenti, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
+            "value" : "Homebrew elenca ancora questi casks, ma le loro app non sono più dove Homebrew le aveva messe, oppure macOS non ha più alcuna ricevuta dei loro pacchetti. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、それらのアプリがHomebrewのインストールした場所にもうないか、それらがインストールしたパッケージのレシートがmacOSに残っていません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewがコマンド用とシェル補完用のフォルダに作成した、レシート内へのリンクも一緒にゴミ箱に入り、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、それらのアプリがHomebrewのインストールした場所にもうないか、それらのパッケージのレシートがmacOSに残っていません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask의 앱이 더 이상 Homebrew가 설치한 위치에 없거나, 이 cask가 설치한 패키지의 수신 정보가 macOS에 남아 있지 않습니다. cask의 Homebrew 수신 정보를 제거하면 수신 정보와, 그 안으로 연결되도록 Homebrew가 명령 폴더와 자동 완성 폴더에 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask의 앱이 더 이상 Homebrew가 설치한 위치에 없거나, 이 cask의 패키지에 대한 수신 정보가 macOS에 남아 있지 않습니다. cask의 수신 정보를 제거하면 Homebrew 수신 정보가 휴지통으로 이동하여 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않으며, 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew vermeldt deze casks nog, maar hun apps staan niet meer waar Homebrew ze heeft neergezet, of macOS heeft geen installatiebewijs meer voor de pakketten die ze hebben geïnstalleerd. Als je een cask vergeet, gaat het Homebrew-bewijs naar de prullenmand, samen met de links ernaar die Homebrew in zijn mappen voor commando's en shell-aanvullingen heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
+            "value" : "Homebrew vermeldt deze casks nog, maar hun apps staan niet meer waar Homebrew ze heeft neergezet, of macOS heeft geen installatiebewijs meer voor hun pakketten. Als je een cask vergeet, gaat het Homebrew-bewijs ervan naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew nadal wymienia te casks, ale ich aplikacji nie ma już tam, gdzie Homebrew je umieścił, albo macOS nie ma już potwierdzenia instalacji pakietów, które zainstalowały. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza razem z dowiązaniami, które Homebrew do niego utworzył w swoich folderach poleceń i uzupełnień powłoki, więc Homebrew przestaje go wymieniać. Historia może to przywrócić."
+            "value" : "Homebrew nadal wymienia te casks, ale ich aplikacji nie ma już tam, gdzie Homebrew je umieścił, albo macOS nie ma już potwierdzeń instalacji ich pakietów. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza, więc Homebrew przestaje go wymieniać, a Historia może je przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew ainda lista estes casks, mas os apps deles não estão mais onde o Homebrew os colocou, ou o macOS não tem mais nenhum recibo dos pacotes que eles instalaram. Esquecer um cask move para o Lixo o recibo do Homebrew dele, junto com os links que o Homebrew criou nas pastas de comandos e de autocompletar apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
+            "value" : "O Homebrew ainda lista estes casks, mas os apps deles não estão mais onde o Homebrew os colocou, ou o macOS não tem mais nenhum recibo dos pacotes deles. Esquecer um cask move o recibo do Homebrew dele para o Lixo, para que o Homebrew deixe de listá-lo, e o Histórico pode colocá-lo de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare aceste cask‑uri, dar aplicațiile lor nu mai sunt unde le‑a pus Homebrew sau macOS nu mai are nicio înregistrare pentru pachetele pe care le‑au instalat. Dacă uitați un cask, înregistrarea Homebrew a acestuia este mutată în Coș, împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+            "value" : "Homebrew listează în continuare aceste cask‑uri, dar aplicațiile lor nu mai sunt unde le‑a pus Homebrew sau macOS nu mai are nicio înregistrare pentru pachetele lor. Dacă uitați un cask, înregistrarea Homebrew a acestuia este mutată în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew по-прежнему считает эти casks установленными, но их приложений больше нет там, куда их поместил Homebrew, или в macOS не осталось квитанций для пакетов, которые они установили. Если забыть cask, его квитанция Homebrew переместится в Корзину вместе со ссылками на нее, которые Homebrew создал в своих папках для команд и автодополнения, и Homebrew перестанет считать его установленным. История может ее восстановить."
+            "value" : "Homebrew по-прежнему считает эти casks установленными, но их приложений больше нет там, куда их поместил Homebrew, или в macOS не осталось квитанций для их пакетов. Если забыть cask, его квитанция Homebrew переместится в Корзину, Homebrew перестанет считать его установленным, а История сможет ее восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listar fortfarande dessa casks, men deras appar finns inte längre där Homebrew placerade dem, eller så har macOS inget kvitto kvar för de paket som de installerade. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, tillsammans med länkarna som Homebrew har skapat till det i sina mappar för kommandon och kompletteringar, så Homebrew listar inte längre casken. Historik kan lägga tillbaka det."
+            "value" : "Homebrew listar fortfarande dessa casks, men deras appar finns inte längre där Homebrew placerade dem, eller så har macOS inget kvitto kvar för deras paket. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, så att Homebrew slutar lista den, och Historik kan lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak uygulamaları artık Homebrew’un koyduğu yerde değil ya da yükledikleri paketlerin macOS’te hiçbir makbuzu kalmamış. Bir cask unutulduğunda ona ait Homebrew makbuzu, Homebrew’un komut ve tamamlama klasörlerinde oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez. Geçmiş onu yerine koyabilir."
+            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak uygulamaları artık Homebrew’un koyduğu yerde değil ya da paketlerinin macOS’te hiçbir makbuzu kalmamış. Bir cask unutulduğunda ona ait Homebrew makbuzu Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez ve Geçmiş onu yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew досі показує ці casks у своєму списку, але їхніх програм уже немає там, куди їх поклав Homebrew, або в macOS не лишилося квитанцій для пакетів, які вони інсталювали. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник разом із посиланнями на неї, які Homebrew створив у своїх папках для команд і доповнень оболонки, і Homebrew перестане показувати цей cask у своєму списку. Історія може це повернути."
+            "value" : "Homebrew досі показує ці casks у своєму списку, але їхніх програм уже немає там, куди їх поклав Homebrew, або в macOS не лишилося квитанцій для їхніх пакетів. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник, тож Homebrew перестане показувати його у своєму списку, а Історія зможе її повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍然列出这些casks，但它们的App已不在Homebrew当初放置的位置，或者macOS已没有它们所安装的软件包的回执。移除cask的记录会将其Homebrew回执连同Homebrew在命令和补全文件夹中创建的、指向其中的链接一起移到废纸篓，这样Homebrew就不再列出该cask。“历史记录”可以将其放回原处。"
+            "value" : "Homebrew仍然列出这些casks，但它们的App已不在Homebrew当初放置的位置，或者macOS已没有它们的软件包的回执。移除cask的记录会将其Homebrew回执移到废纸篓，这样Homebrew就不再列出该cask，“历史记录”也可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍列出這些cask，但它們的App已不在Homebrew當初放置的位置，或macOS已沒有它們所安裝套件的收據。移除cask會將它的Homebrew收據，連同Homebrew在其指令與補齊檔案夾中建立、指向收據內的連結，一起丟到「垃圾桶」，Homebrew就不再列出它。「歷史記錄」可以將它還原。"
-          }
-        }
-      }
-    },
-    "Homebrew still lists this cask, but its app isn’t where Homebrew put it anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew tento cask stále uvádí, ale jeho aplikace už není tam, kam ji Homebrew umístil, takže ho Homebrew nemůže upgradovat. Tlačítko „Zapomenout cask“ přesune jeho záznam Homebrew do koše, takže Homebrew přestane cask uvádět a Historie ho může vrátit zpět."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew führt diesen Cask weiterhin, aber seine App ist nicht mehr dort, wo Homebrew sie abgelegt hat, daher kann Homebrew ihn nicht upgraden. „Cask vergessen“ legt die Homebrew-Quittung des Casks in den Papierkorb, sodass Homebrew den Cask nicht mehr führt, und im Verlauf kannst du ihn zurücklegen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew sigue mostrando este cask, pero su app ya no está donde Homebrew la puso, así que Homebrew no puede actualizarlo. “Olvidar cask” traslada a la papelera el recibo de Homebrew del cask, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew liste encore ce cask, mais son app ne se trouve plus là où Homebrew l’a placée, si bien que Homebrew ne peut pas le mettre à niveau. « Oublier le cask » place le reçu Homebrew de ce cask dans la corbeille : Homebrew cesse alors de le lister, et l’Historique peut le remettre en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew elenca ancora questo cask, ma la sua app non è più dove Homebrew l’aveva messa, quindi Homebrew non può aggiornarlo. “Dimentica cask” sposta nel Cestino la ricevuta Homebrew del cask, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewはこのcaskを引き続き一覧に表示していますが、そのアプリはもうHomebrewがインストールした場所にないため、アップグレードできません。“Homebrewレシートをゴミ箱に入れる”をクリックすると、このcaskのHomebrewレシートがゴミ箱に入り、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すこともできます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 앱이 더 이상 Homebrew가 설치한 위치에 없으므로 업그레이드할 수 없습니다. ‘수신 정보 제거’를 클릭하면 이 cask의 Homebrew 수신 정보가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않으며, 기록에서 되돌려 놓을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew vermeldt deze cask nog steeds, maar de bijbehorende app staat niet meer op de plek waar Homebrew hem heeft geplaatst, dus kan Homebrew de cask niet upgraden. 'Vergeet cask' verplaatst het Homebrew-bewijs ervan naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew nadal wymienia ten cask, ale jego aplikacji nie ma już tam, gdzie Homebrew ją umieścił, więc Homebrew nie może go uaktualnić. Przycisk „Zapomnij cask” przenosi potwierdzenie Homebrew tego cask do Kosza, więc Homebrew przestaje go wymieniać, a Historia może to przywrócić."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew ainda lista este cask, mas o app dele não está mais onde o Homebrew o colocou, então o Homebrew não consegue fazer upgrade dele. Esquecer Cask move para o Lixo o recibo do Homebrew do cask. Assim, o Homebrew deixa de listá-lo, e o Histórico pode colocá-lo de volta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew listează în continuare acest cask, dar aplicația sa nu mai este unde a pus‑o Homebrew, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută înregistrarea Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew по-прежнему считает этот cask установленным, но его приложения больше нет там, куда Homebrew его поместил, поэтому Homebrew не может его обновить. Кнопка «Забыть cask» перемещает квитанцию Homebrew для этого cask в Корзину, и Homebrew перестает считать его установленным, а История может ее восстановить."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew listar fortfarande den här casken, men appen finns inte längre där Homebrew placerade den, så Homebrew kan inte uppgradera den. ”Glöm cask” flyttar caskens Homebrew-kvitto till papperskorgen, så Homebrew listar den inte längre, och Historik kan lägga tillbaka det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew bu cask paketini hâlâ listeliyor, ancak uygulaması artık Homebrew’un onu koyduğu yerde değil, bu yüzden Homebrew onu yükseltemiyor. “Cask Paketini Unut”, bu paketin Homebrew makbuzunu Çöp Sepeti’ne taşır; böylece Homebrew onu artık listelemez ve Geçmiş onu yerine koyabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew досі показує цей cask у своєму списку, але його програми вже немає там, куди Homebrew її помістив, тож Homebrew не може його оновити. Кнопка «Забути cask» переміщує в Смітник квитанцію Homebrew цього cask, і Homebrew перестане показувати його у своєму списку, а Історія може це повернути."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew仍然列出此cask，但它的App已不在Homebrew当初放置的位置，因此Homebrew无法升级它。“移除cask记录”会将该cask的Homebrew回执移到废纸篓，这样Homebrew就不再列出它，并且“历史记录”可以将其放回原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew仍列出此cask，但它的App已不在Homebrew當初放置的位置，因此Homebrew無法升級它。「移除cask」會將此cask的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，「歷史記錄」也可以將它還原。"
-          }
-        }
-      }
-    },
-    "Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the Homebrew receipt of the cask to the Trash, so Homebrew stops listing it, and History can put it back." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew tento cask stále uvádí, ale systému macOS nezůstal žádný záznam o instalaci balíčků, které cask nainstaloval. Balíčky byly odinstalovány, nebo byly jejich záznamy zapomenuty a to, co nainstalovaly, tu stále je. Pokud z toho nic nezůstalo, příkaz „Zapomenout cask“ přesune jeho záznam Homebrew do koše, takže ho Homebrew přestane uvádět, a Historie ho může vrátit zpět."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew führt diesen Cask weiterhin, aber macOS hat keine Paketquittung mehr für die Pakete, die er installiert hat. Sie wurden deinstalliert, oder ihre Quittungen wurden vergessen, und was sie installiert haben, ist noch da. Wenn davon nichts mehr übrig ist, legt „Cask vergessen“ die Homebrew-Quittung des Casks in den Papierkorb, sodass Homebrew ihn nicht mehr führt, und im Verlauf kannst du sie zurücklegen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew sigue mostrando este cask, pero macOS ya no tiene ningún recibo del instalador de los paquetes que instaló. Esos paquetes se desinstalaron, o se olvidaron sus recibos y lo que instalaron sigue aquí. Si no queda nada de ello, “Olvidar cask” traslada a la papelera el recibo de Homebrew del cask, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew liste encore ce cask, mais macOS n’a plus aucun reçu d’installation pour les paquets qu’il a installés. Ces paquets ont été désinstallés, ou leurs reçus ont été oubliés et ce qu’ils ont installé se trouve toujours ici. S’il n’en reste rien, « Oublier le cask » place le reçu Homebrew du cask dans la corbeille : Homebrew ne le liste donc plus, et l’Historique peut le remettre en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew elenca ancora questo cask, ma macOS non ha più alcuna ricevuta Installer dei pacchetti che ha installato. Sono stati disinstallati, oppure le loro ricevute sono state dimenticate e ciò che hanno installato è ancora qui. Se non ne resta nulla, “Dimentica cask” sposta la ricevuta Homebrew del cask nel Cestino, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewはこのcaskを引き続き一覧に表示していますが、このcaskがインストールしたパッケージのインストーラレシートがmacOSに残っていません。パッケージがアンインストールされたか、レシートだけが取り除かれて、インストールされたものがまだここにあります。インストールされたものが何も残っていない場合は、“Homebrewレシートをゴミ箱に入れる”を使うと、このcaskのHomebrewレシートがゴミ箱に入り、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すこともできます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask가 설치한 패키지의 설치 수신 정보가 macOS에 남아 있지 않습니다. 패키지가 제거되었거나, 수신 정보만 제거되고 패키지가 설치한 항목은 아직 여기에 있는 경우입니다. 패키지가 설치한 항목 중 남아 있는 것이 없다면 ‘수신 정보 제거’로 cask의 Homebrew 수신 정보를 휴지통으로 이동할 수 있으며, 그러면 Homebrew가 더 이상 이 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew vermeldt deze cask nog, maar macOS heeft geen installatiebewijs meer voor de pakketten die de cask heeft geïnstalleerd. Die pakketten zijn gedeïnstalleerd, of hun installatiebewijzen zijn vergeten en wat ze hebben geïnstalleerd, staat nog op deze Mac. Als daar niets meer van over is, verplaatst 'Vergeet cask' het Homebrew-bewijs van de cask naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew nadal wymienia ten cask, ale macOS nie ma już potwierdzenia instalacji pakietów, które zainstalował. Zostały odinstalowane albo ich potwierdzenia zapomniano, a to, co zainstalowały, nadal tu jest. Jeśli nic z tego nie zostało, polecenie Zapomnij cask przenosi potwierdzenie Homebrew tego cask do Kosza, więc Homebrew przestaje go wymieniać, a Historia może je przywrócić."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew ainda lista este cask, mas o macOS não tem mais nenhum recibo de instalação dos pacotes que ele instalou. Eles foram desinstalados, ou os recibos deles foram esquecidos e o que eles instalaram ainda está aqui. Se não restar nada do que eles instalaram, “Esquecer Cask” move para o Lixo o recibo do Homebrew do cask, para que o Homebrew deixe de listá-lo, e o Histórico pode colocá-lo de volta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew listează în continuare acest cask, dar macOS nu mai are nicio înregistrare de instalare pentru pachetele pe care le‑a instalat. Fie au fost dezinstalate, fie înregistrările lor au fost uitate, iar ce au instalat se află încă aici. Dacă nu a mai rămas nimic din ce au instalat, „Uitați cask‑ul” mută în Coș înregistrarea Homebrew a cask‑ului, astfel încât Homebrew nu îl mai listează, iar din Istoric o puteți pune înapoi."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew по-прежнему считает этот cask установленным, но в macOS не осталось квитанций установщика для пакетов, которые он установил. Эти пакеты были удалены, или их квитанции были забыты, а то, что они установили, все еще здесь. Если ничего из этого не осталось, кнопка «Забыть cask» перемещает квитанцию Homebrew для этого cask в Корзину, и Homebrew перестает считать его установленным, а История может ее восстановить."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew listar fortfarande den här casken, men macOS har inget installationskvitto kvar för paketen som den installerade. Paketen har avinstallerats, eller så har deras kvitton glömts och det som de installerade finns kvar här. Om inget av det finns kvar flyttar ”Glöm cask” caskens Homebrew-kvitto till papperskorgen, så Homebrew listar den inte längre, och Historik kan lägga tillbaka det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew bu cask paketini hâlâ listeliyor, ancak yüklediği paketlerin macOS’te hiçbir yükleyici makbuzu kalmamış. Bu paketlerin yüklemesi kaldırılmış ya da makbuzları unutulmuş ve yükledikleri hâlâ burada. Yüklediklerinden hiçbir şey kalmadıysa “Cask Paketini Unut” düğmesi cask paketinin Homebrew makbuzunu Çöp Sepeti’ne taşır; böylece Homebrew onu artık listelemez ve Geçmiş onu yerine koyabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew досі показує цей cask у своєму списку, але в macOS не лишилося квитанцій інсталятора для пакетів, які він інсталював. Ці пакети деінстальовано, або їхні квитанції забуто, а те, що вони інсталювали, досі тут. Якщо з цього нічого не лишилося, кнопка «Забути cask» переміщує квитанцію Homebrew цього cask у Смітник, тож Homebrew перестає показувати його у своєму списку, а Історія може її повернути."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew仍然列出此cask，但macOS已没有它所安装的软件包的安装器回执。这些软件包已被卸载，或者它们的回执已被移除，而它们安装的内容仍在这里。如果这些内容已全部不在，“移除cask记录”会将此cask的Homebrew回执移到废纸篓，这样Homebrew就不再列出它，“历史记录”也可以将其放回原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew仍列出此cask，但macOS已沒有它所安裝套件的安裝收據。這些套件已被解除安裝，或者它們的收據已被移除，而它們安裝的內容仍在這裡。如果已沒有任何相關內容留下，「移除cask」會將此cask的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，「歷史記錄」也可以將它還原。"
+            "value" : "Homebrew仍列出這些cask，但它們的App已不在Homebrew當初放置的位置，或macOS已沒有它們套件的收據。移除cask會將它的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，而「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -80479,112 +80354,6 @@
         }
       }
     },
-    "Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew byl zastaven, zatímco tento cask upgradoval, takže jeho aplikace je stále ve složce Homebrew, a ne tam, kam patří. Když cask v Terminálu přeinstalujete, aplikace se vrátí na své místo."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew wurde während des Upgrades dieses Casks gestoppt, daher liegt seine App noch im Ordner von Homebrew statt dort, wo sie hingehört. Wenn du den Cask im Terminal erneut installierst, kommt sie wieder an ihren Platz."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew se detuvo mientras actualizaba este cask, así que su app sigue en la carpeta de Homebrew en vez de donde le corresponde. Al reinstalar el cask en Terminal, la app vuelve a su sitio."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a été arrêté pendant la mise à niveau de ce cask : son app se trouve donc encore dans le dossier de Homebrew au lieu d’être à sa place. Réinstaller le cask dans Terminal la remet en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew è stato interrotto mentre aggiornava questo cask, quindi la sua app si trova ancora nella cartella di Homebrew anziché dove dovrebbe stare. Reinstallare il cask in Terminale la rimette al suo posto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このcaskのアップグレード中にHomebrewが停止されたため、アプリが本来の場所ではなく、まだHomebrewのフォルダにあります。ターミナルでcaskを再インストールすると、元の場所に戻ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew가 이 cask를 업그레이드하는 도중에 중단되었으므로, 앱이 원래 있어야 할 위치가 아니라 아직 Homebrew의 폴더에 있습니다. 터미널에서 cask를 다시 설치하면 앱이 원래 위치로 돌아갑니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew is gestopt tijdens het upgraden van deze cask, dus de app ervan staat nog in de map van Homebrew in plaats van op de plek waar die hoort. Als je de cask in Terminal opnieuw installeert, wordt de app teruggezet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew został zatrzymany podczas uaktualniania tego cask, więc jego aplikacja nadal jest w folderze Homebrew, a nie tam, gdzie powinna być. Ponowna instalacja tego cask w Terminalu przywróci ją na miejsce."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew foi interrompido enquanto fazia upgrade deste cask, então o app dele ainda está na pasta do Homebrew, e não onde deveria estar. Reinstalar o cask no Terminal o coloca de volta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a fost oprit în timp ce făcea upgrade acestui cask, așa că aplicația sa se află încă în dosarul Homebrew, nu la locul ei. Dacă reinstalați cask‑ul în Terminal, aplicația revine la locul ei."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew был остановлен во время обновления этого cask, поэтому его приложение все еще находится в папке Homebrew, а не на своем месте. Если переустановить cask в Терминале, приложение вернется на место."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew stoppades medan det uppgraderade den här casken, så dess app ligger fortfarande i Homebrews mapp i stället för där den hör hemma. Om du installerar om casken i Terminal läggs appen tillbaka."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew bu cask paketini yükseltirken durduruldu, bu yüzden paketin uygulaması olması gereken yerde değil, hâlâ Homebrew’un klasöründe. Cask paketini Terminal’de yeniden yüklemek uygulamayı yerine koyar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew зупинили, коли він оновлював цей cask, тож його програма досі в папці Homebrew, а не там, де має бути. Якщо перевстановити cask у Терміналі, програма повернеться на місце."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew在升级此cask时被停止，因此它的App仍在Homebrew的文件夹中，而不在其应在的位置。在“终端”中重新安装该cask即可将其App放回应在的位置。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew在升級此cask時被停止，因此它的App仍在Homebrew的檔案夾中，而不在它應在的位置。在「終端機」中重新安裝此cask即可將它放回原位。"
-          }
-        }
-      }
-    },
     "Homebrew’s `brew` is in %@, and Peel doesn’t run it." : {
       "comment" : "On the Homebrew page when the brew program where Homebrew installs itself belongs to another account of the Mac, or anyone can change it. %@ is its path, such as /opt/homebrew/bin/brew. A line under it says why. Keep `brew` as it is.",
       "localizations" : {
@@ -80900,112 +80669,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew自己的維護作業，由Homebrew執行。Peel不會加入任何自己的操作。"
-          }
-        }
-      }
-    },
-    "Homebrew’s own list of packages isn’t on this Mac, so asking it about packages would download the list again. Peel doesn’t start that on its own." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vlastní seznam balíčků Homebrew v tomto Macu není, takže dotaz na balíčky by ho znovu stáhl. Peel to sám od sebe nespouští."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die eigene Paketliste von Homebrew ist nicht auf diesem Mac, daher würde eine Anfrage zu Paketen die Liste erneut laden. Peel startet das nicht von sich aus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La propia lista de paquetes de Homebrew no está en este Mac, así que preguntarle por los paquetes volvería a descargar la lista. Peel no lo inicia por su cuenta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La liste de paquets de Homebrew ne se trouve pas sur ce Mac : l’interroger sur des paquets téléchargerait à nouveau cette liste. Peel ne lance pas cela de lui-même."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’elenco dei pacchetti di Homebrew non è su questo Mac, quindi chiedergli dei pacchetti farebbe scaricare di nuovo l’elenco. Peel non lo avvia di sua iniziativa."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew自身のパッケージリストがこのMacにないため、パッケージについて問い合わせると、リストが再ダウンロードされます。Peelがそれを自動的に始めることはありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew의 패키지 목록이 이 Mac에 없으므로, 패키지에 대해 물으면 목록을 다시 다운로드하게 됩니다. Peel은 이 작업을 스스로 시작하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De lijst met pakketten van Homebrew zelf staat niet op deze Mac, dus als Peel Homebrew naar pakketten vraagt, wordt die lijst opnieuw gedownload. Peel begint daar niet uit zichzelf aan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Własnej listy pakietów Homebrew nie ma na tym Macu, więc zapytanie go o pakiety spowodowałoby ponowne pobranie tej listy. Peel nie uruchamia tego samodzielnie."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A lista de pacotes do próprio Homebrew não está neste Mac, então perguntar a ele sobre pacotes baixaria a lista de novo. O Peel não inicia isso por conta própria."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lista de pachete a Homebrew nu se află pe acest Mac, așa că, la orice întrebare despre pachete, Homebrew ar descărca din nou lista. Peel nu pornește acest lucru de la sine."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Собственного списка пакетов Homebrew нет на этом Mac, поэтому любой запрос о пакетах заново загрузил бы этот список. Peel не запускает такую загрузку сам."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrews egen paketlista finns inte på den här datorn, så om Peel frågade om paket skulle listan hämtas på nytt. Peel startar inte det på egen hand."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew’un kendi paket listesi bu Mac’te yok, bu yüzden ona paketleri sormak listeyi yeniden indirir. Peel bunu kendiliğinden başlatmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Власного списку пакетів Homebrew немає на цьому Mac, тож запит про пакети знову викачав би цей список. Peel не запускає цього без вашого запиту."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这台Mac上没有Homebrew自己的软件包列表，因此向它查询软件包会重新下载该列表。Peel不会自行启动此操作。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這部Mac上沒有Homebrew自己的套件列表，因此向它查詢套件時會重新下載列表。Peel不會自行開始這項操作。"
           }
         }
       }
@@ -100707,6 +100370,218 @@
         }
       }
     },
+    "Its app is no longer where Homebrew put it, so Homebrew cannot upgrade it. Forget Cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho aplikace už není tam, kam ji Homebrew umístil, takže ji Homebrew nemůže upgradovat. Tlačítko Zapomenout cask přesune jeho záznam Homebrew do koše, takže ho Homebrew přestane uvádět, a Historie ho může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App dieses Casks ist nicht mehr dort, wo Homebrew sie abgelegt hat, daher kann Homebrew kein Upgrade dafür ausführen. „Cask vergessen“ legt seine Homebrew-Quittung in den Papierkorb, sodass Homebrew den Cask nicht mehr führt, und im Verlauf kannst du sie zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su app ya no está donde Homebrew la puso, así que Homebrew no puede actualizar el cask. “Olvidar cask” traslada a la papelera su recibo de Homebrew, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son app ne se trouve plus là où Homebrew l’a placée : Homebrew ne peut donc pas mettre ce cask à niveau. « Oublier le cask » place son reçu Homebrew dans la corbeille, si bien que Homebrew cesse de le lister, et l’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua app non è più dove Homebrew l’aveva messa, quindi Homebrew non può aggiornare il cask. “Dimentica cask” sposta la sua ricevuta Homebrew nel Cestino, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがHomebrewのインストールした場所にもうないため、Homebrewはこのcaskをアップグレードできません。“Homebrewレシートをゴミ箱に入れる”を使うと、このcaskのHomebrewレシートがゴミ箱に入り、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 cask의 앱이 더 이상 Homebrew가 설치한 위치에 없으므로 Homebrew가 업그레이드할 수 없습니다. ‘수신 정보 제거’는 이 cask의 Homebrew 수신 정보를 휴지통으로 이동하여 Homebrew가 더 이상 목록에 표시하지 않게 하며, 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app ervan staat niet meer waar Homebrew die heeft neergezet, dus Homebrew kan de cask niet upgraden. 'Vergeet cask' verplaatst het Homebrew-bewijs ervan naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacji tego cask nie ma już tam, gdzie umieścił ją Homebrew, więc Homebrew nie może go uaktualnić. Polecenie Zapomnij cask przenosi jego potwierdzenie Homebrew do Kosza, więc Homebrew przestaje go wymieniać, a Historia może je przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dele não está mais onde o Homebrew o colocou, então o Homebrew não pode fazer upgrade dele. O comando Esquecer Cask move o recibo do Homebrew dele para o Lixo, para que o Homebrew deixe de listá-lo, e o Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația sa nu mai este unde a pus‑o Homebrew, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută în Coș înregistrarea Homebrew a cask‑ului, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его приложения больше нет там, куда его поместил Homebrew, поэтому Homebrew не может его обновить. Команда «Забыть cask» перемещает его квитанцию Homebrew в Корзину, после чего Homebrew перестает считать его установленным, а История может ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caskens app finns inte längre där Homebrew placerade den, så Homebrew kan inte uppgradera casken. ”Glöm cask” flyttar dess Homebrew-kvitto till papperskorgen, så att Homebrew slutar lista casken, och Historik kan lägga tillbaka kvittot."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması artık Homebrew’un koyduğu yerde değil, bu yüzden Homebrew onu yükseltemez. Cask Paketini Unut, onun Homebrew makbuzunu Çöp Sepeti’ne taşır; böylece Homebrew onu artık listelemez ve Geçmiş onu yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його програми вже немає там, куди її поклав Homebrew, тож Homebrew не може його оновити. «Забути cask» переміщує його квитанцію Homebrew у Смітник, тож Homebrew перестане показувати його у своєму списку, а Історія зможе її повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已不在Homebrew当初放置的位置，因此Homebrew无法升级它。“移除cask记录”会将其Homebrew回执移到废纸篓，这样Homebrew就不再列出它，“历史记录”也可以将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已不在Homebrew當初放置的位置，因此Homebrew無法升級它。「移除cask」會將它的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，而「歷史記錄」可以將它還原。"
+          }
+        }
+      }
+    },
+    "Its app is still in a Homebrew folder. Reinstalling the cask in Terminal puts it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho aplikace je stále ve složce Homebrew. Když cask v Terminálu přeinstalujete, aplikace se vrátí na své místo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App dieses Casks liegt noch in einem Ordner von Homebrew. Wenn du den Cask im Terminal erneut installierst, kommt sie wieder an ihren Platz."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su app sigue en una carpeta de Homebrew. Al reinstalar el cask en Terminal, la app vuelve a su sitio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son app se trouve encore dans un dossier de Homebrew. Réinstaller le cask dans Terminal la remet en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua app si trova ancora in una cartella di Homebrew. Reinstallare il cask in Terminale la rimette al suo posto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがまだHomebrewのフォルダにあります。ターミナルでcaskを再インストールすると、元の場所に戻ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 아직 Homebrew 폴더에 있습니다. 터미널에서 cask를 다시 설치하면 앱이 원래 위치로 돌아갑니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app ervan staat nog in een map van Homebrew. Als je de cask in Terminal opnieuw installeert, wordt de app teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja tego cask nadal jest w folderze Homebrew. Ponowna instalacja cask w Terminalu przywróci ją na miejsce."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dele ainda está em uma pasta do Homebrew. Reinstalar o cask no Terminal o coloca de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația sa se află încă într‑un dosar Homebrew. Dacă reinstalați cask‑ul în Terminal, aplicația revine la locul ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его приложение все еще находится в папке Homebrew. Если переустановить cask в Терминале, приложение вернется на место."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caskens app ligger fortfarande i en Homebrew-mapp. Om du installerar om casken i Terminal läggs appen tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması hâlâ bir Homebrew klasöründe. Cask paketini Terminal’de yeniden yüklemek uygulamayı yerine koyar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його програма досі в папці Homebrew. Якщо перевстановити cask у Терміналі, програма повернеться на місце."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App仍在Homebrew的某个文件夹中。在“终端”中重新安装该cask即可将其放回原位。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App仍在Homebrew的檔案夾中。在「終端機」中重新安裝此cask即可將它放回原位。"
+          }
+        }
+      }
+    },
     "Its app registered it with macOS, so it is turned on or off in System Settings > General > Login Items & Extensions." : {
       "localizations" : {
         "cs" : {
@@ -103141,6 +103016,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它本身的權限讓你的帳號無法進入。"
+          }
+        }
+      }
+    },
+    "Its packages were uninstalled, or their receipts forgotten. If nothing of it is left, Forget Cask moves its Homebrew receipt to the Trash, and History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho balíčky byly odinstalovány nebo byly jejich záznamy o instalaci zapomenuty. Pokud z něj nic nezůstalo, tlačítko Zapomenout cask přesune jeho záznam Homebrew do koše a Historie ho může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Pakete dieses Casks wurden deinstalliert oder ihre Quittungen vergessen. Wenn nichts davon übrig ist, legt „Cask vergessen“ seine Homebrew-Quittung in den Papierkorb, und im Verlauf kannst du sie zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus paquetes se han desinstalado, o se han olvidado sus recibos. Si no queda nada de él, “Olvidar cask” traslada a la papelera su recibo de Homebrew, e Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ses paquets ont été désinstallés, ou leurs reçus oubliés. S’il n’en reste rien, « Oublier le cask » place son reçu Homebrew dans la corbeille, et l’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I suoi pacchetti sono stati disinstallati, oppure le loro ricevute sono state dimenticate. Se non ne resta nulla, “Dimentica cask” sposta la sua ricevuta Homebrew nel Cestino, e la Cronologia può ripristinarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パッケージがアンインストールされたか、そのレシートがゴミ箱に入れられています。何も残っていない場合は、“Homebrewレシートをゴミ箱に入れる”を使うと、このcaskのHomebrewレシートがゴミ箱に入ります。履歴から戻すことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 cask의 패키지가 제거되었거나 패키지의 수신 정보가 제거되었습니다. 남은 것이 없다면 ‘수신 정보 제거’로 이 cask의 Homebrew 수신 정보를 휴지통으로 이동할 수 있으며, 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pakketten ervan zijn gedeïnstalleerd, of hun installatiebewijzen zijn vergeten. Als er niets van over is, verplaatst 'Vergeet cask' het Homebrew-bewijs naar de prullenmand, en Geschiedenis kan het terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pakiety tego cask zostały odinstalowane albo ich potwierdzenia zapomniane. Jeśli nic z niego nie zostało, polecenie Zapomnij cask przeniesie jego potwierdzenie Homebrew do Kosza, a Historia może je przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os pacotes dele foram desinstalados, ou os recibos deles foram esquecidos. Se não restar nada dele, o comando Esquecer Cask move o recibo do Homebrew dele para o Lixo, e o Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pachetele sale au fost dezinstalate sau înregistrările lor au fost uitate. Dacă nu a mai rămas nimic din el, „Uitați cask‑ul” mută în Coș înregistrarea Homebrew a cask‑ului, iar din Istoric îl puteți pune înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его пакеты были удалены, или их квитанции забыты. Если от него ничего не осталось, команда «Забыть cask» переместит его квитанцию Homebrew в Корзину, а История сможет ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caskens paket har avinstallerats, eller så har deras kvitton glömts. Om inget av casken finns kvar flyttar ”Glöm cask” dess Homebrew-kvitto till papperskorgen, och Historik kan lägga tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paketlerinin yüklemesi kaldırıldı veya makbuzları unutuldu. Ondan hiçbir şey kalmadıysa Cask Paketini Unut, onun Homebrew makbuzunu Çöp Sepeti’ne taşır ve Geçmiş onu yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його пакети деінстальовано або їхні квитанції забуто. Якщо від нього нічого не лишилося, «Забути cask» перемістить його квитанцію Homebrew у Смітник, а Історія зможе її повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的软件包已被卸载，或者其回执已被移除。如果它已没有任何内容留下，“移除cask记录”会将其Homebrew回执移到废纸篓，“历史记录”可以将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的套件已解除安裝，或其收據已移除。如果它已沒有任何內容留下，「移除cask」會將它的Homebrew收據丟到「垃圾桶」，而「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -112505,6 +112486,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已略過：%lld個檔案，因為在Peel能讀取你的排除項目之前，它無法依據排除項目檢查找到的內容。"
+          }
+        }
+      }
+    },
+    "Let this account write to it by running this in Terminal: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Povolte tomuto účtu zápis do ní spuštěním tohoto příkazu v Terminálu: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erlaube diesem Benutzeraccount das Schreiben in den Ordner, indem du diesen Befehl im Terminal ausführst: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que esta cuenta escriba en la carpeta ejecutando esto en Terminal: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisez ce compte à y écrire en exécutant ceci dans Terminal : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consenti a questo account di scriverci eseguendo questo comando in Terminale: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで以下のコマンドを実行して、このアカウントによる書き込みを許可してください: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정이 쓸 수 있도록 하려면 터미널에서 다음을 실행하십시오: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laat deze account ernaar schrijven door dit uit te voeren in Terminal: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pozwól temu kontu zapisywać w nim, uruchamiając w Terminalu to polecenie: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permita que esta conta grave nela executando isto no Terminal: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permiteți acestui cont să scrie în el rulând această comandă în Terminal: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите этой учетной записи записывать в нее, выполнив эту команду в Терминале: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Låt det här kontot skriva till mappen genom att köra följande i Terminal: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal’de şunu çalıştırarak bu hesabın klasöre yazmasına izin verin: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дозвольте цьому обліковому запису записувати в неї, виконавши в Терміналі цю команду: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在“终端”中运行以下命令，允许此账户写入它：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在「終端機」中執行此指令，讓此帳號能寫入該檔案夾：%@"
           }
         }
       }
@@ -152052,6 +152139,112 @@
         }
       }
     },
+    "Only that account can update or change it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualizovat ho nebo měnit může jen ten účet."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur dieser Benutzeraccount kann Homebrew aktualisieren oder ändern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo esa cuenta puede actualizarlo o modificarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul ce compte peut le mettre à jour ou le modifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo quell’account può aggiornarlo o modificarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートや変更ができるのはそのアカウントだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "해당 계정만 Homebrew를 업데이트하거나 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen die account kan Homebrew bijwerken of wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko tamto konto może go odświeżać lub zmieniać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só essa conta pode atualizá-lo ou alterá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar acel cont îl poate actualiza sau modifica."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновлять или изменять его может только та учетная запись."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara det kontot kan uppdatera eller ändra det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu yalnızca o hesap güncelleyebilir veya değiştirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лише той обліковий запис може оновлювати чи змінювати його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有该账户才能更新或更改它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有該帳號可以更新或更改它。"
+          }
+        }
+      }
+    },
     "Only the `screencapture` command reads this setting, not Shift-Command-4 or the Screenshot app." : {
       "localizations" : {
         "cs" : {
@@ -182578,6 +182771,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel每次詢問Homebrew時都會執行「%@」，`peel`也是如此。只有在它屬於你的Homebrew時才選擇它。"
+          }
+        }
+      }
+    },
+    "Peel runs Homebrew without your shell settings, so Homebrew reads ~/.homebrew/brew.env and not %@. Put what it should follow from Peel, such as a proxy, in ~/.homebrew/brew.env." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel spouští Homebrew bez nastavení vašeho shellu, takže Homebrew čte ~/.homebrew/brew.env, a ne %@. Co má Homebrew při spuštění z Peelu dodržovat, například proxy, zapište do ~/.homebrew/brew.env."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt Homebrew ohne deine Shell-Einstellungen aus, daher liest Homebrew ~/.homebrew/brew.env und nicht %@. Trage in ~/.homebrew/brew.env ein, was Homebrew bei Ausführung durch Peel beachten soll, etwa einen Proxy."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ejecuta Homebrew sin los ajustes de tu shell, así que Homebrew lee ~/.homebrew/brew.env y no %@. Pon en ~/.homebrew/brew.env lo que Homebrew deba seguir cuando lo ejecuta Peel, como un proxy."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel exécute Homebrew sans vos réglages de shell : Homebrew lit donc ~/.homebrew/brew.env et non %@. Placez dans ~/.homebrew/brew.env ce qu’il doit suivre lorsque Peel l’exécute, comme un proxy."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel esegue Homebrew senza le impostazioni della tua shell, quindi Homebrew legge ~/.homebrew/brew.env e non %@. Metti in ~/.homebrew/brew.env ciò che deve seguire quando lo esegue Peel, come un proxy."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはシェルの設定を使わずにHomebrewを実行するため、Homebrewは%@ではなく~/.homebrew/brew.envを読み込みます。プロキシなど、Peelから実行したときにHomebrewに従わせたい設定は、~/.homebrew/brew.envに記述してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 사용자의 셸 설정 없이 Homebrew를 실행하므로, Homebrew는 %@이(가) 아닌 ~/.homebrew/brew.env를 읽습니다. 프록시처럼 Peel에서 실행할 때 Homebrew가 따라야 할 설정은 ~/.homebrew/brew.env에 넣으십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert Homebrew uit zonder je shellinstellingen, dus Homebrew leest ~/.homebrew/brew.env en niet %@. Zet wat Homebrew vanuit Peel moet volgen, zoals een proxy, in ~/.homebrew/brew.env."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uruchamia Homebrew bez ustawień Twojej powłoki, więc Homebrew odczytuje plik ~/.homebrew/brew.env, a nie %@. Ustawienia, których Homebrew ma przestrzegać, gdy uruchamia go Peel, na przykład serwer proxy, umieść w pliku ~/.homebrew/brew.env."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel executa o Homebrew sem os ajustes do seu shell, então o Homebrew lê ~/.homebrew/brew.env e não %@. Coloque em ~/.homebrew/brew.env aquilo que ele deve seguir quando executado pelo Peel, como um proxy."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează Homebrew fără configurările shellului dvs., așa că Homebrew citește ~/.homebrew/brew.env, nu %@. Puneți în ~/.homebrew/brew.env ce doriți ca Homebrew să respecte când este rulat din Peel, cum ar fi un proxy."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускает Homebrew без настроек Вашей оболочки, поэтому Homebrew читает ~/.homebrew/brew.env, а не %@. Укажите в ~/.homebrew/brew.env то, что он должен учитывать при запуске из Peel, например прокси."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör Homebrew utan dina inställningar för kommandotolken, så Homebrew läser ~/.homebrew/brew.env och inte %@. Lägg det som Homebrew ska följa när Peel kör det, till exempel en proxy, i ~/.homebrew/brew.env."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Homebrew’u kabuk ayarlarınız olmadan çalıştırır, bu yüzden Homebrew %@ dosyasını değil, ~/.homebrew/brew.env dosyasını okur. Homebrew’un Peel’den çalıştırıldığında uyması gerekenleri, örneğin bir proxy ayarını, ~/.homebrew/brew.env dosyasına yazın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускає Homebrew без налаштувань вашої оболонки, тож Homebrew читає ~/.homebrew/brew.env, а не %@. Те, чого він має дотримуватися під час запуску з Peel, як-от проксі, вкажіть у ~/.homebrew/brew.env."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel运行Homebrew时不使用你的shell设置，因此Homebrew会读取~/.homebrew/brew.env，而不是%@。请将从Peel运行时它应遵循的设置（例如代理）放入~/.homebrew/brew.env。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel執行Homebrew時不會使用你的Shell設定，因此Homebrew會讀取~/.homebrew/brew.env，而不是%@。請將Homebrew從Peel執行時應遵循的設定（例如代理伺服器）放入~/.homebrew/brew.env。"
           }
         }
       }
@@ -253067,112 +253366,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這部Mac上還有其他帳號"
-          }
-        }
-      }
-    },
-    "This account cannot change Homebrew" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tento účet nemůže měnit Homebrew"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieser Benutzeraccount kann Homebrew nicht ändern"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esta cuenta no puede modificar Homebrew"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce compte ne peut pas modifier Homebrew"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questo account non può modificare Homebrew"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このアカウントではHomebrewを変更できません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 계정은 Homebrew를 변경할 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze account kan Homebrew niet wijzigen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To konto nie może zmieniać Homebrew"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esta conta não pode alterar o Homebrew"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acest cont nu poate modifica Homebrew"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Эта учетная запись не может изменять Homebrew"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det här kontot kan inte ändra Homebrew"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu hesap Homebrew’u değiştiremez"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цей обліковий запис не може змінювати Homebrew"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此账户无法更改Homebrew"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此帳號無法更改Homebrew"
           }
         }
       }

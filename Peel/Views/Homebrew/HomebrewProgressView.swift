@@ -6,6 +6,8 @@ struct HomebrewProgressView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var isConfirmingStop = false
 
+    static let stopNote: LocalizedStringResource = "A package being installed may be left half installed and need installing again. An app may stay in a Homebrew folder until you reinstall its cask."
+
     var body: some View {
         ScrollView {
             Text(verbatim: homebrew.progress ?? "")
@@ -37,7 +39,7 @@ struct HomebrewProgressView: View {
             Button("Stop", role: .destructive) { homebrew.stopUpgrade() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("A package Homebrew is in the middle of installing may be left half installed, and may need installing again. A cask’s app can stay in Homebrew’s folder until you reinstall the cask.")
+            Text(Self.stopNote)
         }
     }
 

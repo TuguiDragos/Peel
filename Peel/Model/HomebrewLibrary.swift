@@ -210,46 +210,52 @@ final class HomebrewLibrary {
         let title: LocalizedStringResource
         /// The same, as a note above the page's list says it.
         let noteTitle: LocalizedStringResource
+        /// Why, naming the folder, so it reads on its own where the note's title isn't shown.
         let detail: LocalizedStringResource
+        /// What to run in Terminal to put it right, ending in `command`.
+        var step: LocalizedStringResource?
         var command: String?
+
+        /// Root can't help, since Homebrew refuses to run as root (`brew.sh`), and a folder of this account's own only
+        /// lacks a permission, so only another account's is theirs to change.
+        static func of(_ unwritable: HomebrewInstallation.Unwritable, isAdministrator: Bool) -> CantChange {
+            let folder = unwritable.folder.abbreviatedPath
+            let command = unwritable.command ?? ""
+            switch unwritable.owner {
+            case .another(let owner?):
+                return CantChange(
+                    title: "Homebrew Belongs to Another Account", noteTitle: "Homebrew belongs to another account",
+                    detail: "Homebrew on this Mac belongs to \(owner), so only that account can update or change it."
+                )
+            case .another(nil):
+                return CantChange(
+                    title: "Homebrew Belongs to Another Account", noteTitle: "Homebrew belongs to another account",
+                    detail: "Only that account can update or change it."
+                )
+            case .root:
+                let step: LocalizedStringResource
+                if AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator) {
+                    step = "An administrator runs this in Terminal, or you run it after `su` and the short name of an administrator: \(command)"
+                } else {
+                    step = "Give it back to this account by running this in Terminal: \(command)"
+                }
+                return CantChange(
+                    title: "This Account Can’t Change Homebrew", noteTitle: "Homebrew cannot change \(folder)",
+                    detail: "\(folder) belongs to root, and Homebrew does not run as root.", step: step, command: command
+                )
+            case .thisAccount:
+                return CantChange(
+                    title: "This Account Can’t Change Homebrew", noteTitle: "Homebrew cannot change \(folder)",
+                    detail: "\(folder) belongs to this account but cannot be written to.",
+                    step: "Let this account write to it by running this in Terminal: \(command)", command: command
+                )
+            }
+        }
     }
 
-    /// Nil when this account can change Homebrew. Root can't help, since Homebrew refuses to run as root (`brew.sh`),
-    /// and a folder of this account's own only lacks a permission, so only another account's is theirs to change.
+    /// Nil when this account can change Homebrew.
     func whyItCantChange(isAdministrator: Bool) -> CantChange? {
-        guard let unwritable = installation?.unwritable else { return nil }
-        let folder = unwritable.folder.abbreviatedPath
-        let command = unwritable.command ?? ""
-        switch unwritable.owner {
-        case .another(let owner?):
-            return CantChange(
-                title: "Homebrew Belongs to Another Account", noteTitle: "Homebrew belongs to another account",
-                detail: "Homebrew on this Mac belongs to \(owner), so only that account can update or change it."
-            )
-        case .another(nil):
-            return CantChange(
-                title: "Homebrew Belongs to Another Account", noteTitle: "Homebrew belongs to another account",
-                detail: "Homebrew on this Mac belongs to another account, so only that account can update or change it."
-            )
-        case .root where AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator):
-            return CantChange(
-                title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
-                detail: "\(folder) belongs to root, so Homebrew cannot change it, and Homebrew does not run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and the short name of an administrator: \(command)",
-                command: command
-            )
-        case .root:
-            return CantChange(
-                title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
-                detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: \(command)",
-                command: command
-            )
-        case .thisAccount:
-            return CantChange(
-                title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
-                detail: "\(folder) belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: \(command)",
-                command: command
-            )
-        }
+        installation?.unwritable.map { CantChange.of($0, isAdministrator: isAdministrator) }
     }
 
     /// Incremented only when the known casks or receipts change, or Homebrew leaves the Mac. An app's page scans

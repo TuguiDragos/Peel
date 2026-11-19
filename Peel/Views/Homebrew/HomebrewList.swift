@@ -2,6 +2,17 @@ import PeelCore
 import SwiftUI
 
 struct HomebrewList: View {
+    static let aboutHomebrew: LocalizedStringResource = "Homebrew installs command-line tools as formulae and apps as casks. Peel runs Homebrew commands here and shows what they report. Forget is done by Peel itself: it moves the Homebrew receipt of a cask to the Trash."
+    static let updateNote: LocalizedStringResource = "Gets the newest Homebrew and its list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may rename a package, reinstall pkgconf, or delete an old copy of its core taps."
+    static let healthNote: LocalizedStringResource = "Asks Homebrew to check itself and report anything out of place, such as a broken link. It changes nothing, and it cannot see the PATH your Terminal uses."
+    static let alreadyGoneNote: LocalizedStringResource = "Homebrew still lists these casks, but their apps are no longer where Homebrew put them, or macOS has no receipt left for their packages. Forgetting a cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."
+    static let retiredNote: LocalizedStringResource = "Homebrew deprecates a package before it stops offering it, then disables it: no new installs and no more upgrades. What is installed stays until you uninstall it."
+    static let needsDefinitionsNote: LocalizedStringResource = "Asking Homebrew would download its list of packages again, which Peel does not start on its own."
+
+    static func unreadSettingsNote(_ file: String) -> LocalizedStringResource {
+        "Peel runs Homebrew without your shell settings, so Homebrew reads ~/.homebrew/brew.env and not \(file). Put what it should follow from Peel, such as a proxy, in ~/.homebrew/brew.env."
+    }
+
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(HelperModel.self) private var helper
     @Environment(AppLibrary.self) private var library
@@ -230,7 +241,7 @@ struct HomebrewList: View {
             Section {
                 Notice(
                     title: Text("Homebrew run from Peel does not read one of your settings files"),
-                    detail: Text("Homebrew reads \(unread.abbreviatedPath) only from a shell that sets XDG_CONFIG_HOME to ~/.config. Peel runs Homebrew without your shell’s settings, so there it reads ~/.homebrew/brew.env. Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env."),
+                    detail: Text(Self.unreadSettingsNote(unread.abbreviatedPath)),
                     kind: .note
                 ) {}
             }
@@ -287,7 +298,7 @@ struct HomebrewList: View {
         } header: {
             heading(
                 "Homebrew",
-                "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel runs Homebrew’s own commands and reads what they report. Forget, which Peel does itself, moves a cask’s Homebrew receipt to the Trash."
+                Self.aboutHomebrew
             )
         }
     }
@@ -296,7 +307,7 @@ struct HomebrewList: View {
         Section {
             row(
                 title: "Update Homebrew",
-                detail: Text("Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, reinstall pkgconf after a macOS update, or delete an old copy of its core taps it no longer needs."),
+                detail: Text(Self.updateNote),
                 systemImage: "arrow.triangle.2.circlepath",
                 command: .update
             ) {
@@ -344,7 +355,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Check Health",
-                detail: Text("Asks Homebrew to check itself and report anything out of place, such as a broken link. It only looks and changes nothing. It can’t see the PATH your Terminal uses, so problems there don’t show up here."),
+                detail: Text(Self.healthNote),
                 systemImage: "stethoscope",
                 command: .health
             ) {
@@ -479,7 +490,7 @@ struct HomebrewList: View {
         } else {
             Notice(
                 title: Text("Homebrew has to update first"),
-                detail: Text("Homebrew’s own list of packages isn’t on this Mac, so asking it about packages would download the list again. Peel doesn’t start that on its own."),
+                detail: Text(Self.needsDefinitionsNote),
                 kind: .note
             ) {
                 Button("Update Homebrew") { start(.update) }
@@ -491,10 +502,9 @@ struct HomebrewList: View {
     }
 
     private func cantChange(_ reason: HomebrewLibrary.CantChange) -> some View {
-        // With a command, the sentence ends in the command to copy, so it stays on the page.
+        // The step ends in the command to copy, so it stays on the page.
         Notice(
-            title: Text(reason.noteTitle), detail: reason.command == nil ? Text(reason.detail) : nil, kind: .note,
-            step: reason.command == nil ? nil : Text(reason.detail)
+            title: Text(reason.noteTitle), detail: Text(reason.detail), kind: .note, step: reason.step.map { Text($0) }
         ) {
             if let command = reason.command {
                 CopyButton(text: command)
@@ -607,7 +617,7 @@ struct HomebrewList: View {
                 SectionHeaderLine {
                     heading(
                         "Apps Already Gone",
-                        "Homebrew still lists these casks, but their apps are not where Homebrew put them anymore, or macOS has no receipt left for the packages they installed. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back."
+                        Self.alreadyGoneNote
                     )
                 } count: {
                     Text("^[\(casks.count) cask](inflect: true)")
@@ -656,7 +666,7 @@ struct HomebrewList: View {
                 SectionHeaderLine {
                     heading(
                         "Deprecated or Disabled",
-                        "Homebrew deprecates a package it means to stop offering, and disables it when it stops. A disabled package can’t be installed again and gets no more upgrades. What is installed stays until you uninstall it."
+                        Self.retiredNote
                     )
                 } actions: {}
             }
@@ -806,7 +816,11 @@ struct HomebrewList: View {
             ContentUnavailableView {
                 Label(reason.title, systemImage: "person.crop.circle.badge.exclamationmark")
             } description: {
-                Text(reason.detail)
+                if let step = reason.step {
+                    Text("\(Text(reason.detail))\n\n\(Text(step))")
+                } else {
+                    Text(reason.detail)
+                }
             } actions: {
                 if let command = reason.command {
                     CopyButton(text: command)
@@ -816,7 +830,7 @@ struct HomebrewList: View {
             ContentUnavailableView {
                 Label("Homebrew Has to Update First", systemImage: "arrow.down.circle")
             } description: {
-                Text("Homebrew’s own list of packages isn’t on this Mac, so asking it about packages would download the list again. Peel doesn’t start that on its own.")
+                Text(Self.needsDefinitionsNote)
             } actions: {
                 Button("Update Homebrew") { start(.update) }
             }

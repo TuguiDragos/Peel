@@ -7,7 +7,7 @@ struct HomebrewVulnerabilitySections: View {
     let advisory: HomebrewAdvisory
     let package: HomebrewPackage
 
-    static let howHomebrewChecked: LocalizedStringResource = "Homebrew checked this formula against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them."
+    static let howHomebrewChecked: LocalizedStringResource = "Homebrew checked this formula against OSV.dev, an open list of known vulnerabilities, leaving out those its own patches fix. “Fixed by its developers, version unknown” means OSV.dev names a fix but no version that carries it."
 
     var body: some View {
         Section {
