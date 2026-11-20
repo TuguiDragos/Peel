@@ -4,6 +4,16 @@ import PeelCore
 import Testing
 
 struct InstallerTextTests {
+    @Test func aFirmwareRowShowsItsFileFirstAndItsFolderUnderIt() throws {
+        let folder = URL.homeDirectory.appending(path: "Library/Group Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware", directoryHint: .isDirectory)
+        let file = folder.appending(path: "iPhone17,1_26.1_23B85_Restore.ipsw")
+
+        let shown = try #require(InstallerDetailView.shownPath(of: file, kind: .firmware))
+        #expect(shown.name == "iPhone17,1_26.1_23B85_Restore.ipsw")
+        #expect(shown.folder == "~/Library/Group Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Firmware")
+        #expect(InstallerDetailView.shownPath(of: file, kind: .appInstaller) == nil)
+    }
+
     @Test func eachKindSaysWhatItIsInAFewWords() {
         #expect(InstallerItem.Kind.appInstaller.explanation.key == "Disk images, packages, and archives holding an app or an installer, in Downloads and the other places installers are usually left. A disk image can also be one you made to keep files in.")
         #expect(InstallerItem.Kind.firmware.explanation.key == "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it.")

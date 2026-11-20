@@ -9,6 +9,8 @@ struct RemovalRow: View {
     let url: URL
     /// Shown in place of the path, for a row under its folder.
     var name: String?
+    /// The folder shown under `name`, when the name is the file's own and a cut path would hide it.
+    var folder: String?
     let icon: Icon
     let detail: LocalizedStringResource?
     /// The kind of item, shown in a column of its own, or on macOS 27 the day a File Search file was modified.
@@ -135,7 +137,7 @@ struct RemovalRow: View {
     private var spokenItem: String {
         let badge = badgeKind.map { String(localized: $0.title) }
         let size = isMeasured ? size.byteCount : String(localized: "Unknown")
-        return [name ?? url.abbreviatedPath, badge, kind.map { String(localized: $0) }, size]
+        return [name ?? url.abbreviatedPath, folder, badge, kind.map { String(localized: $0) }, size]
             .compactMap(\.self)
             .joined(separator: ", ")
     }
@@ -204,12 +206,28 @@ struct RemovalRow: View {
         }
     }
 
+    @ViewBuilder
     private var path: some View {
-        Text(name ?? url.abbreviatedPath)
-            .lineLimit(1)
-            .truncationMode(.middle)
+        if let folder {
+            VStack(alignment: .leading, spacing: 1) {
+                Text(name ?? url.lastPathComponent)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .checkboxTitleLine()
+                Text(verbatim: folder)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+            }
             .help(Text(verbatim: url.fullPath))
-            .checkboxTitleLine()
+        } else {
+            Text(name ?? url.abbreviatedPath)
+                .lineLimit(1)
+                .truncationMode(.middle)
+                .help(Text(verbatim: url.fullPath))
+                .checkboxTitleLine()
+        }
     }
 
     /// The path with its badge beside it, or under it when the path would get less than `pathFloor`.

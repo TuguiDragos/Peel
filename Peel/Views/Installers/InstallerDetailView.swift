@@ -35,8 +35,11 @@ struct InstallerDetailView: View {
                     if item.isReadOnly {
                         BackupRow(item: item, isFirst: item.id == rows.first?.id)
                     } else {
+                        let shown = Self.shownPath(of: item.url, kind: kind)
                         RemovalRow(
                             url: item.url,
+                            name: shown?.name,
+                            folder: shown?.folder,
                             icon: .file(item.url),
                             detail: detail(for: item),
                             kind: Self.day(of: item, showsDays: showsDays),
@@ -108,6 +111,14 @@ struct InstallerDetailView: View {
 
     /// True when a kind other than device backups lists items and a click can select none of them: the page is then a
     /// list to read. Device backups are always one, with rows of their own.
+    /// The name a row shows first and the folder under it: a firmware file's own, since firmware files share long
+    /// folders and have names that differ in the middle, which a cut path hides.
+    static func shownPath(of url: URL, kind: InstallerItem.Kind) -> (name: String, folder: String)? {
+        guard kind == .firmware else { return nil }
+        let folder = url.deletingLastPathComponent().fullPath as NSString
+        return (url.lastPathComponent, folder.abbreviatingWithTildeInPath)
+    }
+
     static func isOnlyToRead(_ rows: [InstallerItem], of kind: InstallerItem.Kind, canUseHelper: Bool) -> Bool {
         kind != .deviceBackup && !rows.isEmpty && rows.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
     }
