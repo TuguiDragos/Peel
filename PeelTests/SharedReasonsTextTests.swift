@@ -16,7 +16,8 @@ struct SharedReasonsTextTests {
         #expect(HoldBack.holdsWhatAToolKeeps.explanation.key == "Not selected: a developer tool may still use what it keeps here, such as packages or model weights.")
         #expect(HoldBack.holdsTerraformState.explanation.key == "Not selected: it holds the state Terraform or OpenTofu keeps, the only copy with a local backend.")
         #expect(HoldBack.couldNotLookInside.explanation.key == "Left alone: macOS kept Peel from looking inside, so Peel cannot tell whether it holds something it protects, such as a wallet. Full Disk Access may let Peel see.")
-        #expect(HoldBack.tooManyToLookThrough.explanation.key == "Left alone: a folder inside holds too many items for Peel to look through, so Peel cannot tell whether it holds something it protects, such as a wallet.")
+        #expect(HoldBack.tooManyToLookThrough.explanation.key == "Not selected: a folder inside holds too many items to look through quickly. If you move it, Peel looks through it once first, and leaves it where it is if anything there is something Peel protects.")
+        #expect(HoldBack.tooManyToList.explanation.key == "Left alone: this folder holds too many items to read quickly, so nothing inside it is listed.")
         #expect(HoldBack.couldNotBeRead.explanation.key == "Not selected: macOS kept Peel from reading inside. Full Disk Access may let Peel see.")
         #expect(HoldBack.closedByPermissions.explanation.key == "Not selected: its own permissions keep your account out, which Full Disk Access does not change.")
     }

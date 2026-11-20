@@ -704,7 +704,9 @@ public struct TrashService: Sendable {
         refusing: (@Sendable (URL) -> TrashFailure.Reason?)? = nil
     ) async -> TrashResult {
         // The guard reads the disk, so it is asked once for each item.
-        let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
+        var refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
+        let look = wholeLook()
+        let lookedThrough = await lookThrough(urls, refused: &refusals, with: look)
         let allowed = urls.filter { refusals[$0] == nil }
         if allowed.contains(where: lacksItsTrash) { await makeTrash() }
         var openFiles = await readingOfOpenFiles()
@@ -749,7 +751,10 @@ public struct TrashService: Sendable {
                 return
             }
             do {
-                let trashedURL = try moveToTrash(url)
+                // The guard asks again at the rename, and remembers what its look through the folder found.
+                let trashedURL = try lookedThrough.contains(url)
+                    ? ProtectedData.WholeLook.$current.withValue(look) { try moveToTrash(url) }
+                    : moveToTrash(url)
                 let item = TrashedItem(
                     originalURL: url,
                     trashedURL: trashedURL,
@@ -1024,8 +1029,10 @@ public struct TrashService: Sendable {
         guard !helperURLs.isEmpty else { return result }
 
         var permitted: [URL] = []
+        var helperRefusals = helperURLs.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
+        _ = await lookThrough(helperURLs, refused: &helperRefusals, with: wholeLook())
         for url in helperURLs {
-            if let refusal = removalGuard.refusal(of: url) {
+            if let refusal = helperRefusals[url] {
                 result.failures.append(TrashFailure(url: url, reason: .guarded(refusal)))
             } else if let refusal = refusing?(url) {
                 result.failures.append(TrashFailure(url: url, reason: refusal))
@@ -1149,6 +1156,45 @@ public struct TrashService: Sendable {
     private static func moveThroughTheHelper(_ urls: [URL]) async -> TrashResult {
         guard PrivilegedHelper.status == .enabled else { return await asIfThereWereNoHelper(urls) }
         return await PrivilegedHelper.moveToTrash(urls)
+    }
+
+    /// The look a move of the app's makes through a folder too full for the guard's own look, counted for its bar and
+    /// stopped by it, or nil for a move with no bar, such as `peel`'s, which leaves such a folder where it is.
+    private func wholeLook() -> ProtectedData.WholeLook? {
+        MoveCount.current.map { count in
+            ProtectedData.WholeLook(stoppingWhen: { count.isStopped }, counting: { count.addLooked($0) })
+        }
+    }
+
+    /// Asks the guard again under `look` about each of `urls` it found too full to look through, and answers those it
+    /// found nothing in, which may move.
+    private func lookThrough(
+        _ urls: [URL], refused refusals: inout [URL: GuardRefusal], with look: ProtectedData.WholeLook?
+    ) async -> Set<URL> {
+        guard let look, let count = MoveCount.current else { return [] }
+        var lookedThrough: Set<URL> = []
+        for url in urls where refusals[url] == .tooManyToLookThrough {
+            let answer = await count.whileLooking { await Self.judging(url, by: removalGuard, under: look) }
+            refusals[url] = answer
+            if answer == nil { lookedThrough.insert(url) }
+        }
+        return lookedThrough
+    }
+
+    /// The guard's answer about `url` under `look`, worked out on a thread of its own: a folder of a million items
+    /// takes seconds to read, which would hold a thread of the pool Swift's tasks share.
+    private static func judging(
+        _ url: URL, by removalGuard: RemovalGuard, under look: ProtectedData.WholeLook
+    ) async -> GuardRefusal? {
+        await withCheckedContinuation { answered in
+            let thread = Thread {
+                answered.resume(returning: ProtectedData.WholeLook.$current.withValue(look) {
+                    removalGuard.refusal(of: url)
+                })
+            }
+            thread.qualityOfService = .userInitiated
+            thread.start()
+        }
     }
 
     private static func asIfThereWereNoHelper(_ urls: [URL]) async -> TrashResult {

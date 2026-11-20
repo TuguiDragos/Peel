@@ -141,7 +141,8 @@ struct SpaceRemovalTests {
         let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory))
 
         #expect(plan.removable.map(\.lastPathComponent) == ["Caches"])
-        #expect(plan.heldBack.values.contains(.tooManyToLookThrough))
+        #expect(plan.heldBack.values.contains(.tooManyToList))
+        #expect(plan.selectableRows(canUseHelper: true).selectable.isEmpty)
     }
 
     @Test func neverAsksToQuitPartOfMacOS() async throws {

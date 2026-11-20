@@ -256,6 +256,11 @@ extension ProtectedData {
     /// `storage`, and `Preferences`, where Brave keeps its own wallet. It reads the disk, so it needs the path as
     /// spelled on disk.
     public static func holdsABrowserWallet(_ path: String) -> Finding {
+        guard let whole = WholeLook.current else { return browserWallet(in: path) }
+        return whole.remembered("wallet", in: path) { browserWallet(in: path) }
+    }
+
+    private static func browserWallet(in path: String) -> Finding {
         let components = PathComponents.of(path)
         if let profile = profile(sharedBy: components), isAProfileWithAWallet(profile) { return .found }
         // Only a folder can be a profile or hold one.
@@ -264,27 +269,46 @@ extension ProtectedData {
         if isAProfileWithAWallet(path) { return .found }
 
         let folder = components.last?.lowercased() ?? ""
-        let children: [(name: String, isAFile: Bool)]
-        switch entries(of: path) {
-        case .success(let found): children = found
-        case .failure(let unlisted): return Finding(unlisted)
-        }
         var finding = Finding.nothing
-        for child in children {
-            if isAWalletsStorage(child.name.lowercased(), in: folder) { return .found }
-            guard !child.isAFile else { continue }
-            let inside = path + "/" + child.name
-            if isAProfileWithAWallet(inside) { return .found }
-            switch entries(of: inside) {
-            case .success(let deeper):
-                if deeper.contains(where: { !$0.isAFile && isAProfileWithAWallet(inside + "/" + $0.name) }) {
-                    return .found
-                }
-            case .failure(let unlisted):
-                finding.note(Finding(unlisted))
+        let unlisted = eachEntry(of: path) { name, isAFile in
+            if isAWalletsStorage(name.lowercased(), in: folder) {
+                finding = .found
+                return false
             }
+            guard !isAFile else { return true }
+            let inside = path + "/" + name
+            if isAProfileWithAWallet(inside) {
+                finding = .found
+                return false
+            }
+            var holdsOne = false
+            let unlistedInside = eachEntry(of: inside) { deeper, isAFile in
+                holdsOne = !isAFile && isAProfileWithAWallet(inside + "/" + deeper)
+                return !holdsOne
+            }
+            if holdsOne {
+                finding = .found
+                return false
+            }
+            if let unlistedInside { finding.note(Finding(unlistedInside)) }
+            return true
         }
-        return finding
+        return unlisted.map(Finding.init) ?? finding
+    }
+
+    /// Calls `visit` with each name in `folder` and whether it is a regular file while `visit` answers true, or
+    /// answers why there are none. A whole look reads it name by name.
+    private static func eachEntry(of folder: String, _ visit: (String, Bool) -> Bool) -> Unlisted? {
+        if let whole = WholeLook.current { return whole.read(folder, followingLinks: false, visit) }
+        switch entries(of: folder) {
+        case .success(let found):
+            for entry in found {
+                guard visit(entry.name, entry.isAFile) else { break }
+            }
+            return nil
+        case .failure(let unlisted):
+            return unlisted
+        }
     }
 
     /// The names in `folder`, each with whether it is a regular file, which is no profile and holds none, or why there

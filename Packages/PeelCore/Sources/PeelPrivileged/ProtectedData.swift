@@ -353,6 +353,11 @@ public enum ProtectedData: Sendable {
     /// down, and whether a Library's `Caches` folder holds one three levels down, which is how deep they sit
     /// (`Caches/JetBrains/<product>/LocalHistory`). It reads the disk, so it needs the path as spelled on disk.
     public static func holdsWorkKeptInACache(_ path: String) -> Finding {
+        guard let whole = WholeLook.current else { return workKeptInACache(path) }
+        return whole.remembered("work", in: path) { workKeptInACache(path) }
+    }
+
+    private static func workKeptInACache(_ path: String) -> Finding {
         let components = PathComponents.of(path).map { $0.lowercased() }
         guard let caches = components.lastIndex(of: "caches") else { return .nothing }
         if caches + 1 == components.count {
@@ -365,19 +370,21 @@ public enum ProtectedData: Sendable {
 
     private static func holdsWorkKeptInACache(_ folder: String, levels: Int) -> Finding {
         guard levels > 0 else { return .nothing }
-        let names: [String]
-        switch look(in: folder, followingLinks: true) {
-        case .success(let found): names = found
-        case .failure(let unlisted): return Finding(unlisted)
-        }
         var finding = Finding.nothing
-        for name in names {
-            if workKeptInCaches.contains(name.lowercased()) { return .found }
+        let unlisted = eachName(in: folder, followingLinks: true) { name in
+            if workKeptInCaches.contains(name.lowercased()) {
+                finding = .found
+                return false
+            }
             let inside = holdsWorkKeptInACache(folder + "/" + name, levels: levels - 1)
-            guard inside != .found else { return .found }
+            guard inside != .found else {
+                finding = .found
+                return false
+            }
             finding.note(inside)
+            return true
         }
-        return finding
+        return unlisted.map(Finding.init) ?? finding
     }
 
     /// What a look a level or two inside a folder found: what it looked for, nothing, or nothing known, because a
@@ -567,29 +574,37 @@ public enum ProtectedData: Sendable {
     /// library can sit anywhere, so no list of places can protect the folder around one, and this looks inside the
     /// folder instead. It reads the disk.
     public static func holdsALibrary(_ path: String) -> Finding {
-        let children: [String]
-        switch look(in: path, followingLinks: false) {
-        case .success(let found): children = found
-        case .failure(let unlisted): return Finding(unlisted)
-        }
+        guard let whole = WholeLook.current else { return library(in: path) }
+        return whole.remembered("library", in: path) { library(in: path) }
+    }
+
+    private static func library(in path: String) -> Finding {
         var finding = Finding.nothing
-        for child in children {
-            if isALibrary(child.lowercased()) { return .found }
+        let unlisted = eachName(in: path, followingLinks: false) { child in
+            if isALibrary(child.lowercased()) {
+                finding = .found
+                return false
+            }
             let inside = path + "/" + child
             var info = stat()
             guard lstat(inside, &info) == 0 else {
                 if errno != ENOENT { finding.note(.notKnown) }
-                continue
+                return true
             }
-            guard info.st_mode & S_IFMT == S_IFDIR else { continue }
-            switch look(in: inside, followingLinks: false) {
-            case .success(let deeper):
-                if deeper.contains(where: { isALibrary($0.lowercased()) }) { return .found }
-            case .failure(let unlisted):
-                finding.note(Finding(unlisted))
+            guard info.st_mode & S_IFMT == S_IFDIR else { return true }
+            var holdsOne = false
+            let unlistedInside = eachName(in: inside, followingLinks: false) { name in
+                holdsOne = isALibrary(name.lowercased())
+                return !holdsOne
             }
+            if holdsOne {
+                finding = .found
+                return false
+            }
+            if let unlistedInside { finding.note(Finding(unlistedInside)) }
+            return true
         }
-        return finding
+        return unlisted.map(Finding.init) ?? finding
     }
 
     /// The lowercase names a check should compare for `path`: as written, with its `.` and `..` read, and with

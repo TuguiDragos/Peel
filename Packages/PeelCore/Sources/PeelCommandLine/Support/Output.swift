@@ -481,6 +481,7 @@ extension HoldBack {
         case .couldNotLookInside: "macOS wouldn't let Peel look inside to make sure nothing Peel protects is there"
         case .tooManyToLookThrough:
             "a folder inside holds too many items for Peel to look through to make sure nothing Peel protects is there"
+        case .tooManyToList: "holds too many items to read quickly, so nothing inside it is listed"
         case .goneAtNextStartup: "macOS removes it at the next startup"
         case .holdsDocuments: "holds the app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"

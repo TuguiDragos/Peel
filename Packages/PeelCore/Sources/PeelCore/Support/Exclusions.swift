@@ -191,29 +191,30 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// there can't be listed. It reads the disk.
     func appFolders(inside folder: URL) -> Result<[URL], ProtectedData.Unlisted> {
         guard !bundleIdentifiers.isEmpty else { return .success([]) }
-        let list = { (folder: URL) in
-            ProtectedData.look(in: folder.path(percentEncoded: false), followingLinks: false)
-                .map { names in names.map { folder.appending(path: $0) } }
-        }
+        guard let whole = ProtectedData.WholeLook.current else { return excludedApps(inside: folder) }
+        return whole.remembered("exclusions", in: folder.path(percentEncoded: false)) { excludedApps(inside: folder) }
+    }
+
+    private func excludedApps(inside folder: URL) -> Result<[URL], ProtectedData.Unlisted> {
         let isExcluded = { (url: URL) in
             appFolderNames.contains(url.lastPathComponent.lowercased()) || isAnExcludedApp(url)
         }
-        let children: [URL]
-        switch list(folder) {
-        case .success(let found): children = found
-        case .failure(let unlisted): return .failure(unlisted)
-        }
         var found: [URL] = []
-        for child in children {
+        var unlistedInside: ProtectedData.Unlisted?
+        let unlisted = ProtectedData.eachName(in: folder.path(percentEncoded: false), followingLinks: false) { name in
+            let child = folder.appending(path: name)
             if isExcluded(child) {
                 found.append(child)
             } else if child.isRealFolder {
-                switch list(child) {
-                case .success(let inside): found += inside.filter(isExcluded)
-                case .failure(let unlisted): return .failure(unlisted)
+                unlistedInside = ProtectedData.eachName(in: child.path(percentEncoded: false), followingLinks: false) {
+                    let inside = child.appending(path: $0)
+                    if isExcluded(inside) { found.append(inside) }
+                    return true
                 }
             }
+            return unlistedInside == nil
         }
+        if let unlisted = unlisted ?? unlistedInside { return .failure(unlisted) }
         return .success(found)
     }
 

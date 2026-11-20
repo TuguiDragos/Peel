@@ -200,7 +200,9 @@ struct RemovalBar: View {
                                 ProgressView()
                                     .controlSize(.small)
                                 Group {
-                                    if moving.isReading {
+                                    if moving.isLooking {
+                                        Text("Looked at ^[\(moving.lookedAt) item](inflect: true)")
+                                    } else if moving.isReading {
                                         Text("Reading contents…")
                                     } else {
                                         Text("Moved \(moving.moved, format: .number) of \(moving.toMove, format: .number)")
@@ -249,6 +251,9 @@ struct RemovalBar: View {
                             if isShowingWork, let removal, removal.progress.isMoving {
                                 Button("Stop", systemImage: "xmark", action: removal.stop)
                                     .help(Text("Stop removing downloads"))
+                            } else if isShowingMove, let moving, moving.isLooking {
+                                Button("Stop", systemImage: "xmark", action: moving.stopLooking)
+                                    .help(Text("Stop looking through this folder, which then stays where it is"))
                             } else {
                                 Button(String(localized: title), systemImage: systemImage, action: reading.remove)
                                     .disabled(!isEnabled)

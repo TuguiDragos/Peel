@@ -804,7 +804,9 @@ extension HoldBack {
         case .couldNotLookInside:
             "Left alone: macOS kept Peel from looking inside, so Peel cannot tell whether it holds something it protects, such as a wallet. Full Disk Access may let Peel see."
         case .tooManyToLookThrough:
-            "Left alone: a folder inside holds too many items for Peel to look through, so Peel cannot tell whether it holds something it protects, such as a wallet."
+            "Not selected: a folder inside holds too many items to look through quickly. If you move it, Peel looks through it once first, and leaves it where it is if anything there is something Peel protects."
+        case .tooManyToList:
+            "Left alone: this folder holds too many items to read quickly, so nothing inside it is listed."
         case .goneAtNextStartup:
             "Left alone: macOS removes this at the next startup, and nothing else may move it."
         case .holdsDocuments:

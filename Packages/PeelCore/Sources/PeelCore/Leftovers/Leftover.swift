@@ -91,8 +91,11 @@ public enum HoldBack: String, Sendable, Hashable {
     /// macOS would not let Peel list a folder inside it, so `RemovalGuard` refuses to move it as the person: what it
     /// never moves may be in there (`GuardRefusal.couldNotLookInside`).
     case couldNotLookInside
-    /// A folder inside holds more entries than Peel reads, so `RemovalGuard` refuses to move it.
+    /// A folder inside holds more entries than a look reads, so only a move the person asks for in the app moves it,
+    /// once `RemovalGuard` has looked through it whole.
     case tooManyToLookThrough
+    /// A folder an area lists holds more items than a scan reads, so what is inside it isn't listed.
+    case tooManyToList
     /// In this account's temporary folder and marked so nothing may move it (`SF_NOUNLINK`): macOS removes it at the
     /// next startup.
     case goneAtNextStartup
@@ -228,7 +231,7 @@ public enum HoldBack: String, Sendable, Hashable {
     /// would refuse to move it.
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
-            || self == .couldNotLookInside || self == .tooManyToLookThrough || self == .goneAtNextStartup
+            || self == .couldNotLookInside || self == .tooManyToList || self == .goneAtNextStartup
             || self == .beyondTheHelper || self == .onAReadOnlyDisk
             || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension

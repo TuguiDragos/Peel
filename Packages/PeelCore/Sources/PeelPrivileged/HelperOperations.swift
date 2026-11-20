@@ -38,6 +38,9 @@ public enum HelperOperations {
 
         var failed: [String: String] = [:]
         var items: [(path: String, item: OpenItem)] = []
+        // The app asks to move only what the person chose, so a folder too full for a quick look is read whole, as
+        // the app reads it, until the request's time runs out.
+        let look = ProtectedData.WholeLook(stoppingWhen: { ContinuousClock.now >= deadline })
         for path in paths {
             guard !HelperRequest.isTooLong(path) else {
                 failed[path] = HelperRefusal.pathTooLong.rawValue
@@ -47,7 +50,7 @@ public enum HelperOperations {
                 failed[path] = HelperRefusal.ranOutOfTime.rawValue
                 continue
             }
-            switch policy.open(path) {
+            switch ProtectedData.WholeLook.$current.withValue(look, operation: { policy.open(path) }) {
             case .failure(let rejection): failed[path] = rejection.explanation
             case .success(let item): items.append((path, item))
             }

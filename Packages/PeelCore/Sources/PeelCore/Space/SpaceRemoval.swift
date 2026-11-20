@@ -238,7 +238,7 @@ public enum SpaceRemoval {
             case .names(let names):
                 children = names.map { folder.appending(path: $0) }
             case .holdsTooMany:
-                closed.append((folder, .tooManyToLookThrough))
+                closed.append((folder, .tooManyToList))
                 return
             case .missing:
                 return

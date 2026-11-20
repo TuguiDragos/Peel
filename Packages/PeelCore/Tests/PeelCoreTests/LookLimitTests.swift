@@ -69,7 +69,7 @@ struct LookLimitTests {
         let scan = await LeftoverScanner(environment: environment).scan(app, installedApps: [app])
         let found = try #require(scan.leftovers.first { $0.url.lastPathComponent == "net.example.client" })
         #expect(found.match.heldBack == .tooManyToLookThrough)
-        #expect(found.match.heldBack?.cannotBeMoved == true)
+        #expect(found.match.heldBack?.cannotBeMoved == false)
 
         let orphans = await OrphanScanner(environment: environment) { _ in false }.scan(installedApps: [])
         let orphan = try #require(orphans.groups.flatMap(\.items).first { $0.url.lastPathComponent == "net.example.client" })
