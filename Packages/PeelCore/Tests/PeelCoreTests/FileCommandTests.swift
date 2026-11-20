@@ -1007,6 +1007,18 @@ struct FileCommandTests {
         #expect(!DuplicatesCommand.nothingToMove(in: scan([shared])).contains("syncs"))
         #expect(DuplicatesCommand.nothingToMove(in: scan([shared])).contains("/Users/Shared"))
         #expect(DuplicatesCommand.rows(for: shared).map(\.first) == ["keep", "shared"])
+        let folders = DuplicateFolderGroup(id: "c", folders: ["/Users/me/Photos", "/Users/Shared/Photos"].map { path in
+            DuplicateFolder(
+                url: URL(filePath: path, directoryHint: .isDirectory), fileCount: 1, size: 100, reclaimableSize: 100,
+                contents: "", neverProjects: []
+            )
+        })
+        let onlyFolders = DuplicateScan(
+            groups: [], folderGroups: [folders], unreadableLocations: [], skippedLocations: [],
+            needsFullDiskAccess: false
+        )
+        #expect(DuplicatesCommand.nothingToMove(in: onlyFolders).contains("/Users/Shared"))
+        #expect(DuplicatesCommand.rows(for: folders).map(\.first) == ["keep", "shared"])
     }
 
     /// `peel duplicates --json` names the folders it couldn't read and the chosen folders it didn't look in.

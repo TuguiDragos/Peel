@@ -921,6 +921,33 @@ struct DuplicateFinderTests {
         #expect(scan.reclaimableSize == .max)
     }
 
+    @Test func neverSuggestsAFolderEveryAccountShares() {
+        func folder(_ path: String) -> DuplicateFolder {
+            DuplicateFolder(
+                url: URL(filePath: path, directoryHint: .isDirectory), fileCount: 1, size: 100, reclaimableSize: 100,
+                contents: "", neverProjects: []
+            )
+        }
+        let shared = DuplicateFolderGroup(id: "a", folders: [folder("/Users/me/Photos"), folder("/Users/Shared/Photos")])
+        let three = DuplicateFolderGroup(
+            id: "b", folders: [folder("/Users/me/Film"), folder("/Users/Shared/Film"), folder("/Users/me/Old/Film")]
+        )
+        func scan(_ folderGroups: [DuplicateFolderGroup]) -> DuplicateScan {
+            DuplicateScan(
+                groups: [], folderGroups: folderGroups, unreadableLocations: [], skippedLocations: [],
+                needsFullDiskAccess: false
+            )
+        }
+        let old = URL(filePath: "/Users/me/Old/Film", directoryHint: .isDirectory)
+
+        #expect(scan([shared, three]).suggestedFolderSelection == [old])
+        let recommended = scan([shared, three]).selectingRecommended(in: [], [shared, three], files: [], folders: [])
+        #expect(recommended.folders == [old])
+        #expect(shared.reclaimableSize == 0 && three.reclaimableSize == 100)
+        #expect(scan([shared, three]).groupsWithSomethingToMove == 1)
+        #expect(scan([shared]).whyNothingMoves == .theOthersAreShared)
+    }
+
     @Test func prefersACopyOutsideTheFolderEveryAccountSharesAndNeverSuggestsOneThere() async throws {
         let order = DuplicateFinder.KeepOrder(home: URL(filePath: "/Users/me", directoryHint: .isDirectory))
         let identity = FileIdentity(stat())

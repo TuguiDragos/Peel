@@ -1095,6 +1095,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
         }
     }
 
+    /// "keep" for the first folder, "shared" for one in /Users/Shared.
+    static func rows(for group: DuplicateFolderGroup) -> [[String]] {
+        group.folders.enumerated().map { index, folder in
+            [index == 0 ? "keep" : folder.isSharedWithEveryone ? "shared" : "", Output.path(folder.url)]
+        }
+    }
+
     /// What `clean` says when there is nothing to move, and why.
     static func nothingToMove(in scan: DuplicateScan) -> String {
         switch scan.whyNothingMoves {
@@ -1112,7 +1119,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         recordingIn log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
     ) async throws {
-        let folders = scan.folderGroups.flatMap { $0.folders.dropFirst() }
+        let folders = scan.folderGroups.flatMap(\.suggestedFolders)
         let files = scan.groups.flatMap(\.suggestedFiles)
         guard !folders.isEmpty || !files.isEmpty else {
             Output.line(Self.nothingToMove(in: scan))
@@ -1120,7 +1127,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         }
         // Where each group's kept copy is comes first, and the copies that sync, which stay: it is what the
         // decision rests on.
-        let kept = scan.folderGroups.compactMap { $0.folders.first?.url }.map { ["keep", Output.path($0)] }
+        let kept = scan.folderGroups.flatMap { group in Self.rows(for: group).filter { $0[0] != "" } }
             + scan.groups.flatMap { group in
                 Self.rows(for: group).filter { $0[0] != "" }
             }

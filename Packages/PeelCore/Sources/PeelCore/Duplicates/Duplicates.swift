@@ -141,6 +141,10 @@ public struct DuplicateFolder: Sendable, Hashable, Identifiable {
     let neverProjects: Set<String>
 
     public var id: URL { url }
+
+    public var isSharedWithEveryone: Bool {
+        FileAccess.isSharedWithEveryone(url)
+    }
 }
 
 public struct DuplicateFolderGroup: Sendable, Hashable, Identifiable {
@@ -157,8 +161,13 @@ public struct DuplicateFolderGroup: Sendable, Hashable, Identifiable {
         folders.first?.fileCount ?? 0
     }
 
+    /// Every folder but the first, never one in `/Users/Shared`.
+    public var suggestedFolders: [DuplicateFolder] {
+        folders.dropFirst().filter { !$0.isSharedWithEveryone }
+    }
+
     public var reclaimableSize: Int64 {
-        folders.dropFirst().map(\.reclaimableSize).cappedSum
+        suggestedFolders.map(\.reclaimableSize).cappedSum
     }
 
     public func matches(_ query: String) -> Bool {
@@ -214,7 +223,7 @@ public struct DuplicateScan: Sendable {
     }
 
     public var suggestedFolderSelection: Set<URL> {
-        Set(folderGroups.flatMap { $0.folders.dropFirst().map(\.url) })
+        Set(folderGroups.flatMap { $0.suggestedFolders.map(\.url) })
     }
 
     /// What a scan run under `exclusions` would have left out: every copy or folder that is excluded or sits
@@ -230,11 +239,9 @@ public struct DuplicateScan: Sendable {
         return Set(files + folders)
     }
 
-    /// How many groups moving copies would free something in. A group of files counts only with a copy to suggest,
-    /// since one always stays; a folder that syncs to other devices is never offered, so every group of folders
-    /// counts.
+    /// How many groups have a copy or a folder to suggest.
     public var groupsWithSomethingToMove: Int {
-        groups.count { !$0.suggestedFiles.isEmpty } + folderGroups.count
+        groups.count { !$0.suggestedFiles.isEmpty } + folderGroups.count { !$0.suggestedFolders.isEmpty }
     }
 
     /// Why no copy would move, for a scan that found copies and suggests none of them.
@@ -249,9 +256,13 @@ public struct DuplicateScan: Sendable {
 
     /// Why nothing would move, or nil when something would or nothing was found.
     public var whyNothingMoves: NothingMoves? {
-        guard !groups.isEmpty, groupsWithSomethingToMove == 0 else { return nil }
-        if groups.allSatisfy(\.holdsASyncedCopy) { return .everyOtherCopySyncs }
-        if groups.allSatisfy({ $0.files.contains(where: \.isSharedWithEveryone) }) { return .theOthersAreShared }
+        guard !groups.isEmpty || !folderGroups.isEmpty, groupsWithSomethingToMove == 0 else { return nil }
+        // A folder that syncs to other devices is never offered.
+        if folderGroups.isEmpty, groups.allSatisfy(\.holdsASyncedCopy) { return .everyOtherCopySyncs }
+        if groups.allSatisfy({ $0.files.contains(where: \.isSharedWithEveryone) }),
+           folderGroups.allSatisfy({ $0.folders.contains(where: \.isSharedWithEveryone) }) {
+            return .theOthersAreShared
+        }
         return .theOthersStay
     }
 
@@ -273,7 +284,7 @@ public struct DuplicateScan: Sendable {
         let cleared = deselecting(groups, folderGroups, files: files, folders: folders)
         return (
             cleared.files.union(groups.flatMap(\.suggestedFiles).map(\.url)),
-            cleared.folders.union(folderGroups.flatMap { $0.folders.dropFirst() }.map(\.url))
+            cleared.folders.union(folderGroups.flatMap(\.suggestedFolders).map(\.url))
         )
     }
 
