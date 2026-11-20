@@ -11,7 +11,7 @@ struct HistoryList: View {
     /// the next answer is worked out.
     @State private var found: Found?
     @State private var showsOnlyWhatLeft = false
-    /// What the filter's look found, while the filter is on and once Peel has looked.
+    /// What left the Trash, once Peel has looked: the filter and each row's badge read it.
     @State private var leftTheTrash: Left?
     /// How many looks changed the rows the filter lists while it stayed on.
     @State private var changesUnderTheFilter = 0
@@ -25,6 +25,8 @@ struct HistoryList: View {
         /// The removals something has left the Trash from. One only partly gone is among them: Forget takes from a
         /// removal only what has left.
         let removals: Set<RemovalBatch.ID>
+        /// How many items of each removal have left the Trash.
+        let gone: [RemovalBatch.ID: Int]
         /// How many other items are on a disk that isn't connected, and how many Peel can't look at.
         let away: Int
         let notKnown: Int
@@ -69,7 +71,10 @@ struct HistoryList: View {
 
         List(selection: $history.selection) {
             ForEach(listed) { batch in
-                HistoryBatchRow(batch: batch)
+                HistoryBatchRow(
+                    batch: batch,
+                    left: leftTheTrash.flatMap { Self.leftKind(gone: $0.gone[batch.id] ?? 0, of: batch.records.count) }
+                )
             }
             // No heading when the list would start with it: a list that begins with a heading and fills all at
             // once keeps its rows at the table's default height.
@@ -88,6 +93,16 @@ struct HistoryList: View {
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .edgeBar(.top) {
             VStack(spacing: 8) {
+                if showsOnlyWhatLeft, let left = leftTheTrash {
+                    let shown = history.batches.count { left.removals.contains($0.id) }
+                    if shown > 0 {
+                        Notice(
+                            title: Text(verbatim: Self.filterSummary(shown: shown, total: history.batches.count)),
+                            detail: nil,
+                            kind: .note
+                        ) { EmptyView() }
+                    }
+                }
                 if let problem = history.shownProblem {
                     HistoryProblemNotice(problem: problem)
                         .transition(.opacity)
@@ -163,7 +178,8 @@ struct HistoryList: View {
                     Label("Show Only What Left the Trash", systemImage: "line.3.horizontal.decrease")
                 }
                 .toggleStyle(.button)
-                .help(Text("Show Only What Left the Trash"))
+                .help(history.hasLoaded && history.batches.isEmpty
+                    ? Text("There is no removal to filter yet.") : Text("Show Only What Left the Trash"))
                 .disabled(!history.hasLoaded || history.batches.isEmpty && !showsOnlyWhatLeft)
             }
             ToolbarItem {
@@ -188,17 +204,18 @@ struct HistoryList: View {
         .onChange(of: history.batches.isEmpty) { _, isEmpty in
             if isEmpty { showsOnlyWhatLeft = false }
         }
-        .task(id: Self.look(isOn: showsOnlyWhatLeft, in: history)) {
-            guard showsOnlyWhatLeft else {
-                leftTheTrash = nil
-                return
-            }
+        .task(id: Self.look(in: history)) {
             let left = await RemovalStanding.leftTheTrash(history.records)
             guard !Task.isCancelled else { return }
-            if Self.changesRows(history.batches, from: leftTheTrash?.removals, to: left.removals) {
+            if showsOnlyWhatLeft, Self.changesRows(history.batches, from: leftTheTrash?.removals, to: left.removals) {
                 changesUnderTheFilter += 1
             }
-            leftTheTrash = Left(removals: left.removals, away: left.away, notKnown: left.notKnown)
+            leftTheTrash = Left(
+                removals: left.removals,
+                gone: Dictionary(grouping: left.records, by: \.batch).mapValues(\.count),
+                away: left.away,
+                notKnown: left.notKnown
+            )
         }
         .task(id: Search(text: searchText, revision: history.revision)) {
             guard !searchText.isEmpty else {
@@ -311,16 +328,32 @@ extension HistoryList {
         return batches.contains { shown.contains($0.id) != new.contains($0.id) }
     }
 
-    /// What starts the filter's look again: turning it on, other lists, or the Trash looked at again, as when Peel
+    /// What starts the look at what left the Trash again: other lists, or the Trash looked at again, as when Peel
     /// comes forward once the Trash was emptied, which changes nothing History lists.
     struct Look: Hashable {
-        let isOn: Bool
         let revision: Int
         let trashLooks: Int
     }
 
-    static func look(isOn: Bool, in history: RemovalHistoryStore) -> Look {
-        Look(isOn: isOn, revision: history.revision, trashLooks: history.trashLooks)
+    static func look(in history: RemovalHistoryStore) -> Look {
+        Look(revision: history.revision, trashLooks: history.trashLooks)
+    }
+
+    /// How much of a removal has left the Trash, which its row says.
+    enum LeftKind {
+        case all, part
+    }
+
+    static func leftKind(gone: Int, of total: Int) -> LeftKind? {
+        guard gone > 0 else { return nil }
+        return gone >= total ? .all : .part
+    }
+
+    /// What the filter shows, said above the list while it is on.
+    static func filterSummary(shown: Int, total: Int) -> String {
+        shown == total
+            ? String(localized: "Every removal here moved something that has left the Trash since, so the filter hides only Not Moved.")
+            : String(inflecting: "Showing \(shown) of ^[\(total) removal](inflect: true): those that moved something that has left the Trash since. Not Moved is hidden.")
     }
 
     private func check(_ removals: [RemovalBatch], _ entries: [RefusalBatch]) {
@@ -431,6 +464,7 @@ private struct RefusalProblemNotice: View {
 private struct HistoryBatchRow: View {
     @Environment(RemovalHistoryStore.self) private var history
     let batch: RemovalBatch
+    let left: HistoryList.LeftKind?
 
     private var isChecked: Binding<Bool> {
         Binding(
@@ -462,6 +496,12 @@ private struct HistoryBatchRow: View {
                     Text(batch.date, format: .relative(presentation: .named))
                 }
                     .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))
+                if let left {
+                    Badge(
+                        title: left == .all ? Text("Left the Trash") : Text("Partly left the Trash"),
+                        systemImage: "trash.slash"
+                    )
+                }
             }
             .lineLimit(1)
         }

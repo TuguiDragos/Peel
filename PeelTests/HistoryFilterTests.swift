@@ -38,13 +38,27 @@ struct HistoryFilterTests {
         await record([["One"]], into: history, trash: trash)
         try Data().write(to: trash.appending(path: "One"))
         await history.load()
-        let before = HistoryList.look(isOn: true, in: history)
+        let before = HistoryList.look(in: history)
 
         try FileManager.default.removeItem(at: trash.appending(path: "One"))
         await history.reload()
 
         #expect(history.batches.count == 1)
-        #expect(HistoryList.look(isOn: true, in: history) != before, "the filter kept what it found before the Trash was emptied")
+        #expect(HistoryList.look(in: history) != before, "the filter kept what it found before the Trash was emptied")
+    }
+
+    @Test func saysWhatTheFilterShowsAndWhatEachRemovalLeft() {
+        #expect(
+            HistoryList.filterSummary(shown: 23, total: 33)
+                == "Showing 23 of 33 removals: those that moved something that has left the Trash since. Not Moved is hidden."
+        )
+        #expect(
+            HistoryList.filterSummary(shown: 4, total: 4)
+                == "Every removal here moved something that has left the Trash since, so the filter hides only Not Moved."
+        )
+        #expect(HistoryList.leftKind(gone: 3, of: 3) == .all)
+        #expect(HistoryList.leftKind(gone: 1, of: 3) == .part)
+        #expect(HistoryList.leftKind(gone: 0, of: 3) == nil)
     }
 
     @Test func listsEveryRemovalSomethingHasLeftTheTrashOf() async throws {
