@@ -249,9 +249,11 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   was made for fails; the folder `PreferenceBackup` makes for a reset's saved settings, when saving fails while it is
   still empty; the folders Put Back makes on the way back (`DirectoryHandle.child(_:makingIfMissing:)`), when the item
   then stays in the Trash and each is still the empty folder it made; the folder Remove Peel gathers its own files in
-  (`SelfRemoval`), once they are back out of it because its move was refused; and the empty file cfprefsd writes back
-  where a moved settings file was when `PreferenceCleanup` forgets a domain it still holds, which would keep History
-  from putting that file back. Peel's list of refusals, with any copy of it set aside because it couldn't be read, goes
+  (`SelfRemoval`), once they are back out of it because its move was refused; the empty file cfprefsd writes back where
+  a moved settings file was when `PreferenceCleanup` forgets a domain it still holds, which would keep History from
+  putting that file back; and the key of History's seal, which Remove Peel deletes from the keychain once History is in
+  the Trash (`HistorySeal.forgetTheKeychainKey`), found by its service and account, never by its name. Peel's list of
+  refusals, with any copy of it set aside because it couldn't be read, goes
   to the Trash when `peel history --refused --clear` asks. Five actions can't be undone by History, and each says so
   where it is confirmed: Homebrew's own uninstall and cleanups, a cask's upgrade, which deletes the app version it
   replaces (`HomebrewUpgradeWarning`), resetting an app's privacy permissions, and Force Quit for an app that is still

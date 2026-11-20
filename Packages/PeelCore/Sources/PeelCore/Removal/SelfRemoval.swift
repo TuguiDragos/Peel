@@ -17,6 +17,8 @@ public enum SelfRemoval {
         let resumeWork: () async -> Void
         /// Unregisters Peel as a login item, answering whether Peel still opens at login.
         let unregisterLoginItem: () async -> Bool
+        /// Deletes the key History's seal is made with, answering whether it is gone.
+        let forgetHistoryKey: () async -> Bool
 
         public init(
             helperIsRegistered: @escaping () async -> Bool,
@@ -39,7 +41,8 @@ public enum SelfRemoval {
                     // still there.
                     try? await SMAppService.mainApp.unregister()
                     return [.enabled, .requiresApproval].contains(SMAppService.mainApp.status)
-                }
+                },
+                forgetHistoryKey: { await HistorySeal.forgetTheKeychainKey() }
             )
         }
 
@@ -53,7 +56,8 @@ public enum SelfRemoval {
             uninstallHelper: @escaping () async -> String?,
             pauseWork: @escaping () async -> Void,
             resumeWork: @escaping () async -> Void,
-            unregisterLoginItem: @escaping () async -> Bool
+            unregisterLoginItem: @escaping () async -> Bool,
+            forgetHistoryKey: @escaping () async -> Bool = { true }
         ) {
             self.helperIsRegistered = helperIsRegistered
             self.helperIsEnabled = helperIsEnabled
@@ -65,13 +69,15 @@ public enum SelfRemoval {
             self.pauseWork = pauseWork
             self.resumeWork = resumeWork
             self.unregisterLoginItem = unregisterLoginItem
+            self.forgetHistoryKey = forgetHistoryKey
         }
     }
 
     public enum Outcome: Equatable {
         case stayed(Stay)
-        /// Peel's app is in the Trash. `stayed` is what didn't go with it, the helper's ledger included.
-        case moved(app: TrashedItem, stayed: [TrashFailure], opensAtLogin: Bool)
+        /// Peel's app is in the Trash. `stayed` is what didn't go with it, the helper's ledger included, and
+        /// `keyStays` whether the key of History's seal is still in the keychain.
+        case moved(app: TrashedItem, stayed: [TrashFailure], opensAtLogin: Bool, keyStays: Bool)
     }
 
     /// Why Remove Peel would move nothing of Peel's from where it runs.
@@ -215,7 +221,9 @@ public enum SelfRemoval {
             // A helper uninstalled before Peel leaves its ledger to an administrator.
             stayed.append(TrashFailure(url: steps.ledger, reason: .failed(PrivilegedHelper.leftBehind)))
         }
-        return .moved(app: moved, stayed: stayed, opensAtLogin: opensAtLogin)
+        // The key seals History, so it goes only once History has gone to the Trash with Peel's folder.
+        let keyIsGone = RemovalHistory.url(in: folder).isMissing ? await steps.forgetHistoryKey() : false
+        return .moved(app: moved, stayed: stayed, opensAtLogin: opensAtLogin, keyStays: !keyIsGone)
     }
 
     /// Moves `app` to the Trash, then the rest of `urls` once it has moved, and then `folder`, all but the Terminal

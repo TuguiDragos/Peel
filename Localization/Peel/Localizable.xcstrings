@@ -249875,6 +249875,112 @@
         }
       }
     },
+    "The key named Peel History is still in your keychain: delete it in Keychain Access." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klíč s názvem Peel History je stále ve vaší klíčence: smažte ho v aplikaci Klíčenka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Schlüssel namens Peel History ist noch in deinem Schlüsselbund: Lösche den Schlüssel in der Schlüsselbundverwaltung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La clave llamada Peel History sigue en tu llavero: bórrala en Acceso a Llaveros."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La clé nommée Peel History est toujours dans votre trousseau : supprimez-la dans Trousseaux d’accès."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La chiave chiamata Peel History è ancora nel tuo portachiavi: eliminala in Accesso Portachiavi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel Historyという名前のキーがまだキーチェーンに残っています。“キーチェーンアクセス”で削除してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel History라는 키가 아직 키체인에 있습니다. 키체인 접근에서 삭제하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De sleutel met de naam Peel History staat nog steeds in je sleutelhanger: verwijder deze sleutel in Sleutelhangertoegang."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klucz o nazwie Peel History nadal jest w Twoim pęku kluczy: usuń go w aplikacji Dostęp do pęku kluczy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A chave chamada Peel History ainda está nas suas chaves: apague-a no Acesso às Chaves."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cheia numită Peel History este încă în portcheiul dvs.: ștergeți‑o din Acces portchei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ключ с именем Peel History по-прежнему находится в Вашей связке ключей: удалите его в приложении «Связка ключей»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nyckeln med namnet Peel History finns fortfarande i din nyckelring: radera den i Nyckelhanterare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel History adlı anahtar hâlâ anahtar zincirinizde: onu Anahtar Zinciri Erişimi’nde silin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ключ із назвою Peel History досі у вашій вʼязці: видаліть його в програмі «Ключар»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名为Peel History的密钥仍在你的钥匙串中：请在“钥匙串访问”中将其删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名為Peel History的密鑰仍在你的鑰匙圈中：請在「鑰匙圈存取」中將它刪除。"
+          }
+        }
+      }
+    },
     "The last answer Peel could read came %@." : {
       "localizations" : {
         "cs" : {

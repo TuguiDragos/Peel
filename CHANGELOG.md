@@ -1155,7 +1155,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Put Back no longer believes a record another program wrote: one whose seal does not match moves nothing, and one with
   no seal, from an earlier version or from `peel`, goes back into Desktop, Documents, Downloads, iCloud Drive, or
   another app's container only once you say so. Any program of your account could write History's file, and Put Back,
-  which reaches those places with Full Disk Access, followed it.
+  which reaches those places with Full Disk Access, followed it. The key is named Peel History, and Remove Peel deletes
+  it once History is in the Trash, or says it stayed.
 - Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
   in `/Library/Preferences`, `/Library/LaunchDaemons`, `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, and
   `/Library/Application Support`, such as `com.apple.loginwindow.plist`, and the network settings in

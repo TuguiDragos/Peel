@@ -60,7 +60,7 @@ struct DocumentationTests {
             ("SAFETY.md", "and the \(LibraryFolder.plugIns.count) that hold plug-ins"),
             ("ARCHITECTURE.md", "at most \(HelperRequest.maximumItems) items"),
             ("ARCHITECTURE.md", "JSON keeps each value whole"),
-            ("AGENTS.md", "Peel deletes outright only five things"),
+            ("AGENTS.md", "Peel deletes outright only six things"),
             ("ARCHITECTURE.md", "answers, within \(Int(PrivilegedHelper.answerWait)) seconds"),
             ("ARCHITECTURE.md", "at most \(Int(PrivilegedHelper.requestWait)) seconds for a request"),
             ("ARCHITECTURE.md", "begins nothing of a request after \(Int(HelperRequest.timeToMove)) seconds"),
@@ -102,7 +102,7 @@ struct DocumentationTests {
     }
 
     @Test func everyPlaceThatDeletesOutrightIsOneTheDocumentsName() throws {
-        let call = try Regex(#"\b(unlinkat?|rmdir|removefile|removeItem)\("#)
+        let call = try Regex(#"\b(unlinkat?|rmdir|removefile|removeItem|SecItemDelete)\("#)
         var calls: [String: Int] = [:]
         for file in try LineLengthTests.swiftFiles() where !file.path(percentEncoded: false).contains("/Tests/") {
             let code = try String(contentsOf: file, encoding: .utf8).split(separator: "\n")
@@ -113,6 +113,7 @@ struct DocumentationTests {
 
         #expect(calls == [
             "TrashMover.swift": 2, "PreferenceBackup.swift": 1, "DirectoryHandle.swift": 3, "SelfRemoval.swift": 1,
+            "HistorySeal.swift": 1,
         ], "Name a new one in AGENTS.md, SAFETY.md, and ARCHITECTURE.md, and say why it holds nothing of the person's.")
     }
 

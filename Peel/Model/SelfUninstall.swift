@@ -191,7 +191,7 @@ final class SelfUninstall {
             using: TrashService(exclusions: exclusions),
             recording: record
         )
-        guard case .moved(let moved, let stayed, let opensAtLogin) = outcome else {
+        guard case .moved(let moved, let stayed, let opensAtLogin, let keyStays) = outcome else {
             if case .stayed(let stay) = outcome {
                 tell(.stayed(Self.failure(for: stay)), words)
             }
@@ -206,6 +206,9 @@ final class SelfUninstall {
         )
         if opensAtLogin {
             lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions.", bundle: words))
+        }
+        if keyStays {
+            lines.append(String(localized: "The key named Peel History is still in your keychain: delete it in Keychain Access.", bundle: words))
         }
         guard lines.isEmpty else {
             tell(.leftBehind(lines.joined(separator: "\n\n")), words)

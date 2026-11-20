@@ -44,6 +44,13 @@ public struct HistorySeal: Sendable {
         fromTheKeychain.withLock { $0 = seal }
     }
 
+    /// Deletes the key's item, found by its service and account, never by its name, answering whether it is gone. Away
+    /// from the main thread, since a locked keychain asks the person first.
+    @concurrent public static func forgetTheKeychainKey() async -> Bool {
+        fromTheKeychain.withLock { $0 = nil }
+        return KeychainKey.delete()
+    }
+
     func seal(_ record: RemovalRecord) -> Data {
         Data(HMAC<SHA256>.authenticationCode(for: Self.message(of: record), using: key))
     }
@@ -108,8 +115,9 @@ public struct HistorySeal: Sendable {
 
 /// The key of History's seal, a generic password in the Keychain that only the app that made it reads without
 /// macOS asking the person.
-private enum KeychainKey {
-    private static var query: [String: Any] {
+enum KeychainKey {
+    /// The item, by its class, service, and account alone, so an item another program named alike is never it.
+    static var query: [String: Any] {
         [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "com.tuguidragos.Peel.History",
@@ -130,6 +138,10 @@ private enum KeychainKey {
         default:
             return nil
         }
+    }
+
+    static func delete() -> Bool {
+        [errSecSuccess, errSecItemNotFound].contains(SecItemDelete(query as CFDictionary))
     }
 
     private static func make() -> SymmetricKey? {

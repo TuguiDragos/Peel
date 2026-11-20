@@ -303,7 +303,11 @@ extension Sequence<RemovalRecord> {
 /// writes it, so the file is changed from one place.
 public enum RemovalHistory {
     public static var defaultURL: URL {
-        PeelFolder.url.appending(path: "removals.json")
+        url(in: PeelFolder.url)
+    }
+
+    static func url(in folder: URL) -> URL {
+        folder.appending(path: "removals.json")
     }
 
     /// The record of what Peel refused to move. It is a file of its own because Put Back reads every row of the

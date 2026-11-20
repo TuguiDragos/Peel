@@ -578,10 +578,11 @@ In Settings > General, choose Remove Peel. Peel then:
 - moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but
   the Terminal settings zsh and ssh read and anything in it you excluded in Settings. That folder holds History, your
   exclusions, App Folders, and the settings Peel saved when you reset an app, among others;
+- deletes from your keychain the key it seals History with, named Peel History, once History is in the Trash;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
-The key Peel seals History with stays in your keychain, named Peel History; delete it in Keychain Access if you want it
-gone.
+When the key stays, because History stayed or the keychain kept it, Remove Peel says so, and you can delete it in
+Keychain Access.
 
 Remove Peel takes no step, and says so before you choose it, while Peel itself can't move. From a folder this account
 can't change, it says who can: log in as the account Peel belongs to, or as an administrator, and choose it there, or,

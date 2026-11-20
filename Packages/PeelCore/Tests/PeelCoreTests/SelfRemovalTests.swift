@@ -1,6 +1,8 @@
 import Foundation
+import Security
 @testable import PeelCore
 import PeelPrivileged
+import Synchronization
 import Testing
 
 private actor HelperRequests {
@@ -72,7 +74,8 @@ struct SelfRemovalTests {
         _ log: StepLog,
         in directory: borrowing TemporaryDirectory,
         helperMayBeChanged: Bool = true,
-        ledgerMove: PrivilegedHelper.LedgerMove = .moved
+        ledgerMove: PrivilegedHelper.LedgerMove = .moved,
+        forgetHistoryKey: @escaping () async -> Bool = { true }
     ) -> SelfRemoval.Steps {
         SelfRemoval.Steps(
             helperIsRegistered: { await log.helperIsRegistered },
@@ -84,7 +87,8 @@ struct SelfRemovalTests {
             uninstallHelper: { await log.uninstallHelper() },
             pauseWork: { await log.note("pause") },
             resumeWork: { await log.note("resume") },
-            unregisterLoginItem: { await log.note("login item"); return false }
+            unregisterLoginItem: { await log.note("login item"); return false },
+            forgetHistoryKey: forgetHistoryKey
         )
     }
 
@@ -108,7 +112,7 @@ struct SelfRemovalTests {
 
         #expect(await log.steps == ["pause", "move ledger", "uninstall helper", "login item"])
         #expect(paths(await requests.sent) == paths([link]))
-        guard case .moved(let moved, let stayed, let opensAtLogin) = outcome else {
+        guard case .moved(let moved, let stayed, let opensAtLogin, _) = outcome else {
             Issue.record("Peel stayed: \(outcome)")
             return
         }
@@ -118,6 +122,64 @@ struct SelfRemovalTests {
         let recorded = await log.recorded.flatMap(\.trashed).map(\.originalURL)
         #expect(paths(recorded) == paths([link, app, cache]))
         #expect(!folder.isThere)
+    }
+
+    @Test(arguments: [true, false])
+    func forgetsTheKeyOfHistorysSealOnceHistoryIsInTheTrash(keyGoes: Bool) async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let history = try directory.file("home/Library/Application Support/Peel/removals.json")
+        let historyWasThere = Mutex<[Bool]>([])
+        let steps = steps(StepLog(helperIsRegistered: false), in: directory) {
+            historyWasThere.withLock { $0.append(history.isThere) }
+            return keyGoes
+        }
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps, using: try service(in: directory)
+        ) { _ in }
+
+        guard case .moved(_, _, _, let keyStays) = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
+        #expect(keyStays == !keyGoes)
+        #expect(historyWasThere.withLock { $0 } == [false])
+    }
+
+    @Test func keepsTheKeyOfHistorysSealWhileHistoryStays() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let history = try directory.file("home/Library/Application Support/Peel/removals.json")
+        let program = try directory.runningProgram("home/Library/Application Support/Peel/Tools/runner")
+        defer { program.terminate() }
+        let asked = Mutex(0)
+        let steps = steps(StepLog(helperIsRegistered: false), in: directory) {
+            asked.withLock { $0 += 1 }
+            return true
+        }
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps, using: try service(in: directory)
+        ) { _ in }
+
+        guard case .moved(_, let stayed, _, let keyStays) = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
+        #expect(paths(stayed.map(\.url)) == paths([folder]))
+        #expect(history.isThere)
+        #expect(keyStays)
+        #expect(asked.withLock { $0 } == 0)
+    }
+
+    @Test func theKeyIsFoundByItsServiceAndAccountAndNeverByItsName() {
+        let query = KeychainKey.query
+        #expect(Set(query.keys) == [kSecClass as String, kSecAttrService as String, kSecAttrAccount as String])
+        #expect(query[kSecAttrService as String] as? String == "com.tuguidragos.Peel.History")
+        #expect(query[kSecAttrAccount as String] as? String == "seal")
     }
 
     @Test func removesPeelWithNoHelperRegistered() async throws {
@@ -132,7 +194,7 @@ struct SelfRemovalTests {
         ) { _ in }
 
         #expect(await log.steps == ["pause", "login item"])
-        guard case .moved(_, let stayed, _) = outcome else {
+        guard case .moved(_, let stayed, _, _) = outcome else {
             Issue.record("Peel stayed: \(outcome)")
             return
         }
@@ -151,7 +213,7 @@ struct SelfRemovalTests {
             using: try service(in: directory)
         ) { _ in }
 
-        guard case .moved(_, let stayed, _) = outcome else {
+        guard case .moved(_, let stayed, _, _) = outcome else {
             Issue.record("Peel stayed: \(outcome)")
             return
         }
@@ -172,7 +234,7 @@ struct SelfRemovalTests {
             steps: steps(log, in: directory, ledgerMove: .stayed(unanswered)), using: try service(in: directory)
         ) { _ in }
 
-        guard case .moved(_, let stayed, _) = outcome else {
+        guard case .moved(_, let stayed, _, _) = outcome else {
             Issue.record("Peel stayed: \(outcome)")
             return
         }
