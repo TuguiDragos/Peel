@@ -143,34 +143,13 @@ struct HistoryList: View {
         }
         .focusedSceneValue(\.selectRows, listed.isEmpty && refused.isEmpty ? nil : selectCommands(listed, refused))
         .overlay {
-            switch Self.emptyState(
+            let state = Self.emptyState(
                 hasLoaded: history.hasLoaded, isKnownEmpty: history.isKnownEmpty, filterIsOn: showsOnlyWhatLeft,
                 leftTheTrash: leftTheTrash?.removals.count, listsNothing: listed.isEmpty && refused.isEmpty,
                 isSearching: !searchText.isEmpty
-            ) {
-            case .looking:
-                ProgressView()
-            case .nothingHasLeftTheTrash:
-                ContentUnavailableView(
-                    "Nothing Has Left the Trash",
-                    systemImage: "trash",
-                    description: Text(
-                        verbatim: Self.nothingLeftDetail(
-                            away: leftTheTrash?.away ?? 0, notKnown: leftTheTrash?.notKnown ?? 0
-                        )
-                    )
-                )
-            case .noRemovals:
-                // Put Back and Forget can empty a History Peel did write to.
-                ContentUnavailableView(
-                    stats.hasCleaned || history.noLongerListed > 0 ? "No Removals" : "Nothing Removed Yet",
-                    systemImage: "clock.arrow.circlepath",
-                    description: Text("What you move to the Trash with Peel shows up here, and can be put back while it’s still in the Trash.")
-                )
-            case .nothingFound:
-                ContentUnavailableView.search(text: searchText)
-            case nil:
-                EmptyView()
+            )
+            BusyShown(isBusy: state == .looking) { lookShows in
+                emptyView(Self.drawn(state, lookShows: lookShows))
             }
         }
         .fadesInColumn(whenRowsChange: history.batches.map(\.id) + history.refusalBatches.map(\.id))
@@ -236,6 +215,34 @@ struct HistoryList: View {
             found = Found(batches: batches, refusals: refusals)
         }
     }
+
+    @ViewBuilder private func emptyView(_ state: EmptyState?) -> some View {
+        switch state {
+        case .looking:
+            ProgressView()
+        case .nothingHasLeftTheTrash:
+            ContentUnavailableView(
+                "Nothing Has Left the Trash",
+                systemImage: "trash",
+                description: Text(
+                    verbatim: Self.nothingLeftDetail(
+                        away: leftTheTrash?.away ?? 0, notKnown: leftTheTrash?.notKnown ?? 0
+                    )
+                )
+            )
+        case .noRemovals:
+            // Put Back and Forget can empty a History Peel did write to.
+            ContentUnavailableView(
+                stats.hasCleaned || history.noLongerListed > 0 ? "No Removals" : "Nothing Removed Yet",
+                systemImage: "clock.arrow.circlepath",
+                description: Text("What you move to the Trash with Peel shows up here, and can be put back while it’s still in the Trash.")
+            )
+        case .nothingFound:
+            ContentUnavailableView.search(text: searchText)
+        case nil:
+            EmptyView()
+        }
+    }
 }
 
 extension HistoryList {
@@ -262,6 +269,12 @@ extension HistoryList {
         if isKnownEmpty { return .noRemovals }
         if filterIsOn, leftTheTrash == 0 { return .nothingHasLeftTheTrash }
         return listsNothing && isSearching ? .nothingFound : nil
+    }
+
+    /// What the page draws for `state`: a look's spinner only on the `Busy` timing, held while `lookShows`.
+    static func drawn(_ state: EmptyState?, lookShows: Bool) -> EmptyState? {
+        if lookShows { return .looking }
+        return state == .looking ? nil : state
     }
 
     /// What the page says under "Nothing Has Left the Trash": that Put Back can bring everything back, or, of the

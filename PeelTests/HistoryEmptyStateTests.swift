@@ -31,6 +31,15 @@ struct HistoryEmptyStateTests {
         #expect(state(filterIsOn: false, leftTheTrash: nil, isSearching: true) == .nothingFound)
     }
 
+    @Test func theSpinnerOfALookFollowsTheBusyTiming() {
+        #expect(HistoryList.drawn(.looking, lookShows: false) == nil)
+        #expect(HistoryList.drawn(.looking, lookShows: true) == .looking)
+        #expect(HistoryList.drawn(nil, lookShows: true) == .looking)
+        #expect(HistoryList.drawn(.nothingHasLeftTheTrash, lookShows: true) == .looking)
+        #expect(HistoryList.drawn(.noRemovals, lookShows: false) == .noRemovals)
+        #expect(HistoryList.drawn(nil, lookShows: false) == nil)
+    }
+
     @Test func saysWhatPeelCouldNotFindOutWhereNothingHasLeftTheTrash() {
         let everything = "Everything these removals moved is still in the Trash, so Put Back can bring it back."
         #expect(HistoryList.nothingLeftDetail(away: 0, notKnown: 0) == everything)
