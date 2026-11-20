@@ -39,6 +39,7 @@ final class ProjectLibrary {
     private(set) var needsFullDiskAccess = false
     /// The folders the last scan could not read, so what they hold isn't known.
     private(set) var unreadable: [URL] = []
+    private(set) var crowded: [CrowdedFolder] = []
     /// The folders the last scan didn't search, each with the reason.
     private(set) var unsearchable: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
     /// Folders the last Add refused, with the reason, until the next one.
@@ -100,6 +101,7 @@ final class ProjectLibrary {
         wasCutShort = scan.wasCutShort
         needsFullDiskAccess = scan.needsFullDiskAccess
         unreadable = scan.unreadableLocations
+        crowded = scan.crowded
         unsearchable = scan.refusedRoots
         let byProject = Array(Dictionary(grouping: artifacts, by: \.project))
         let result = zip(byProject, ProjectArtifacts.names(of: byProject.map(\.key)))

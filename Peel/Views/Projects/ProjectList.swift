@@ -35,6 +35,7 @@ struct ProjectList: View {
         List(selection: $projects.selection) {
             if !filtered.isEmpty {
                 UnreadableFoldersNotice(folders: projects.unreadable, needsFullDiskAccess: projects.needsFullDiskAccess)
+                SkippedFolderNotices(crowded: projects.crowded, cutShort: [], subject: .files)
             }
             if !projects.unsearchable.isEmpty, !filtered.isEmpty {
                 Notice(
