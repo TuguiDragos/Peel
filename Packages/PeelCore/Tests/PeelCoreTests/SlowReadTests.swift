@@ -5,6 +5,17 @@ import Testing
 
 /// A folder a file provider owns can hold a read in the kernel for minutes, and no answer is not an empty folder.
 struct SlowReadTests {
+    @Test func aFolderTooFullToReadIsNotKnown() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Crowded")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: folder.appending(path: "\(number)").path, contents: nil)
+        }
+
+        #expect(await SlowRead.names(in: folder) == nil)
+        #expect(await SlowRead.names(in: try directory.directory("Few")) == [])
+    }
+
     /// The read returns only after the wait has been given up on, so a busy Mac makes the test slower, never
     /// wrong.
     @Test func givesUpOnAReadThatDoesNotComeBack() async {

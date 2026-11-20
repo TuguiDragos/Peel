@@ -48,6 +48,7 @@ struct MakersFolders {
         let path = PathPattern.comparablePath(of: folder)
         var info = stat()
         guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return false }
-        return (try? FileManager.default.contentsOfDirectory(atPath: path))?.isEmpty == true
+        // Counted, not read: a folder of a million items would otherwise be read whole to learn it is not empty.
+        return ScanReads.listing(of: folder, limit: 0) == .names([])
     }
 }

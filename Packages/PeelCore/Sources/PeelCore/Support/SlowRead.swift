@@ -1,16 +1,18 @@
 import Darwin
 import Foundation
+internal import PeelPrivileged
 import Synchronization
 
 /// Runs a read that may never return on a thread of its own, and stops waiting for it when the budget runs out,
 /// the way `FileSize` walks a folder. Nil means no answer, never an empty folder.
 enum SlowRead {
     /// The names in the folder at `url`: empty for anything that is not there or is not a folder, and nil when
-    /// what it holds is not known: macOS refused to list it, the listing failed any other way, the read did not
-    /// come back in time, or the task was canceled.
+    /// what it holds is not known: macOS refused to list it, it holds more than a scan reads, the listing failed any
+    /// other way, the read did not come back in time, or the task was canceled.
     static func names(in url: URL, within budget: TimeInterval = FileSize.budget) async -> [String]? {
         let path = url.path(percentEncoded: false)
         let listed: [String]?? = await answer(within: budget) { _ in
+            if let count = FolderEntries.count(at: path), count > ScanReads.entryLimit { return nil }
             do {
                 return try FileManager.default.contentsOfDirectory(atPath: path)
             } catch {
