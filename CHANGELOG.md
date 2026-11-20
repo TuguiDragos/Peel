@@ -441,6 +441,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   again, while Peel still runs, rather than at Peel's next launch.
 - After a Move to Trash of items from several pages, Not Moved lists every item the alert says stayed, no longer one
   fewer.
+- Turning on Show Only What Left the Trash no longer flashes a spinner while Peel looks in the Trash: it shows only
+  after 150 ms, as Peel's other busy marks do.
 
 #### Settings
 
@@ -481,6 +483,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   account, and where to install it again.
 - When Peel's helper stops answering partway through Remove Peel, the last alert no longer asks to repair the helper
   once Peel is in the Trash: it says how to remove what the helper left.
+- Settings > General > Homebrew shows the chosen `brew` as it is now each time Peel comes forward, such as one on a disk
+  that was ejected or connected again.
 
 #### Applications
 
@@ -808,6 +812,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - After Stop, an upgrade ends as stopped: the sheet with Homebrew's output says Homebrew stopped, rather than that it
   couldn't finish, an app's page says so too and sends no notification, and a stop between Upgrade All's two calls no
   longer counts as a finished run.
+- A cask from a tap Homebrew does not trust says why Homebrew offers no newer version for it, with Homebrew's command to
+  trust that cask, rather than looking up to date.
 
 #### Space
 
@@ -831,6 +837,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Homebrew Data reads the name of a folder a formula keeps under `var` without the punctuation of the sentence it ends.
 - On macOS 27, the notes above Space's list, such as what macOS clears by itself, take the lines their words need, no
   longer cut off on one.
+- App Caches no longer asks you to quit a part of macOS, such as AuthenticationServicesAgent, to include its folder:
+  macOS starts its own processes again, so that folder stays as macOS's own.
+- On macOS 27, Space says how much Apple Intelligence can keep only while Apple Intelligence is turned on.
 
 #### Developer
 
