@@ -415,6 +415,10 @@ If you are unsure whether something belongs in the helper, it doesn't.
   the answer or by a timer, as `FileSize` and `SlowRead` wait. A timer that ends a wait runs at user-initiated
   quality (`Subprocess.timers`, `PrivilegedHelper.timers`): at utility quality it waits behind other utility work
   and fires seconds late on a busy Mac.
+- **A folder is counted before it is read whole.** A folder can hold a million items, and reading one whole takes
+  minutes and gigabytes, so a scan asks the file system how many it holds first (`ScanReads.listing(of:)`,
+  `FolderEntries.count`), names one holding more than `ScanReads.entryLimit` instead of reading it, and the guard leaves
+  alone a folder whose look inside meets more than `FolderEntries.lookLimit`.
 - **An object kept only by a weak reference is kept alive on purpose.** Swift may release an object after its last
   use, and an open panel holds its delegate weakly, so the panel's delegate is kept with `extendLifetime` until the
   panel closes (`ScreenshotFolderPanel`). Only an optimized build reports the mistake.
