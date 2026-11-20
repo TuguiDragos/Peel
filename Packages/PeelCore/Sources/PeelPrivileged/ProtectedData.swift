@@ -331,13 +331,16 @@ public enum ProtectedData: Sendable {
         let documents = "/" + components[...(containers + 1)].joined(separator: "/") + "/Data/Documents"
         var info = stat()
         guard lstat(documents, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return false }
-        guard let names = try? FileManager.default.contentsOfDirectory(atPath: documents) else { return true }
+        if let count = FolderEntries.count(at: documents), count > leftByFinder.count { return true }
+        guard let names = try? look(in: documents, followingLinks: false).get() else { return true }
         return names.contains { !isLeftByFinder($0) }
     }
 
+    private static let leftByFinder: Set<String> = [".DS_Store", ".localized"]
+
     /// What Finder and macOS leave in a folder, which says nothing of what the folder holds.
     public static func isLeftByFinder(_ name: String) -> Bool {
-        name == ".DS_Store" || name == ".localized"
+        leftByFinder.contains(name)
     }
 
     /// Work that lives in a cache folder and nowhere else. A JetBrains IDE and Android Studio keep
@@ -362,42 +365,72 @@ public enum ProtectedData: Sendable {
 
     private static func holdsWorkKeptInACache(_ folder: String, levels: Int) -> Finding {
         guard levels > 0 else { return .nothing }
-        guard let names = names(in: folder, followingLinks: true) else { return .notKnown }
+        let names: [String]
+        switch look(in: folder, followingLinks: true) {
+        case .success(let found): names = found
+        case .failure(let unlisted): return Finding(unlisted)
+        }
         var finding = Finding.nothing
         for name in names {
             if workKeptInCaches.contains(name.lowercased()) { return .found }
-            switch holdsWorkKeptInACache(folder + "/" + name, levels: levels - 1) {
-            case .found: return .found
-            case .notKnown: finding = .notKnown
-            case .nothing: break
-            }
+            let inside = holdsWorkKeptInACache(folder + "/" + name, levels: levels - 1)
+            guard inside != .found else { return .found }
+            finding.note(inside)
         }
         return finding
     }
 
     /// What a look a level or two inside a folder found: what it looked for, nothing, or nothing known, because a
-    /// folder it had to look into is there and could not be listed.
+    /// folder it had to look into is there and could not be listed, or holds more entries than a look reads.
     public enum Finding: Sendable {
         case found
         case nothing
         case notKnown
+        case tooMany
+
+        public init(_ unlisted: Unlisted) {
+            self = unlisted == .tooMany ? .tooMany : .notKnown
+        }
+
+        /// Keeps the answer that says more: no permission opens a folder too full to look through.
+        public mutating func note(_ other: Finding) {
+            if other == .tooMany || (other == .notKnown && self == .nothing) { self = other }
+        }
     }
 
+    /// Why a look has no names to give: the folder could not be listed, or holds more entries than a look reads.
+    public enum Unlisted: Error, Sendable {
+        case closed
+        case tooMany
+    }
+
+    /// The names in `folder`, or nil when it is there and could not be listed or holds more entries than a look reads.
     public static func names(in folder: String, followingLinks: Bool) -> [String]? {
-        listing(folder, followingLinks: followingLinks) { try FileManager.default.contentsOfDirectory(atPath: $0) }
+        try? look(in: folder, followingLinks: followingLinks).get()
+    }
+
+    public static func look(
+        in folder: String, followingLinks: Bool, limit: Int = FolderEntries.lookLimit
+    ) -> Result<[String], Unlisted> {
+        listing(folder, followingLinks: followingLinks, limit: limit) {
+            try FileManager.default.contentsOfDirectory(atPath: $0)
+        }
     }
 
     /// What `list` gives for `folder`: none for a path that is not there or is no folder, a link to one included unless
-    /// `followingLinks`, and nil when listing a folder that is there fails.
+    /// `followingLinks`, and why when a folder that is there could not be listed or holds more than `limit` entries,
+    /// which are then never read.
     static func listing<Entry>(
-        _ folder: String, followingLinks: Bool, _ list: (String) throws -> [Entry]
-    ) -> [Entry]? {
+        _ folder: String, followingLinks: Bool, limit: Int = FolderEntries.lookLimit, _ list: (String) throws -> [Entry]
+    ) -> Result<[Entry], Unlisted> {
         var info = stat()
         guard (followingLinks ? stat(folder, &info) : lstat(folder, &info)) == 0 else {
-            return [ENOENT, ENOTDIR, ELOOP].contains(errno) ? [] : nil
+            return [ENOENT, ENOTDIR, ELOOP].contains(errno) ? .success([]) : .failure(.closed)
         }
-        guard info.st_mode & S_IFMT == S_IFDIR else { return [] }
-        return try? list(folder)
+        guard info.st_mode & S_IFMT == S_IFDIR else { return .success([]) }
+        guard !FolderEntries.holdMore(than: limit, at: folder) else { return .failure(.tooMany) }
+        guard let entries = try? list(folder) else { return .failure(.closed) }
+        return .success(entries)
     }
 
     /// True for a file of the global preferences domain: `.GlobalPreferences.plist`, its `_m` twin, and the
@@ -534,22 +567,27 @@ public enum ProtectedData: Sendable {
     /// library can sit anywhere, so no list of places can protect the folder around one, and this looks inside the
     /// folder instead. It reads the disk.
     public static func holdsALibrary(_ path: String) -> Finding {
-        guard let children = names(in: path, followingLinks: false) else { return .notKnown }
+        let children: [String]
+        switch look(in: path, followingLinks: false) {
+        case .success(let found): children = found
+        case .failure(let unlisted): return Finding(unlisted)
+        }
         var finding = Finding.nothing
         for child in children {
             if isALibrary(child.lowercased()) { return .found }
             let inside = path + "/" + child
             var info = stat()
             guard lstat(inside, &info) == 0 else {
-                if errno != ENOENT { finding = .notKnown }
+                if errno != ENOENT { finding.note(.notKnown) }
                 continue
             }
             guard info.st_mode & S_IFMT == S_IFDIR else { continue }
-            guard let deeper = names(in: inside, followingLinks: false) else {
-                finding = .notKnown
-                continue
+            switch look(in: inside, followingLinks: false) {
+            case .success(let deeper):
+                if deeper.contains(where: { isALibrary($0.lowercased()) }) { return .found }
+            case .failure(let unlisted):
+                finding.note(Finding(unlisted))
             }
-            if deeper.contains(where: { isALibrary($0.lowercased()) }) { return .found }
         }
         return finding
     }

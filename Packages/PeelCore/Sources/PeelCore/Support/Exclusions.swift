@@ -158,25 +158,25 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     /// True when something excluded is known to sit inside `url`, so moving `url` would take it along.
     public func holds(_ url: URL) -> Bool {
-        holdsSomething(url) == true
+        holdsSomething(url) == .found
     }
 
-    /// Whether something excluded sits inside `url`, or nil when a folder inside can't be looked into for an excluded
-    /// app. It reads the disk.
-    func holdsSomething(_ url: URL) -> Bool? {
-        guard !spellings.isEmpty || !bundleIdentifiers.isEmpty else { return false }
-        if holds(spellings: Self.spellings(of: url)) { return true }
-        return appFolders(inside: url).map { !$0.isEmpty }
+    /// Whether something excluded sits inside `url`, or why that is not known: a folder inside can't be looked into
+    /// for an excluded app. It reads the disk.
+    func holdsSomething(_ url: URL) -> ProtectedData.Finding {
+        guard !spellings.isEmpty || !bundleIdentifiers.isEmpty else { return .nothing }
+        if holds(spellings: Self.spellings(of: url)) { return .found }
+        switch appFolders(inside: url) {
+        case .success(let found): return found.isEmpty ? .nothing : .found
+        case .failure(let unlisted): return ProtectedData.Finding(unlisted)
+        }
     }
 
     /// Why an item stays for the exclusions: something excluded is inside, or a folder inside can't be looked into
     /// for one, which only Peel can do, since the helper knows nothing of the exclusions.
     func holdBack(for url: URL) -> HoldBack? {
-        switch holdsSomething(url) {
-        case true?: .holdsAnExclusion
-        case nil: .couldNotLookInside
-        case false?: nil
-        }
+        let finding = holdsSomething(url)
+        return finding == .found ? .holdsAnExclusion : HoldBack.unknownInside(finding)
     }
 
     /// `holds(_:)` for a path whose spellings are already worked out.
@@ -187,28 +187,34 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
-    /// The excluded apps' folders, and the excluded apps themselves, a level or two inside `folder`, or nil when a
-    /// folder there can't be listed. It reads the disk.
-    func appFolders(inside folder: URL) -> [URL]? {
-        guard !bundleIdentifiers.isEmpty else { return [] }
+    /// The excluded apps' folders, and the excluded apps themselves, a level or two inside `folder`, or why a folder
+    /// there can't be listed. It reads the disk.
+    func appFolders(inside folder: URL) -> Result<[URL], ProtectedData.Unlisted> {
+        guard !bundleIdentifiers.isEmpty else { return .success([]) }
         let list = { (folder: URL) in
-            ProtectedData.names(in: folder.path(percentEncoded: false), followingLinks: false)?
-                .map { folder.appending(path: $0) }
+            ProtectedData.look(in: folder.path(percentEncoded: false), followingLinks: false)
+                .map { names in names.map { folder.appending(path: $0) } }
         }
         let isExcluded = { (url: URL) in
             appFolderNames.contains(url.lastPathComponent.lowercased()) || isAnExcludedApp(url)
         }
-        guard let children = list(folder) else { return nil }
+        let children: [URL]
+        switch list(folder) {
+        case .success(let found): children = found
+        case .failure(let unlisted): return .failure(unlisted)
+        }
         var found: [URL] = []
         for child in children {
             if isExcluded(child) {
                 found.append(child)
             } else if child.isRealFolder {
-                guard let inside = list(child) else { return nil }
-                found += inside.filter(isExcluded)
+                switch list(child) {
+                case .success(let inside): found += inside.filter(isExcluded)
+                case .failure(let unlisted): return .failure(unlisted)
+                }
             }
         }
-        return found
+        return .success(found)
     }
 
     /// Whether `url` is an app whose own Info.plist declares an excluded identifier: its bundle is named for the app,
@@ -225,7 +231,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
             Self.spellings(of: path).map(PathComponents.of).contains { names in
                 asked.contains { names.count > $0.count && names.starts(with: $0) }
             }
-        } + (appFolders(inside: url) ?? [])
+        } + ((try? appFolders(inside: url).get()) ?? [])
         return inside.filter { place in !inside.contains { $0 != place && Exclusions(paths: [$0]).excludes(place) } }
     }
 
@@ -309,9 +315,9 @@ public struct Exclusions: Sendable, Codable, Hashable {
         for folder in folders {
             if excludes(folder) { return true }
             switch holdsSomething(folder) {
-            case true?: return true
-            case nil: isKnownToHoldNothing = false
-            case false?: break
+            case .found: return true
+            case .notKnown, .tooMany: isKnownToHoldNothing = false
+            case .nothing: break
             }
         }
         return isKnownToHoldNothing ? false : nil
@@ -347,8 +353,11 @@ public struct Exclusions: Sendable, Codable, Hashable {
                 kept.append(name)
                 continue
             }
-            guard let holds = holdsSomething(own) else { return .failure(CannotLookInside(folder: own)) }
-            if holds { kept.append(name) }
+            switch holdsSomething(own) {
+            case .found: kept.append(name)
+            case .nothing: break
+            case .notKnown, .tooMany: return .failure(CannotLookInside(folder: own))
+            }
         }
         return .success(kept)
     }

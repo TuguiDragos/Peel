@@ -107,8 +107,8 @@ public enum SpaceRemoval {
         let measured = await children.removable.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { child in
             (child, await measure(child))
         }
-        for child in children.closed {
-            heldBack[child] = .couldNotLookInside
+        for (child, why) in children.closed {
+            heldBack[child] = why
         }
         for (child, contents) in measured {
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
@@ -121,7 +121,7 @@ public enum SpaceRemoval {
                     ? .writtenRecently : nil)
         }
         return Plan(
-            removable: children.removable + children.closed,
+            removable: children.removable + children.closed.map(\.url),
             inUse: children.inUse,
             leftToDeveloper: children.leftToDeveloper,
             sizes: sizes,
@@ -210,7 +210,7 @@ public enum SpaceRemoval {
         own: Set<String>
     ) -> (
         removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal],
-        unreadable: [URL], closed: [URL]
+        unreadable: [URL], closed: [(url: URL, why: HoldBack)]
     ) {
         // An area only its own app or tool should empty, such as a virtual machine's disks, offers nothing.
         guard item.handling == .trash else { return ([], [], [], [:], [], []) }
@@ -220,7 +220,7 @@ public enum SpaceRemoval {
         var leftToDeveloper: [URL] = []
         var refused: [URL: GuardRefusal] = [:]
         var unreadable: [URL] = []
-        var closed: [URL] = []
+        var closed: [(url: URL, why: HoldBack)] = []
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?, onlyFiles inside: Bool = false) {
@@ -265,7 +265,10 @@ public enum SpaceRemoval {
                     continue
                 // Listed and left alone with its reason, as on every page: it may hold what Peel never moves.
                 case .couldNotLookInside:
-                    closed.append(child)
+                    closed.append((child, .couldNotLookInside))
+                    continue
+                case .tooManyToLookThrough:
+                    closed.append((child, .tooManyToLookThrough))
                     continue
                 case let refusal?:
                     refused[child] = refusal

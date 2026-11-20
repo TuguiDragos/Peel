@@ -199,13 +199,13 @@ public struct OrphanScanner: Sendable {
         let folders = manifestFolders
         let loadedByOtherApps = Plugins.LoadedByOtherApps(environment: environment)
         let given = OrphanOwners.given(owners, apps: here, tools: tools)
-        let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: Bool?)? in
+        let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: ProtectedData.Finding)? in
             guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
                   !Self.isInAGroup(entry.identifier, among: given),
                   !Self.servesAProgram(entry.item.url, in: folders), !jobs.needs(entry.item.url)
             else { return nil }
             let holds = exclusions.holdsSomething(entry.item.url)
-            return holds == true ? nil : (entry.identifier, entry.item, holds)
+            return holds == .found ? nil : (entry.identifier, entry.item, holds)
         }
         .map { entry in
             var item = entry.item
@@ -225,8 +225,8 @@ public struct OrphanScanner: Sendable {
             if item.heldBack == nil, toolsFolders.holdsWhatAToolKeeps(item.url) {
                 item.heldBack = .holdsWhatAToolKeeps
             }
-            if item.leftAlone == nil, entry.holds == nil {
-                item.heldBack = .couldNotLookInside
+            if item.leftAlone == nil, let unknown = HoldBack.unknownInside(entry.holds) {
+                item.heldBack = unknown
             }
             return (entry.identifier, Self.holdingBack(item, beyond: reach))
         }
@@ -1053,6 +1053,8 @@ public struct OrphanScanner: Sendable {
             .holdsWorkKeptInACache
         } else if parent.isOnAReadOnlyDisk {
             .onAReadOnlyDisk
+        } else if [wallet, library, work].contains(.tooMany) {
+            .tooManyToLookThrough
         } else if !requiresPrivileges, [wallet, library, work].contains(.notKnown) {
             .couldNotLookInside
         } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {

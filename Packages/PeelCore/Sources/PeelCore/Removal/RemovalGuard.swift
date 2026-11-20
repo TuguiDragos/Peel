@@ -28,11 +28,14 @@ public enum GuardRefusal: Sendable, Hashable, CaseIterable {
     case holdsWorkKeptInACache
     /// macOS would not let Peel list a folder inside it, so whether something Peel never moves is there is not known.
     case couldNotLookInside
+    /// A folder inside holds more entries than Peel reads to make sure nothing it never moves is there.
+    case tooManyToLookThrough
 
     /// Each kind of refusal once, the cloud standing for every keeper.
     public static let allCases: [GuardRefusal] = [
         .exclusionsNotKnown, .excluded, .staysItself, .protectedLocation, .inUsrLocal, .holdsProtectedData,
         .inTheCloud(.cloud), .holdsDocuments, .holdsALibrary, .holdsWorkKeptInACache, .couldNotLookInside,
+        .tooManyToLookThrough,
     ]
 
     /// A fixed word for the reason, which the refusal log stores, so a record still reads in a later version.
@@ -49,6 +52,7 @@ public enum GuardRefusal: Sendable, Hashable, CaseIterable {
         case .holdsALibrary: "holds-a-library"
         case .holdsWorkKeptInACache: "holds-work-kept-in-a-cache"
         case .couldNotLookInside: "could-not-look-inside"
+        case .tooManyToLookThrough: "too-many-to-look-through"
         }
     }
 
@@ -264,13 +268,14 @@ struct RemovalGuard: Sendable {
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         guard !exclusions.isAnExcludedApp(item ?? URL(filePath: path)) else { return .excluded }
-        var couldNotLookInside = false
+        var unknown = ProtectedData.Finding.nothing
         for name in names {
             // The helper knows nothing of the exclusions, so a folder that can't be looked into for one stays.
-            guard let excluded = exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)) else {
-                return .couldNotLookInside
+            switch exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)) {
+            case .failure(.closed): return .couldNotLookInside
+            case .failure(.tooMany): return .tooManyToLookThrough
+            case .success(let excluded): guard excluded.isEmpty else { return .excluded }
             }
-            guard excluded.isEmpty else { return .excluded }
             // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
             // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
             guard !ProtectedData.holdsAContainersDocuments(name) else { return .holdsDocuments }
@@ -280,10 +285,12 @@ struct RemovalGuard: Sendable {
             guard library != .found else { return .holdsALibrary }
             let wallet = ProtectedData.holdsABrowserWallet(name)
             guard wallet != .found else { return .holdsProtectedData }
-            couldNotLookInside = couldNotLookInside || [work, library, wallet].contains(.notKnown)
+            for finding in [work, library, wallet] { unknown.note(finding) }
         }
+        // The helper reads no more of a folder than Peel does.
+        guard unknown != .tooMany else { return .tooManyToLookThrough }
         // A folder the person can't change moves only through the helper, which looks inside as root first.
-        guard !couldNotLookInside || FileAccess.requiresPrivilegesToRemove(url) else { return .couldNotLookInside }
+        guard unknown == .nothing || FileAccess.requiresPrivilegesToRemove(url) else { return .couldNotLookInside }
         return nil
     }
 

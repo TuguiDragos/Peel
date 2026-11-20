@@ -107,7 +107,7 @@ public enum FileSearch {
             case .inTheCloud: self = .syncs
             case .excluded: self = .excluded
             case .exclusionsNotKnown: self = .exclusionsNotKnown
-            case .couldNotLookInside: self = .couldNotBeRead
+            case .couldNotLookInside, .tooManyToLookThrough: self = .couldNotBeRead
             case .staysItself, .protectedLocation, .inUsrLocal, .holdsProtectedData, .holdsDocuments, .holdsALibrary,
                  .holdsWorkKeptInACache:
                 self = .protected

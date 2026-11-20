@@ -264,33 +264,41 @@ extension ProtectedData {
         if isAProfileWithAWallet(path) { return .found }
 
         let folder = components.last?.lowercased() ?? ""
-        guard let children = entries(of: path) else { return .notKnown }
+        let children: [(name: String, isAFile: Bool)]
+        switch entries(of: path) {
+        case .success(let found): children = found
+        case .failure(let unlisted): return Finding(unlisted)
+        }
         var finding = Finding.nothing
         for child in children {
             if isAWalletsStorage(child.name.lowercased(), in: folder) { return .found }
             guard !child.isAFile else { continue }
             let inside = path + "/" + child.name
             if isAProfileWithAWallet(inside) { return .found }
-            guard let deeper = entries(of: inside) else {
-                finding = .notKnown
-                continue
+            switch entries(of: inside) {
+            case .success(let deeper):
+                if deeper.contains(where: { !$0.isAFile && isAProfileWithAWallet(inside + "/" + $0.name) }) {
+                    return .found
+                }
+            case .failure(let unlisted):
+                finding.note(Finding(unlisted))
             }
-            if deeper.contains(where: { !$0.isAFile && isAProfileWithAWallet(inside + "/" + $0.name) }) { return .found }
         }
         return finding
     }
 
-    /// The names in `folder`, each with whether it is a regular file, which is no profile and holds none, or nil for
-    /// a folder macOS would not let this process list. The kind comes with the listing, so a folder of many files
-    /// costs no call for each file.
-    private static func entries(of folder: String) -> [(name: String, isAFile: Bool)]? {
-        let found = listing(folder, followingLinks: false) {
+    /// The names in `folder`, each with whether it is a regular file, which is no profile and holds none, or why there
+    /// are none. The kind comes with the listing, so a folder of many files costs no call for each file.
+    private static func entries(of folder: String) -> Result<[(name: String, isAFile: Bool)], Unlisted> {
+        listing(folder, followingLinks: false) {
             try FileManager.default.contentsOfDirectory(
                 at: URL(filePath: $0, directoryHint: .isDirectory), includingPropertiesForKeys: [.isRegularFileKey]
             )
         }
-        return found?.map {
-            ($0.lastPathComponent, (try? $0.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true)
+        .map { found in
+            found.map {
+                ($0.lastPathComponent, (try? $0.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true)
+            }
         }
     }
 
@@ -315,13 +323,13 @@ extension ProtectedData {
     }
 
     /// True for a browser profile that holds a wallet: a wallet extension's storage, a wallet add-on, or Brave's own
-    /// wallet in its `Preferences`. A storage folder that is there and cannot be listed is not known to hold no wallet,
-    /// so it counts as one: macOS can refuse to list the data malicious software goes after while it still answers
-    /// `lstat`.
+    /// wallet in its `Preferences`. A storage folder that is there and cannot be listed, or holds more entries than a
+    /// look reads, is not known to hold no wallet, so it counts as one: macOS can refuse to list the data malicious
+    /// software goes after while it still answers `lstat`.
     private static func isAProfileWithAWallet(_ profile: String) -> Bool {
         for folder in ["Local Extension Settings", "IndexedDB", "extensions"] {
             let path = profile + "/" + folder
-            guard let names = try? FileManager.default.contentsOfDirectory(atPath: path) else {
+            guard let names = try? look(in: path, followingLinks: true).get() else {
                 var info = stat()
                 if lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR { return true }
                 continue

@@ -72,8 +72,7 @@ final class ScanReads: Sendable {
         // The enumerator follows no link at the top, as listing a folder by its path does.
         let folder = folder.resolvingSymlinksInPath()
         let path = folder.path(percentEncoded: false)
-        let count = entryCount(of: path)
-        if let count {
+        if let count = FolderEntries.count(at: path) {
             guard count <= limit else { return .holdsTooMany(count) }
             do {
                 return .names(try FileManager.default.contentsOfDirectory(atPath: path).sorted())
@@ -106,25 +105,6 @@ final class ScanReads: Sendable {
         // What isn't there, a path through a file among it, is missing; what is there and can't be listed isn't.
         var info = stat()
         return stat(path, &info) == 0 ? .unreadable : .missing
-    }
-
-    /// The number of entries in the folder at `path`, without reading them, when its file system keeps it.
-    private static func entryCount(of path: String) -> Int? {
-        var request = attrlist()
-        request.bitmapcount = u_short(ATTR_BIT_MAP_COUNT)
-        request.commonattr = attrgroup_t(ATTR_CMN_RETURNED_ATTRS)
-        request.dirattr = attrgroup_t(ATTR_DIR_ENTRYCOUNT)
-        // UInt32 length, the attribute_set_t of what was returned (its third word the folder's), then the count.
-        var buffer = [UInt8](repeating: 0, count: 64)
-        let status = buffer.withUnsafeMutableBytes { bytes in
-            getattrlist(path, &request, bytes.baseAddress, bytes.count, UInt32(FSOPT_PACK_INVAL_ATTRS))
-        }
-        guard status == 0 else { return nil }
-        return buffer.withUnsafeBytes { bytes in
-            let returned = bytes.loadUnaligned(fromByteOffset: MemoryLayout<UInt32>.size * 3, as: UInt32.self)
-            guard returned & UInt32(ATTR_DIR_ENTRYCOUNT) != 0 else { return nil }
-            return Int(bytes.loadUnaligned(fromByteOffset: MemoryLayout<UInt32>.size * 6, as: UInt32.self))
-        }
     }
 
     /// What a question finds: its answer, nobody reading it yet, or a read under way.

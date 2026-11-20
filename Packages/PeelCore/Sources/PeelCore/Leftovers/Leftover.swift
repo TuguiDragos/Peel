@@ -91,6 +91,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// macOS would not let Peel list a folder inside it, so `RemovalGuard` refuses to move it as the person: what it
     /// never moves may be in there (`GuardRefusal.couldNotLookInside`).
     case couldNotLookInside
+    /// A folder inside holds more entries than Peel reads, so `RemovalGuard` refuses to move it.
+    case tooManyToLookThrough
     /// A sandboxed app's container whose `Data/Documents` is not empty or cannot be read. That is where the app
     /// keeps what the user made, and `RemovalGuard` refuses to move it.
     case holdsDocuments
@@ -221,7 +223,7 @@ public enum HoldBack: String, Sendable, Hashable {
     /// would refuse to move it.
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
-            || self == .couldNotLookInside
+            || self == .couldNotLookInside || self == .tooManyToLookThrough
             || self == .beyondTheHelper || self == .onAReadOnlyDisk
             || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension
@@ -243,6 +245,15 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Why a folder the walk couldn't see all through is held back: closed by its permissions, or refused otherwise.
     static func unread(_ contents: FolderContents) -> HoldBack {
         contents.closedByPermissions ? .closedByPermissions : .couldNotBeRead
+    }
+
+    /// Why a folder stays when a look inside it could not see all it looked for.
+    static func unknownInside(_ finding: ProtectedData.Finding) -> HoldBack? {
+        switch finding {
+        case .notKnown: .couldNotLookInside
+        case .tooMany: .tooManyToLookThrough
+        case .found, .nothing: nil
+        }
     }
 
     /// A wallet, a signing key, or a password database seen inside.
