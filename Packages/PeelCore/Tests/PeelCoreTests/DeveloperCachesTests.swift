@@ -4,6 +4,20 @@ import PeelPrivileged
 import Testing
 
 struct DeveloperCachesTests {
+    @Test func aFolderTooFullToListIsARowOfItsOwn() throws {
+        let directory = try TemporaryDirectory()
+        let support = try directory.directory("iOS DeviceSupport")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: support.appending(path: "\(number).log").path, contents: nil)
+        }
+        let folder = DeveloperCaches.Folder("iOS DeviceSupport", .deviceSupport, source: "https://example.org", rowsDepth: 1)
+        let listed = try directory.directory("Listed")
+        try directory.directory("Listed/26.1 (23B85)")
+
+        #expect(folder.rows(in: support).map(\.lastPathComponent) == ["iOS DeviceSupport"])
+        #expect(folder.rows(in: listed).map(\.lastPathComponent) == ["26.1 (23B85)"])
+    }
+
     @Test func anAppTheTableNamesGetsNoSecondToolFromTheElectronRule() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

@@ -326,32 +326,40 @@ public enum DeveloperCaches {
         }
 
         func rows(in folder: URL) -> [URL] {
-            // A folder whose rows can't be listed is one row of its own, so its measure says why, as for a folder
-            // listed whole: read as no rows, it went unsaid.
-            if rowsDepth > 0 || rowsHolding != nil, folder.isRealFolder,
-               (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) == nil {
+            // A folder whose rows can't be listed, or that holds more than a scan reads, is one row of its own, so its
+            // measure says why, as for a folder listed whole: read as no rows, it went unsaid.
+            if rowsDepth > 0 || rowsHolding != nil, folder.isRealFolder, Self.subfolders(of: folder) == nil {
                 return [folder]
             }
             if let rowsHolding { return Self.folders(holding: rowsHolding, in: folder) }
             var level = [folder]
+            var whole: [URL] = []
             for _ in 0..<rowsDepth {
-                level = level.flatMap(Self.subfolders(of:))
+                level = level.flatMap { url in
+                    guard let inside = Self.subfolders(of: url) else {
+                        if url.isRealFolder { whole.append(url) }
+                        return [URL]()
+                    }
+                    return inside
+                }
             }
-            guard rowsDepth > 0, let rowEnding else { return level }
-            return level.filter { $0.lastPathComponent.hasSuffix(rowEnding) }
+            guard rowsDepth > 0, let rowEnding else { return level + whole }
+            return level.filter { $0.lastPathComponent.hasSuffix(rowEnding) } + whole
         }
 
         private static func folders(holding marker: String, in folder: URL) -> [URL] {
             var found: [URL] = []
-            var level = subfolders(of: folder)
+            var level = subfolders(of: folder) ?? []
             for _ in 0..<3 {
                 var next: [URL] = []
                 for candidate in level {
                     let values = try? candidate.appending(path: marker).resourceValues(forKeys: [.isRegularFileKey])
                     if values?.isRegularFile == true {
                         found.append(candidate)
+                    } else if let inside = subfolders(of: candidate) {
+                        next += inside
                     } else {
-                        next += subfolders(of: candidate)
+                        found.append(candidate)
                     }
                 }
                 level = next
@@ -359,16 +367,18 @@ public enum DeveloperCaches {
             return found
         }
 
-        private static func subfolders(of folder: URL) -> [URL] {
-            let keys: [URLResourceKey] = [.isDirectoryKey, .isSymbolicLinkKey]
-            let entries = (try? FileManager.default.contentsOfDirectory(
-                at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles]
-            )) ?? []
+        /// The folders in `folder`, Finder's hidden ones left out, or nil when it can't be listed or holds more than a
+        /// scan reads, which is counted rather than read.
+        private static func subfolders(of folder: URL) -> [URL]? {
+            guard case .names(let names) = ScanReads.listing(of: folder) else { return nil }
+            let keys: Set<URLResourceKey> = [.isDirectoryKey, .isSymbolicLinkKey, .isHiddenKey]
             // Named from `folder`, which keeps the spelling the rest of the list uses.
-            return entries.filter { entry in
-                let values = try? entry.resourceValues(forKeys: Set(keys))
-                return values?.isDirectory == true && values?.isSymbolicLink != true
-            }.map { folder.appending(path: $0.lastPathComponent, directoryHint: .notDirectory) }
+            return names.lazy.filter { !$0.hasPrefix(".") }
+                .map { folder.appending(path: $0, directoryHint: .notDirectory) }
+                .filter { url in
+                    let values = try? url.resourceValues(forKeys: keys)
+                    return values?.isDirectory == true && values?.isSymbolicLink != true && values?.isHidden != true
+                }
         }
 
         /// What the folder at `url` holds now: installed packages once its store is there, `kind` otherwise.
