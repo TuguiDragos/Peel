@@ -705,7 +705,7 @@ struct DuplicateFinderTests {
         let text = Data(String(repeating: "Peel keeps one copy and offers the others. ", count: 10_000).utf8)
         let plain = try directory.file("home/Documents/a.txt", contents: text)
         let compressed = directory.url.appending(path: "home/Documents/report.txt")
-        try await compress(plain, into: compressed)
+        try directory.compressedCopy(of: plain, to: compressed)
         try #require(ReclaimableSpace.allocated(compressed) * 10 < ReclaimableSpace.allocated(plain))
         let earlier = Date.now.addingTimeInterval(-2 * 24 * 3_600)
         try FileManager.default.setAttributes([.creationDate: earlier], ofItemAtPath: plain.path(percentEncoded: false))
@@ -723,7 +723,7 @@ struct DuplicateFinderTests {
         let text = Data(String(repeating: "Peel keeps one folder and offers the others. ", count: 10_000).utf8)
         let plain = try directory.file("home/Documents/a/notes.txt", contents: text).deletingLastPathComponent()
         let compressed = directory.url.appending(path: "home/Documents/report", directoryHint: .isDirectory)
-        try await compress(plain, into: compressed)
+        try directory.compressedCopy(of: plain, to: compressed)
         try #require(
             ReclaimableSpace.allocated(compressed.appending(path: "notes.txt")) * 10
                 < ReclaimableSpace.allocated(plain.appending(path: "notes.txt"))
@@ -735,15 +735,6 @@ struct DuplicateFinderTests {
 
         #expect(PathPattern.comparablePath(of: group.folders[0].url) == PathPattern.comparablePath(of: compressed))
         #expect(group.reclaimableSize == ReclaimableSpace.of(plain.appending(path: "notes.txt")))
-    }
-
-    private func compress(_ source: URL, into destination: URL) async throws {
-        let output = try await Subprocess.run(
-            "/usr/bin/ditto",
-            ["--hfsCompression", source.path(percentEncoded: false), destination.path(percentEncoded: false)],
-            timeout: nil
-        ).get()
-        try #require(output.status == 0)
     }
 
     @Test func recognizesCopySuffixes() {

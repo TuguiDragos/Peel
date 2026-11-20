@@ -52,19 +52,27 @@ struct TemporaryDirectory: ~Copyable {
             withIntermediateDirectories: true
         )
         try Data(String(repeating: "hello world ", count: 20_000).utf8).write(to: source)
-        // A ditto that can clone does so on the same volume, and a clone is never compressed, so it is told not to.
-        let noClone = Self.dittoKnowsNoClone ? ["--noclone"] : []
-        let ditto = try Process.run(
-            URL(filePath: "/usr/bin/ditto"),
-            arguments: noClone + ["--hfsCompression", source.path, fileURL.path]
-        )
-        ditto.waitUntilExit()
+        try compressedCopy(of: source, to: fileURL)
         try FileManager.default.removeItem(at: source)
         var info = stat()
         guard lstat(fileURL.path(percentEncoded: false), &info) == 0, info.st_flags & UInt32(UF_COMPRESSED) != 0 else {
             throw CocoaError(.fileWriteUnknown, userInfo: [NSFilePathErrorKey: fileURL.path])
         }
         return fileURL
+    }
+
+    /// Copies `source`, a file or a folder, to `destination` compressed by `ditto`, as macOS compresses a file.
+    func compressedCopy(of source: URL, to destination: URL) throws {
+        // A ditto that can clone does so on the same volume, and a clone is never compressed, so it is told not to.
+        let noClone = Self.dittoKnowsNoClone ? ["--noclone"] : []
+        let ditto = try Process.run(
+            URL(filePath: "/usr/bin/ditto"),
+            arguments: noClone + ["--hfsCompression", source.path, destination.path]
+        )
+        ditto.waitUntilExit()
+        guard ditto.terminationStatus == 0 else {
+            throw CocoaError(.fileWriteUnknown, userInfo: [NSFilePathErrorKey: destination.path])
+        }
     }
 
     private static let dittoKnowsNoClone: Bool = {
