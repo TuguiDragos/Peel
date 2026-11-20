@@ -56,6 +56,10 @@ final class InstallerLibrary {
         scan?.keptElsewhere ?? []
     }
 
+    var crowded: [CrowdedFolder] {
+        scan?.crowded ?? []
+    }
+
     func follow(canUseHelper: Bool) {
         let kept = Self.selection(selectedURLs, in: scan?.items ?? [], canUseHelper: canUseHelper)
         if kept != selectedURLs { selectedURLs = kept }

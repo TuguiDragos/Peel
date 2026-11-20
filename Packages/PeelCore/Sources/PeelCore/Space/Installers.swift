@@ -138,6 +138,8 @@ public struct InstallerScan: Sendable {
     public var needsFullDiskAccess = false
     /// The folders Peel moves from that are links to a folder kept elsewhere, which it doesn't follow.
     public var keptElsewhere: [URL] = []
+    /// The folders of the person's own that hold more than a scan reads, which were not read.
+    public var crowded: [CrowdedFolder] = []
 
     public func items(in kind: InstallerItem.Kind) -> [InstallerItem] {
         items.filter { $0.kind == kind }
@@ -147,7 +149,7 @@ public struct InstallerScan: Sendable {
     public var withoutWhatLeft: InstallerScan {
         InstallerScan(
             items: items.filter { !$0.url.isMissing }, unreadableLocations: unreadableLocations,
-            needsFullDiskAccess: needsFullDiskAccess, keptElsewhere: keptElsewhere
+            needsFullDiskAccess: needsFullDiskAccess, keptElsewhere: keptElsewhere, crowded: crowded
         )
     }
 }
@@ -227,6 +229,7 @@ public enum Installers {
         let origins = DownloadOrigins.inHome(home).reader()
         var folders: [Folder] = []
         var listed: Set<String> = []
+        var crowded: [CrowdedFolder] = []
         // A scan its page left asks nothing more: reading a folder macOS guards puts up macOS's question again.
         for place in places {
             guard !Task.isCancelled else { break }
@@ -234,14 +237,14 @@ public enum Installers {
             // and once if that is inside another place.
             let url = place.url.isSymbolicLink ? PathPattern.canonical(place.url) : place.url
             _ = canLookInside(url, for: place.url)
-            for folder in [url] + subfolders(of: url)
+            for folder in [url] + subfolders(of: url, crowded: &crowded)
             where listed.insert(PathPattern.comparablePath(of: PathPattern.canonical(folder))).inserted {
                 folders.append(Folder(url: folder, isSharedWithEveryone: place.isSharedWithEveryone))
             }
         }
 
         for folder in folders where !Task.isCancelled {
-            for url in files(in: folder.url) {
+            for url in entries(of: folder.url, crowded: &crowded) {
                 // The extension is checked before measuring, since measuring a folder walks all of it.
                 let suffix = url.pathExtension.lowercased()
                 let isInstaller = installerExtensions.contains(suffix)
@@ -287,7 +290,7 @@ public enum Installers {
         guard !Task.isCancelled else {
             return InstallerScan(
                 items: items, unreadableLocations: unreadable, needsFullDiskAccess: refusedByPrivacy,
-                keptElsewhere: keptElsewhere
+                keptElsewhere: keptElsewhere, crowded: crowded.eachOnce
             )
         }
         // The folders Peel reads apps from come first, and each folder is looked in once.
@@ -359,7 +362,8 @@ public enum Installers {
             items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
             unreadableLocations: unreadable,
             needsFullDiskAccess: refusedByPrivacy,
-            keptElsewhere: keptElsewhere
+            keptElsewhere: keptElsewhere,
+            crowded: crowded.eachOnce
         )
     }
 
@@ -372,13 +376,29 @@ public enum Installers {
     /// The folders directly inside `place` that the scan looks in too, where a browser or a chat app keeps its
     /// downloads. Never a link, a package, a folder whose contents are only in the cloud (listing it downloads
     /// them), a repository, or a project: what is in those is work, or belongs to them.
-    private static func subfolders(of place: URL) -> [URL] {
-        files(in: place).filter { url in
+    private static func subfolders(of place: URL, crowded: inout [CrowdedFolder]) -> [URL] {
+        entries(of: place, crowded: &crowded).filter { url in
             guard url.isRealFolder, !FileSize.isDataless(url),
                   (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) != true
             else { return false }
-            let names = (try? FileManager.default.contentsOfDirectory(atPath: url.path(percentEncoded: false))) ?? []
+            // One too full to read is looked in all the same, which names it among what was not read.
+            guard case .names(let names) = ScanReads.listing(of: url) else { return true }
             return !names.contains { FileSize.repositoryMarkers.contains($0) || ProjectArtifacts.isMarker($0) }
+        }
+    }
+
+    /// What `folder`, one of the person's own, holds, Finder's hidden items left out. A folder holding more than a scan
+    /// reads is counted rather than read, and noted in `crowded`.
+    private static func entries(of folder: URL, crowded: inout [CrowdedFolder]) -> [URL] {
+        switch ScanReads.listing(of: folder) {
+        case .names(let names):
+            return names.lazy.filter { !$0.hasPrefix(".") }.map { folder.appending(path: $0) }
+                .filter { (try? $0.resourceValues(forKeys: [.isHiddenKey]).isHidden) != true }
+        case .holdsTooMany(let count):
+            crowded.append(CrowdedFolder(url: folder, entries: count))
+            return []
+        case .missing, .unreadable:
+            return []
         }
     }
 
@@ -565,8 +585,10 @@ public enum Installers {
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
+        // The scan names a folder too full to read where it reads it first.
+        var crowded: [CrowdedFolder] = []
         for folder in folders {
-            for url in files(in: folder.url) where url.isNamedAsAnApp && isMacOSInstaller(url) {
+            for url in entries(of: folder.url, crowded: &crowded) where url.isNamedAsAnApp && isMacOSInstaller(url) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, taken, seen, newest) = await measured(url, by: measure)

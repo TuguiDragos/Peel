@@ -5,6 +5,25 @@ import Synchronization
 import Testing
 
 struct InstallersTests {
+    @Test func aFolderTooFullToReadIsNamedAndNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
+        let downloads = directory.url.appending(path: "Downloads").path(percentEncoded: false)
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: "\(downloads)/note-\(number).txt", contents: nil)
+        }
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil, attachedImages: [])
+        )
+
+        #expect(scan.items.isEmpty)
+        #expect(scan.crowded.map(\.url.lastPathComponent) == ["Downloads"])
+        #expect(scan.crowded.first?.entries == ScanReads.entryLimit + 2)
+    }
+
     @Test func aDiskImageIsNotSuggestedWhileTheAttachedImagesAreNotKnown() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)

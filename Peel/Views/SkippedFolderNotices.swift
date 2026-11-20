@@ -8,6 +8,8 @@ struct SkippedFolderNotices: View {
         case app
         case apps
         case orphans
+        /// A page that lists what is in the person's folders, such as Installers.
+        case files
     }
 
     let crowded: [CrowdedFolder]
@@ -52,6 +54,10 @@ struct SkippedFolderNotices: View {
             Text("It holds \(entries) items, too many to read quickly. Everything listed here can still go to the Trash. An orphaned file inside it stays where it is.")
         case (.orphans, nil):
             Text("It holds too many items to read quickly. Everything listed here can still go to the Trash. An orphaned file inside it stays where it is.")
+        case (.files, let entries?):
+            Text("It holds \(entries) items, too many to read quickly. Nothing inside it is listed here.")
+        case (.files, nil):
+            Text("It holds too many items to read quickly. Nothing inside it is listed here.")
         }
     }
 
@@ -63,6 +69,8 @@ struct SkippedFolderNotices: View {
             Text("It holds more folders than Peel looks through. Everything listed here can still go to the Trash. Anything these apps left in the folders Peel skipped stays where it is.")
         case .orphans:
             Text("It holds more folders than Peel looks through. Everything listed here can still go to the Trash. An orphaned file in the folders Peel skipped stays where it is.")
+        case .files:
+            Text("It holds more folders than Peel looks through. Nothing in the folders Peel skipped is listed here.")
         }
     }
 }

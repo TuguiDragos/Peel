@@ -21,6 +21,7 @@ struct InstallerList: View {
             UnreadableFoldersNotice(
                 folders: installers.unreadable, needsFullDiskAccess: installers.needsFullDiskAccess
             )
+            SkippedFolderNotices(crowded: installers.crowded, cutShort: [], subject: .files)
             if !installers.keptElsewhere.isEmpty {
                 Notice(title: Text("Kept elsewhere"), detail: Text(keptElsewhere), kind: .note, systemImage: "link") {}
                     .padding(.vertical, 6)

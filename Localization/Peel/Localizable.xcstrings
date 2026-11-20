@@ -92251,6 +92251,346 @@
         }
       }
     },
+    "It holds %lld items, too many to read quickly. Nothing inside it is listed here." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Nic z jejího obsahu tu není uvedeno."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Nic z jejího obsahu tu není uvedeno."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položku, což je příliš mnoho na rychlé přečtení. Nic z jejího obsahu tu není uvedeno."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položek, což je příliš mnoho na rychlé přečtení. Nic z jejího obsahu tu není uvedeno."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekt, zu viel, um es schnell zu lesen. Nichts darin wird hier aufgeführt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekte, zu viele, um sie schnell zu lesen. Nichts darin wird hier aufgeführt."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld de ítems, demasiados para leerlos rápidamente. Aquí no aparece nada de lo que hay dentro."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítem, demasiado para leerlo rápidamente. Aquí no aparece nada de lo que hay dentro."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítems, demasiados para leerlos rápidamente. Aquí no aparece nada de lo que hay dentro."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld d’éléments, trop pour que Peel les lise rapidement. Rien de ce qu’il contient n’est listé ici."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld élément, trop pour que Peel le lise rapidement. Rien de ce qu’il contient n’est listé ici."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld éléments, trop pour que Peel les lise rapidement. Rien de ce qu’il contient n’est listé ici."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld di elementi, troppi per una lettura rapida. Qui non è elencato nulla di ciò che contiene."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elemento, troppo per una lettura rapida. Qui non è elencato nulla di ciò che contiene."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elementi, troppi per una lettura rapida. Qui non è elencato nulla di ciò che contiene."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには%lld項目があり、すばやく読み取るには多すぎます。このフォルダ内のものは、ここには何も表示されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목 %lld개가 들어 있어 빠르게 읽기에는 너무 많습니다. 이 폴더 안에 있는 항목은 여기에 나열되지 않습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdeel, te veel om snel te lezen. Niets wat erin staat, wordt hier getoond."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdelen, te veel om snel te lezen. Niets wat erin staat, wordt hier getoond."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Niczego z jego zawartości nie ma tutaj na liście."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Niczego z jego zawartości nie ma tutaj na liście."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzecz, a to zbyt wiele, by szybko ją odczytać. Niczego z jego zawartości nie ma tutaj na liście."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Niczego z jego zawartości nie ma tutaj na liście."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld de itens, o que é demais para uma leitura rápida. Nada do que há lá dentro está listado aqui."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld item, o que é demais para uma leitura rápida. Nada do que há lá dentro está listado aqui."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld itens, o que é demais para uma leitura rápida. Nada do que há lá dentro está listado aqui."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articole, prea multe pentru a fi citite rapid. Nimic din dosar nu este listat aici."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articol, prea mult pentru a fi citit rapid. Nimic din dosar nu este listat aici."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld de articole, prea multe pentru a fi citite rapid. Nimic din dosar nu este listat aici."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Ничего внутри нее здесь не показано."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объектов, а это слишком много, чтобы быстро их прочитать. Ничего внутри нее здесь не показано."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объект, а это слишком много, чтобы быстро их прочитать. Ничего внутри нее здесь не показано."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Ничего внутри нее здесь не показано."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Inget i mappen listas här."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Inget i mappen listas här."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. İçindeki hiçbir şey burada listelenmiyor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. İçindeki hiçbir şey burada listelenmiyor."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементи, а це забагато, щоб швидко їх прочитати. Нічого з її вмісту тут не показано."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементів, а це забагато, щоб швидко їх прочитати. Нічого з її вмісту тут не показано."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемент, а це забагато, щоб швидко їх прочитати. Нічого з її вмісту тут не показано."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемента, а це забагато, щоб швидко їх прочитати. Нічого з її вмісту тут не показано."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld个项目，数量过多，无法快速读取。此处未列出其中的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld個項目，數量太多，無法快速讀取。此處不會列出其中的任何項目。"
+          }
+        }
+      }
+    },
     "It holds more folders than Peel looks through. Everything listed here can still go to the Trash. An orphaned file in the folders Peel skipped stays where it is." : {
       "localizations" : {
         "cs" : {
@@ -92565,6 +92905,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它包含的檔案夾數量超出Peel查看的範圍。此處列出的所有項目仍可丟到「垃圾桶」。這個App在Peel略過的檔案夾中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds more folders than Peel looks through. Nothing in the folders Peel skipped is listed here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje víc složek, než kolik jich Peel prochází. Nic z obsahu složek, které Peel přeskočil, tu není uvedeno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält mehr Unterordner, als Peel durchsieht. Nichts in den von Peel übersprungenen Ordnern wird hier aufgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene más carpetas de las que Peel revisa. Aquí no aparece nada de lo que hay en las carpetas que Peel no ha revisado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient plus de dossiers que Peel n’en parcourt. Rien de ce qui se trouve dans les dossiers que Peel n’a pas parcourus n’est listé ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene più cartelle di quante Peel ne esamini. Qui non è elencato nulla di ciò che si trova nelle cartelle che Peel ha saltato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、Peelが調べる数より多くのフォルダがあります。Peelがスキップしたフォルダ内のものは、ここには何も表示されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 Peel이 살펴보는 것보다 많은 폴더가 들어 있습니다. Peel이 건너뛴 폴더에 있는 항목은 여기에 나열되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat meer mappen dan Peel doorzoekt. Niets uit de mappen die Peel heeft overgeslagen, wordt hier getoond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera więcej folderów, niż Peel przegląda. Niczego z folderów, które Peel pominął, nie ma tutaj na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém mais pastas do que o Peel examina. Nada do que há nas pastas que o Peel pulou está listado aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține mai multe dosare decât examinează Peel. Nimic din dosarele omise de Peel nu este listat aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке больше вложенных папок, чем Peel просматривает. Ничего из папок, которые Peel пропустил, здесь не показано."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller fler mappar än Peel går igenom. Inget i mapparna som Peel hoppade över listas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde, Peel’in baktığından daha fazla klasör var. Peel’in atladığı klasörlerdeki hiçbir şey burada listelenmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці більше папок, ніж Peel переглядає. Нічого з папок, які Peel пропустила, тут не показано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的文件夹数量超出了Peel查看的上限。此处未列出Peel跳过的文件夹中的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的檔案夾數量超出Peel查看的範圍。此處不會列出Peel略過之檔案夾中的任何項目。"
           }
         }
       }
@@ -92989,6 +93435,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它包含的項目太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。這個App在其中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds too many items to read quickly. Nothing inside it is listed here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje příliš mnoho položek na rychlé přečtení. Nic z jejího obsahu tu není uvedeno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält zu viele Objekte, um sie schnell zu lesen. Nichts darin wird hier aufgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene demasiados ítems para leerlos rápidamente. Aquí no aparece nada de lo que hay dentro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient trop d’éléments pour que Peel les lise rapidement. Rien de ce qu’il contient n’est listé ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene troppi elementi per una lettura rapida. Qui non è elencato nulla di ciò che contiene."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、すばやく読み取るには多すぎる数の項目があります。このフォルダ内のものは、ここには何も表示されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목이 너무 많아 빠르게 읽을 수 없습니다. 이 폴더 안에 있는 항목은 여기에 나열되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat te veel onderdelen om snel te lezen. Niets wat erin staat, wordt hier getoond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera zbyt wiele rzeczy, by szybko je odczytać. Niczego z jego zawartości nie ma tutaj na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém itens demais para uma leitura rápida. Nada do que há lá dentro está listado aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține prea multe articole pentru a fi citite rapid. Nimic din dosar nu este listat aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке слишком много объектов, чтобы быстро их прочитать. Ничего внутри нее здесь не показано."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller för många objekt för att läsas snabbt. Inget i mappen listas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde hızlıca okunamayacak kadar çok öğe var. İçindeki hiçbir şey burada listelenmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці забагато елементів, щоб швидко їх прочитати. Нічого з її вмісту тут не показано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的项目过多，无法快速读取。此处未列出其中的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的項目太多，無法快速讀取。此處不會列出其中的任何項目。"
           }
         }
       }
