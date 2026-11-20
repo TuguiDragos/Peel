@@ -21,13 +21,9 @@ public enum OrphanRemoval {
         let kept = Set(orphaned.map(\.url))
         let privileged = Set(orphaned.filter(\.requiresPrivileges).map(\.url))
         let moving = mayUseHelper ? orphaned.map(\.url) : orphaned.map(\.url).filter { !privileged.contains($0) }
-        let walked = Dictionary(
-            orphaned.compactMap { item in item.foundBelow.map { (item.url, $0) } },
-            uniquingKeysWith: { first, _ in first }
-        )
         var result = await trashService.trash(
             moving, usingHelperFor: mayUseHelper ? privileged : [],
-            refusing: TrashService.refusingLinksOnTheWay(below: walked)
+            refusing: TrashService.refusingWhatChangedSinceTheScan(orphaned)
         )
         if !mayUseHelper {
             result.failures += orphaned.filter(\.requiresPrivileges).map {

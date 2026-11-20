@@ -16,6 +16,7 @@ struct UninstallPlan {
         var isALoadedJob = false
         /// The folder the scan walked down from to find it (`Leftover.foundBelow`).
         var foundBelow: URL?
+        var scanIdentity: ScanIdentity?
     }
 
     let app: URL
@@ -75,7 +76,8 @@ struct UninstallPlan {
                 : (leftover?.isMeasured == true ? leftover?.size : nil)
             return Item(
                 url: url, size: size, refusal: refusal(url), leadsTo: leftover?.leadsTo,
-                isALoadedJob: leftover?.isALoadedJob ?? false, foundBelow: leftover?.foundBelow
+                isALoadedJob: leftover?.isALoadedJob ?? false, foundBelow: leftover?.foundBelow,
+                scanIdentity: leftover?.scanIdentity
             )
         }
         let rest = keepLeftovers ? [] : uninstallation.scan.leftovers
@@ -143,12 +145,9 @@ struct UninstallPlan {
             usingHelperFor: [],
             lettingTheirProgramsRun: letsItsProgramsRun ? [app] : [],
             emptiedFoldersNamed: makersFolderNames,
-            refusing: TrashService.refusingLinksOnTheWay(
-                below: Dictionary(
-                    moving.compactMap { item in item.foundBelow.map { (item.url, $0) } },
-                    uniquingKeysWith: { first, _ in first }
-                )
-            )
+            refusing: TrashService.refusingWhatChangedSinceTheScan(moving)
         )
     }
 }
+
+extension UninstallPlan.Item: FoundByAScan {}

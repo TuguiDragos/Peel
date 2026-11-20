@@ -603,12 +603,7 @@ public struct Uninstallation: Sendable {
             usingHelperFor: throughTheHelper ? privilegedURLs : [],
             lettingTheirProgramsRun: uninstallsItself?.letsItsProgramsRun == true ? [app.url] : [],
             emptiedFoldersNamed: makersFolderNames,
-            refusing: TrashService.refusingLinksOnTheWay(
-                below: Dictionary(
-                    scan.leftovers.compactMap { leftover in leftover.foundBelow.map { (leftover.url, $0) } },
-                    uniquingKeysWith: { first, _ in first }
-                )
-            )
+            refusing: TrashService.refusingWhatChangedSinceTheScan(scan.leftovers)
         )
     }
 

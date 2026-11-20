@@ -799,17 +799,23 @@ public struct TrashService: Sendable {
         return result
     }
 
-    /// Refuses an item a scan found by walking down from its folder in `folders` into real folders alone, when a
-    /// folder between the two is a link now: it became one since the scan, so what it leads to was never listed.
-    public static func refusingLinksOnTheWay(below folders: [URL: URL]) -> @Sendable (URL) -> TrashFailure.Reason? {
-        let folders = Dictionary(
-            folders.map { (PathPattern.comparablePath(of: $0.key), $0.value) }, uniquingKeysWith: { first, _ in first }
+    /// Refuses an item no longer as its scan found it: with a folder on its way that is a link now, or with another
+    /// item at its name, such as a link where a folder was.
+    public static func refusingWhatChangedSinceTheScan(
+        _ items: [some FoundByAScan]
+    ) -> @Sendable (URL) -> TrashFailure.Reason? {
+        let found = Dictionary(
+            items.map { (PathPattern.comparablePath(of: $0.url), (below: $0.foundBelow, identity: $0.scanIdentity)) },
+            uniquingKeysWith: { first, _ in first }
         )
         return { url in
-            guard let folder = folders[PathPattern.comparablePath(of: url)], hasALinkOnTheWay(url, below: folder) else {
-                return nil
-            }
-            return .linkOnTheWay
+            guard let item = found[PathPattern.comparablePath(of: url)] else { return nil }
+            if let below = item.below, hasALinkOnTheWay(url, below: below) { return .linkOnTheWay }
+            var info = stat()
+            guard let identity = item.identity, lstat(url.path(percentEncoded: false), &info) == 0,
+                  !identity.isStill(info)
+            else { return nil }
+            return .changedSinceScan
         }
     }
 

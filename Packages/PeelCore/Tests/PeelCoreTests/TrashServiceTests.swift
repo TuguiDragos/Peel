@@ -87,9 +87,8 @@ struct TrashServiceTests {
         try FileManager.default.createSymbolicLink(at: example, withDestinationURL: target)
         let cache = try directory.directory("home/Library/Caches/org.example.dirapp")
 
-        let result = await service.trash(
-            [item, cache], refusing: TrashService.refusingLinksOnTheWay(below: [item: location])
-        )
+        let refusing = TrashService.refusingWhatChangedSinceTheScan([Found(url: item, foundBelow: location)])
+        let result = await service.trash([item, cache], refusing: refusing)
 
         #expect(result.failures.map(\.reason) == [.linkOnTheWay])
         #expect(result.trashed.map(\.originalURL) == [cache])
@@ -2129,4 +2128,10 @@ extension RunningProgram {
         }
         return URL(filePath: app, directoryHint: .isDirectory)
     }
+}
+
+private struct Found: FoundByAScan {
+    let url: URL
+    let foundBelow: URL?
+    var scanIdentity: ScanIdentity? = nil
 }

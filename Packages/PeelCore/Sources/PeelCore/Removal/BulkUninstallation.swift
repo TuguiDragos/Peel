@@ -47,6 +47,7 @@ public struct BulkUninstallation: Sendable {
         public var isALoadedJob = false
         /// The folder the scan walked down from to find it (`Leftover.foundBelow`).
         public var foundBelow: URL? = nil
+        public var scanIdentity: ScanIdentity? = nil
 
         public var id: URL { url }
 
@@ -247,12 +248,7 @@ public struct BulkUninstallation: Sendable {
                 uninstallations.filter { $0.uninstallsItself?.letsItsProgramsRun == true }.map(\.app.url)
             ),
             emptiedFoldersNamed: MakersFolders.names(of: uninstallations.map(\.app)),
-            refusing: TrashService.refusingLinksOnTheWay(
-                below: Dictionary(
-                    items.compactMap { item in item.foundBelow.map { (item.url, $0) } },
-                    uniquingKeysWith: { first, _ in first }
-                )
-            )
+            refusing: TrashService.refusingWhatChangedSinceTheScan(items)
         )
     }
 
@@ -333,7 +329,8 @@ public struct BulkUninstallation: Sendable {
                     syncedBy: existing.syncedBy ?? item.syncedBy,
                     leadsTo: existing.leadsTo ?? item.leadsTo,
                     isALoadedJob: existing.isALoadedJob || item.isALoadedJob,
-                    foundBelow: existing.foundBelow == item.foundBelow ? existing.foundBelow : nil
+                    foundBelow: existing.foundBelow == item.foundBelow ? existing.foundBelow : nil,
+                    scanIdentity: existing.scanIdentity ?? item.scanIdentity
                 )
             } else {
                 byURL[item.url] = item
@@ -367,7 +364,8 @@ public struct BulkUninstallation: Sendable {
                     syncedBy: leftover.syncedBy,
                     leadsTo: leftover.leadsTo,
                     isALoadedJob: leftover.isALoadedJob,
-                    foundBelow: leftover.foundBelow
+                    foundBelow: leftover.foundBelow,
+                    scanIdentity: leftover.scanIdentity
                 ))
             }
             add(Item(
@@ -399,3 +397,5 @@ public struct BulkUninstallation: Sendable {
         }
     }
 }
+
+extension BulkUninstallation.Item: FoundByAScan {}

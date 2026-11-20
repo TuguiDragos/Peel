@@ -1276,6 +1276,40 @@ struct UninstallationTests {
         #expect(!elsewhere.isMissing)
     }
 
+    @Test func aFolderThatBecameALinkSinceTheScanStaysWhileASavedFileGoes() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/SwapApp.app")
+        let cache = try directory.directory("home/Library/Caches/org.example.SwapApp")
+        try directory.file("home/Library/Caches/org.example.SwapApp/cache.db")
+        let settings = try directory.file("home/Library/Preferences/org.example.SwapApp.plist")
+        let real = try directory.directory("elsewhere").appending(path: "real")
+        let app = InstalledApp(url: bundle, bundleIdentifier: "org.example.SwapApp", name: "SwapApp")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scan = await LeftoverScanner(environment: environment).scan(app, installedApps: [app])
+        let found = Dictionary(scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.url) }) { first, _ in
+            first
+        }
+        let scannedCache = try #require(found[PathPattern.comparablePath(of: cache)])
+        let scannedSettings = try #require(found[PathPattern.comparablePath(of: settings)])
+        try FileManager.default.moveItem(at: cache, to: real)
+        try FileManager.default.createSymbolicLink(at: cache, withDestinationURL: real)
+        let saved = try directory.file("home/Library/Preferences/saved.tmp")
+        #expect(rename(saved.path(percentEncoded: false), settings.path(percentEncoded: false)) == 0)
+
+        let plan = Uninstallation(app: app, appSize: 10_000, appRequiresPrivileges: false, scan: scan)
+        let went = await plan.move(
+            [bundle, scannedCache, scannedSettings], using: try service(in: directory, refusing: nil)
+        )
+
+        #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+            == Set([bundle, settings].map(PathPattern.comparablePath(of:))))
+        #expect(went.failures.map(\.reason) == [.changedSinceScan])
+        #expect(cache.isSymbolicLink && !real.appending(path: "cache.db").isMissing)
+    }
+
     private func file(_ url: URL, _ kind: SearchLocation.Kind) -> Leftover {
         Leftover(
             url: url,

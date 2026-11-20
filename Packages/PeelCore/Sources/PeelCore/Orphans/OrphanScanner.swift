@@ -446,7 +446,8 @@ public struct OrphanScanner: Sendable {
                 modificationDate: contents?.newestChange,
                 requiresPrivileges: parent.requiresPrivileges(toRemove: url),
                 heldBack: parent.isOnAReadOnlyDisk ? .onAReadOnlyDisk : nil,
-                foundBelow: location.url
+                foundBelow: location.url,
+                scanIdentity: ScanIdentity(ofItemAt: url)
             )))
         }
         return .found(found, cutShort: nil, unreadable: [])
@@ -1081,7 +1082,8 @@ public struct OrphanScanner: Sendable {
             productFolder: folder,
             // A link in a folder of links leads into the gone app, as its group says.
             leadsTo: kind.isForLinks || !url.isSymbolicLink ? nil : url.leadsToInTheEnd,
-            foundBelow: foundBelow
+            foundBelow: foundBelow,
+            scanIdentity: ScanIdentity(ofItemAt: url)
         )
     }
 }

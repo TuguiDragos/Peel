@@ -392,6 +392,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     /// The folder a scan walked down from to find it, into real folders alone. Nil when it came from elsewhere, such
     /// as a cask's paths.
     public var foundBelow: URL? = nil
+    public var scanIdentity: ScanIdentity? = nil
 
     public var id: URL { url }
 
@@ -400,7 +401,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
             url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
             isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo,
-            isALoadedJob: isALoadedJob, foundBelow: foundBelow
+            isALoadedJob: isALoadedJob, foundBelow: foundBelow, scanIdentity: scanIdentity
         )
     }
 
@@ -412,10 +413,12 @@ public struct Leftover: Sendable, Hashable, Identifiable {
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
             isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo,
-            isALoadedJob: isALoadedJob, foundBelow: foundBelow
+            isALoadedJob: isALoadedJob, foundBelow: foundBelow, scanIdentity: scanIdentity
         )
     }
 }
+
+extension Leftover: FoundByAScan {}
 
 extension Leftover {
     /// The order every list of leftovers keeps: what could not be measured first, since it is most likely the

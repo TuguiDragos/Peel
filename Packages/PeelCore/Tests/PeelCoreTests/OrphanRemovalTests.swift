@@ -71,6 +71,35 @@ struct OrphanRemovalTests {
         #expect(!elsewhere.isMissing)
     }
 
+    @Test func leavesAFolderThatBecameALinkSinceTheScan() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("home/Library/Caches/org.example.mixer")
+        try directory.file("home/Library/Caches/org.example.mixer/cache.db")
+        let real = try directory.directory("elsewhere").appending(path: "real")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scanner = OrphanScanner(environment: environment) { _ in false }
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.mixer", name: "Mixer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Mixer.app"
+        )
+        let listed = await scanner.scan(installedApps: [], remembered: [gone]).groups.flatMap(\.items)
+        let item = try #require(listed.first { $0.url.lastPathComponent == "org.example.mixer" })
+        try FileManager.default.moveItem(at: folder, to: real)
+        try FileManager.default.createSymbolicLink(at: folder, withDestinationURL: real)
+        let trash = TrashService(environment: environment) { url in url }
+
+        let result = await OrphanRemoval.trash(
+            [item], installedApps: [], remembered: [gone], scanner: scanner, using: trash, mayUseHelper: true
+        )
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.changedSinceScan])
+        #expect(folder.isSymbolicLink && !real.appending(path: "cache.db").isMissing)
+    }
+
     @Test(.permissionsHold) func whatNeedsAnAdministratorStaysWhenTheHelperMayNotBeUsed() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.gone.app/cache.db")

@@ -22,6 +22,7 @@ public struct AppReset: Sendable {
         public let size: Int64
         /// The folder its scan walked down from to reach it, into real folders alone (`Leftover.foundBelow`).
         public var foundBelow: URL? = nil
+        public var scanIdentity: ScanIdentity? = nil
 
         public var id: URL { url }
     }
@@ -156,11 +157,8 @@ public struct AppReset: Sendable {
             outcome.stop = .appOpened
             return outcome
         }
-        let walked = Dictionary(
-            items.compactMap { item in item.foundBelow.map { (item.url, $0) } }, uniquingKeysWith: { first, _ in first }
-        )
         outcome.result = await service.trash(
-            urls, ownedBy: app.bundleIdentifier, refusing: TrashService.refusingLinksOnTheWay(below: walked)
+            urls, ownedBy: app.bundleIdentifier, refusing: TrashService.refusingWhatChangedSinceTheScan(items)
         )
         outcome.askedToMove = urls.count
         outcome.clearedSettings = clearsSettings(
@@ -252,7 +250,7 @@ public struct AppReset: Sendable {
             guard !(keepsAppData && group == .appData) else { return nil }
             return Item(
                 url: leftover.url, kind: leftover.kind, group: group, size: leftover.size,
-                foundBelow: leftover.foundBelow
+                foundBelow: leftover.foundBelow, scanIdentity: leftover.scanIdentity
             )
         }
 
@@ -301,11 +299,13 @@ public struct AppReset: Sendable {
             else { continue }
             // What the uninstall would hold back is never offered: a wallet or a repository inside, or a folder that
             // was not measured or not read.
+            let identity = ScanIdentity(ofItemAt: url)
             let seen = await measure(url)
             guard let seen, HoldBack.seen(in: seen) == nil else { continue }
-            items.append(
-                Item(url: url, kind: folder.kind, group: folder.group, size: seen.size, foundBelow: foundBelow)
-            )
+            items.append(Item(
+                url: url, kind: folder.kind, group: folder.group, size: seen.size, foundBelow: foundBelow,
+                scanIdentity: identity
+            ))
         }
         let preferences = container.appending(path: containerPreferenceFolder, directoryHint: .isDirectory)
         guard isReached(containerPreferenceFolder, throughRealFoldersOf: container) else { return items }
@@ -321,11 +321,13 @@ public struct AppReset: Sendable {
             guard (try? file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true,
                   !exclusions.excludes(file)
             else { continue }
+            let identity = ScanIdentity(ofItemAt: file)
             let seen = await measure(file)
             guard let seen, HoldBack.seen(in: seen) == nil else { continue }
-            items.append(
-                Item(url: file, kind: .preferences, group: .settings, size: seen.size, foundBelow: foundBelow)
-            )
+            items.append(Item(
+                url: file, kind: .preferences, group: .settings, size: seen.size, foundBelow: foundBelow,
+                scanIdentity: identity
+            ))
         }
         return items
     }
@@ -350,3 +352,5 @@ public struct AppReset: Sendable {
             || ProtectedData.holdsABrowserWallet(path) != .nothing
     }
 }
+
+extension AppReset.Item: FoundByAScan {}

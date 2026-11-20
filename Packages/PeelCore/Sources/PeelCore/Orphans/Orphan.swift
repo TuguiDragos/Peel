@@ -29,6 +29,7 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     /// The folder a scan walked down from to find it, into real folders alone. Nil for a record of an earlier
     /// uninstall.
     public var foundBelow: URL? = nil
+    public var scanIdentity: ScanIdentity? = nil
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {
@@ -191,3 +192,5 @@ public struct OrphanScan: Sendable {
         )
     }
 }
+
+extension OrphanItem: FoundByAScan {}

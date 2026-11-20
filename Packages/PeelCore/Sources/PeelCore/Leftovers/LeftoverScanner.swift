@@ -553,6 +553,7 @@ public struct LeftoverScanner: Sendable {
         // that was never pushed, and holding it back costs a checkmark, not a file.
         // A folder that did not answer in time is unknown, not empty: it may hold a repository, and the largest
         // folders are the ones that run out of time.
+        let scanIdentity = ScanIdentity(ofItemAt: url)
         let contents = await measure(url)
         let path = url.path(percentEncoded: false)
         let requiresPrivileges = parent.requiresPrivileges(toRemove: url)
@@ -597,7 +598,8 @@ public struct LeftoverScanner: Sendable {
             requiresPrivileges: requiresPrivileges,
             holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),
             syncedBy: syncedBy,
-            leadsTo: leadsElsewhere(url, match: match)
+            leadsTo: leadsElsewhere(url, match: match),
+            scanIdentity: scanIdentity
         )
     }
 
