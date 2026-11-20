@@ -417,8 +417,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   and fires seconds late on a busy Mac.
 - **A folder is counted before it is read whole.** A folder can hold a million items, and reading one whole takes
   minutes and gigabytes, so a scan asks the file system how many it holds first (`ScanReads.listing(of:)`,
-  `FolderEntries.count`), names one holding more than `ScanReads.entryLimit` instead of reading it, and the guard leaves
-  alone a folder whose look inside meets more than `FolderEntries.lookLimit`.
+  `FolderEntries.count`), names one holding more than `ScanReads.entryLimit` instead of reading it, and the guard's look
+  inside stops at `FolderEntries.lookLimit`, reading further only for a move the person asks for in the app, name by
+  name and keeping none (`ProtectedData.WholeLook`).
 - **An object kept only by a weak reference is kept alive on purpose.** Swift may release an object after its last
   use, and an open panel holds its delegate weakly, so the panel's delegate is kept with `extendLifetime` until the
   panel closes (`ScreenshotFolderPanel`). Only an optimized build reports the mistake.

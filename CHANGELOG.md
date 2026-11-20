@@ -339,6 +339,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A state, such as Notifications are off for Peel or Not known yet, is a few words, with why in the circled i beside it.
 - Where macOS keeps Peel out of places it doesn't name, the note says that Full Disk Access is off, with its button.
 - The notes in the circled i say what they say in fewer words, on every page.
+- A folder too full for a quick look, with more than 100,000 items in one folder inside it, can be selected on an app's
+  page, in Orphaned Files, and in Space, though never for you. When you move it in the app, Peel first looks through it
+  whole, once, with Looked at and Stop in the bar, and it goes only when nothing there is something Peel protects.
+  `peel` leaves it where it is.
 
 #### `peel`
 
@@ -1147,6 +1151,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Security
 
+- History seals each record and each line of its journal with an HMAC made with a key the app keeps in your keychain, so
+  Put Back no longer believes a record another program wrote: one whose seal does not match moves nothing, and one with
+  no seal, from an earlier version or from `peel`, goes back into Desktop, Documents, Downloads, iCloud Drive, or
+  another app's container only once you say so. Any program of your account could write History's file, and Put Back,
+  which reaches those places with Full Disk Access, followed it.
 - Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
   in `/Library/Preferences`, `/Library/LaunchDaemons`, `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, and
   `/Library/Application Support`, such as `com.apple.loginwindow.plist`, and the network settings in

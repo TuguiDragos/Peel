@@ -114,9 +114,12 @@ leaves them where they are.
 
 Peel finds a library, a browser profile with a wallet, or such work by looking a level or two inside a folder. So a
 folder with a folder inside that macOS won't let Peel list stays too, since what is in there isn't known, and its row
-says so, and so does a folder with one inside holding more than 100,000 items, too many to look through. An item that is
-no longer what the scan found when it is about to move, such as a folder replaced by a link, stays too. A folder only an
-administrator can move is looked into by Peel's helper instead, as root, before it moves it.
+says so. A folder with one inside holding more than 100,000 items, too many for that quick look, is never selected for
+you, and when you move it to the Trash in the app, Peel first reads it whole, name by name, with Looked at and Stop in
+the bar: it goes only when nothing there is something Peel protects, Stop leaves it where it is, and `peel` leaves it
+where it is. An item that is no longer what the scan found when it is about to move, such as a folder replaced by a
+link, stays too. A folder only an administrator can move is looked into by Peel's helper instead, as root, before it
+moves it.
 
 Also refused: a sandboxed app's own `Data/Documents`, which is where that app keeps *your* work, not its
 settings. The rule holds for the folder around it too: while `Data/Documents` holds anything, or cannot be
@@ -296,7 +299,12 @@ with every link resolved: a folder that is merely called `.Trash`, a link into M
 Trash, is refused. And it takes only the very item that went: History keeps which item it was (its inode and when
 it was made), so once the Trash is emptied, another item that lands in the same place, another project's
 `node_modules`, say, is never put back in its stead.
-Nor does it put anything back inside an app, since Peel moves an app only whole.
+Nor does it put anything back inside an app, since Peel moves an app only whole. Each record and each line of the
+journal Peel writes carries a seal, an HMAC made with a key the app keeps in your keychain as Peel History, so a record
+another program wrote or changed can't send Put Back anywhere: one whose seal doesn't match moves nothing. A record with
+no seal, written by an earlier version or by the `peel` command, which never reads that key, goes back into your
+Desktop, Documents, Downloads, iCloud Drive, or another app's container only once you say so, and `peel restore --yes`
+leaves it in the Trash.
 History offers to forget a record only once its item has certainly left the Trash, or is on a disk you say won't come
 back, asks first, and looks again just before; an item Peel isn't allowed to look at is shown as not known and kept.
 Forget… at the foot of History does the same for the removals you check, and never takes what is on a disk that isn't

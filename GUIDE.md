@@ -580,6 +580,9 @@ In Settings > General, choose Remove Peel. Peel then:
   exclusions, App Folders, and the settings Peel saved when you reset an app, among others;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
+The key Peel seals History with stays in your keychain, named Peel History; delete it in Keychain Access if you want it
+gone.
+
 Remove Peel takes no step, and says so before you choose it, while Peel itself can't move. From a folder this account
 can't change, it says who can: log in as the account Peel belongs to, or as an administrator, and choose it there, or,
 when neither can, drag Peel to the Trash in Finder, which asks for an administrator's password. When the helper went

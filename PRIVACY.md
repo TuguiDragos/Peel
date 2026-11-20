@@ -54,6 +54,10 @@ holds whatever the app kept in them. Like any file of yours, they can be read by
 account, so a program macOS keeps out of those folders can still read such names there. Nothing in them leaves your
 Mac, and Remove Peel moves them to the Trash with the rest of Peel's.
 
+Peel also keeps one key in your keychain, named Peel History, with which it seals each record of History so Put Back
+can tell one another program wrote. Only Peel's app reads it, it never leaves your Mac, and it stays when you remove
+Peel: delete it in Keychain Access if you want it gone.
+
 Peel's helper keeps its own record of what it moved, in a folder only root can read, and writes a line to the Mac's
 log, which Console shows, for each request: what it was asked to do, for which account, and what came of it. The
 path of an item it left in place shows there as private. A request about another maker's background service names
