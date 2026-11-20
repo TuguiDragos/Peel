@@ -10,22 +10,38 @@ struct Badge: View {
     /// The symbol's color, when there is one. The words never take it: a colored word reads under 4.5:1 on a light
     /// background.
     var tint: Color?
+    /// Takes more lines rather than be cut, for a badge that says a whole sentence.
+    var wraps = false
 
     var body: some View {
         LeavesRowSeparatorAlone {
-            Label {
-                title
-            } icon: {
-                Image(systemName: systemImage).rowTint(tint)
+            if wraps {
+                label
+                    .fixedSize(horizontal: false, vertical: true)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 2)
+                    .background(.quaternary, in: .rect(cornerRadius: 9))
+            } else {
+                label
+                    // One line: a badge that doesn't fit goes to the next line of its row whole, and is cut only when
+                    // it is wider than the row itself.
+                    .lineLimit(1)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 2)
+                    .background(.quaternary, in: .capsule)
             }
-            // One line: a badge that doesn't fit goes to the next line of its row whole, and is cut only when it
-            // is wider than the row itself.
-            .lineLimit(1)
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 2)
-            .background(.quaternary, in: .capsule)
+        }
+    }
+
+    private var label: some View {
+        Label {
+            title
+        } icon: {
+            Image(systemName: systemImage).rowTint(tint)
         }
     }
 }

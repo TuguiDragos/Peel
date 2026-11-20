@@ -27,6 +27,20 @@ struct ResetSheet: View {
 
     static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History will not put the old files back once the app has written new ones in their place."
 
+    /// What the reset moves and that the app opens without it, said of one item or of several.
+    static func movesSentence(count: Int, size: String, app: String, copiesSettings: Bool) -> LocalizedStringResource {
+        switch (copiesSettings, count == 1) {
+        case (true, true):
+            "Peel moves ^[\(count) item](inflect: true), \(size), to the Trash and copies the settings first. \(app) opens without it."
+        case (true, false):
+            "Peel moves ^[\(count) item](inflect: true), \(size), to the Trash and copies the settings first. \(app) opens without them."
+        case (false, true):
+            "Peel moves ^[\(count) item](inflect: true), \(size), to the Trash. \(app) opens without it."
+        case (false, false):
+            "Peel moves ^[\(count) item](inflect: true), \(size), to the Trash. \(app) opens without them."
+        }
+    }
+
     static func privacyNote(_ app: String) -> LocalizedStringResource {
         "Peel clears what \(app) was allowed to access, such as the camera or the microphone, so it asks you again. History cannot bring that back."
     }
@@ -98,9 +112,10 @@ struct ResetSheet: View {
             return Text("\(plan.app.name) asks you again for what it was allowed to access. History can’t undo this.")
         }
         var sentences = [
-            copiesSettings
-                ? Text("Peel moves ^[\(plan.selectedURLs.count) item](inflect: true), \(plan.selected.text), to the Trash and copies the settings first. \(plan.app.name) opens without them.")
-                : Text("Peel moves ^[\(plan.selectedURLs.count) item](inflect: true), \(plan.selected.text), to the Trash. \(plan.app.name) opens without them."),
+            Text(Self.movesSentence(
+                count: plan.selectedURLs.count, size: plan.selected.text, app: plan.app.name,
+                copiesSettings: copiesSettings
+            )),
         ]
         let groups = plan.reset?.groups(in: plan.selectedURLs) ?? []
         if groups.contains(.webData) {

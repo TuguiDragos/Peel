@@ -122,7 +122,7 @@ struct OrphanDetailView: View {
                 .help(Text(verbatim: group.title))
         } details: {
             if let badge = group.confidence.badge {
-                Badge(title: badge, systemImage: group.confidence.systemImage, tint: group.confidence.tint)
+                Badge(title: badge, systemImage: group.confidence.systemImage, tint: group.confidence.tint, wraps: true)
             }
             if let remembered = group.rememberedApp {
                 Text(verbatim: group.identifier)

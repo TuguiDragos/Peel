@@ -286,13 +286,20 @@ extension HistoryList {
         var lines: [String] = []
         if away > 0 {
             lines.append(String(inflecting: "^[\(away) item](inflect: true) on a disk that isn’t connected"))
-            lines.append(String(localized: "Connect the disk to put them back from its Trash."))
+            lines.append(Self.connectTheDisk(for: away))
         }
         if notKnown > 0 {
             lines.append(String(localized: "Peel can’t look in the Trash right now"))
             lines.append(String(localized: "History keeps what it can’t see until Peel can look again."))
         }
         return lines.joined(separator: "\n")
+    }
+
+    /// What putting back what is on a disk that is not connected needs, said of one item or of several.
+    static func connectTheDisk(for count: Int) -> String {
+        count == 1
+            ? String(localized: "Connect the disk to put it back from its Trash.")
+            : String(localized: "Connect the disk to put them back from its Trash.")
     }
 
     /// Whether a look's answer changes the rows the filter lists among `batches`, for the column's fade. The first

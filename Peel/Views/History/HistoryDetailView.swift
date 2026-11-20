@@ -108,7 +108,7 @@ struct HistoryDetailView: View {
         if !standing.away.isEmpty {
             Notice(
                 title: Text("^[\(standing.away.count) item](inflect: true) on a disk that isn’t connected"),
-                detail: Text("Connect the disk to put them back from its Trash."),
+                detail: Text(verbatim: HistoryList.connectTheDisk(for: standing.away.count)),
                 kind: .note
             ) {
                 Button("Forget") {

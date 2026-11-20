@@ -52,5 +52,11 @@ struct HistoryEmptyStateTests {
                 == "Peel can’t look in the Trash right now\nHistory keeps what it can’t see until Peel can look again."
         )
         #expect(!HistoryList.nothingLeftDetail(away: 1, notKnown: 1).contains(everything))
+        #expect(
+            HistoryList.nothingLeftDetail(away: 1, notKnown: 0)
+                == "1 item on a disk that isn’t connected\nConnect the disk to put it back from its Trash."
+        )
+        #expect(HistoryList.connectTheDisk(for: 1) == "Connect the disk to put it back from its Trash.")
+        #expect(HistoryList.connectTheDisk(for: 2) == "Connect the disk to put them back from its Trash.")
     }
 }
