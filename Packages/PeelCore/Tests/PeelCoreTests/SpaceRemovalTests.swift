@@ -325,6 +325,33 @@ struct SpaceRemovalTests {
         #expect(logPlan.heldBack.filter { $0.value == .writtenRecently }.map(\.key.lastPathComponent) == ["service.log"])
     }
 
+    @Test func theSoundLibraryIsNeverSuggestedAndWaitsForTheAppsThatUseIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Application Support/GarageBand/Instrument Library/Sampler/piano.exs")
+        try directory.file("root/Library/Application Support/Logic/Alchemy Samples/pad.wav")
+        try directory.file("root/Library/Audio/Apple Loops/Apple/01 Hip Hop/beat.caf")
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+        let library = try #require(report.items.first { $0.id == "sound-library" })
+
+        let closed = await SpaceRemoval.plan(for: library, environment: environment(directory), running: [:])
+        #expect(Set(closed.removable.map(\.lastPathComponent)) == ["Sampler", "pad.wav", "01 Hip Hop"])
+        #expect(closed.suggested.isEmpty)
+        #expect(closed.inUse.isEmpty)
+        #expect(closed.heldBack.values.allSatisfy { $0 == .soundLibrary } && closed.heldBack.count == 3)
+
+        let open = await SpaceRemoval.plan(
+            for: library, environment: environment(directory),
+            running: [Naming.normalized("com.apple.logic10"): "Logic Pro"]
+        )
+        #expect(open.removable.isEmpty)
+        #expect(Set(open.inUse.map(\.name)) == ["Logic Pro"])
+        #expect(open.inUse.count == 3)
+    }
+
     @Test func leavesICloudsOwnStateInTheCachesAlone() async throws {
         let directory = try TemporaryDirectory()
         let state = ["CloudKit", "com.apple.bird", "com.apple.FileProviderDaemon.AppStoreService"]

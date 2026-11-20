@@ -239,6 +239,10 @@ nonisolated extension SpaceItem {
             title: "Caches for All Users",
             detail: "What apps cached for every account on this Mac. What an open app uses, or a service wrote in the last 15 minutes, stays."
         ),
+        "sound-library": Words(
+            title: "Sound Library",
+            detail: "The instruments, loops, and lessons GarageBand, Logic Pro, and MainStage share, as macOS names them in its storage settings. Nothing here is selected for you, and nothing moves while one of those apps is open. Each app downloads what it needs again when you ask."
+        ),
         "system-logs": Words(
             title: "Logs for All Users",
             detail: "Logs that apps and services wrote for every account, and the crash reports macOS keeps. Only the logs are offered, never their folders, and what a service wrote in the last 15 minutes stays."

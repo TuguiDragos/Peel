@@ -140482,6 +140482,112 @@
         }
       }
     },
+    "Not selected: GarageBand, Logic Pro, and MainStage use these sounds, and download them again only when you ask, which can take a long time." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tyto zvuky používají aplikace GarageBand, Logic Pro a MainStage a znovu je stáhnou, jen pokud o to požádáte, což může trvat dlouho."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: GarageBand, Logic Pro und MainStage verwenden diese Sounds und laden sie nur dann erneut, wenn du es veranlasst, was lange dauern kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: GarageBand, Logic Pro y MainStage usan estos sonidos, y solo los vuelven a descargar cuando se lo pides, lo que puede tardar mucho."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : GarageBand, Logic Pro et MainStage utilisent ces sons et ne les téléchargent à nouveau que lorsque vous le demandez, ce qui peut prendre longtemps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: GarageBand, Logic Pro e MainStage usano questi suoni e li scaricano di nuovo solo quando glielo chiedi, il che può richiedere molto tempo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: GarageBand、Logic Pro、MainStageはこれらのサウンドを使用します。これらのアプリが再ダウンロードするのは指示したときだけで、長い時間がかかることがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: GarageBand, Logic Pro 및 MainStage가 사용하는 사운드로, 사용자가 요청할 때만 다시 다운로드되며 다운로드하는 데 시간이 오래 걸릴 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: GarageBand, Logic Pro en MainStage gebruiken deze geluiden en downloaden ze alleen opnieuw als je daarom vraagt, wat lang kan duren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: GarageBand, Logic Pro i MainStage korzystają z tych dźwięków i pobierają je ponownie tylko wtedy, gdy o to poprosisz, co może długo trwać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o GarageBand, o Logic Pro e o MainStage usam estes sons e só os baixam de novo quando você pede, o que pode demorar muito."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: GarageBand, Logic Pro și MainStage folosesc aceste sunete și le descarcă din nou doar la cererea dvs., ceea ce poate dura mult timp."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: GarageBand, Logic Pro и MainStage используют эти звуки, а заново загружают их только по Вашему запросу, что может занять много времени."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: GarageBand, Logic Pro och MainStage använder de här ljuden och hämtar dem igen bara när du ber om det, vilket kan ta lång tid."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: GarageBand, Logic Pro ve MainStage bu sesleri kullanır ve onları yalnızca siz istediğinizde yeniden indirir, bu da uzun sürebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: ці звуки використовують GarageBand, Logic Pro та MainStage, а знову викачують їх лише тоді, коли ви попросите, і це може тривати довго."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：“库乐队”、Logic Pro和MainStage会使用这些声音，并且只会在你要求时重新下载它们，这可能需要很长时间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：GarageBand、Logic Pro和MainStage會使用這些聲音，而且只會在你要求時重新下載，這可能需要較長的時間。"
+          }
+        }
+      }
+    },
     "Not selected: Git tracks files in this folder, so it is part of the project. Moving it would show them as deleted in Git." : {
       "localizations" : {
         "cs" : {
@@ -228528,6 +228634,112 @@
         }
       }
     },
+    "Sound Library" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zvuková knihovna"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soundmediathek"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biblioteca de sonidos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliothèque de sons"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libreria di suoni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サウンドライブラリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사운드 라이브러리"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geluidenbibliotheek"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biblioteka dźwięków"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biblioteca de Sons"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bibliotecă de sunete"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Библиотека звуков"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ljudbibliotek"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ses Kitaplığı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фонотека"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "声音资源库"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "聲音資料庫"
+          }
+        }
+      }
+    },
     "Source" : {
       "localizations" : {
         "cs" : {
@@ -248705,6 +248917,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App啟動時，圖像會保持不動。"
+          }
+        }
+      }
+    },
+    "The instruments, loops, and lessons GarageBand, Logic Pro, and MainStage share, as macOS names them in its storage settings. Nothing here is selected for you, and nothing moves while one of those apps is open. Each app downloads what it needs again when you ask." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nástroje, smyčky a lekce, které sdílejí aplikace GarageBand, Logic Pro a MainStage, jak je systém macOS nazývá v nastavení úložiště. Nic tu za vás není vybráno a nic se nepřesune, dokud je některá z těchto aplikací otevřená. Každá aplikace si potřebný obsah znovu stáhne, až ji o to požádáte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Instrumente, Loops und Übungen, die GarageBand, Logic Pro und MainStage gemeinsam nutzen, so wie macOS sie in seinen Speichereinstellungen nennt. Hier ist nichts für dich ausgewählt, und nichts wird verschoben, solange eine dieser Apps geöffnet ist. Jede App lädt erneut, was sie braucht, wenn du es veranlasst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los instrumentos, bucles y lecciones que comparten GarageBand, Logic Pro y MainStage, como los llama macOS en sus ajustes de almacenamiento. Aquí Peel no selecciona nada por ti, y nada se traslada mientras una de esas apps esté abierta. Cada app vuelve a descargar lo que necesita cuando se lo pides."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les instruments, boucles et leçons que partagent GarageBand, Logic Pro et MainStage, tels que macOS les nomme dans ses réglages de stockage. Rien n’est sélectionné ici à votre place, et rien n’est déplacé tant que l’une de ces apps est ouverte. Chaque app télécharge à nouveau ce dont elle a besoin lorsque vous le demandez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli strumenti, i loop e le lezioni che GarageBand, Logic Pro e MainStage condividono, come li chiama macOS nelle impostazioni dello spazio di archiviazione. Qui nulla viene selezionato al posto tuo, e nulla viene spostato mentre una di queste app è aperta. Ogni app scarica di nuovo ciò che le serve quando glielo chiedi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GarageBand、Logic Pro、MainStageが共有する音源、ループ、レッスンで、macOSのストレージ設定で挙げられているものです。ここでは何も自動で選択されず、これらのアプリのいずれかが開いている間は何も移動しません。各アプリは、指示したときに必要なものを再ダウンロードします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 저장 공간 설정에서 GarageBand, Logic Pro 및 MainStage가 함께 사용하는 항목으로 지정한 악기, 루프 및 레슨입니다. 여기에 있는 항목은 미리 선택되지 않으며, 이 앱 중 하나라도 열려 있는 동안에는 아무것도 이동되지 않습니다. 각 앱은 사용자가 요청하면 필요한 항목을 다시 다운로드합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De instrumenten, loops en lessen die GarageBand, Logic Pro en MainStage delen, zoals macOS ze in de opslaginstellingen noemt. Niets hier is voor je geselecteerd, en er wordt niets verplaatst zolang een van die apps open is. Elke app downloadt opnieuw wat die nodig heeft als je daarom vraagt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumenty, pętle i lekcje, z których wspólnie korzystają GarageBand, Logic Pro i MainStage, tak jak nazywa je macOS w Ustawieniach systemowych > Ogólne > Miejsce. Nic tu nie jest zaznaczane za Ciebie i nic nie zostanie przeniesione, dopóki otwarta jest któraś z tych aplikacji. Każda z nich pobierze ponownie to, czego potrzebuje, gdy o to poprosisz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os instrumentos, loops e aulas que o GarageBand, o Logic Pro e o MainStage compartilham, como o macOS os chama nos ajustes de armazenamento. O Peel não seleciona nada aqui por você, e nada é movido enquanto um desses apps estiver aberto. Cada app baixa de novo o que precisa quando você pede."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentele, buclele și lecțiile pe care GarageBand, Logic Pro și MainStage le folosesc în comun, așa cum le numește macOS în configurările sale de stocare. Nimic de aici nu este selectat pentru dvs. și nimic nu se mută cât timp una dintre aceste aplicații este deschisă. Fiecare aplicație descarcă din nou ce îi trebuie, la cererea dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструменты, лупы и уроки, общие для GarageBand, Logic Pro и MainStage, как их называет macOS в настройках хранилища. Здесь ничего не выбрано за Вас, и ничего не перемещается, пока открыто одно из этих приложений. Каждое приложение заново загружает то, что ему нужно, по Вашему запросу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumenten, looparna och lektionerna som GarageBand, Logic Pro och MainStage delar, så som macOS anger dem i sina lagringsinställningar. Inget här är markerat åt dig, och inget flyttas medan någon av de apparna är öppen. Varje app hämtar det den behöver igen när du ber om det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GarageBand, Logic Pro ve MainStage uygulamalarının paylaştığı enstrümanlar, döngüler ve dersler; macOS bunları saklama alanı ayarlarında bu şekilde adlandırır. Buradaki hiçbir şey sizin yerinize seçilmez ve bu uygulamalardan biri açıkken hiçbir şey taşınmaz. Her uygulama, ihtiyaç duyduğu şeyleri siz istediğinizde yeniden indirir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інструменти, петлі й уроки (так їх називає macOS у налаштуваннях сховища), якими спільно користуються GarageBand, Logic Pro та MainStage. Тут Peel нічого не вибирає за вас і нічого не переміщує, поки відкрита одна з цих програм. Кожна програма знову викачує те, що їй потрібно, коли ви про це попросите."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“库乐队”、Logic Pro和MainStage共用的乐器、乐段和课程，与macOS储存空间设置中的名称一致。Peel不会替你选择这里的任何内容，而且只要这些App中有一个处于打开状态，就不会移动任何内容。每个App都会在你要求时重新下载所需的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GarageBand、Logic Pro和MainStage共用的樂器、循環樂段和課程，即macOS在「儲存空間」設定中列出的項目。這裡不會替你選取任何項目，而且只要其中任一App是打開的，就不會移動任何項目。每個App都會在你要求時重新下載它所需的內容。"
           }
         }
       }

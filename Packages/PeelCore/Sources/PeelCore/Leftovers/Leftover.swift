@@ -143,6 +143,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Holds models, as Developer's table names a tool's store: a long download to get back, and the ones the person
     /// made or imported may exist only here (`DeveloperCaches.holdsModels`).
     case holdsModels
+    /// Part of the sound library GarageBand, Logic Pro, and MainStage share, which they download again when asked.
+    case soundLibrary
     /// Terraform's or OpenTofu's state is inside, the only record of what it made when its backend is local.
     case holdsTerraformState
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).

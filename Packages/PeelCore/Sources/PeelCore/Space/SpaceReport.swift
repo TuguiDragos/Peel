@@ -48,6 +48,8 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// True when no app or tool looks after the area, or the ones that do are gone from this Mac, so the person
     /// removes what it holds in Finder, as its page says how.
     public var isRemovedByHand = false
+    /// The apps that use everything in the area while they are open (`Definition.usedWhileOpenBy`).
+    public var usedWhileOpenBy: [String] = []
     /// What each place takes, for an area whose places are the items of one folder.
     public var placeSizes: [URL: SizeTotal] = [:]
     /// A fact about some of its places, which the app puts into words.
@@ -189,6 +191,8 @@ public enum SpaceInventory {
         var keepsItsFolders = false
         var commands: [Command] = []
         var managedBy: ManagingApps?
+        /// The apps that use everything in the area while they are open, so nothing in it moves until they quit.
+        var usedWhileOpenBy: [String] = []
         /// True for an area no app or tool looks after, which the person clears in Finder.
         var isRemovedByHand = false
         /// The places of an area that lists the items of folders it finds again at each scan.
@@ -552,6 +556,27 @@ public enum SpaceInventory {
             leavesMacOSsOwn: true,
             holdsBackRecentWrites: true
         ),
+        // macOS's storage extension for GarageBand names these folders as the sound library GarageBand, Logic Pro,
+        // and MainStage share, which they download again when asked, and removes them only while GarageBand is closed.
+        Definition(
+            id: "sound-library",
+            category: .media,
+            paths: [
+                "/Library/Application Support/GarageBand/Instrument Library",
+                "/Library/Application Support/GarageBand/Learn to Play/Basic Lessons",
+                "/Library/Application Support/Logic/Alchemy Samples",
+                "/Library/Application Support/Logic/Channel Strip Settings",
+                "/Library/Application Support/Logic/EXS Factory Samples",
+                "/Library/Application Support/Logic/Plug-In Settings",
+                "/Library/Application Support/Logic/Sampler Instruments",
+                "/Library/Application Support/Logic/Ultrabeat Samples",
+                "/Library/Audio/Apple Loops/Apple",
+                "/Library/Audio/Impulse Responses/Apple",
+            ],
+            handling: .trash,
+            heldBack: .soundLibrary,
+            usedWhileOpenBy: ["com.apple.garageband10", "com.apple.logic10", "com.apple.mainstage3"]
+        ),
         Definition(
             id: "system-logs",
             category: .library,
@@ -851,6 +876,7 @@ public enum SpaceInventory {
             managingAppIsMissing: managingAppIsMissing,
             isRemovedByHand: definition.isRemovedByHand
                 || managingAppIsMissing && definition.managedBy?.isRemovedByHandOnceGone == true,
+            usedWhileOpenBy: definition.usedWhileOpenBy,
             inContainers: counted,
             placesNotCounted: counted.isEmpty ? nil : urls.filter { url in
                 !counted.contains { container(of: url, in: $0.parent) != nil }

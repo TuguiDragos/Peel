@@ -504,6 +504,7 @@ extension HoldBack {
         case .holdsAnotherAppsData: "holds what another installed app keeps as its own"
         case .holdsWhatAToolKeeps: "holds what a developer tool keeps and may still use, such as installed packages"
         case .holdsModels: "holds model weights or datasets, a long download to get back"
+        case .soundLibrary: "part of the sound library GarageBand, Logic Pro, and MainStage download again"
         case .holdsTerraformState: "holds Terraform's state, the only record of what it made with a local backend"
         case .beyondTheHelper: "needs an administrator, and Peel's helper can't move it"
         case .onAReadOnlyDisk: "on a disk that can only be read, so nothing can move it"

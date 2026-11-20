@@ -849,6 +849,8 @@ extension HoldBack {
             "Not selected: a developer tool may still use what it keeps here, such as packages or model weights."
         case .holdsModels:
             "Not selected: this holds model weights or datasets, a long download to get back, and any you made or imported may exist only on this Mac."
+        case .soundLibrary:
+            "Not selected: GarageBand, Logic Pro, and MainStage use these sounds, and download them again only when you ask, which can take a long time."
         case .beyondTheHelper:
             "Left alone: only an administrator can move this, and the Peel helper cannot move it from here."
         case .onAReadOnlyDisk:

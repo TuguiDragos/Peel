@@ -308,8 +308,9 @@ public enum SpaceRemoval {
             home: environment.homeDirectory, userCache: environment.userCacheDirectory, root: environment.rootDirectory
         )
         for url in item.urls {
-            // Everything in an app's container is that app's, whatever its name.
+            // Everything in an app's container is that app's, whatever its name, and so is an area an open app uses.
             let owner = macOSsOwn.container(holding: url).flatMap { running[Naming.normalized($0)] }
+                ?? item.usedWhileOpenBy.lazy.compactMap { running[Naming.normalized($0)] }.first
             sort(url, leaving: developerFolders.inside(url), owner: owner)
         }
         return (removable, inUse, leftToDeveloper, refused, unreadable, closed, keptByMacOS)
