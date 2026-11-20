@@ -94,6 +94,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   folder that may hold what you made with the app, such as GPT4All's. Uninstalling a formula names the models the tool
   leaves in your home folder, such as Ollama's.
 
+#### Space
+
+- Space lists the sound library GarageBand, Logic Pro, and MainStage share, as macOS names it in its storage settings.
+  Nothing in it is selected for you, and nothing moves while one of those apps is open.
+
 #### Developer
 
 - Developer lists the models Docker Model Runner, Handy, Osaurus, llm-gguf, and exo keep, and each model of LM Studio
@@ -355,6 +360,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - VoiceOver says Warning or Info for the mark of a notice on Home, as everywhere else, rather than the symbol's name.
 - The note beside Peel's login item names Open at Login, the section where System Settings lists it.
 - What is free on the disk is read again each time Home appears, so it is right after a Homebrew uninstall or Clean Up.
+- Side by side, Home's two halves line up on what they show: the greeting on the line of the note beside it, and the
+  pair centered in the window, full screen included.
 
 #### Menu bar
 
@@ -443,6 +450,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   fewer.
 - Turning on Show Only What Left the Trash no longer flashes a spinner while Peel looks in the Trash: it shows only
   after 150 ms, as Peel's other busy marks do.
+- Under one item on a disk that isn't connected, History says to connect the disk to put it back, not them.
+- Turning on Show Only What Left the Trash says how many removals it shows and that Not Moved is hidden, and each
+  removal says when what it moved left the Trash.
 
 #### Settings
 
@@ -667,6 +677,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - After a removal, the lines of the shell startup files that still name what moved include those of the .zshrc a
   ZDOTDIR given after a condition on one line points to.
 - A long list of extensions in what an app opens by default breaks between two extensions, no longer inside one.
+- The Reset question says the app opens without it, not without them, when one item is selected.
 
 #### Orphaned Files
 
@@ -716,6 +727,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What an installed launchd job runs is no longer listed when it is named otherwise than the job: its program, the
   script or program it starts through a shell, an interpreter, or `env`, the jar it runs with `java -jar`, what it opens
   with `open`, or a folder holding one. Moving it left the job with nothing to run.
+- The reason at the head of a group takes more lines rather than being cut, as it was in French and German at the
+  narrowest window.
 
 #### Intel Software
 
@@ -814,6 +827,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   longer counts as a finished run.
 - A cask from a tap Homebrew does not trust says why Homebrew offers no newer version for it, with Homebrew's command to
   trust that cask, rather than looking up to date.
+- The Homebrew page notes a stopped upgrade also when Homebrew left an empty folder where the app was.
 
 #### Space
 
@@ -840,6 +854,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - App Caches no longer asks you to quit a part of macOS, such as AuthenticationServicesAgent, to include its folder:
   macOS starts its own processes again, so that folder stays as macOS's own.
 - On macOS 27, Space says how much Apple Intelligence can keep only while Apple Intelligence is turned on.
+- Opening an area whose folder holds more items than a scan reads lists that folder as one row left alone, rather than
+  reading it for minutes.
 
 #### Developer
 
@@ -856,6 +872,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A folder Developer lists by its entries, such as DerivedData, stays on the page when its entries can't be read, with
   why its size isn't known.
 - ModelScope's models and datasets, kept under `~/.cache/modelscope` since its SDK 1.38, are listed and never selected.
+- A folder Developer lists by its entries is counted first, and one too full to read is a row of its own.
 
 #### Build Artifacts
 
@@ -875,6 +892,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Only `.turbo/cache` is offered: the rest of `.turbo` keeps the link `turbo link` makes to a remote cache.
 - A project's `.gradle` folder that holds the JDK Android Studio chose for it, in `config.properties`, is listed and
   left unselected.
+- Each folder the walk reaches is counted first, and one holding more than a scan reads is named on the page and in
+  `peel projects`, with a way to it in Finder.
 
 #### Installers and Backups
 
@@ -890,6 +909,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   when macOS kept Peel out, and a folder Peel moves from that is a link is said to be kept elsewhere.
 - When macOS doesn't say which disk images are open, a disk image is left unselected and refused when moved, with why.
 - The summary counts and sizes only what can move now, with the helper as it is.
+- A firmware file Apple Configurator keeps is named first, with its folder on a line under it, so two files never look
+  the same at the narrowest window.
+- A folder of yours holding more items than a scan reads is counted first and named on the page, instead of read whole
+  twice.
 
 #### Duplicates
 
@@ -920,6 +943,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   refuses them all.
 - A copy whose disk is ejected while Duplicates moves its group says its disk is no longer connected, rather than that
   the copy Peel kept changed or moved.
+- A folder holding more items than a scan reads is left out of the folder comparison, with every folder around it, and
+  its files are still compared one by one.
 
 #### iCloud Drive
 - When iCloud Drive itself can't be read but Desktop and Documents can, their files are listed with a note and a total
@@ -1076,6 +1101,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   keeps included.
 - On macOS 27, Peel no longer quits 30 seconds after a shortcut's Show in Peel opens it in the background: it stays open
   while its window or its menu bar item shows.
+- The words under a scan's spinner are centered, and each circled i sits on the middle of the first line beside it.
+- An alert that lists what stayed says each reason once, with the items under it, at most four in all and then how many
+  more. Copy Details keeps every item, and the apps to quit, the apps that stayed, the privacy resets, Remove Peel,
+  Build Artifacts, Duplicates, and iCloud Drive say it the same way.
+- When the Peel helper stops during a move and answers again later in the same move, what it had not taken says to try
+  the move again, instead of telling you to repair the helper.
 
 #### `peel`
 
