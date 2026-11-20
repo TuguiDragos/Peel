@@ -79,6 +79,7 @@ private struct ScanStateModifier<Message: View>: ViewModifier {
                             case .homebrewUpdate: Text("Updating Homebrew…")
                             }
                         }
+                        .multilineTextAlignment(.center)
                     case .stopped:
                         StoppedScan()
                     case .message:
