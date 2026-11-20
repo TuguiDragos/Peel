@@ -233,10 +233,17 @@ public enum SpaceRemoval {
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?, onlyFiles inside: Bool = false) {
-            guard let children = try? FileManager.default.contentsOfDirectory(
-                at: folder, includingPropertiesForKeys: nil
-            ) else {
-                if !folder.isMissing { unreadable.append(folder) }
+            let children: [URL]
+            switch ScanReads.listing(of: folder) {
+            case .names(let names):
+                children = names.map { folder.appending(path: $0) }
+            case .holdsTooMany:
+                closed.append((folder, .tooManyToLookThrough))
+                return
+            case .missing:
+                return
+            case .unreadable:
+                unreadable.append(folder)
                 return
             }
             let holdsReports = filesOnly.contains(PathPattern.comparablePath(of: folder))

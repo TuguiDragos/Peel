@@ -131,6 +131,19 @@ struct SpaceRemovalTests {
         #expect(!plan.removable.contains { $0.lastPathComponent == "com.tuguidragos.Peel" })
     }
 
+    @Test func anAreaTooFullToListIsLeftAloneWithItsReason() async throws {
+        let directory = try TemporaryDirectory()
+        let caches = try directory.directory("home/Library/Caches")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: caches.appending(path: "org.example.\(number)").path, contents: nil)
+        }
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory))
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["Caches"])
+        #expect(plan.heldBack.values.contains(.tooManyToLookThrough))
+    }
+
     @Test func neverAsksToQuitPartOfMacOS() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.apple.AuthenticationServicesCore.AuthenticationServicesAgent/c.db")
