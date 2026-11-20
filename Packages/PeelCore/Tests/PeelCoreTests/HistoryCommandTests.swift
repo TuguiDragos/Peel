@@ -30,7 +30,7 @@ struct HistoryCommandTests {
 
     /// One removal of one file, already in a Trash of its own, ready to be put back.
     private func removal(in directory: borrowing TemporaryDirectory) throws -> (record: RemovalRecord, original: URL) {
-        let original = directory.url.appending(path: "home/Documents/report.pdf")
+        let original = directory.url.appending(path: "home/Projects/report.pdf")
         let trashed = try directory.file("home/.Trash/report.pdf", bytes: 40)
         return (RemovalRecord(
             batch: UUID(),
@@ -216,7 +216,7 @@ struct HistoryCommandTests {
         let trashed = try directory.file("home/.Trash/report.pdf")
         let record = RemovalRecord(
             batch: UUID(),
-            item: TrashedItem(originalURL: directory.url.appending(path: "home/Documents/report.pdf"), trashedURL: trashed, date: .now),
+            item: TrashedItem(originalURL: directory.url.appending(path: "home/Projects/report.pdf"), trashedURL: trashed, date: .now),
             size: 16,
             source: "Editor",
             tool: "applications"
@@ -334,7 +334,7 @@ struct HistoryCommandTests {
         let unknown = RemovalRecord(
             batch: known.batch,
             item: TrashedItem(
-                originalURL: directory.url.appending(path: "home/Documents/notes.txt"),
+                originalURL: directory.url.appending(path: "home/Projects/notes.txt"),
                 trashedURL: try directory.file("home/.Trash/notes.txt", bytes: 3),
                 date: .now
             ),
@@ -649,7 +649,7 @@ struct HistoryCommandTests {
         let unseen = RemovalRecord(
             batch: taken.record.batch,
             item: TrashedItem(
-                originalURL: directory.url.appending(path: "home/Documents/other.pdf"), trashedURL: locked, date: .now
+                originalURL: directory.url.appending(path: "home/Projects/other.pdf"), trashedURL: locked, date: .now
             ),
             size: 16, source: "Editor", tool: "applications"
         )
@@ -678,7 +678,7 @@ struct HistoryCommandTests {
         let emptied = RemovalRecord(
             batch: taken.record.batch,
             item: TrashedItem(
-                originalURL: directory.url.appending(path: "home/Documents/notes.txt"),
+                originalURL: directory.url.appending(path: "home/Projects/notes.txt"),
                 trashedURL: directory.url.appending(path: "home/.Trash/notes.txt"), date: .now
             ),
             size: 10, source: "Editor", tool: "applications"
@@ -767,7 +767,7 @@ struct HistoryCommandTests {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let taken = try removal(in: directory)
-        try directory.file("home/Documents/report.pdf", bytes: 1)
+        try directory.file("home/Projects/report.pdf", bytes: 1)
         _ = await logs.removals.add([taken.record])
 
         let dry = try await restoring(taken.record, "--dry-run", from: logs, in: directory)
@@ -842,12 +842,12 @@ struct HistoryCommandTests {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let taken = try removal(in: directory)
-        try directory.file("home/Documents/report.pdf", bytes: 1)
+        try directory.file("home/Projects/report.pdf", bytes: 1)
         func record(_ name: String) -> RemovalRecord {
             RemovalRecord(
                 batch: taken.record.batch,
                 item: TrashedItem(
-                    originalURL: directory.url.appending(path: "home/Documents/\(name)"),
+                    originalURL: directory.url.appending(path: "home/Projects/\(name)"),
                     trashedURL: directory.url.appending(path: "home/.Trash/\(name)"),
                     date: .now
                 ),
@@ -906,7 +906,7 @@ struct HistoryCommandTests {
         let logs = logs(in: directory)
         let removal = try removal(in: directory)
         _ = await logs.removals.add([removal.record])
-        try directory.file("home/Documents/report.pdf", bytes: 1)
+        try directory.file("home/Projects/report.pdf", bytes: 1)
 
         await #expect(throws: ExitCode.failure) {
             try await (command(["restore", String(removal.record.batch.uuidString.prefix(8)), "-y"]) as RestoreCommand)

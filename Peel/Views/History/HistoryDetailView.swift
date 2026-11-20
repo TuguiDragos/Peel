@@ -9,6 +9,9 @@ struct HistoryDetailView: View {
     /// moment, and offer to forget records that are still there.
     @State private var standing: RemovalStanding?
     @State private var isAskingToForget = false
+    /// What a Put Back waits for the person's word on: items going back into places macOS guards from records Peel
+    /// can't check.
+    @State private var guardedPutBack: (records: [RemovalRecord], places: [GuardedPlace])?
     @State private var isAskingToForgetAway = false
     let batch: RemovalBatch
 
@@ -52,8 +55,28 @@ struct HistoryDetailView: View {
             ) {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)
+                let places = history.guardedPlaces(among: selected)
+                guard places.isEmpty else {
+                    guardedPutBack = (selected, places)
+                    return
+                }
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }
+        }
+        .alert(
+            Text("Put back into a place macOS guards?"),
+            isPresented: Binding(get: { guardedPutBack != nil }, set: { if !$0 { guardedPutBack = nil } }),
+            presenting: guardedPutBack
+        ) { asked in
+            Button("Put Back") {
+                Task {
+                    await history.restore(asked.records, canUseHelper: helper.canAct, guardedPlacesConfirmed: true)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
+        } message: { asked in
+            Text("Peel cannot check the record of these items in History, so another program may have written it. Put them back into \(asked.places.map(\.name).formatted(.list(type: .and))) only if Peel moved them.")
         }
         .toolbar(removing: .title)
         .task(id: Look(batch: batch, trashLooks: history.trashLooks)) {

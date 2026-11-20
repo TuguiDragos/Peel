@@ -350,6 +350,8 @@ struct PeelApp: App {
     /// Loads what every page needs once, at launch: the exclusions, the apps, Homebrew, and Home's checks.
     private func launch() async {
         history.stats = stats
+        // Before History is first read, which takes in what the journal holds by the seal it carries.
+        await Task.detached { HistorySeal.useTheKeychain() }.value
         await history.checkReadability()
         // On the main actor, so it never runs between the SSH tab's own read and write.
         SSHFile.bringUpToDate(ssh.file)

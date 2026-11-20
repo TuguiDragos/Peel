@@ -388,10 +388,18 @@ struct RestoreCommand: AsyncParsableCommand {
         let batch = try Self.batch(matching: id, in: Batch.all(in: records))
         let inTheTrash = batch.restorable
         let asked = inTheTrash.withTheFoldersTheyLeft(in: records)
-        let refused = asked.compactMap { record in
+        let guardRefused = asked.compactMap { record in
             service.refusal(ofPuttingBack: record.trashedItem, canUseHelper: false)
                 .map { (record: record, failure: $0) }
         }
+        // `peel` never reads the key of History's seal, so an item that goes back into a place macOS guards goes
+        // only once the person says so to the question below, never with --yes.
+        let guarded = asked.filter { record in !guardRefused.contains { $0.record.id == record.id } }
+            .compactMap { record in
+                record.refusalBySeal(nil, guardedPlacesConfirmed: false, home: service.homeDirectory)
+                    .map { (record: record, failure: $0) }
+            }
+        let refused = guardRefused + (yes ? guarded : [])
         let going = asked.filter { record in !refused.contains { $0.record.id == record.id } }
         // An item in the Trash of a disk that isn't connected is still there, once the disk is.
         let waiting = batch.waiting
@@ -426,6 +434,12 @@ struct RestoreCommand: AsyncParsableCommand {
         }
         for (record, failure) in refused {
             Output.note("\(Output.plain(Output.path(record.originalURL))) stays: \(failure.summary)")
+        }
+        if !yes {
+            for (record, failure) in guarded {
+                guard case .guardedPlace(let place) = failure else { continue }
+                Output.note("\(Output.plain(Output.path(record.originalURL))) goes back into \(place.inEnglish), which macOS guards, and peel can't check History's record of it: answer yes only if Peel moved it.")
+            }
         }
         for record in going where record.trashedItem.replacementStandsInItsPlace {
             Output.note("\(Output.plain(Output.path(record.originalURL))): the version now in its place goes to the Trash first, and History keeps it.")

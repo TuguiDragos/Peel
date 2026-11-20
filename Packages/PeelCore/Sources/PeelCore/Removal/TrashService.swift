@@ -344,14 +344,36 @@ public enum RestoreFailure: Sendable, Hashable {
     case failed(String)
     /// The version in its place couldn't move to the Trash first, for this reason.
     case replacementStays(TrashFailure.Reason)
+    /// History's record of it is not what Peel wrote: its seal doesn't match (`HistorySeal`).
+    case changedOutsidePeel
+    /// Its record carries no seal Peel can check, and it would go back into a place macOS guards, which waits for the
+    /// person's word.
+    case guardedPlace(GuardedPlace)
 
     /// True when asking again can't help: the item left the Trash, or Peel puts nothing back from or to there.
     public var isFinal: Bool {
         switch self {
-        case .missingFromTrash, .notAllowed, .notAllowedByTheHelper, .notInATrash: true
+        case .missingFromTrash, .notAllowed, .notAllowedByTheHelper, .notInATrash, .changedOutsidePeel: true
         case .alreadyThere, .emptyFolderInItsPlace, .needsHelper, .locked, .folderLocked, .folderGone,
-             .needsAppManagement, .notPermitted, .failed, .replacementStays:
+             .needsAppManagement, .notPermitted, .failed, .replacementStays, .guardedPlace:
             false
+        }
+    }
+}
+
+extension RemovalRecord {
+    /// Why Put Back leaves this item in the Trash before anything moves, by what its seal says: a record something
+    /// else wrote moves nothing, and one Peel can't check goes back into a place macOS guards only once the person said
+    /// so (`guardedPlacesConfirmed`).
+    public func refusalBySeal(
+        _ seal: HistorySeal?, guardedPlacesConfirmed: Bool, home: URL = .homeDirectory
+    ) -> RestoreFailure? {
+        switch seal?.trust(of: self) ?? .unsealed {
+        case .sealed: return nil
+        case .forged: return .changedOutsidePeel
+        case .unsealed:
+            guard !guardedPlacesConfirmed, let place = GuardedPlace(of: originalURL, home: home) else { return nil }
+            return .guardedPlace(place)
         }
     }
 }
@@ -415,6 +437,9 @@ public struct TrashService: Sendable {
     typealias MakeTrash = @Sendable () async -> Void
 
     let environment: SearchEnvironment
+
+    /// The home folder this service moves for, which Put Back judges guarded places in.
+    public var homeDirectory: URL { environment.homeDirectory }
     private let exclusions: Exclusions
     private let judging: Judging
     private let stopJobs: StopJobs

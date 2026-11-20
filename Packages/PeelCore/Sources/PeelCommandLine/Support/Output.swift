@@ -317,6 +317,22 @@ extension RestoreFailure {
         case .failed(let message): Output.plain(message)
         case .replacementStays(let reason):
             "the version now in its place couldn't move to the Trash first (\(reason.summary))"
+        case .changedOutsidePeel: "History's record of it isn't what Peel wrote, so it stays in the Trash"
+        case .guardedPlace(let place):
+            "peel can't check History's record of it, and it goes back into \(place.inEnglish), which macOS guards; run the command without --yes to say it may"
+        }
+    }
+}
+
+extension GuardedPlace {
+    var inEnglish: String {
+        switch self {
+        case .desktop: "Desktop"
+        case .documents: "Documents"
+        case .downloads: "Downloads"
+        case .iCloudDrive: "iCloud Drive"
+        case .container(let identifier): "the container of \(identifier)"
+        case .groupContainer(let group): "the group container \(group)"
         }
     }
 }

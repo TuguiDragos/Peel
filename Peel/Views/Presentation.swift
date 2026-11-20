@@ -692,6 +692,10 @@ extension RestoreFailure {
         case .replacementStays(let reason):
             String(localized: "The version now in its place couldn’t move to the Trash first, so nothing changed.") + " "
                 + reason.explanation
+        case .changedOutsidePeel:
+            String(localized: "The record of this item in History is not the one Peel wrote, so Peel leaves it in the Trash.")
+        case .guardedPlace(let place):
+            String(localized: "Peel cannot check the record of this item in History, so it puts it back into \(place.name) only once you say so.")
         }
     }
 }
@@ -1102,4 +1106,18 @@ extension LocalizedStringResource {
         "Excluded in Settings (app)", defaultValue: "Excluded in Settings",
         comment: "Shown for an app the user excluded in Settings. Use the form that agrees with the word for an app."
     )
+}
+
+extension GuardedPlace {
+    /// The place as a sentence names it.
+    var name: String {
+        switch self {
+        case .desktop: String(localized: "Desktop")
+        case .documents: String(localized: "Documents")
+        case .downloads: String(localized: "Downloads")
+        case .iCloudDrive: String(localized: "iCloud Drive")
+        case .container(let identifier): String(localized: "the container of \(identifier)")
+        case .groupContainer(let group): String(localized: "the group container \(group)")
+        }
+    }
 }

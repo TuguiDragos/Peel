@@ -47599,6 +47599,112 @@
         }
       }
     },
+    "Desktop" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plocha"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Schreibtisch“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escritorio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bureau"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrivania"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デスクトップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데스크탑"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bureaublad"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biurko"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a Mesa"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desktop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочий стол"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrivbord"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masaüstü"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Робочий стіл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "桌面"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "桌面"
+          }
+        }
+      }
+    },
     "Details" : {
       "localizations" : {
         "cs" : {
@@ -50587,6 +50693,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已下載的更新項目"
+          }
+        }
+      }
+    },
+    "Downloads" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stahování"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Downloads“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Téléchargements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다운로드"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pobrane rzeczy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descărcări"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hämtade filer"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndirilenler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Викачане"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下载"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下載項目"
           }
         }
       }
@@ -163430,6 +163642,218 @@
         }
       }
     },
+    "Peel cannot check the record of these items in History, so another program may have written it. Put them back into %@ only if Peel moved them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže ověřit záznam těchto položek v Historii, takže ho mohl zapsat jiný program. Vraťte je zpět do umístění %@, jen pokud je přesunul Peel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann die Aufzeichnung dieser Objekte im Verlauf nicht prüfen, sie könnte also von einem anderen Programm stammen. Lege diese Objekte nur dann in %@ zurück, wenn Peel sie verschoben hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede comprobar el registro de estos ítems en Historial, así que puede que lo haya escrito otro programa. Restáuralos en %@ solo si los ha trasladado Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas vérifier l’enregistrement de ces éléments dans l’Historique : il se peut donc qu’un autre programme l’ait écrit. Ne les remettez dans %@ que si c’est Peel qui les a déplacés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non può verificare le voci di questi elementi nella Cronologia, quindi un altro programma potrebbe averle scritte. Ripristinali dov’erano (%@) solo se li ha spostati Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、履歴にあるこれらの項目の記録を確認できないため、別のプログラムがこの記録を書き込んだ可能性があります。Peelが移動した項目である場合にのみ、%@に戻してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 기록에 있는 이 항목들의 내역을 확인할 수 없으므로, 이 내역은 다른 프로그램이 작성한 것일 수도 있습니다. Peel이 이 항목들을 이동한 경우에만 %@에 되돌려 놓으십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de registratie van deze onderdelen in Geschiedenis niet controleren, dus mogelijk heeft een ander programma die geschreven. Zet ze alleen terug naar %@ als Peel ze heeft verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może sprawdzić zapisu tych rzeczy w Historii, więc mógł go utworzyć inny program. Przywróć je tam (%@) tylko wtedy, gdy przeniósł je Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue verificar o registro destes itens no Histórico, então outro programa pode tê-lo escrito. Mova-os de volta para %@ somente se foi o Peel que os moveu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate verifica evidența din Istoric a acestor articole, așa că este posibil ca un alt program să o fi scris. Puneți‑le înapoi în %@ doar dacă Peel le‑a mutat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может проверить запись об этих объектах в Истории, поэтому ее могла сделать другая программа. Восстанавливайте их в исходные места (%@), только если их переместил Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte kontrollera uppgifterna om de här objekten i Historik, så de kan ha skrivits av ett annat program. Lägg bara tillbaka objekten i %@ om Peel flyttade dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu öğelerin Geçmiş’teki kaydını doğrulayamıyor, bu yüzden kaydı başka bir program yazmış olabilir. Bunları yalnızca Peel taşıdıysa %@ içine geri koyun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може перевірити запис про ці елементи в Історії, тож його могла створити інша програма. Повертайте їх на місце (%@), лише якщо їх перемістила Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法核实这些项目在“历史记录”中的记录，因此该记录可能是其他程序写入的。仅当这些项目确实由Peel移走时，才将它们放回%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法驗證「歷史記錄」中這些項目的記錄，因此該記錄可能是由其他程式寫入的。只有在這些項目確實是由Peel移動時，才應將它們還原到%@。"
+          }
+        }
+      }
+    },
+    "Peel cannot check the record of this item in History, so it puts it back into %@ only once you say so." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže ověřit záznam této položky v Historii, takže ji vrátí zpět do umístění %@, až když to potvrdíte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann die Aufzeichnung dieses Objekts im Verlauf nicht prüfen, daher legt Peel es erst dann in %@ zurück, wenn du es bestätigst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede comprobar el registro de este ítem en Historial, así que solo lo restaura en %@ cuando se lo indicas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas vérifier l’enregistrement de cet élément dans l’Historique : il ne le remet donc dans %@ qu’avec votre accord."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non può verificare la voce di questo elemento nella Cronologia, quindi lo ripristina dov’era (%@) solo quando glielo dici."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、履歴にあるこの項目の記録を確認できないため、%@に戻すのは指示があったときだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 기록에 있는 이 항목의 내역을 확인할 수 없으므로, 사용자가 허용한 후에만 이 항목을 %@에 되돌려 놓습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de registratie van dit onderdeel in Geschiedenis niet controleren, dus Peel zet het pas terug naar %@ als je dat bevestigt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może sprawdzić zapisu tej rzeczy w Historii, więc przywróci ją tam (%@) dopiero wtedy, gdy to potwierdzisz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue verificar o registro deste item no Histórico, então só o move de volta para %@ depois que você confirmar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate verifica evidența din Istoric a acestui articol, așa că îl pune înapoi în %@ doar după ce confirmați."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может проверить запись об этом объекте в Истории, поэтому восстанавливает его в исходное место (%@) только после Вашего подтверждения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte kontrollera uppgifterna om det här objektet i Historik, så Peel lägger tillbaka det i %@ först när du säger till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu öğenin Geçmiş’teki kaydını doğrulayamıyor, bu yüzden onu %@ içine ancak siz onayladığınızda geri koyar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може перевірити запис про цей елемент в Історії, тож повертає його на місце (%@) лише після вашого підтвердження."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法核实此项目在“历史记录”中的记录，因此只有在你确认后，才会将它放回%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法驗證「歷史記錄」中此項目的記錄，因此要等你確認後，才會將它還原到「%@」。"
+          }
+        }
+      }
+    },
     "Peel cannot read its list of app folders" : {
       "localizations" : {
         "cs" : {
@@ -195880,6 +196304,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已將%lld項設定還原。"
+          }
+        }
+      }
+    },
+    "Put back into a place macOS guards?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vrátit zpět do umístění, které chrání systém macOS?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An einen Ort zurücklegen, den macOS schützt?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Restaurar en un lugar que macOS protege?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remettre dans un emplacement protégé par macOS ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi ripristinare in una posizione protetta da macOS?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが保護している場所に戻しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 보호하는 위치에 되돌려 놓겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terugzetten naar een plek die macOS bewaakt?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przywrócić do miejsca, którego strzeże macOS?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar de volta em um local que o macOS protege?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puneți înapoi într‑un loc protejat de macOS?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить в место, защищенное macOS?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du lägga tillbaka på en plats som macOS skyddar?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS’in koruduğu bir yere geri konsun mu?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повернути в місце, яке захищає macOS?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要放回到受macOS保护的位置吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要還原到受macOS保護的位置嗎？"
           }
         }
       }
@@ -252210,6 +252740,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為所有帳號安裝的套件，其收據會保留在原處，直到Peel的輔助程式能移動它們為止。"
+          }
+        }
+      }
+    },
+    "The record of this item in History is not the one Peel wrote, so Peel leaves it in the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Záznam této položky v Historii není ten, který zapsal Peel, takže ji Peel ponechá v koši."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Aufzeichnung dieses Objekts im Verlauf ist nicht die, die Peel geschrieben hat, daher lässt Peel es im Papierkorb."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El registro de este ítem en Historial no es el que escribió Peel, así que Peel lo deja en la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’enregistrement de cet élément dans l’Historique n’est pas celui que Peel a écrit : Peel le laisse donc dans la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La voce di questo elemento nella Cronologia non è quella scritta da Peel, quindi Peel lo lascia nel Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴にあるこの項目の記録はPeelが書き込んだものではないため、Peelはこの項目をゴミ箱に残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록에 있는 이 항목의 내역은 Peel이 작성한 것이 아니므로 Peel이 이 항목을 휴지통에 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De registratie van dit onderdeel in Geschiedenis is niet wat Peel heeft geschreven, dus Peel laat het in de prullenmand staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapis tej rzeczy w Historii nie jest tym, który utworzył Peel, więc Peel zostawia ją w Koszu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O registro deste item no Histórico não é o que o Peel escreveu, então o Peel o deixa no Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evidența din Istoric a acestui articol nu este cea scrisă de Peel, așa că Peel îl lasă în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись об этом объекте в Истории не совпадает с той, которую сделал Peel, поэтому Peel оставляет его в Корзине."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uppgifterna om det här objektet i Historik är inte de som Peel skrev, så Peel låter det ligga kvar i papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu öğenin Geçmiş’teki kaydı Peel’in yazdığı kayıt değil, bu yüzden Peel onu Çöp Sepeti’nde bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запис про цей елемент в Історії не той, який створила Peel, тож Peel залишає елемент у Смітнику."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此项目在“历史记录”中的记录并非由Peel写入，因此Peel会将它留在废纸篓中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」中此項目的記錄不是Peel寫入的那一份，因此Peel會將它留在「垃圾桶」中。"
           }
         }
       }
@@ -320244,6 +320880,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "由「%@」啟動"
+          }
+        }
+      }
+    },
+    "the container of %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kontejner aplikace %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "den Container von %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "el contenedor de %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "le conteneur de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il contenitore di %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”のコンテナ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 컨테이너"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "de container van %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kontener aplikacji %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "o contêiner de %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "containerul aplicației %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "контейнер «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "behållaren för %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kapsayıcısı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "контейнер %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的容器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的容器"
+          }
+        }
+      }
+    },
+    "the group container %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "skupinový kontejner %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "den Gruppencontainer %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "el contenedor de grupo %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "le conteneur de groupe %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il contenitore di gruppo %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”グループコンテナ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그룹 컨테이너 %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "de groepscontainer %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kontener grupy %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "o contêiner de grupo %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "containerul de grup %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "групповой контейнер «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gruppbehållaren %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ grup kapsayıcısı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "груповий контейнер %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "群组容器%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "群組容器%@"
           }
         }
       }

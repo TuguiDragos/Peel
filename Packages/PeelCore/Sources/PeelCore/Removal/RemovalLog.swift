@@ -93,7 +93,10 @@ public actor RemovalLog {
     }
 
     public func add(_ records: [RemovalRecord]) -> RemovalLogOutcome {
-        whileNoOtherProcessWrites {
+        // Only what Peel records now is sealed, never a record read back from the file, which anyone could write.
+        let seal = HistorySeal.current
+        let records = records.map { $0.sealed(by: seal) }
+        return whileNoOtherProcessWrites {
             guard !records.isEmpty else { return outcome(current()) }
             guard let existing = current() else { return outcome(nil) }
             let new = Set(records.map(\.batch))
@@ -301,8 +304,9 @@ public actor RemovalLog {
                 places($0.trashedItem) == places(entry.item) && $0.trashedItem.identity == entry.item.identity
             }
         }
+        let seal = HistorySeal.current
         let interrupted = (left.written.filter { !recorded.contains(RemovalJournal.Key($0.item)) } + settled)
-            .map(\.recordToTakeIn)
+            .map { $0.recordToTakeIn(sealedBy: seal) }
         var updated = records
         if !interrupted.isEmpty {
             let taken = Set(interrupted.map(\.batch))

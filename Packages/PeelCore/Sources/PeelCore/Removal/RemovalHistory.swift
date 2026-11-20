@@ -26,6 +26,8 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     public let replacedBy: TrashedItem.Identity?
     /// True when the item shared most of its storage with another copy, so moving it freed only its own part.
     public let sharedStorage: Bool?
+    /// What `HistorySeal` made of the record when Peel wrote it, or nil in one written without a seal.
+    public internal(set) var seal: Data?
 
     public init(
         id: UUID = UUID(),
@@ -71,6 +73,15 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         stoppedJob = try container.decodeIfPresent(String.self, forKey: .stoppedJob)
         replacedBy = try container.decodeIfPresent(TrashedItem.Identity.self, forKey: .replacedBy)
         sharedStorage = try container.decodeIfPresent(Bool.self, forKey: .sharedStorage)
+        seal = try? container.decodeIfPresent(Data.self, forKey: .seal)
+    }
+
+    /// The record with the seal `seal` makes of it, or as it is without one.
+    func sealed(by seal: HistorySeal?) -> RemovalRecord {
+        guard let seal else { return self }
+        var sealed = self
+        sealed.seal = seal.seal(self)
+        return sealed
     }
 
     public var trashedItem: TrashedItem {

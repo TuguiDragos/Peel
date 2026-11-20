@@ -71,9 +71,24 @@ struct RemovalJournal: Sendable {
         /// Whether the line was written before the item moved: it names the Trash the item goes to, not where it
         /// landed, and stands for the item until the line written once it moved.
         var isBeforeTheMove: Bool? = nil
+        /// What `HistorySeal` made of the line when Peel wrote it, or nil in one written without a seal.
+        var seal: Data? = nil
 
         /// History's record of the item: the one kept here, or else one of its part, with the size its page measured,
         /// or else that of an interrupted removal, which names no tool, since which tool moved the item is not known.
+        /// `recordToTakeIn`, sealed only when the line's own seal holds: a line Peel didn't write gives no record Peel
+        /// vouches for.
+        func recordToTakeIn(sealedBy seal: HistorySeal?) -> RemovalRecord {
+            if let record { return record }
+            var taken = recordToTakeIn
+            switch seal?.trust(of: self) {
+            case .sealed?: taken = taken.sealed(by: seal)
+            case .forged?: taken.seal = Data()
+            case .unsealed?, nil: break
+            }
+            return taken
+        }
+
         var recordToTakeIn: RemovalRecord {
             if let record { return record }
             let part = part ?? RemovalPart(source: "Interrupted removal", sourceKey: "interrupted", tool: "")
@@ -163,14 +178,17 @@ struct RemovalJournal: Sendable {
     ) -> Noted {
         let writer = writer ?? self.writer
         let journal = url.path(percentEncoded: false)
+        let seal = HistorySeal.current
         let entry = { (item: TrashedItem) in
-            Entry(
+            var line = Entry(
                 writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part,
                 disk: beforeTheMove ? TrashedDisk(leaving: item) : TrashedDisk(of: item),
                 size: recorded?.sizes[item.originalURL],
                 sharedStorage: recorded?.sharingStorage.contains(item.originalURL) == true ? true : nil,
                 isBeforeTheMove: beforeTheMove ? true : nil
             )
+            line.seal = seal?.seal(line)
+            return line
         }
         guard let lines = try? items
             .filter({ !PathComponents.isPath(journal, atOrInside: $0.originalURL.path(percentEncoded: false)) })

@@ -482,7 +482,8 @@ final class RemovalHistoryStore {
     func undoLastRemoval() async {
         guard let undoable, !isRestoring, mayMove else { return }
         self.undoable = nil
-        let stayed = await restore(undoable.records, canUseHelper: canUseHelper)
+        // What this run of Peel just moved and keeps in memory is no record anyone else could have written.
+        let stayed = await restore(undoable.records, canUseHelper: canUseHelper, checkingSeals: false)
         // What stayed for a reason that can pass, such as the helper or something in its place, can be asked again.
         let again = stayed.filter { !$0.failure.isFinal }.map(\.record)
         if !again.isEmpty { self.undoable = (again, undoable.title) }
@@ -561,7 +562,8 @@ final class RemovalHistoryStore {
     /// is by then, since a Put Back can outlast the page that asked, and each reason stays under its row.
     @discardableResult
     func restore(
-        _ records: [RemovalRecord], canUseHelper: Bool
+        _ records: [RemovalRecord], canUseHelper: Bool, guardedPlacesConfirmed: Bool = false,
+        checkingSeals: Bool = true
     ) async -> [(record: RemovalRecord, failure: RestoreFailure)] {
         // One restore at a time, however often it is asked for: two rounds over the same records would each
         // report the items the other put back as already there.
@@ -573,7 +575,17 @@ final class RemovalHistoryStore {
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
             var stayed: [(record: RemovalRecord, failure: RestoreFailure)] = []
             let disks = await MountedDisks.read()
-            let ordered = records.map { $0.located(on: disks) }
+            let seal = HistorySeal.current
+            // A record Peel didn't write moves nothing, before anything is asked of the disk.
+            let held = checkingSeals ? records.compactMap { record in
+                record.refusalBySeal(seal, guardedPlacesConfirmed: guardedPlacesConfirmed).map { (record, $0) }
+            } : []
+            let heldIDs = Set(held.map(\.0.id))
+            for (record, failure) in held {
+                problems[record.id] = failure
+                stayed.append((record, failure))
+            }
+            let ordered = records.filter { !heldIDs.contains($0.id) }.map { $0.located(on: disks) }
                 .withTheFoldersTheyLeft(in: self.records.map { $0.located(on: disks) }).inPutBackOrder
             let answers = await restoring(ordered.map(\.trashedItem), canUseHelper)
             for (record, answer) in zip(ordered, answers.failures) {
@@ -592,13 +604,13 @@ final class RemovalHistoryStore {
                 let sizes = size.map { [movedAside.originalURL: $0] } ?? [:]
                 await self.record(TrashResult(trashed: [movedAside]), part: record.part, sizes: sizes, in: &aside)
             }
-            for record in ordered {
+            for record in ordered + held.map(\.0) {
                 failures[record.id] = problems[record.id]
             }
             if !stayed.isEmpty || !answers.jobsNotStarted.isEmpty {
                 outcome?.reportPutBack(stayed.map {
                     RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
-                }, of: ordered.count, jobsNotStarted: answers.jobsNotStarted)
+                }, of: ordered.count + held.count, jobsNotStarted: answers.jobsNotStarted)
             }
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
@@ -611,6 +623,20 @@ final class RemovalHistoryStore {
             }
             return stayed
         }
+    }
+
+    /// The guarded places `records` would put items back into from records Peel can't check, which the person is
+    /// asked about first.
+    func guardedPlaces(among records: [RemovalRecord]) -> [GuardedPlace] {
+        let seal = HistorySeal.current
+        let places = records.compactMap { record -> GuardedPlace? in
+            guard case .guardedPlace(let place)? = record.refusalBySeal(seal, guardedPlacesConfirmed: false) else {
+                return nil
+            }
+            return place
+        }
+        var seen: Set<GuardedPlace> = []
+        return places.filter { seen.insert($0).inserted }
     }
 
     /// Removes `records` from History, unless removals are held. The page offers this for items that have left the
