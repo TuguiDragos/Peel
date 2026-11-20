@@ -485,6 +485,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   what that means, and offers Show in Finder. When the search inside other folders stops early, it names the folder
   that holds too many, not the whole place it was searching, and a folder that can't hold the app's files is no longer
   named.
+- A folder that holds a folder of a million files no longer takes minutes at every click and at its move while Peel
+  looks inside it for what it never moves: a folder of more than 100,000 items is not read, and what holds one is
+  left where it is, with its reason, there, in Orphaned Files and in Space.
+- An item replaced after the scan, such as a folder swapped for a link, is no longer moved and written in History as
+  what the scan found: it stays, and Peel says it changed since the scan, on an app's page, on several apps' page,
+  for a reset and in `peel uninstall`.
 - After an uninstall, the page no longer keeps the window waiting while it reads code signatures to learn whether Peel
   has App Management.
 - An app shown from outside the app folders, through a `peel://` link, a drop, or Finder, is looked for away from the
@@ -654,6 +660,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Orphaned Files
 
+- A folder swapped for a link after the scan stays, as on an app's page, in the app and in `peel orphans --remove`.
 - Orphaned Files no longer reads a folder of a million files whole: it names the folder it did not look inside, or
   looked inside only in part, in a note at the top of the list, where the note no longer sits over the rows.
 - A file named like an app in an Applications folder no longer counts as an app Peel couldn't read, which left Orphaned
@@ -871,6 +878,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Duplicates
 
+- A duplicate folder in `/Users/Shared`, which every account on the Mac may use, is no longer suggested, selected,
+  or counted in what moving would free, as a file there never was, in the app and in `peel duplicates`.
 - Folders of sparse files whose lengths add up past the largest size a number can hold, and copies a network share
   reports as larger than that, no longer make a scan quit unexpectedly, in the app and in `peel duplicates`.
 - On exFAT and FAT32 disks, a file rewritten in place under its old date is read again, no longer offered as a copy
@@ -980,6 +989,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- A folder locked in Finder is said to be locked, with the step to unlock it, as a locked file is, and no longer to
+  need an administrator.
 - Peel no longer stops a few seconds after it opens on a beta of macOS 27.2 that lacks two comparisons of dates the
   released 27.2 has: Peel compares dates on its own.
 - Where Peel gives a command that runs `sudo`, such as one that removes what an app leaves in `/etc`, a maker's
