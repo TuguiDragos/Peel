@@ -36,7 +36,7 @@ struct DefaultAppsSection: View {
                 }
             } header: {
                 let title = Self.title(files: files.map(\.count).reduce(0, +), links: links.map(\.count).reduce(0, +))
-                HStack(spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
                     Text(verbatim: title)
                         .accessibilityAddTraits(.isHeader)
                         .accessibilityHeading(.h2)

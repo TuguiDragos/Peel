@@ -312,6 +312,7 @@ struct SpaceDetailView: View {
 
     private var about: some View {
         InfoNote(about: Text(item.words.title), detail: Text(item.words.detail), isAlbum: false)
+            .beside(.title.bold())
     }
 
     /// The size of what can be moved to the Trash once the plan holds something to move, else of the item's folders.
@@ -343,7 +344,7 @@ struct SpaceStep: View {
                 // A list row on macOS 27 draws its text on one line unless the text asks for its whole height.
                 .fixedSize(horizontal: false, vertical: true)
             if let note {
-                InfoNote(about: Text(step), detail: Text(note), isAlbum: false)
+                InfoNote(about: Text(step), detail: Text(note), isAlbum: false).beside(.callout)
             }
         }
     }

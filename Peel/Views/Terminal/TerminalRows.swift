@@ -12,7 +12,7 @@ struct TerminalSwitchRow: View {
     var body: some View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
                     Text(title)
                         .font(.body.weight(.semibold))
                         .foregroundStyle(isDisabled ? .tertiary : .primary)

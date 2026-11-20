@@ -116,7 +116,7 @@ private struct TerminalToolRow: View {
     var body: some View {
         let isInstalled = state.installed.contains(tool)
         VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 5) {
+            HStack(alignment: .firstTextBaseline, spacing: 5) {
                 Text(verbatim: tool.name)
                     .font(.body.weight(.semibold))
                 InfoNote(

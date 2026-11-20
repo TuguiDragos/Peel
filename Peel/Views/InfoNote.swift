@@ -22,8 +22,12 @@ struct InfoNote: View {
     var isInRow = false
     /// Whether the note is open, when something beside the button opens it as well, such as a row's menu.
     var opening: Binding<Bool>?
+    /// The font of the text beside it, when that is not the font around both (`beside(_:)`).
+    private var besideFont: Font?
 
     @State private var isOpenHere = false
+    @Environment(\.font) private var font
+    @Environment(\.fontResolutionContext) private var fontContext
 
     private var isOpen: Binding<Bool> {
         opening ?? $isOpenHere
@@ -71,6 +75,13 @@ struct InfoNote: View {
         self.isInRow = isInRow
     }
 
+    /// Centers it on the first line of a text in `font`, for a text whose font is set on it alone.
+    func beside(_ font: Font) -> InfoNote {
+        var note = self
+        note.besideFont = font
+        return note
+    }
+
     private var isMarked: Bool {
         caution != nil
     }
@@ -78,6 +89,10 @@ struct InfoNote: View {
     /// A marked note says so in its shape as well: by color alone it is the fainter of the two in light mode.
     private var mark: String {
         isMarked ? "exclamationmark.circle.fill" : "info.circle"
+    }
+
+    private var capHeight: CGFloat {
+        CTFontGetCapHeight((besideFont ?? font ?? .body).resolve(in: fontContext).ctFont)
     }
 
     var body: some View {
@@ -91,6 +106,8 @@ struct InfoNote: View {
         .noteButtonStyle(isInRow: isInRow)
         // The button takes clicks across its own frame, 4 points around the glyph; the layout keeps the glyph's.
         .padding(-4)
+        // In a row aligned on the first baseline, it is centered on that line's capitals, as a checkbox is.
+        .alignmentGuide(.firstTextBaseline) { [capHeight] in $0[VerticalAlignment.center] + capHeight / 2 }
         .accessibilityLabel(label)
         .popover(isPresented: isOpen, arrowEdge: .bottom) {
             NoteCard(

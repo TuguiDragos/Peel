@@ -317,6 +317,7 @@ private struct SpaceRow: View {
                         isAlbum: false,
                         isInRow: true
                     )
+                    .beside(.subheadline)
                 }
             case nil:
                 Text(item.size.text)

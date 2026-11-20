@@ -100,7 +100,7 @@ struct HomePermissionsContent: View {
                 .help(help(for: permission))
                 VStack(alignment: .leading, spacing: 1) {
                     let status = changing?.progress ?? home.status(of: permission)
-                    HStack(spacing: 5) {
+                    HStack(alignment: .firstTextBaseline, spacing: 5) {
                         name(permission, state: state)
                             // VoiceOver hears the state with the name it belongs to, so the line under it is left out.
                             .accessibilityValue(Text(status))
@@ -302,6 +302,7 @@ struct HomePermissionsContent: View {
                         .foregroundStyle(Album.ink)
                     if hasLooked, let note = HomeModel.allSetNote(allSet, helper: helper.whyItCannotAct) {
                         InfoNote(about: title, detail: Text(note), isAlbum: true)
+                            .beside(.system(size: 12.5, weight: .bold, design: .rounded))
                     }
                 }
                 Spacer(minLength: 0)

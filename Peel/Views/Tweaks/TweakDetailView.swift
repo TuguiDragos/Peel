@@ -42,7 +42,7 @@ struct TweakRow: View {
         let works = parent.map { tweaks.isOn($0, state: tweaks.state(of: $0)) } ?? true
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
                     Text(tweak.words.title)
                         .font(.body.weight(.semibold))
                         .foregroundStyle(works ? .primary : .tertiary)

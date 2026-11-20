@@ -79,7 +79,7 @@ private struct SSHLinesRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 5) {
+            HStack(alignment: .firstTextBaseline, spacing: 5) {
                 if isIncluded {
                     Label {
                         Text("ssh reads Peel’s settings")

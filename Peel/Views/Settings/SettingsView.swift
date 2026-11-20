@@ -382,7 +382,7 @@ struct GeneralSettingsView: View {
                 } label: {
                     // Uses `HomeModel`'s state, so Home and Settings can't show different answers.
                     let isOn = home.state(of: .finderExtension) == .on
-                    HStack(spacing: 5) {
+                    HStack(alignment: .firstTextBaseline, spacing: 5) {
                         Text("Finder extension")
                         if home.hasChecked {
                             state(isOn ? "On" : home.isFinderExtensionFromAnotherCopy ? "On in another copy of Peel" : "Off",
@@ -776,7 +776,7 @@ struct HelperSettingsView: View {
                         actions
                     }
                     VStack(alignment: .leading, spacing: 8) {
-                        HStack(spacing: 8) { status }
+                        status
                         ActionRow { actions }
                     }
                 }
@@ -812,13 +812,15 @@ struct HelperSettingsView: View {
     /// The state with its word and its note, which stay together wherever the buttons go.
     @ViewBuilder
     private var status: some View {
-        InfoNote(
-            name: String(localized: "Helper"),
-            detail: Text(Self.about),
-            symbol: "lock.shield"
-        )
-        Text("Status")
-        statusBadge
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            InfoNote(
+                name: String(localized: "Helper"),
+                detail: Text(Self.about),
+                symbol: "lock.shield"
+            )
+            Text("Status")
+            statusBadge
+        }
     }
 
     /// What can be done about the state, the step it asks for last.

@@ -335,6 +335,7 @@ struct CloudView: View {
                 Text("iCloud Drive")
                     .pageTitle()
                 InfoNote(about: Text("iCloud Drive"), detail: Text(Self.aboutCloud), isAlbum: false)
+                    .beside(.title.bold())
             }
         } details: {
             EmptyView()

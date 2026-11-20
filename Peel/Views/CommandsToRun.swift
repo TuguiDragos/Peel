@@ -84,7 +84,7 @@ struct CommandsToRunSection: View {
                                 .font(.callout)
                                 .foregroundStyle(.secondary)
                             if let more = command.more {
-                                InfoNote(name: command.app, detail: more)
+                                InfoNote(name: command.app, detail: more).beside(.callout)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)

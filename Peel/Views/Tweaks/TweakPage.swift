@@ -96,6 +96,7 @@ struct SleepNotice: View {
                 StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
                     .font(.headline)
                 InfoNote(about: Text("This Mac can’t sleep"), detail: Text(Self.whyItCannotSleep), isAlbum: false)
+                    .beside(.headline)
             }
             Text(Self.howToUndo(needsAnAdministrator: needsAnAdministrator))
                 .font(.caption)

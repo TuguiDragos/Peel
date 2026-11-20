@@ -712,8 +712,10 @@ struct HomebrewList: View {
         @ViewBuilder trailing: () -> some View
     ) -> some View {
         HStack(spacing: 6) {
-            Label { Text(title) } icon: { Image(systemName: systemImage) }
-            InfoNote(name: String(localized: title), detail: detail)
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Label { Text(title) } icon: { Image(systemName: systemImage) }
+                InfoNote(name: String(localized: title), detail: detail)
+            }
             Spacer(minLength: 8)
             BusyShown(isBusy: homebrew.commandHomebrewRuns == command) { isShown in
                 if isShown {

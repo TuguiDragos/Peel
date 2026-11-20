@@ -33,7 +33,7 @@ struct PrivacyResetOption: View {
     var isAvailable = true
 
     var body: some View {
-        HStack(spacing: 5) {
+        HStack(alignment: .firstTextBaseline, spacing: 5) {
             Toggle(isOn: isAvailable ? $isOn : .constant(false)) {
                 Text("Also reset privacy permissions")
             }

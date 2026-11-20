@@ -98,7 +98,7 @@ private struct ShellLineRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             if let startupFile = state.startupFile {
-                HStack(spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
                     if state.isSourced {
                         Label {
                             Text("zsh reads Peel’s settings")
@@ -134,7 +134,7 @@ private struct ShellLineRow: View {
                     )
                 }
             } else if state.zshrcNotKnown {
-                HStack(spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
                     Label {
                         Text("Peel cannot tell which .zshrc zsh reads")
                     } icon: {

@@ -362,7 +362,7 @@ private struct ShellSessionsRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack(spacing: 5) {
+            HStack(alignment: .firstTextBaseline, spacing: 5) {
                 Text("No “Restored session” line")
                     .font(.body.weight(.semibold))
                     .lineLimit(1)
