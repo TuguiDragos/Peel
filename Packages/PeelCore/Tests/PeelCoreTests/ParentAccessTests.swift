@@ -21,4 +21,29 @@ struct ParentAccessTests {
 
         #expect(!ParentAccess(folder).requiresPrivileges(toRemove: item))
     }
+
+    @Test(.permissionsHold) func aFolderLockedInFinderIsLockedForAnAdministratorToo() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("home/Library/Caches/org.example.locked")
+        try directory.file("home/Library/Caches/org.example.locked/cache.db")
+        let path = folder.path(percentEncoded: false)
+        #expect(chflags(path, UInt32(UF_IMMUTABLE)) == 0)
+        defer { chflags(path, 0) }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let trash = try directory.directory("Trash")
+        let service = TrashService(environment: environment) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        #expect(!ParentAccess(folder.deletingLastPathComponent()).requiresPrivileges(toRemove: folder))
+        #expect(!FileAccess.requiresPrivilegesToRemove(folder))
+        let result = await service.trash([folder], usingHelperFor: [])
+        #expect(result.failures.map(\.reason) == [.locked])
+        #expect(!folder.isMissing)
+    }
 }

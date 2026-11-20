@@ -31,7 +31,9 @@ struct ParentAccess {
            Self.stickyFolderKeeps(itemOwnedBy: info.st_uid, folderOwnedBy: stickyOwner, from: getuid()) {
             return true
         }
-        if info.st_mode & S_IFMT == S_IFDIR { return access(path, W_OK) != 0 }
+        // A lock keeps an administrator out too, and the move says it is locked.
+        let isLocked = info.st_flags & (UInt32(UF_IMMUTABLE) | UInt32(SF_IMMUTABLE)) != 0
+        if info.st_mode & S_IFMT == S_IFDIR { return !isLocked && access(path, W_OK) != 0 }
         return false
     }
 
