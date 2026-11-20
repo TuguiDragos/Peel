@@ -93,6 +93,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case couldNotLookInside
     /// A folder inside holds more entries than Peel reads, so `RemovalGuard` refuses to move it.
     case tooManyToLookThrough
+    /// In this account's temporary folder and marked so nothing may move it (`SF_NOUNLINK`): macOS removes it at the
+    /// next startup.
+    case goneAtNextStartup
     /// A sandboxed app's container whose `Data/Documents` is not empty or cannot be read. That is where the app
     /// keeps what the user made, and `RemovalGuard` refuses to move it.
     case holdsDocuments
@@ -223,7 +226,7 @@ public enum HoldBack: String, Sendable, Hashable {
     /// would refuse to move it.
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
-            || self == .couldNotLookInside || self == .tooManyToLookThrough
+            || self == .couldNotLookInside || self == .tooManyToLookThrough || self == .goneAtNextStartup
             || self == .beyondTheHelper || self == .onAReadOnlyDisk
             || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension

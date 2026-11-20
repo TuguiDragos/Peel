@@ -109638,6 +109638,112 @@
         }
       }
     },
+    "Left alone: macOS removes this at the next startup, and nothing else may move it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS tuto položku odstraní při příštím spuštění Macu a nic jiného ji nesmí přesunout."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS entfernt dies beim nächsten Systemstart, und nichts anderes darf es verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS eliminará esto en el próximo arranque, y nada más puede trasladarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS le supprime au prochain démarrage, et rien d’autre ne peut le déplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS lo rimuoverà al prossimo avvio, e nient’altro può spostarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: 次回の起動時にmacOSがこれを削除します。macOS以外は移動できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 다음 시동 시 macOS가 이 항목을 제거하며, 그 외에는 어떤 방법으로도 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS verwijdert dit als je Mac de volgende keer opstart, en niets anders mag het verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS usunie to przy następnym uruchomieniu Maca, a nic innego nie może tego przenieść."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS remove isto na próxima inicialização, e nada mais pode movê-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS elimină acest articol la următoarea pornire și nimic altceva nu îl poate muta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS удалит этот объект при следующей загрузке Mac, а другим программам перемещать его нельзя."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS tar bort det här vid nästa systemstart, och inget annat får flytta det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS bunu Mac’iniz bir sonraki kez başladığında kaldırır ve başka hiçbir şey onu taşıyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS вилучить це під час наступного запуску Mac, і ніщо інше не може це перемістити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：macOS会在下次启动时移除此项，其他任何程序都不能移动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS會在下次開機時移除此項目，其他任何程式都不能移動它。"
+          }
+        }
+      }
+    },
     "Left alone: macOS removes this system extension only when its app goes to the Trash in Finder. If the app is gone, install it again, use the feature that needs the extension and allow it when macOS asks, then move the app to the Trash in Finder and restart." : {
       "localizations" : {
         "cs" : {

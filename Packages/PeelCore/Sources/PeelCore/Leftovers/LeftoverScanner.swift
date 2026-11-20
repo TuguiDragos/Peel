@@ -313,7 +313,7 @@ public struct LeftoverScanner: Sendable {
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle, home: home),
                !isSharedWithTheWholeMac(url, home: home) {
                 guard await !reads.refuses(path, home: home), !exclusions.excludes(url),
-                      !FileAccess.cannotBeRemoved(url)
+                      location.kind == .temporaryItems || !FileAccess.cannotBeRemoved(url)
                 else { continue }
                 toMeasure.append(Found(url: url, match: match, parent: parent, foldersAbove: .itsOwn))
             } else if let program = LeftoverMatcher.program(ofJobAt: url, kind: location.kind),
@@ -563,7 +563,9 @@ public struct LeftoverScanner: Sendable {
         // What the guard will refuse comes first, whatever the walk saw. A folder macOS refuses to open would read
         // as empty, and an empty folder of the app's own would be selected. From macOS 27, another team's container
         // is refused outright rather than prompted for.
-        let held: (HoldBack?, SyncKeeper?) = if ProtectedData.holds(path, home: home) || wallet == .found {
+        let held: (HoldBack?, SyncKeeper?) = if kind == .temporaryItems, FileAccess.cannotBeRemoved(url) {
+            (.goneAtNextStartup, nil)
+        } else if ProtectedData.holds(path, home: home) || wallet == .found {
             (.holdsKeys, nil)
         } else if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
             (.holdsDocuments, nil)

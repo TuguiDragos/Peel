@@ -946,7 +946,8 @@ public struct OrphanScanner: Sendable {
         for name in entries where location.considers(fileName: name) {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
-            guard isAFileAFolderOrALink(url), !FileAccess.cannotBeRemoved(url) else { continue }
+            guard isAFileAFolderOrALink(url), location.kind == .temporaryItems || !FileAccess.cannotBeRemoved(url)
+            else { continue }
             // What the guard refuses outright is never listed, whether an installed app claims it or not.
             guard !ProtectedData.refuses(url.path(percentEncoded: false), home: home) else { continue }
             if let named = goneApp(owningFolder: url, kind: location.kind, among: goneFolders, ownership: ownership) {
@@ -1044,7 +1045,9 @@ public struct OrphanScanner: Sendable {
         let wallet = ProtectedData.holdsABrowserWallet(path)
         let library = ProtectedData.holdsALibrary(path)
         let work = ProtectedData.holdsWorkKeptInACache(path)
-        let heldBack: HoldBack? = if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
+        let heldBack: HoldBack? = if kind == .temporaryItems, FileAccess.cannotBeRemoved(url) {
+            .goneAtNextStartup
+        } else if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
             .holdsDocuments
         } else if ProtectedData.holds(path, home: home) || wallet == .found {
             .holdsKeys
