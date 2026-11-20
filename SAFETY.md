@@ -638,7 +638,7 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
   its own beside a key, such as a downloaded blockchain, can still go.
 - **A browser profile with a wallet stays.** A wallet extension such as MetaMask or Phantom keeps its vault in the
   browser's profile, beside `Local Storage`, which every extension shares. So a profile that holds one of the
-  wallet extensions Peel knows (those of more than 60 wallets, for Chrome, Brave, Edge, Arc, Opera, Vivaldi, and
+  wallet extensions Peel knows (those of more than 80 wallets, for Chrome, Brave, Edge, Arc, Opera, Vivaldi, and
   Firefox) or Brave's own wallet stays, and so does a folder that holds it a level or two down, which is where a
   browser keeps its profiles (`Google/Chrome/Default`): uninstalling a browser never takes its wallet. A profile
   whose extension storage macOS will not let Peel list stays too, since it is not known to hold no wallet. The rest

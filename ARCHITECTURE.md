@@ -196,6 +196,10 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      its list ends. A removal of more than History can keep and read back (`RemovalLog.mostAtOnce`) is refused
      before anything moves, by the storage pages' bar and by `Cleanup`. A removal is one entry, even when it moved
      what was selected on several pages.
+   - Each record and journal line the app writes carries a seal (`HistorySeal`), an HMAC with a key the app keeps in
+     the keychain and reads at launch, since any program of the account can write History's files. Put Back moves
+     nothing for a record whose seal doesn't match, and takes one without a seal into a place macOS guards
+     (`GuardedPlace`) only once the person says so; `peel` never reads the key.
    - As it records, History adds what moved to the totals Home and the menu bar panel show (`totals.json`, through
      `RemovalTotals`), so the app and `peel` count alike.
    - Each item is also written down before it moves, a request to the helper before it goes, and again once it moved

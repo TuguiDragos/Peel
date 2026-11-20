@@ -40,6 +40,10 @@ struct DocumentationTests {
         let minutes = Int(HoldBack.stillInUse / 60)
         let days = Int(ProjectArtifacts.recentlyActive / (24 * 60 * 60))
         let spaceFloor = SpaceInventory.minimumSize / 1_000_000
+        let looked = FolderEntries.lookLimit.formatted(.number.locale(Locale(identifier: "en_US")))
+        let listed = ScanReads.entryLimit.formatted(.number.locale(Locale(identifier: "en_US")))
+        let refused = RefusalLog.maximumRecords.formatted(.number.locale(Locale(identifier: "en_US")))
+        let duplicatesFloor = DuplicateScanOptions.defaultMinimumSize / 1_000
         let installersFloor = Installers.minimumSize / 1_000_000
         #expect(Installers.stillDownloading == 24 * 60 * 60, "the documents say a download that changed in the last day")
         #expect(Homebrew.autoUpdateInterval == 24 * 60 * 60, "the documents say what Homebrew says counts for a day")
@@ -72,6 +76,12 @@ struct DocumentationTests {
             ("SAFETY.md", "changed in the last \(days) days, and a download that changed in the last day"),
             ("GUIDE.md", "changed in the last \(days) days"),
             ("GUIDE.md", "An area smaller than \(spaceFloor) MB isn't listed,"),
+            ("SAFETY.md", "holding more than \(looked) items, too many for that quick look"),
+            ("GUIDE.md", "more items than a scan reads, \(listed), is one row left alone"),
+            ("GUIDE.md", "Not Moved keeps the latest \(refused) items"),
+            ("SAFETY.md", "keeps the latest \(refused) items"),
+            ("ARCHITECTURE.md", "the latest \(refused) items at most"),
+            ("GUIDE.md", "Files under \(duplicatesFloor) KB"),
             ("GUIDE.md", "An installer, download, or update smaller than \(installersFloor) MB isn't listed."),
             ("docs/index.html", "\(themes) dark themes"),
             ("docs/llms.txt", "\(themes) dark themes"),
