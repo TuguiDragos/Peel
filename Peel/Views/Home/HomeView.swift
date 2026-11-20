@@ -14,12 +14,17 @@ struct HomeView: View {
                 // Each half is held to its own width limit rather than left to fill the window, so the pair
                 // keeps a width of its own and sits in the middle of a wide window instead of against its
                 // left edge. When the window is too narrow for both side by side, one goes above the other.
-                let layout = proxy.size.width >= Self.sideBySide
-                    ? AnyLayout(HStackLayout(alignment: .top, spacing: 0))
+                let isSideBySide = proxy.size.width >= Self.sideBySide
+                // Side by side, the pair is centered on what shows: the permissions keep a wider margin for their
+                // tapes, so the left half takes the same margin outside it.
+                let shift = isSideBySide ? HomePermissionsContent.sideMargin - HomeContent.sideMargin : 0
+                let layout = isSideBySide
+                    ? AnyLayout(HStackLayout(alignment: .homeTopLine, spacing: 0))
                     : AnyLayout(VStackLayout(spacing: 0))
                 layout {
                     HomeContent()
                         .frame(width: 360)
+                        .padding(.leading, shift)
                     HomePermissionsContent()
                         .frame(maxWidth: 720)
                 }
@@ -122,7 +127,20 @@ private extension Text {
     }
 }
 
+extension VerticalAlignment {
+    /// The line Home's two halves share side by side: the middle of the greeting and of the banner beside it.
+    nonisolated static let homeTopLine = VerticalAlignment(HomeTopLine.self)
+
+    private nonisolated enum HomeTopLine: AlignmentID {
+        static func defaultValue(in dimensions: ViewDimensions) -> CGFloat {
+            dimensions[.top]
+        }
+    }
+}
+
 struct HomeContent: View {
+    static let sideMargin: CGFloat = 28
+
     @Environment(HomeModel.self) private var home
     @Environment(LifetimeStats.self) private var stats
     @State private var isPointingAtDevice = false
@@ -135,14 +153,17 @@ struct HomeContent: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if let date {
-                GreetingTitle(date: date)
-            } else {
-                TimelineView(GreetingChanges()) { context in
-                    GreetingTitle(date: context.date)
+            Group {
+                if let date {
+                    GreetingTitle(date: date)
+                } else {
+                    TimelineView(GreetingChanges()) { context in
+                        GreetingTitle(date: context.date)
+                    }
+                    .id(TimeChanges.shared.revision)
                 }
-                .id(TimeChanges.shared.revision)
             }
+            .alignmentGuide(.homeTopLine) { $0[VerticalAlignment.center] }
             if let device = home.device {
                 deviceCard(device).padding(.top, 38)
                 specs(device).padding(.top, 22)
@@ -154,7 +175,7 @@ struct HomeContent: View {
                 ProgressView().controlSize(.small).padding(.top, 40)
             }
         }
-        .padding(.horizontal, 28)
+        .padding(.horizontal, Self.sideMargin)
         .padding(.top, 26)
         .padding(.bottom, 20)
         .frame(maxWidth: 360)

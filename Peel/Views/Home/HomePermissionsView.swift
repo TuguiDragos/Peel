@@ -12,6 +12,9 @@ struct HomePermissionsContent: View {
     @State private var pointingAt: HomeModel.Permission?
     @State private var helperFailure: HelperModel.Failure?
 
+    /// Each tape sticks out past its card's corner by a quarter of its width, so the sides keep more room than the
+    /// cards need. Without that room, the tapes would look like they fall off the window.
+    static let sideMargin: CGFloat = 44
     static let markSize: CGFloat = 36
     /// A whole number of points, so the mark's body (30) and edge (3 on each side) fall on whole pixels at
     /// any scale. With a half-point edge, one side of the circle looks thicker on a screen that is not Retina.
@@ -22,6 +25,7 @@ struct HomePermissionsContent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             banner
+                .alignmentGuide(.homeTopLine) { $0[VerticalAlignment.center] }
             // The tape is rotated, so it reaches above the card it sits on. The gap leaves room for it under
             // the banner, so the tape and the banner don't look stuck together.
             card(HomeModel.Permission.allCases.filter(\.isRequired), named: "Required", tapedAt: .topTrailing)
@@ -35,9 +39,7 @@ struct HomePermissionsContent: View {
             )
             .padding(.top, 18)
         }
-        // Each tape sticks out past its card's corner by a quarter of its width, so the sides keep more room
-        // than the cards need. Without that room, the tapes would look like they fall off the window.
-        .padding(.horizontal, 44)
+        .padding(.horizontal, Self.sideMargin)
         .padding(.top, 10)
         .padding(.bottom, 34)
         .frame(maxWidth: 720, alignment: .leading)
