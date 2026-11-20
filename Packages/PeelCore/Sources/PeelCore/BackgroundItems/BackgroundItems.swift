@@ -375,6 +375,8 @@ public enum BackgroundItems {
                 item.loadsInTheBackgroundSession = kind == .agent && job.loadsInTheBackground
                 item.loadsOnlyAtTheLoginWindow = kind == .agent && job.loadsOnlyAtTheLoginWindow
                 item.appThatLeft = ownership.appThatLeft(running: job)
+                item.noAppOfItsMakerIsInstalled =
+                    item.appThatLeft == nil && ownership.noAppOfItsMakerIsInstalled(running: job)
                 item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
                 item.managedBy = ownership.managedAgent(label: job.label, program: job.program, owner: owner)
                 if owner?.isInstalled != true || item.appThatLeft != nil,

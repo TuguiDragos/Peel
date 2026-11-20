@@ -95,6 +95,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public internal(set) var loginItemsStatus: LoginItemsStatus?
     /// The app that left whose team signed the job's program.
     public var appThatLeft: RememberedApp?
+    public var noAppOfItsMakerIsInstalled = false
     public var makersUninstallerForWhatIsLeft: MakersUninstaller?
     public var managedBy: ManagedAgent?
 

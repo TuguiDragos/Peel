@@ -179,6 +179,21 @@ public struct BackgroundItemOwnership: Sendable {
         }
     }
 
+    /// True when a team signed `job`'s program and no installed app has that team: a gone app's, or a driver's.
+    func noAppOfItsMakerIsInstalled(running job: JobDefinition) -> Bool {
+        guard !job.label.hasPrefix("com.apple."), !job.label.hasPrefix("application."),
+              let program = job.program, program.hasPrefix("/"), !program.utf8.contains(0),
+              appMatching(label: job.label) == nil
+        else { return false }
+        if let bundle = PathComponents.outermostApp(of: program),
+           AppInspector.isInATrash(URL(filePath: bundle, directoryHint: .isDirectory)) {
+            return false
+        }
+        var info = stat()
+        guard stat(program, &info) == 0, let team = teamOfProgram(program) else { return false }
+        return byTeam[team] == nil
+    }
+
     func team(ofProgram program: String) -> String? {
         teamOfProgram(program)
     }

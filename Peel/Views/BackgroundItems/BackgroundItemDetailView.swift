@@ -47,6 +47,17 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.noAppOfItsMakerIsInstalled {
+                Section {
+                    Notice(
+                        title: Text("No app from its maker is installed"),
+                        detail: Text("The team that signed its program has no app on this Mac. It may be left from an app that is gone, or run for a driver or a tool that needs no app."),
+                        kind: .note
+                    ) { EmptyView() }
+                    .padding(.vertical, 6)
+                }
+            }
+
             if let app = item.appThatLeft {
                 Section {
                     Notice(

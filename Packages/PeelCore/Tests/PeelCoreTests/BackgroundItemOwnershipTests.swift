@@ -34,6 +34,26 @@ struct BackgroundItemOwnershipTests {
         #expect(reads.programs.withLock { $0 } == ["/opt/org.example/gone"])
     }
 
+    @Test func knowsWhenNoAppOfAJobsMakerIsInstalled() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("Library/PrivilegedHelperTools/org.example.driver").path(percentEncoded: false)
+        let job = try #require(JobDefinition(["Label": "org.example.driver", "Program": program]))
+        let apples = try #require(JobDefinition(["Label": "com.apple.example", "Program": program]))
+        let maker = InstalledApp(
+            url: URL(filePath: "/Applications/Maker.app"), bundleIdentifier: "org.example.maker", name: "Maker",
+            teamIdentifier: "EXAMPLE123"
+        )
+        func ownership(_ installed: [InstalledApp]) -> BackgroundItemOwnership {
+            BackgroundItemOwnership(
+                installedApps: installed, remembered: [], teamOfProgram: { $0 == program ? "EXAMPLE123" : nil }
+            )
+        }
+
+        #expect(ownership([]).noAppOfItsMakerIsInstalled(running: job))
+        #expect(!ownership([maker]).noAppOfItsMakerIsInstalled(running: job))
+        #expect(!ownership([]).noAppOfItsMakerIsInstalled(running: apples))
+    }
+
     @Test func knowsTheAppThatLeftAJobByItsProgramsTeam() throws {
         let directory = try TemporaryDirectory()
         let program = try directory.file("Library/PrivilegedHelperTools/org.example.helper").path(percentEncoded: false)
