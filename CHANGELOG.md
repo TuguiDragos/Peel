@@ -110,6 +110,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Background Items
 
+- A job's page says when no app from its maker is installed, so a job an app removed before Peel saw it left behind
+  is easier to tell from one a driver or a tool runs on its own.
 - A job whose program was signed by the maker of an app Peel saw go says that app has left this Mac, and Open Orphaned
   Files shows the job there with what else the app left.
 - A job of an app that is gone names the uninstaller its maker documents, and so does a job a maker's product keeps
@@ -930,6 +932,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Background Items
 
+- After Stop on a job that ignores the signal to end, the page says it is still stopping and when macOS ends it, and
+  shows it stopped once it ends, after a Restart that ran past its 30 seconds too.
+- Escape in the editor of a job's file asks before it throws away what was typed.
 - Unusual command no longer flags a script run from disk with options of its own, such as `bash -e backup.sh`: only the
   option each shell or interpreter takes code in counts, before its script. It is seen inside a group of letters too,
   as in `bash -lc` or `perl -ne`, and past another option's value, as in `osascript -l JavaScript -e`.
