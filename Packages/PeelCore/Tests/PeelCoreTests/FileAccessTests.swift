@@ -55,7 +55,10 @@ struct FileAccessTests {
         #expect(!FileAccess.isProtectedByPrivacy(try directory.directory("Plain.app")))
     }
 
-    @Test func whatMacOSOwnsNeedsAnAdministrator() {
-        #expect(FileAccess.requiresPrivilegesToRemove(URL(filePath: "/System/Applications/Calculator.app")))
+    @Test func whatMacOSOwnsTheAccountCannotMove() {
+        let calculator = URL(filePath: "/System/Applications/Calculator.app")
+        // With System Integrity Protection off, the sealed disk answers first that it can only be read.
+        let isOnAReadOnlyDisk = ParentAccess(calculator.deletingLastPathComponent()).isOnAReadOnlyDisk
+        #expect(FileAccess.requiresPrivilegesToRemove(calculator) || isOnAReadOnlyDisk)
     }
 }
