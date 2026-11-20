@@ -8,6 +8,8 @@ final class SpaceLibrary: RowSelection {
     /// The disks the bands show, read on their own: after each scan, when the page appears, and when Peel comes
     /// forward.
     private(set) var disks: [DiskSpace] = []
+    /// Whether Apple Intelligence is turned on, which macOS 27's bands need before they say what it can keep.
+    private(set) var appleIntelligenceIsOn = false
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -54,6 +56,11 @@ final class SpaceLibrary: RowSelection {
 
     func readDisks() async {
         disks = await DiskSpace.readEach()
+    }
+
+    @available(macOS 27, *)
+    func readAppleIntelligence() async {
+        appleIntelligenceIsOn = await AppleIntelligence.isOnNow()
     }
 
     /// Scans again and makes every area's plan again, as Rescan asks: a plan also depends on which apps are open,

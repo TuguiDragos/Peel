@@ -99,11 +99,13 @@ struct SpaceList: View {
             }
         }
         .task {
+            if #available(macOS 27, *) { Task { await space.readAppleIntelligence() } }
             if space.report != nil { await space.readDisks() }
             guard space.report == nil, !space.scanRun.isWaitedFor, !space.scanRun.wasStopped else { return }
             await space.refresh()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            if #available(macOS 27, *) { Task { await space.readAppleIntelligence() } }
             Task { await space.readDisks() }
         }
         .rescanOnExclusionChange("SpaceList") { await space.refresh() }
@@ -113,7 +115,7 @@ struct SpaceList: View {
     private func storage(_ report: SpaceReport) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             DiskBands(disks: space.disks, snapshots: report.snapshots)
-            if #available(macOS 27, *), let size = AppleIntelligence.onThisMac {
+            if #available(macOS 27, *), space.appleIntelligenceIsOn, let size = AppleIntelligence.onThisMac {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Apple Intelligence can keep up to \(size.byteCount) on this Mac, by Apple’s figure.")
                         .font(.caption)
