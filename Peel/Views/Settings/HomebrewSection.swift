@@ -15,10 +15,10 @@ struct HomebrewSection: View {
     @State private var whyNotSaved: FileProblem?
 
     var body: some View {
-        let unrunnable = HomebrewChoice().unrunnable()
-        let refused = Homebrew.refusedInAUsualPlace()
+        let unrunnable = homebrew.unrunnableChoice
+        let refused = homebrew.refusedBrew
         let isUnreadable = unrunnable?.refusal == .unreadable
-        let brew = unrunnable?.brew ?? refused?.brew ?? Homebrew.executableURL
+        let brew = unrunnable?.brew ?? refused?.brew ?? homebrew.executable
         Section {
             LabeledContent {
                 HStack(spacing: 8) {
@@ -95,6 +95,7 @@ struct HomebrewSection: View {
     private func use(_ brew: URL?) {
         whyNotSaved = HomebrewChoice().save(brew)
         choice = HomebrewChoice().load()
+        homebrew.checkInstalled()
         Task { await homebrew.readAnotherBrew() }
     }
 }

@@ -91,8 +91,10 @@ final class HomebrewLibrary {
         var succeeded: Bool { ending == .finished }
     }
 
-    /// Checked again on every refresh, so Homebrew installed while Peel is open is found without a relaunch.
-    private(set) var isInstalled = Homebrew.executableURL != nil
+    /// The `brew` Peel runs, checked again on every refresh, so Homebrew installed while Peel is open is found
+    /// without a relaunch.
+    private(set) var executable = Homebrew.executableURL
+    var isInstalled: Bool { executable != nil }
     /// The `brew` chosen in Settings when it can no longer be run, in which case Peel runs none.
     private(set) var unrunnableChoice = HomebrewChoice().unrunnable()
     /// A `brew` where Homebrew installs itself that another account owns or anyone can change, which Peel doesn't run.
@@ -425,7 +427,7 @@ final class HomebrewLibrary {
 
     /// Reads again whether Homebrew is installed, which the sidebar's default for the Homebrew page follows.
     func checkInstalled() {
-        isInstalled = Homebrew.executableURL != nil
+        executable = Homebrew.executableURL
         unrunnableChoice = HomebrewChoice().unrunnable()
         refusedBrew = Homebrew.refusedInAUsualPlace()
     }
@@ -458,7 +460,7 @@ final class HomebrewLibrary {
         // What Homebrew says in the middle of a change is only halfway, and the change's own end reads it again: an
         // upgrade takes the old app away and names its folder `<version>.upgrading` while it unpacks the new one.
         guard !isChangingHomebrew else { return }
-        isInstalled = Homebrew.executableURL != nil
+        executable = Homebrew.executableURL
         unrunnableChoice = HomebrewChoice().unrunnable()
         refusedBrew = Homebrew.refusedInAUsualPlace()
         guard isInstalled else {
