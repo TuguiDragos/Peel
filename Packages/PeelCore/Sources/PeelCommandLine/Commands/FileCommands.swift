@@ -751,6 +751,8 @@ struct ProjectsCommand: AsyncParsableCommand {
     struct Report: Encodable {
         let artifacts: [Record]
         let unreadableLocations: [String]
+        /// Folders holding more than a scan reads, which were counted and not read.
+        let notLookedInside: [Output.CrowdedRecord]
         /// Folders the scan didn't search: chosen ones, and ones inside them that another app keeps in step.
         let skippedLocations: [String]
         /// True when there were more folders than Peel looks at in one go, so the list isn't all of them.
@@ -769,6 +771,9 @@ struct ProjectsCommand: AsyncParsableCommand {
         if scan.wasCutShort {
             notes.append("Peel stopped after \(Output.number(ProjectArtifacts.maximumFolders)) folders in one of the folders you gave, so projects deeper inside may be missing. Run `peel projects` on the folder your projects are in to see them.")
         }
+        notes += Output.skippedNotes(
+            crowded: scan.crowded, cutShort: [], leftInside: "Nothing inside it is listed here.", leftInSkipped: ""
+        )
         return notes
     }
 
@@ -787,6 +792,7 @@ struct ProjectsCommand: AsyncParsableCommand {
                 )
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
+            notLookedInside: scan.crowded.map(Output.CrowdedRecord.init),
             skippedLocations: scan.refusedRoots.map { Output.path($0.url) },
             cutShort: scan.wasCutShort
         )

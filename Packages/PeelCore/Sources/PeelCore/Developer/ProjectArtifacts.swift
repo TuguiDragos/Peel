@@ -924,6 +924,8 @@ public enum ProjectArtifacts {
         public var wasCutShort = false
         /// The folders that are there and could not be read, or did not answer in time, so what they hold isn't known.
         public var unreadableLocations: [URL] = []
+        /// The folders that hold more than a scan reads, which were counted and not read.
+        public var crowded: [CrowdedFolder] = []
         /// True when macOS kept Peel out of one of them for want of Full Disk Access.
         public var needsFullDiskAccess = false
         /// The folders not searched, each with the reason: chosen ones in the order they were given, then one gone
@@ -966,10 +968,12 @@ public enum ProjectArtifacts {
             var seen: Set<URL> = []
             var wasCutShort = false
             var unreadable: [URL] = []
+            var crowded: [CrowdedFolder] = []
             var keptInStep: [(url: URL, reason: Refusal)] = []
             for await result in group {
                 wasCutShort = wasCutShort || result.wasCutShort
                 unreadable += result.unreadable
+                crowded += result.crowded
                 keptInStep += result.keptInStep.map { ($0.url, .inTheCloud($0.keeper)) }
                 for artifact in result.artifacts where seen.insert(artifact.url).inserted {
                     found.append(artifact)
@@ -987,6 +991,7 @@ public enum ProjectArtifacts {
                 unreadableLocations: unreadable.sorted {
                     PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
                 },
+                crowded: crowded.eachOnce,
                 needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing },
                 refusedRoots: refused
                     + gone.map { ($0.root, .unreachable(FolderReach.problem(with: $0.root) ?? .gone)) }
@@ -1170,6 +1175,7 @@ public enum ProjectArtifacts {
     ) async -> Walked {
         var pending: [Pending] = []
         var unreadable: [URL] = []
+        var crowded: [CrowdedFolder] = []
         var keptInStep: [(url: URL, keeper: SyncKeeper)] = []
         let keepers = SyncedFolders()
         var queue = [root]
@@ -1187,6 +1193,10 @@ public enum ProjectArtifacts {
             if next >= 4_096 {
                 queue.removeFirst(next)
                 next = 0
+            }
+            if let count = FolderEntries.count(at: folder.path(percentEncoded: false)), count > ScanReads.entryLimit {
+                crowded.append(CrowdedFolder(url: folder, entries: count))
+                continue
             }
             let answer = await SlowRead.answer(within: budget) { _ in
                 look(in: folder, exclusions: exclusions, keepers: keepers, listing: listing)
@@ -1224,6 +1234,7 @@ public enum ProjectArtifacts {
         return Walked(
             artifacts: await withLastActivity(pending, within: budget), wasCutShort: next < queue.count,
             unreadable: unreadable,
+            crowded: crowded,
             keptInStep: keptInStep
         )
     }
@@ -1233,6 +1244,7 @@ public enum ProjectArtifacts {
         let artifacts: [ProjectArtifact]
         let wasCutShort: Bool
         let unreadable: [URL]
+        let crowded: [CrowdedFolder]
         let keptInStep: [(url: URL, keeper: SyncKeeper)]
     }
 

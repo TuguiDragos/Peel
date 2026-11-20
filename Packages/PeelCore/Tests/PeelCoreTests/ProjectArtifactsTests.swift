@@ -4,6 +4,22 @@ import Synchronization
 import Testing
 
 struct ProjectArtifactsTests {
+    @Test func aFolderTooFullToReadIsNamedAndTheRestIsSearched() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Projects/app/package.json", bytes: 16)
+        try directory.file("Projects/app/node_modules/left-pad/index.js", bytes: 16)
+        let crowded = try directory.directory("Projects/exports")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: crowded.appending(path: "\(number).csv").path, contents: nil)
+        }
+
+        let scan = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")])
+
+        #expect(scan.artifacts.map(\.name) == ["node_modules"])
+        #expect(scan.crowded.map(\.url.lastPathComponent) == ["exports"])
+        #expect(scan.unreadableLocations.isEmpty)
+    }
+
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
         for index in 1...30 {
