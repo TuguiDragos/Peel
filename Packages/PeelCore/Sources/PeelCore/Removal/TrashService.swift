@@ -1095,6 +1095,11 @@ public struct TrashService: Sendable {
                 journal?.note(moved.trashed, batch: removal)
                 MoveCount.current?.add(moved.trashed.count)
                 helperResult.trashed += moved.trashed
+                // A helper that answers now was back after an earlier request it didn't answer, so what that request
+                // left stays for another try, not for a repair.
+                if !moved.trashed.isEmpty || moved.failures.contains(where: { !Self.wentUnanswered($0) }) {
+                    helperResult.failures = helperResult.failures.map(Self.stoppedMidway)
+                }
                 helperResult.failures += moved.failures.map(explained)
                 // A helper that never answered may move an item yet, and its line is how History would learn of it.
                 let unanswered = moved.failures.filter { $0.reason == .failed(PrivilegedHelper.mayStillMove) }
@@ -1148,6 +1153,15 @@ public struct TrashService: Sendable {
 
     private static func asIfThereWereNoHelper(_ urls: [URL]) async -> TrashResult {
         TrashResult(failures: urls.map { TrashFailure(url: $0, reason: .needsHelper) })
+    }
+
+    private static func wentUnanswered(_ failure: TrashFailure) -> Bool {
+        failure.reason == .failed(PrivilegedHelper.unavailable)
+    }
+
+    private static func stoppedMidway(_ failure: TrashFailure) -> TrashFailure {
+        guard wentUnanswered(failure) else { return failure }
+        return TrashFailure(url: failure.url, reason: .failed(PrivilegedHelper.stoppedMidway), error: failure.error)
     }
 
     /// What putting items back did.

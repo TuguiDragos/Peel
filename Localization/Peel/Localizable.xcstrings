@@ -243734,6 +243734,112 @@
         }
       }
     },
+    "The Peel helper stopped during the move and then answered again. Try the move again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu se během přesunu zastavil a potom znovu odpověděl. Zkuste přesun zopakovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel wurde während des Verschiebens beendet und hat danach wieder geantwortet. Versuche das Verschieben erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel se ha detenido durante el traslado y después ha vuelto a responder. Vuelve a intentar el traslado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel s’est arrêté pendant le déplacement, puis a de nouveau répondu. Relancez le déplacement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel si è interrotto durante lo spostamento e poi ha risposto di nuovo. Riprova lo spostamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動中にPeelのヘルパーが停止し、その後再び応答しました。移動をやり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동 중에 Peel 보조 프로그램이 중단되었다가 다시 응답했습니다. 이동을 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel stopte tijdens het verplaatsen en reageerde daarna weer. Probeer het opnieuw te verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel przestał działać w trakcie przenoszenia, a potem znów zaczął odpowiadać. Spróbuj ponownie to przenieść."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel parou durante a movimentação e depois voltou a responder. Tente mover novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel s‑a oprit în timpul mutării și apoi a răspuns din nou. Reîncercați mutarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel остановился во время перемещения, а затем снова ответил. Повторите перемещение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram avslutades under flytten och svarade sedan igen. Försök flytta igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı taşıma sırasında durdu ve ardından yeniden yanıt verdi. Taşımayı yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel зупинився під час переміщення, а потім знову відповів. Спробуйте перемістити ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序在移动过程中停止运行，随后又恢复了响应。请重新尝试移动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式在移動過程中停止運作，之後又恢復回應。請再移動一次。"
+          }
+        }
+      }
+    },
     "The Print dialog opens with its details showing." : {
       "localizations" : {
         "cs" : {

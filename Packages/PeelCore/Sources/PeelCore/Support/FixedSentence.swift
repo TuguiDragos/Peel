@@ -15,7 +15,8 @@ public enum FixedSentence: CaseIterable, Sendable {
     case notInTrash, notInHelpersRecord, invalidRequest, configurationMissing, declaredTwice, keptByTheHelper
     case anotherDisk, ranOutOfTime, helperMayStillMove
     case toolTimedOut, toolStopped, notOnItsOwn
-    case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable, homebrewElsewhere
+    case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable, helperStoppedMidway
+    case homebrewElsewhere
     case helperSaidNothing, helperLeftItBehind
 
     public init?(_ message: String) {
@@ -79,6 +80,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .receiptForgotten: PackageActions.forgottenReceipt
         case .homebrewNotInstalled: Homebrew.notInstalled
         case .helperUnavailable: PrivilegedHelper.unavailable
+        case .helperStoppedMidway: PrivilegedHelper.stoppedMidway
         case .helperSaidNothing: PrivilegedHelper.saidNothing
         case .helperLeftItBehind: PrivilegedHelper.leftBehind
         case .homebrewElsewhere: Homebrew.changesOnlyWhereHomebrewInstallsItself

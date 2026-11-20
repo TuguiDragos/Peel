@@ -5,6 +5,8 @@ import Synchronization
 
 public enum PrivilegedHelper {
     static let unavailable = "The Peel helper is not answering. Repair it in Settings > Helper."
+    /// What is said of the items of a request the helper didn't answer when it answered a later one of the same move.
+    static let stoppedMidway = "The Peel helper stopped during the move and then answered again. Try the move again."
     /// What Remove Peel says of what the helper didn't take before it went, once Peel is in the Trash.
     static let leftBehind = "The Peel helper could not take this with it. To remove it, choose Go > Go to Folder in Finder, enter the folder it is in, and drag it to the Trash, which asks for an administrator."
     /// What is said of an item a helper's answer leaves out, which is no sign the helper didn't answer.

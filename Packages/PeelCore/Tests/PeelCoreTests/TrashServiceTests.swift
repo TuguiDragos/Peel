@@ -408,6 +408,49 @@ struct TrashServiceTests {
         #expect(batches.withLock { $0 } == [["Tool.app"], ["tool", "_tool"]])
     }
 
+    @Test func aHelperThatAnswersAgainLaterInTheMoveIsNotToldToBeRepaired() async throws {
+        let directory = try TemporaryDirectory()
+        let items = try (0...HelperRequest.maximumItems).map {
+            try directory.file("home/Library/Caches/org.example.item\($0)/cache.db").deletingLastPathComponent()
+        }
+        let requests = Mutex(0)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(
+            environment: environment,
+            moveThroughHelper: { urls in
+                let request = requests.withLock { count in
+                    count += 1
+                    return count
+                }
+                guard request > 1 else {
+                    return TrashResult(failures: urls.map {
+                        TrashFailure(url: $0, reason: .failed(PrivilegedHelper.unavailable))
+                    })
+                }
+                return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+
+        let result = await service.trash(items, usingHelperFor: Set(items))
+        #expect(result.failures.count == HelperRequest.maximumItems)
+        #expect(result.failures.allSatisfy { $0.reason == .failed(PrivilegedHelper.stoppedMidway) })
+
+        let alone = try directory.file("home/Library/Caches/org.example.alone/cache.db").deletingLastPathComponent()
+        let unanswered = TrashService(
+            environment: environment,
+            moveThroughHelper: { urls in
+                TrashResult(failures: urls.map { TrashFailure(url: $0, reason: .failed(PrivilegedHelper.unavailable)) })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+        let left = await unanswered.trash([alone], usingHelperFor: [alone])
+        #expect(left.failures.map(\.reason) == [.failed(PrivilegedHelper.unavailable)])
+    }
+
     @Test func keepsTheCodeOfAnErrorMacOSReported() async throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file("home/Library/Caches/org.example.busy/cache.db")
