@@ -32,7 +32,8 @@ final class BackgroundItemLibrary {
     /// could be traced to the app that owns it.
     private var installedApps: [InstalledApp] = []
     private let scan: @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan
-    private let control: @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void
+    private let control: @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure)
+        -> BackgroundItemActions.StillEnding?
     private let edit: @MainActor (LaunchAgentFile, String, BackgroundItem, Exclusions) async -> LaunchAgentFile.Outcome
     /// The reads of the list started so far, so that a job just enabled is judged by a read started after it.
     private var readsStarted = 0
@@ -42,8 +43,8 @@ final class BackgroundItemLibrary {
         scan: @escaping @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan = {
             await BackgroundItems.scan(installedApps: $0, remembered: await AppMemory().load(), exclusions: $1)
         },
-        control: @escaping @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void =
-            BackgroundItemLibrary.control,
+        control: @escaping @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure)
+            -> BackgroundItemActions.StillEnding? = BackgroundItemLibrary.control,
         edit: @escaping @MainActor (LaunchAgentFile, String, BackgroundItem, Exclusions) async
             -> LaunchAgentFile.Outcome = { await $0.save($1, for: $2, exclusions: $3) }
     ) {
@@ -53,15 +54,18 @@ final class BackgroundItemLibrary {
     }
 
     /// Starts, stops, enables or disables a job through launchd.
-    private static func control(_ action: Action, _ item: BackgroundItem) async throws(BackgroundItemActions.Failure) {
+    private static func control(
+        _ action: Action, _ item: BackgroundItem
+    ) async throws(BackgroundItemActions.Failure) -> BackgroundItemActions.StillEnding? {
         switch action {
         case .load, .runNow: try await BackgroundItemActions.start(item)
-        case .stop, .unload, .remove: try await BackgroundItemActions.stop(item)
+        case .stop, .unload, .remove: return try await BackgroundItemActions.stop(item)
         case .restart: try await BackgroundItemActions.restart(item)
         case .enable: try await BackgroundItemActions.setEnabled(true, for: item)
         case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
-        case .moveToTrash: return
+        case .moveToTrash: break
         }
+        return nil
     }
 
     func refresh(installedApps: [InstalledApp]) async {
@@ -102,6 +106,15 @@ final class BackgroundItemLibrary {
             let result = await scanRun.runQuietly({ await scan(installedApps, ExclusionsStore.shared.exclusions) })
         else { return }
         show(result, read: read)
+    }
+
+    /// launchd can let a job's process run long after Peel stopped waiting for it, and the list says so once it ends.
+    private func readAgain(onceItEnds pid: Int32) {
+        Task { [weak self] in
+            for await _ in ProcessEnds.of([pid]) {}
+            guard let self else { return }
+            await readAgain(installedApps: installedApps)
+        }
     }
 
     /// Notes a job just enabled. The first read of the list started after now says whether it left the list, whoever
@@ -157,6 +170,7 @@ final class BackgroundItemLibrary {
         case edited(label: String, reload: LaunchAgentFile.Reload, endsAtLogout: Bool)
         /// The old file is in the Trash, and the edited one isn't whole in its place.
         case notEdited(label: String, url: URL, problem: LaunchAgentFile.Problem)
+        case stillStopping(label: String, exitTimeOut: Int?)
     }
 
     func dismissAlert() {
@@ -214,11 +228,13 @@ final class BackgroundItemLibrary {
         guard runningActionItemIDs.insert(item.id).inserted else { return }
         defer { runningActionItemIDs.remove(item.id) }
         var failed = false
+        var stillEnding: BackgroundItemActions.StillEnding?
         do {
             switch action {
-            case .load, .runNow, .stop, .unload, .restart, .remove, .disable: try await control(action, item)
+            case .load, .runNow, .stop, .unload, .restart, .remove, .disable:
+                stillEnding = try await control(action, item)
             case .enable:
-                try await control(action, item)
+                _ = try await control(action, item)
                 noteEnabled(item)
             case .moveToTrash:
                 let exclusions = ExclusionsStore.shared.exclusions
@@ -246,6 +262,13 @@ final class BackgroundItemLibrary {
         }
         let shown = scans
         await readAfterAction()
+        if let stillEnding {
+            alerts.add(.stillStopping(label: item.label, exitTimeOut: stillEnding.exitTimeOut))
+            readAgain(onceItEnds: stillEnding.pid)
+        } else if action == .restart, failed, let now = items?.first(where: { $0.id == item.id }),
+                  case .running(let pid) = now.state, ProcessEnds.isRunning(pid) {
+            readAgain(onceItEnds: pid)
+        }
         // History tells of a move to the Trash, and an alert of a failure.
         if action != .moveToTrash, !failed, scans > shown, let words = Self.announcement(for: item, in: items) {
             AccessibilityNotification.Announcement(words).post()

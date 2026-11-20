@@ -226,6 +226,28 @@ struct BackgroundItemActionsTests {
         #expect(waited.withLock { $0 } == ["4242 within 30"])
     }
 
+    @Test func stopSaysWhenLaunchdEndsAProcessThatOutlivesTheWait() async throws {
+        let directory = try TemporaryDirectory()
+        let plist = try directory.file(
+            "com.example.agent.plist",
+            contents: try PropertyListSerialization.data(
+                fromPropertyList: ["Label": "com.example.agent", "ExitTimeOut": 45], format: .xml, options: 0
+            )
+        )
+        let printed = "gui/501/com.example.agent = {\n\tpath = \(plist.path)\n\tstate = SIGTERMed\n\tpid = 4242\n}"
+        func stop(_ job: BackgroundItem, ending: Bool) async throws -> BackgroundItemActions.StillEnding? {
+            try await BackgroundItemActions.stop(job, waitingUpTo: 30, launchctl: { arguments in
+                arguments[0] == "print" ? (0, printed) : (0, "")
+            }, untilEnded: { _, _ in ending })
+        }
+
+        let left = try await stop(item(state: .running(pid: 4242), plist: plist), ending: false)
+
+        #expect(left == BackgroundItemActions.StillEnding(pid: 4242, exitTimeOut: 45))
+        #expect(try await stop(item(state: .running(pid: 4242), plist: nil), ending: false)?.exitTimeOut == nil)
+        #expect(try await stop(item(state: .running(pid: 4242), plist: plist), ending: true) == nil)
+    }
+
     @Test func stopWaitsForNothingOnceLaunchdNamesNoProcess() async throws {
         let job = item(state: .running(pid: 4242), plist: nil)
         let waited = Mutex(false)

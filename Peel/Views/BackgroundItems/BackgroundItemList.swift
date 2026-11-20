@@ -126,6 +126,7 @@ struct BackgroundItemList: View {
         case .enabledUntilLoaded(let label, _)?: Text("“\(label)” is enabled.")
         case .edited(let label, _, _)?: Text("“\(label)” is saved.")
         case .notEdited(let label, _, _)?: Text("“\(label)” couldn’t be saved.")
+        case .stillStopping(let label, _)?: Text("“\(label)” is still stopping.")
         case nil: Text(verbatim: "")
         }
     }
@@ -139,6 +140,11 @@ struct BackgroundItemList: View {
             Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually the next time you log in.")
         case .edited(_, let reload, let endsAtLogout)?: reloadMessage(reload, endsAtLogout: endsAtLogout)
         case .notEdited(_, let url, let problem)?: Text(verbatim: problem.explanationWithTheOldFileInTheTrash(url: url))
+        case .stillStopping(_, let exitTimeOut?)? where exitTimeOut > 0:
+            Text("It did not end within 30 seconds. Its job gives it ^[\(exitTimeOut) second](inflect: true) before macOS ends it, and this list shows it stopped then.")
+        case .stillStopping(_, 0?)?:
+            Text("It did not end within 30 seconds, and its job asks macOS to wait until it ends on its own. This list shows it stopped then.")
+        case .stillStopping?: Text("It did not end within 30 seconds. This list shows it stopped once it ends.")
         case nil: Text(verbatim: "")
         }
     }

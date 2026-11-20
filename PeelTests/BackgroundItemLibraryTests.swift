@@ -63,7 +63,10 @@ struct BackgroundItemLibraryTests {
         let job = job
         let library = BackgroundItemLibrary(
             scan: { _, _ in BackgroundItems.Scan(items: [job]) },
-            control: { _, _ in await held.run() }
+            control: { _, _ in
+                await held.run()
+                return nil
+            }
         )
 
         let first = Task { await library.perform(.load, on: job) }
@@ -86,7 +89,7 @@ struct BackgroundItemLibraryTests {
                 reads.wereShownAsAScan.append(reads.library?.isScanning == true)
                 return BackgroundItems.Scan(items: [job])
             },
-            control: { _, _ in }
+            control: { _, _ in nil }
         )
         reads.library = library
 
@@ -95,6 +98,38 @@ struct BackgroundItemLibraryTests {
 
         #expect(reads.wereShownAsAScan == [true, false])
         #expect(library.scans == 2)
+    }
+
+    @Test(.timeLimit(.minutes(1))) func aJobStillStoppingIsReadAgainOnceItsProcessEnds() async throws {
+        let sleeper = Process()
+        sleeper.executableURL = URL(filePath: "/bin/sleep")
+        sleeper.arguments = ["600"]
+        try sleeper.run()
+        defer { if sleeper.isRunning { sleeper.terminate() } }
+        let pid = sleeper.processIdentifier
+        let (read, reading) = AsyncStream<Void>.makeStream()
+        let job = job
+        let library = BackgroundItemLibrary(
+            scan: { _, _ in
+                reading.yield()
+                return BackgroundItems.Scan(items: [job])
+            },
+            control: { _, _ in BackgroundItemActions.StillEnding(pid: pid, exitTimeOut: 45) }
+        )
+        var reads = read.makeAsyncIterator()
+        await library.refresh(installedApps: [])
+        _ = await reads.next()
+
+        await library.perform(.stop, on: job)
+        _ = await reads.next()
+        guard case .stillStopping(job.label, 45)? = library.alerts.current else {
+            Issue.record("no alert says the job is still stopping")
+            return
+        }
+        sleeper.terminate()
+
+        _ = await reads.next()
+        #expect(!ProcessEnds.isRunning(pid))
     }
 
     /// A scan whose answers the test gives, call by call, and which holds the calls in `held` until it lets them go.
@@ -249,7 +284,10 @@ struct BackgroundItemLibraryTests {
         let edits = Reads()
         let library = BackgroundItemLibrary(
             scan: { _, _ in BackgroundItems.Scan(items: [agent]) },
-            control: { _, _ in await held.run() },
+            control: { _, _ in
+                await held.run()
+                return nil
+            },
             edit: { _, _, _, _ in
                 edits.count += 1
                 return .unchanged(.changed, moved: TrashResult())

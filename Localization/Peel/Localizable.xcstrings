@@ -88849,6 +88849,558 @@
         }
       }
     },
+    "It did not end within 30 seconds, and its job asks macOS to wait until it ends on its own. This list shows it stopped then." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neskončila do 30 sekund a její úloha žádá systém macOS, aby počkal, dokud sama neskončí. Tento seznam ji pak zobrazí jako zastavenou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es hat sich nicht innerhalb von 30 Sekunden beendet, und sein Job weist macOS an, zu warten, bis es sich von selbst beendet. Diese Liste zeigt es dann als gestoppt an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ha terminado en 30 segundos, y su tarea pide a macOS que espere a que termine por sí solo. Esta lista lo mostrará como detenido en ese momento."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne s’est pas terminé dans les 30 secondes, et sa tâche demande à macOS d’attendre qu’il se termine de lui-même. Cette liste l’affichera alors comme arrêté."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è terminato entro 30 secondi, e il suo file chiede a macOS di attendere che termini da solo. A quel punto questo elenco lo mostra come interrotto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30秒以内に終了しませんでした。ジョブの設定により、macOSはこれが自ら終了するまで待ちます。終了した時点で、停止したことがこのリストに反映されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30초 안에 종료되지 않았으며, 이 항목의 작업은 스스로 종료될 때까지 기다리도록 macOS에 요청합니다. 그때 이 목록에 중단된 것으로 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is niet binnen 30 seconden gestopt, en de taak vraagt macOS om te wachten tot het vanzelf stopt. Deze lijst toont het dan als gestopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proces nie zakończył się w ciągu 30 sekund, a jego zadanie prosi macOS, aby czekał, aż proces sam się zakończy. Ta lista pokaże go wtedy jako zatrzymany."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não terminou em 30 segundos, e a tarefa dele pede ao macOS que espere até que ele termine sozinho. Esta lista vai mostrá-lo como parado quando isso acontecer."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑a încheiat în 30 de secunde, iar sarcina sa îi cere lui macOS să aștepte până când se încheie de la sine. Această listă îl va afișa ca oprit atunci."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он не завершился за 30 секунд, а его задание просит macOS ждать, пока он сам не завершится. Тогда этот список покажет, что он остановлен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det avslutades inte inom 30 sekunder, och dess jobb ber macOS att vänta tills det avslutas av sig självt. Den här listan visar det som stoppat först då."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 saniye içinde sonlanmadı ve işi, macOS’ten onu kendiliğinden sonlanana kadar beklemesini istiyor. Bu liste onu o zaman durmuş olarak gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Процес не завершився протягом 30 секунд, а його завдання просить macOS чекати, доки він не завершиться сам. Тоді цей список покаже, що він зупинився."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在30秒内未结束，而它的任务要求macOS一直等到它自行结束。届时此列表会显示它已停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它未在30秒內結束，而它的工作要求macOS等它自行結束。屆時此列表會將它顯示為已停止。"
+          }
+        }
+      }
+    },
+    "It did not end within 30 seconds. Its job gives it ^[%lld second](inflect: true) before macOS ends it, and this list shows it stopped then." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neskončila do 30 sekund. Její úloha jí dává %lld sekundy, než ji systém macOS ukončí, a tento seznam ji pak zobrazí jako zastavenou."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neskončila do 30 sekund. Její úloha jí dává %lld sekundy, než ji systém macOS ukončí, a tento seznam ji pak zobrazí jako zastavenou."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neskončila do 30 sekund. Její úloha jí dává %lld sekundu, než ji systém macOS ukončí, a tento seznam ji pak zobrazí jako zastavenou."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neskončila do 30 sekund. Její úloha jí dává %lld sekund, než ji systém macOS ukončí, a tento seznam ji pak zobrazí jako zastavenou."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es hat sich nicht innerhalb von 30 Sekunden beendet. Sein Job gibt ihm %lld Sekunde Zeit, bevor macOS es beendet, und diese Liste zeigt es dann als gestoppt an."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es hat sich nicht innerhalb von 30 Sekunden beendet. Sein Job gibt ihm %lld Sekunden Zeit, bevor macOS es beendet, und diese Liste zeigt es dann als gestoppt an."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No ha terminado en 30 segundos. Su tarea le da %lld de segundos antes de que macOS lo finalice, y en ese momento esta lista lo mostrará como detenido."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No ha terminado en 30 segundos. Su tarea le da un segundo antes de que macOS lo finalice, y en ese momento esta lista lo mostrará como detenido."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No ha terminado en 30 segundos. Su tarea le da %lld segundos antes de que macOS lo finalice, y en ese momento esta lista lo mostrará como detenido."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il ne s’est pas terminé dans les 30 secondes. Sa tâche lui accorde %lld de secondes avant que macOS n’y mette fin, et cette liste l’affichera alors comme arrêté."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il ne s’est pas terminé dans les 30 secondes. Sa tâche lui accorde %lld seconde avant que macOS n’y mette fin, et cette liste l’affichera alors comme arrêté."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il ne s’est pas terminé dans les 30 secondes. Sa tâche lui accorde %lld secondes avant que macOS n’y mette fin, et cette liste l’affichera alors comme arrêté."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non è terminato entro 30 secondi. Il suo file gli concede %lld di secondi prima che macOS lo termini, e a quel punto questo elenco lo mostra come interrotto."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non è terminato entro 30 secondi. Il suo file gli concede %lld secondo prima che macOS lo termini, e a quel punto questo elenco lo mostra come interrotto."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non è terminato entro 30 secondi. Il suo file gli concede %lld secondi prima che macOS lo termini, e a quel punto questo elenco lo mostra come interrotto."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30秒以内に終了しませんでした。ジョブの設定では、macOSが終了させるまでに%lld秒の猶予があり、その時点で、停止したことがこのリストに反映されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30초 안에 종료되지 않았습니다. 이 항목의 작업은 macOS가 종료하기 전에 %lld초의 시간을 주며, 그때 이 목록에 중단된 것으로 표시됩니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Het is niet binnen 30 seconden gestopt. De taak geeft het %lld seconde de tijd voordat macOS het beëindigt, en deze lijst toont het dan als gestopt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Het is niet binnen 30 seconden gestopt. De taak geeft het %lld seconden de tijd voordat macOS het beëindigt, en deze lijst toont het dan als gestopt."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Proces nie zakończył się w ciągu 30 sekund. Jego zadanie daje mu %lld sekundy, zanim macOS go zakończy, a ta lista pokaże go wtedy jako zatrzymany."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Proces nie zakończył się w ciągu 30 sekund. Jego zadanie daje mu %lld sekund, zanim macOS go zakończy, a ta lista pokaże go wtedy jako zatrzymany."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Proces nie zakończył się w ciągu 30 sekund. Jego zadanie daje mu %lld sekundę, zanim macOS go zakończy, a ta lista pokaże go wtedy jako zatrzymany."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Proces nie zakończył się w ciągu 30 sekund. Jego zadanie daje mu %lld sekundy, zanim macOS go zakończy, a ta lista pokaże go wtedy jako zatrzymany."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele não terminou em 30 segundos. A tarefa dele lhe dá %lld de segundos antes que o macOS o encerre, e esta lista vai mostrá-lo como parado quando isso acontecer."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele não terminou em 30 segundos. A tarefa dele lhe dá %lld segundo antes que o macOS o encerre, e esta lista vai mostrá-lo como parado quando isso acontecer."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele não terminou em 30 segundos. A tarefa dele lhe dá %lld segundos antes que o macOS o encerre, e esta lista vai mostrá-lo como parado quando isso acontecer."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu s‑a încheiat în 30 de secunde. Sarcina sa îi acordă %lld secunde înainte ca macOS să îi pună capăt, iar această listă îl va afișa ca oprit atunci."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu s‑a încheiat în 30 de secunde. Sarcina sa îi acordă %lld secundă înainte ca macOS să îi pună capăt, iar această listă îl va afișa ca oprit atunci."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu s‑a încheiat în 30 de secunde. Sarcina sa îi acordă %lld de secunde înainte ca macOS să îi pună capăt, iar această listă îl va afișa ca oprit atunci."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Он не завершился за 30 секунд. Его задание дает ему %lld секунды, прежде чем macOS его завершит, и тогда этот список покажет, что он остановлен."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Он не завершился за 30 секунд. Его задание дает ему %lld секунд, прежде чем macOS его завершит, и тогда этот список покажет, что он остановлен."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Он не завершился за 30 секунд. Его задание дает ему %lld секунду, прежде чем macOS его завершит, и тогда этот список покажет, что он остановлен."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Он не завершился за 30 секунд. Его задание дает ему %lld секунды, прежде чем macOS его завершит, и тогда этот список покажет, что он остановлен."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Det avslutades inte inom 30 sekunder. Dess jobb ger det %lld sekund på sig innan macOS avslutar det, och den här listan visar det som stoppat först då."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Det avslutades inte inom 30 sekunder. Dess jobb ger det %lld sekunder på sig innan macOS avslutar det, och den här listan visar det som stoppat först då."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "30 saniye içinde sonlanmadı. İşi, macOS onu sonlandırmadan önce ona %lld saniye süre tanıyor ve bu liste onu o zaman durmuş olarak gösterir."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "30 saniye içinde sonlanmadı. İşi, macOS onu sonlandırmadan önce ona %lld saniye süre tanıyor ve bu liste onu o zaman durmuş olarak gösterir."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Процес не завершився протягом 30 секунд. Його завдання дає йому %lld секунди, перш ніж macOS його завершить, і тоді цей список покаже, що він зупинився."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Процес не завершився протягом 30 секунд. Його завдання дає йому %lld секунд, перш ніж macOS його завершить, і тоді цей список покаже, що він зупинився."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Процес не завершився протягом 30 секунд. Його завдання дає йому %lld секунду, перш ніж macOS його завершить, і тоді цей список покаже, що він зупинився."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Процес не завершився протягом 30 секунд. Його завдання дає йому %lld секунди, перш ніж macOS його завершить, і тоді цей список покаже, що він зупинився."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在30秒内未结束。它的任务给它留出了%lld秒，之后macOS才会将其结束，届时此列表会显示它已停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它未在30秒內結束。它的工作給它%lld秒的時間，時間一到macOS就會將它結束，屆時此列表會將它顯示為已停止。"
+          }
+        }
+      }
+    },
+    "It did not end within 30 seconds. This list shows it stopped once it ends." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neskončila do 30 sekund. Tento seznam ji zobrazí jako zastavenou, jakmile skončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es hat sich nicht innerhalb von 30 Sekunden beendet. Diese Liste zeigt es als gestoppt an, sobald es sich beendet hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ha terminado en 30 segundos. Esta lista lo mostrará como detenido cuando termine."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne s’est pas terminé dans les 30 secondes. Cette liste l’affichera comme arrêté dès qu’il se sera terminé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è terminato entro 30 secondi. Questo elenco lo mostra come interrotto non appena termina."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30秒以内に終了しませんでした。終了すると、停止したことがこのリストに反映されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30초 안에 종료되지 않았습니다. 종료되면 이 목록에 중단된 것으로 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is niet binnen 30 seconden gestopt. Zodra het stopt, toont deze lijst dat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proces nie zakończył się w ciągu 30 sekund. Ta lista pokaże go jako zatrzymany, gdy się zakończy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não terminou em 30 segundos. Esta lista vai mostrá-lo como parado assim que ele terminar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑a încheiat în 30 de secunde. Această listă îl va afișa ca oprit după ce se încheie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он не завершился за 30 секунд. Когда он завершится, этот список покажет, что он остановлен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det avslutades inte inom 30 sekunder. Den här listan visar det som stoppat när det har avslutats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 saniye içinde sonlanmadı. Bu liste onu sonlandığında durmuş olarak gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Процес не завершився протягом 30 секунд. Щойно він завершиться, цей список покаже, що він зупинився."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在30秒内未结束。它结束后，此列表会显示它已停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它未在30秒內結束。等它結束後，此列表會將它顯示為已停止。"
+          }
+        }
+      }
+    },
     "It did not read ^[%lld place](inflect: true) where apps are. Nothing is listed, since the files of an app it cannot see would look orphaned." : {
       "localizations" : {
         "cs" : {
@@ -317636,6 +318188,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存「%@」。"
+          }
+        }
+      }
+    },
+    "“%@” is still stopping." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka „%@“ se stále zastavuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ wird noch gestoppt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún se está deteniendo “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » n’a pas encore fini de s’arrêter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” si sta ancora interrompendo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”はまだ停止処理中です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 아직 중단 중입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' is nog aan het stoppen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” nadal się zatrzymuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” ainda está parando."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” încă se oprește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект «%@» еще останавливается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”%@” håller fortfarande på att stoppas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” hâlâ durduruluyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«%@» ще зупиняється."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”仍在停止中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」仍在停止中。"
           }
         }
       }

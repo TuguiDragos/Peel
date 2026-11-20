@@ -32,20 +32,29 @@ public enum BackgroundItemActions {
     /// How long Stop waits for the job's process to end, as long as `launchctl` itself gets.
     static let exitWait: TimeInterval = 30
 
-    @concurrent
-    public static func stop(_ item: BackgroundItem) async throws(Failure) {
+    /// A job's process still running once Stop stopped waiting: launchd ends it at the job's `ExitTimeOut`, and never
+    /// when that is zero (`man launchd.plist`).
+    public struct StillEnding: Sendable, Equatable {
+        public let pid: Int32
+        /// As the job's file writes it, or nil when it doesn't.
+        public let exitTimeOut: Int?
+    }
+
+    @concurrent @discardableResult
+    public static func stop(_ item: BackgroundItem) async throws(Failure) -> StillEnding? {
         try await stop(item, waitingUpTo: exitWait) { await Launchctl.run($0) }
     }
 
     /// Takes the job out of launchd, then waits up to `limit` for the process launchd still names for it to end:
     /// `bootout` returns at once, while launchd keeps a job whose process ignores the signal until its ExitTimeOut
     /// and only then kills it, and the job read meanwhile would still show as running.
+    @discardableResult
     static func stop(
         _ item: BackgroundItem,
         waitingUpTo limit: TimeInterval,
         launchctl: ([String]) async -> (status: Int32, output: String),
         untilEnded: (pid_t, TimeInterval) async -> Bool = { await ProcessEnds.ends($0, within: $1) }
-    ) async throws(Failure) {
+    ) async throws(Failure) -> StillEnding? {
         if let refusal = refusal(for: item) { throw refusal }
         do throws(Failure) {
             if item.requiresPrivileges {
@@ -55,13 +64,15 @@ public enum BackgroundItemActions {
             }
         } catch {
             if !(await isGone(item, asking: launchctl)) { throw error }
-            return
+            return nil
         }
         let printed = await launchctl(["print", target(of: item)])
         guard case .details(let details) = Launchctl.answer(status: printed.status, output: printed.output),
               let process = details.pid
-        else { return }
-        _ = await untilEnded(process, limit)
+        else { return nil }
+        guard !(await untilEnded(process, limit)) else { return nil }
+        let job = item.plistURL.flatMap(JobDefinition.init(contentsOf:))
+        return StillEnding(pid: process, exitTimeOut: job?.exitTimeOut)
     }
 
     /// How an item is started: loaded from its file with `bootstrap` when launchd does not have it, or

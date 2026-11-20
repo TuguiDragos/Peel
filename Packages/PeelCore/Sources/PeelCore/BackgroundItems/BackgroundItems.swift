@@ -591,6 +591,7 @@ struct JobDefinition {
     /// never in the person's own session.
     let loadsOnlyAtTheLoginWindow: Bool
     let watchPaths: [String]
+    let exitTimeOut: Int?
 
     init?(contentsOf url: URL) {
         guard
@@ -617,5 +618,6 @@ struct JobDefinition {
         loadsInTheBackground = types.contains("Background")
         loadsOnlyAtTheLoginWindow = !types.isEmpty && types.allSatisfy { $0 == "LoginWindow" }
         watchPaths = (plist["WatchPaths"] as? [Any])?.compactMap { $0 as? String } ?? []
+        exitTimeOut = plist["ExitTimeOut"] as? Int
     }
 }
