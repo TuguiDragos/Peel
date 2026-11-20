@@ -253,11 +253,11 @@ struct FolderDuplicates: Sendable {
         return folder
     }
 
+    /// What `url` holds, or nil when it can't be listed or holds more than a scan reads, which leaves it, and every
+    /// folder around it, out of the comparison. Its files are still compared one by one.
     private func entries(of url: URL, depth: Int) -> (entries: [URL], isProject: Bool)? {
-        guard let entries = try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
-        else {
-            return nil
-        }
+        guard case .names(let names) = ScanReads.listing(of: url) else { return nil }
+        let entries = names.map { url.appending(path: $0) }
         let isProject = depth > 0 && !neverProjects.contains(DuplicateFinder.path(of: url))
             && entries.contains { ProjectArtifacts.isMarker($0.lastPathComponent) }
         return (entries, isProject)

@@ -143,6 +143,20 @@ struct DuplicateFinderTests {
         Data((0..<count).map { _ in UInt8.random(in: 0...255) })
     }
 
+    @Test func twoFoldersTooFullToReadAreNotComparedAsFolders() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["home/Exports/one", "home/Exports/two"] {
+            let folder = try directory.directory(name)
+            for number in 0...ScanReads.entryLimit {
+                FileManager.default.createFile(atPath: folder.appending(path: "\(number).txt").path, contents: Data("x".utf8))
+            }
+        }
+
+        let result = try await scan(directory)
+
+        #expect(result.folderGroups.isEmpty)
+    }
+
     private func scan(
         _ directory: borrowing TemporaryDirectory,
         folders: [String] = ["home"],
