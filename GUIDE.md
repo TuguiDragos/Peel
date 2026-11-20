@@ -295,12 +295,17 @@ Recommended passes it by. The logs Homebrew's services write in `/opt/homebrew/v
 the folders they sit in stay, since a service expects to find the folder it writes in. What the formulas keep in
 Homebrew's `var` folder (`/opt/homebrew/var`, or `/usr/local/var` on an Intel-based Mac), such as a database's data, is
 listed folder by folder with its size and only shown, since `brew uninstall` leaves it: a folder no installed formula
-names in its own file says so, and what a formula keeps in Homebrew's `etc` or in `/etc` stays where it is. The years
-of TeX Live in `/usr/local/texlive` and the versions of the .NET SDK are shown the same way, each with its size, and
-those other than the year in use or with a newer version beside them say so. Where Developer knows part of a folder,
-Space says how much of it moves here and opens Developer for the rest. Space also explains the snapshots macOS keeps
-on the disk, which Peel never removes, says how much the AI models and datasets Developer lists take, and, on macOS
-27, how much Apple Intelligence may keep on this Mac, by Apple's figure.
+names in its own file says so, and what a formula keeps in Homebrew's `etc` or in `/etc` stays where it is. The years of
+TeX Live in `/usr/local/texlive` and the versions of the .NET SDK are shown the same way, each with its size, and those
+other than the year in use or with a newer version beside them say so. The sound library GarageBand, Logic Pro, and
+MainStage share, the folders macOS names in its own storage settings, is listed too: nothing in it is selected for you,
+nothing moves while one of those apps is open, and each app downloads what it needs again when you ask. In an area, a
+folder holding more items than a scan reads, 20,000, is one row left alone and never read whole, and Installers and
+Backups and Build Artifacts name such a folder on their pages. A part of macOS is never asked to quit to empty a cache,
+since macOS starts it again. Where Developer knows part of a folder, Space says how much of it moves here and opens
+Developer for the rest. Space also explains the snapshots macOS keeps on the disk, which Peel never removes, says how
+much the AI models and datasets Developer lists take, and, on macOS 27, how much Apple Intelligence may keep on this
+Mac, by Apple's figure.
 
 Nothing is selected for you: Select Recommended takes what Peel could measure in an area and nothing holds back. A
 cache, or a log in the Library every account shares or in Homebrew's folder, that something wrote to in the last 15
@@ -622,6 +627,16 @@ files share their space: a copy Finder makes on an APFS disk shares its blocks w
 changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go. A
 virtual machine's disk, such as Docker's, is often a sparse file too: Finder shows the size it can grow to, and Peel
 what it takes on the disk now.
+
+### Why does System Settings still list an app I removed?
+
+System Settings > General > Login Items & Extensions shows what macOS records for each app's login and background
+items, and Peel can't change that record. While the app is in the Trash, macOS still starts its items from there, so
+empty the Trash. A job whose file stays in a `LaunchAgents` or `LaunchDaemons` folder is listed in Background Items,
+which says so when no app of the maker that signed its program is installed, and in Orphaned Files once its program is
+gone. Restart your Mac, then open System Settings again. If the app still shows, `sudo sfltool resetbtm` resets what
+macOS records for every app's login and background items, as Apple's deployment guide describes it, so each app asks
+again for what it needs; restart once more after it.
 
 ### Why does Peel ask for Full Disk Access?
 

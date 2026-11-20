@@ -69,9 +69,10 @@ these folders themselves, though not what is inside them: `/`, `/Applications`, 
 such as `~/Library/Caches`, every folder on the way to one, such as `~/Library/Audio`, and every folder Space empties,
 such as `/opt/homebrew/var/log`: each is looked inside and never moved whole. A browser's own data folder is not kept
 for the folder inside it where the browser reads its extensions' manifests: it goes with the browser. Anything System
-Integrity Protection guards, which macOS marks as restricted, is refused as well, and
-so is anything macOS marks so that nothing can remove or rename it, such as the private folders it makes in your
-temporary folder for the processes it runs in a sandbox; Peel doesn't list those.
+Integrity Protection guards, which macOS marks as restricted, is refused as well, and so is anything macOS marks so that
+nothing can remove or rename it, such as the private folders it makes in your temporary folder for the processes it runs
+in a sandbox. Peel lists such a folder in that temporary folder only when it is an app's, at its uninstall and in
+Orphaned Files, left alone and saying that macOS removes it at the next startup.
 
 Peel never searches or changes what an app leaves in `/etc` or `/opt`, such as a rule for `sudo` in `/etc/sudoers.d` or
 a path in `/etc/paths.d`. Before battery, Rancher Desktop, Postgres.app, Wireshark, or SAP's Privileges goes, and before
@@ -113,7 +114,9 @@ leaves them where they are.
 
 Peel finds a library, a browser profile with a wallet, or such work by looking a level or two inside a folder. So a
 folder with a folder inside that macOS won't let Peel list stays too, since what is in there isn't known, and its row
-says so. A folder only an administrator can move is looked into by Peel's helper instead, as root, before it moves it.
+says so, and so does a folder with one inside holding more than 100,000 items, too many to look through. An item that is
+no longer what the scan found when it is about to move, such as a folder replaced by a link, stays too. A folder only an
+administrator can move is looked into by Peel's helper instead, as root, before it moves it.
 
 Also refused: a sandboxed app's own `Data/Documents`, which is where that app keeps *your* work, not its
 settings. The rule holds for the folder around it too: while `Data/Documents` holds anything, or cannot be
