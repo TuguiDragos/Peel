@@ -201,7 +201,9 @@ final class SelfUninstall {
             Bundle(url: moved.trashedURL.appending(path: "Contents/Resources/\($0).lproj", directoryHint: .isDirectory))
         }
         _ = await DockTiles().takeOut([bundleURL], remembering: false)
-        var lines = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation(in: words))" }
+        var lines = RemovalFailureAlert.underTheirReasons(
+            stayed.map { ($0.url.abbreviatedPath, $0.reason.explanation(in: words)) }, limit: nil
+        )
         if opensAtLogin {
             lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions.", bundle: words))
         }
@@ -236,7 +238,9 @@ final class SelfUninstall {
             let reason = reason ?? helperStayed
             return ledger == .moved ? "\(reason)\n\n\(ledgerInTheTrash)" : reason
         case .appStayed(let failures, let ledger, let helperIsGone):
-            let lines = failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+            let lines = RemovalFailureAlert.underTheirReasons(
+                failures.map { ($0.url.abbreviatedPath, $0.reason.explanation) }, limit: nil
+            )
             let helper = helperIsGone
                 ? [String(localized: "The Peel helper is already removed, for every account. Install it again in Settings > Helper.")]
                 : []

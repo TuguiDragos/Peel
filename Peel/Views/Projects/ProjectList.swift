@@ -189,7 +189,7 @@ struct ProjectList: View {
     }
 
     static func reasons(_ folders: [(url: URL, reason: ProjectArtifacts.Refusal)]) -> String {
-        RemovalFailureAlert.firstItems(folders.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
+        RemovalFailureAlert.underTheirReasons(folders.map { ($0.url.abbreviatedPath, $0.reason.explanation) })
             .joined(separator: "\n\n")
     }
 

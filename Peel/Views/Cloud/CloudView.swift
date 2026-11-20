@@ -36,16 +36,18 @@ struct CloudView: View {
 
             if !cloud.refusals.isEmpty {
                 Section {
-                    let (shown, more) = RemovalFailureAlert.first(cloud.refusals)
-                    ForEach(shown) { refusal in
+                    let (groups, more) = RemovalFailureAlert.grouped(cloud.refusals, reason: \.explanation)
+                    ForEach(groups, id: \.reason) { group in
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(refusal.url.abbreviatedPath)
-                                .font(.callout)
-                                .lineLimit(1)
-                                .truncationMode(.middle)
-                            Text(refusal.explanation)
+                            Text(group.reason)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
+                            ForEach(group.items) { refusal in
+                                Text(refusal.url.abbreviatedPath)
+                                    .font(.callout)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                            }
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -56,14 +58,15 @@ struct CloudView: View {
                                 .foregroundStyle(.secondary)
                             Spacer()
                             CopyButton(
-                                text: cloud.refusals.map { "\($0.url.abbreviatedPath)\n\($0.explanation)" }
-                                    .joined(separator: "\n\n"),
+                                text: RemovalFailureAlert.underTheirReasons(
+                                    cloud.refusals.map { ($0.url.fullPath, $0.explanation) }, limit: nil
+                                ).joined(separator: "\n\n"),
                                 title: "Copy Details"
                             )
                         }
                     }
                 } header: {
-                    heading("Still Here", "These were left as they are, with the reason under each one.")
+                    heading("Still Here", "These were left as they are, under the reason they stayed.")
                 }
             }
 
@@ -355,12 +358,8 @@ private struct LeftAlone {
     /// The first few files with the reason each stayed, as the alert after a removal lists them. Still Here, at the
     /// top of the page, lists them all.
     var message: String {
-        var lines = refusals.prefix(RemovalFailureAlert.mostListed).map { "\($0.url.abbreviatedPath)\n\($0.explanation)" }
-        let rest = refusals.count - lines.count
-        if rest > 0 {
-            lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
-        }
-        return lines.joined(separator: "\n\n")
+        RemovalFailureAlert.underTheirReasons(refusals.map { ($0.url.abbreviatedPath, $0.explanation) })
+            .joined(separator: "\n\n")
     }
 }
 

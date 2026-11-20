@@ -18,12 +18,38 @@ struct RemovalFailureAlertTests {
             privacy: apps.map { ($0, .reset) },
             keptTheirFiles: apps.map(\.name)
         )
-        let most = RemovalFailureAlert.mostListed
         let paragraphs = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
-        #expect(paragraphs.count == 3 * (most + 1), "\(paragraphs.count)")
+        #expect(paragraphs.count == 4, "\(paragraphs)")
         #expect(paragraphs.filter { $0.contains("Example 30") }.isEmpty)
         let details = RemovalFailureAlert.details(for: outcome).components(separatedBy: "\n\n")
         #expect(details.filter { $0.contains("Example 30") }.count == 3)
+    }
+
+    @Test func saysEachReasonOnceWithTheItemsUnderIt() {
+        let paths = (1...1_001).map { "/Users/someone/Library/Caches/org.example.item\($0)" }
+        let outcome = RemovalOutcome()
+        outcome.report(TrashResult(failures: paths.map { TrashFailure(url: URL(filePath: $0), reason: .notPermitted) }))
+        let reason = TrashFailure.Reason.notPermitted.explanation
+
+        let paragraphs = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
+        #expect(paragraphs.count == 2, "\(paragraphs)")
+        #expect(paragraphs.first?.components(separatedBy: "\n").count == 1 + RemovalFailureAlert.mostListed)
+        #expect(paragraphs.first?.hasPrefix(reason + "\n") == true)
+        #expect(RemovalFailureAlert.message(for: outcome).components(separatedBy: reason).count == 2)
+        #expect(RemovalFailureAlert.details(for: outcome).components(separatedBy: reason).count == 2)
+        #expect(RemovalFailureAlert.details(for: outcome).contains("org.example.item1001"))
+    }
+
+    @Test func aReasonThatComesLateIsStillSaidAboveItsItems() {
+        let outcome = RemovalOutcome()
+        let failures = (1...10).map { TrashFailure(url: URL(filePath: "/Users/someone/a\($0)"), reason: .locked) }
+            + [TrashFailure(url: URL(filePath: "/Users/someone/b1"), reason: .notPermitted)]
+        outcome.report(TrashResult(failures: failures))
+
+        let paragraphs = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
+        #expect(paragraphs.count == 3, "\(paragraphs)")
+        #expect(paragraphs[0] == ([TrashFailure.Reason.locked.explanation] + (1...3).map { "/Users/someone/a\($0)" }).joined(separator: "\n"))
+        #expect(paragraphs[1] == "\(TrashFailure.Reason.notPermitted.explanation)\n/Users/someone/b1")
     }
 
     @Test func namesTheAppThatSyncsWhatStaysAndItsMarker() {
@@ -71,7 +97,8 @@ struct RemovalFailureAlertTests {
 
         let refused = paths.map { (url: URL(filePath: $0), reason: ProjectArtifacts.Refusal.neverSearched(.library)) }
         let reasons = ProjectList.reasons(refused).components(separatedBy: "\n\n")
-        #expect(reasons.count == most + 1, "\(reasons.count)")
+        #expect(reasons.count == 2, "\(reasons.count)")
+        #expect(reasons.first?.components(separatedBy: "\n").count == 1 + most)
         #expect(!reasons.contains { $0.contains("Folder 30") })
     }
 
@@ -172,7 +199,9 @@ struct RemovalFailureAlertTests {
             }
         )
         let paragraphs = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
-        #expect(paragraphs.filter { $0.contains("Example") }.count == RemovalFailureAlert.mostListed)
+        let quit = paragraphs.filter { $0.contains("Example") }
+        #expect(quit.count == 1, "\(quit)")
+        #expect(quit.first?.contains("Example 4") == true && quit.first?.contains("Example 5") == false)
         let shell = paragraphs.first { $0.contains(".zshrc") } ?? ""
         #expect(shell.contains("40") && !shell.contains("50") && !shell.contains("60"), "\(shell)")
         let details = RemovalFailureAlert.details(for: outcome)

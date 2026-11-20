@@ -17,20 +17,47 @@ struct RemovalFailureAlert: ViewModifier {
         return entries.prefix(mostListed) + [String(inflecting: "And ^[\(entries.count - mostListed) more item](inflect: true).")]
     }
 
-    /// The first lines of a list of apps, as many as an alert lists, and then how many apps the others are.
-    static func shortened(_ lines: [String]) -> [String] {
-        guard lines.count > mostListed else { return lines }
-        return lines.prefix(mostListed) + [String(inflecting: "And ^[\(lines.count - mostListed) more app](inflect: true).")]
-    }
-
     /// Apps named in one sentence: the first ones, as many as an alert lists, and then how many the others are.
     static func listed(_ names: [String]) -> String {
         listed(names) { String(inflecting: "^[\($0) more app](inflect: true)") }
     }
 
-    /// The first of `items`, as many as an alert lists, and how many more there are.
-    static func first<T>(_ items: [T]) -> (shown: [T], more: Int) {
-        (Array(items.prefix(mostListed)), max(0, items.count - mostListed))
+    /// `items` under their reasons, each reason once and in the order it first comes. With `limit`, at most that many
+    /// items in all, taken in turn from each reason so that one with many items hides none of the others, and how many
+    /// items are left out.
+    static func grouped<Item>(
+        _ items: [Item], limit: Int? = mostListed, reason: (Item) -> String
+    ) -> (groups: [(reason: String, items: [Item])], more: Int) {
+        var reasons: [String] = []
+        var byReason: [String: [Item]] = [:]
+        for item in items {
+            let said = reason(item)
+            if byReason[said] == nil { reasons.append(said) }
+            byReason[said, default: []].append(item)
+        }
+        let allowed = min(limit ?? items.count, items.count)
+        var shown: [String: Int] = [:]
+        var count = 0
+        var round = 0
+        while count < allowed {
+            for said in reasons where count < allowed && byReason[said, default: []].count > round {
+                shown[said, default: 0] += 1
+                count += 1
+            }
+            round += 1
+        }
+        let groups = reasons.compactMap { said in
+            shown[said].map { (reason: said, items: Array(byReason[said, default: []].prefix($0))) }
+        }
+        return (groups, items.count - count)
+    }
+
+    /// Paragraphs of `entries` under their reasons, a reason and then its items a line each, and then how many items
+    /// the others are.
+    static func underTheirReasons(_ entries: [(item: String, reason: String)], limit: Int? = mostListed) -> [String] {
+        let (groups, more) = grouped(entries, limit: limit, reason: \.reason)
+        let paragraphs = groups.map { ([$0.reason] + $0.items.map(\.item)).joined(separator: "\n") }
+        return more > 0 ? paragraphs + [String(inflecting: "And ^[\(more) more item](inflect: true).")] : paragraphs
     }
 
     /// Folders named in one sentence, the same way.
@@ -140,12 +167,13 @@ struct RemovalFailureAlert: ViewModifier {
 
     static func message(for outcome: RemovalOutcome) -> String {
         var lines = historyLines(outcome)
-            + firstItems(outcome.putBackFailures.map { "\($0.url.abbreviatedPath)\n\($0.failure.explanation)" })
-            + firstItems(jobLines(outcome)) + shortened(quitLines(outcome))
-            + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
-        lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
+            + underTheirReasons(outcome.putBackFailures.map { ($0.url.abbreviatedPath, $0.failure.explanation) })
+            + jobLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more job](inflect: true)") } }
+            + quitLines(outcome, naming: Self.listed)
+            + underTheirReasons(outcome.failures.map { ($0.url.abbreviatedPath, $0.reason.explanation) })
+        lines += keptLines(outcome, naming: Self.listed) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
-            + appManagementLines(outcome) + privacyLines(outcome, naming: Self.listed, shortening: Self.shortened)
+            + appManagementLines(outcome) + privacyLines(outcome, naming: Self.listed)
         lines += trashLines(outcome, naming: Self.listed) + dockLines(outcome, naming: Self.listed)
             + commandLines(outcome, saying: !hasOnlyCommandsLeft(outcome))
         return lines.joined(separator: "\n\n")
@@ -160,9 +188,14 @@ struct RemovalFailureAlert: ViewModifier {
             && outcome.putBackFailures.isEmpty && outcome.jobsNotStarted.isEmpty
     }
 
-    /// Each job a Put Back brought back that didn't start again, with what launchd answered.
-    private static func jobLines(_ outcome: RemovalOutcome) -> [String] {
-        outcome.jobsNotStarted.map { String(localized: "\($0.label) is back, but launchd did not start it again: \($0.answer)") }
+    /// The jobs a Put Back brought back that didn't start again, under each answer launchd gave.
+    private static func jobLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
+        grouped(outcome.jobsNotStarted, limit: nil, reason: \.answer).groups.map { group in
+            let labels = group.items.map(\.label)
+            return labels.count == 1
+                ? String(localized: "\(labels[0]) is back, but launchd did not start it again: \(group.reason)")
+                : String(localized: "\(naming(labels)) are back, but launchd did not start them again: \(group.reason)")
+        }
     }
 
     private static func runToFinish(_ outcome: RemovalOutcome) -> String {
@@ -227,9 +260,14 @@ struct RemovalFailureAlert: ViewModifier {
         }
     }
 
-    /// A line for each app that stayed, since its files, which wait for it, stayed too and are not listed.
-    private static func keptLines(_ outcome: RemovalOutcome) -> [String] {
-        outcome.keptTheirFiles.map { String(localized: "\($0) stayed, and so did its files.") }
+    /// The apps that stayed, since their files, which wait for them, stayed too and are not listed.
+    private static func keptLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
+        let apps = outcome.keptTheirFiles
+        return switch apps.count {
+        case 0: []
+        case 1: [String(localized: "\(apps[0]) stayed, and so did its files.")]
+        default: [String(localized: "\(naming(apps)) stayed, and so did their files.")]
+        }
     }
 
     private static func appManagementLines(_ outcome: RemovalOutcome) -> [String] {
@@ -252,43 +290,55 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func details(for outcome: RemovalOutcome) -> String {
+        let all: ([String]) -> String = { $0.formatted(.list(type: .and)) }
         var lines = historyLines(outcome)
-            + outcome.putBackFailures.map { "\($0.url.fullPath)\n\($0.failure.explanation)" }
-            + jobLines(outcome) + quitLines(outcome)
-            + outcome.failures.map { "\($0.url.fullPath)\n\($0.reason.explanation)" }
-            + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
-            + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
-            + privacyLines(outcome, naming: { $0.formatted(.list(type: .and)) }, shortening: { $0 })
-        lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
-            + dockLines(outcome) { $0.formatted(.list(type: .and)) } + commandLines(outcome, saying: true)
+            + underTheirReasons(outcome.putBackFailures.map { ($0.url.fullPath, $0.failure.explanation) }, limit: nil)
+            + jobLines(outcome, naming: all) + quitLines(outcome, naming: all)
+            + underTheirReasons(outcome.failures.map { ($0.url.fullPath, $0.reason.explanation) }, limit: nil)
+            + keptLines(outcome, naming: all) + driverLines(outcome) + administratorLines(outcome)
+            + shellLines(outcome, naming: all) + appManagementLines(outcome) + privacyLines(outcome, naming: all)
+        lines += trashLines(outcome, naming: all) + dockLines(outcome, naming: all)
+            + commandLines(outcome, saying: true)
         return lines.joined(separator: "\n\n")
     }
 
-    /// A line for each app whose tool kept what was selected for it, since the app was open.
-    private static func quitLines(_ outcome: RemovalOutcome) -> [String] {
-        outcome.appsToQuit.map { String(localized: "Quit \($0) before removing its files.") }
+    /// The apps whose tools kept what was selected for them, since the apps were open.
+    private static func quitLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
+        let apps = outcome.appsToQuit
+        return switch apps.count {
+        case 0: []
+        case 1: [String(localized: "Quit \(apps[0]) before removing its files.")]
+        default: [String(localized: "Quit \(naming(apps)) before removing their files.")]
+        }
     }
 
-    /// The apps macOS didn't recognize in one line, since one reason covers them all, then one line per other reset.
-    /// When a single other failed reset is all there is to report, the title already says so, and its line gives only
-    /// the reason.
-    private static func privacyLines(
-        _ outcome: RemovalOutcome, naming: ([String]) -> String, shortening: ([String]) -> [String]
-    ) -> [String] {
+    /// The apps macOS didn't recognize in one line, since one reason covers them all, the apps reset in another, and
+    /// the others under each reason they weren't reset. When a single failed reset is all there is to report, the
+    /// title already says so, and its line gives only the reason.
+    private static func privacyLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
         let unrecognized = outcome.privacy.filter { $0.result == .notKnownToTheSystem }.map(\.app)
         let together: [String] = switch unrecognized.count {
         case 0: []
         case 1: [String(localized: "macOS did not recognize \(unrecognized[0]), so its privacy permissions were not reset. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
         default: [String(localized: "macOS did not recognize \(naming(unrecognized)), so their privacy permissions were not reset. If they have access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
         }
-        return together + shortening(outcome.privacy.filter { $0.result != .notKnownToTheSystem }.map { privacy in
-            guard let problem = privacy.result.explanation else {
-                return String(localized: "\(privacy.app)’s privacy permissions were reset before the move.")
-            }
-            return outcome.failures.isEmpty && outcome.privacy.count == 1
-                ? problem
-                : String(localized: "\(privacy.app)’s privacy permissions weren’t reset. \(problem)")
-        })
+        let others = outcome.privacy.filter { $0.result != .notKnownToTheSystem }
+        if outcome.failures.isEmpty, outcome.privacy.count == 1, let problem = others.first?.result.explanation {
+            return [problem]
+        }
+        let reset = others.filter { $0.result.explanation == nil }.map(\.app)
+        let resetLines: [String] = switch reset.count {
+        case 0: []
+        case 1: [String(localized: "\(reset[0])’s privacy permissions were reset before the move.")]
+        default: [String(localized: "The privacy permissions of \(naming(reset)) were reset before the move.")]
+        }
+        let failed = others.compactMap { privacy in privacy.result.explanation.map { (app: privacy.app, problem: $0) } }
+        return together + resetLines + grouped(failed, limit: nil, reason: \.problem).groups.map { group in
+            let apps = group.items.map(\.app)
+            return apps.count == 1
+                ? String(localized: "\(apps[0])’s privacy permissions weren’t reset. \(group.reason)")
+                : String(localized: "The privacy permissions of \(naming(apps)) were not reset. \(group.reason)")
+        }
     }
 
     /// True when macOS refused to move an app although the user can write to its folder and nothing locks it.

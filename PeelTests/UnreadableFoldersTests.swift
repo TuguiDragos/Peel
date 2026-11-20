@@ -48,11 +48,12 @@ struct UnreadableFoldersTests {
         #expect(UnreadableFoldersNotice.reason(count: 2, closed: 0, needsFullDiskAccess: true)?.contains("Full Disk Access") == true)
     }
 
-    @Test func anAlertsFirstItemsAndHowManyMore() {
-        let (shown, more) = RemovalFailureAlert.first(Array(1...60))
+    @Test func anAlertsFirstItemsUnderTheirReasonsAndHowManyMore() {
+        let (groups, more) = RemovalFailureAlert.grouped(Array(1...60)) { _ in "Locked" }
+        #expect(groups.map(\.reason) == ["Locked"] && groups.first?.items == [1, 2, 3, 4] && more == 56)
 
-        #expect(shown == [1, 2, 3, 4] && more == 56)
-        #expect(RemovalFailureAlert.first([1, 2]) == ([1, 2], 0))
+        let (all, none) = RemovalFailureAlert.grouped([1, 2, 3], limit: nil) { $0 == 2 ? "Even" : "Odd" }
+        #expect(all.map(\.reason) == ["Odd", "Even"] && all.first?.items == [1, 3] && none == 0)
     }
 }
 
