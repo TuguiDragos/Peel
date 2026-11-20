@@ -100,6 +100,17 @@ struct BackgroundItemLibraryTests {
         #expect(library.scans == 2)
     }
 
+    @Test func theEditorAsksBeforeEscapeLosesWhatWasTyped() {
+        let file = LaunchAgentFile(
+            url: URL(filePath: "/Users/me/Library/LaunchAgents/org.example.agent.plist"), label: "org.example.agent",
+            text: "<plist/>", opened: FileIdentity(stat()), mode: 0o644
+        )
+
+        #expect(LaunchAgentEditor.asksBeforeClosing("<plist/>zz", editing: file))
+        #expect(!LaunchAgentEditor.asksBeforeClosing("<plist/>", editing: file))
+        #expect(!LaunchAgentEditor.asksBeforeClosing("", editing: nil))
+    }
+
     @Test(.timeLimit(.minutes(1))) func aJobStillStoppingIsReadAgainOnceItsProcessEnds() async throws {
         let sleeper = Process()
         sleeper.executableURL = URL(filePath: "/bin/sleep")

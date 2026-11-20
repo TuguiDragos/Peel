@@ -14,6 +14,7 @@ struct LaunchAgentEditor: View {
     /// Why the last Save changed nothing, shown until the text changes.
     @State private var savingProblem: LaunchAgentFile.Problem?
     @State private var isSaving = false
+    @State private var isAskingToDiscard = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -46,13 +47,21 @@ struct LaunchAgentEditor: View {
             footer
         }
         .frame(width: 680, height: 540)
-        // Escape closes a sheet even while its buttons are off.
-        .interactiveDismissDisabled(isSaving)
+        // Escape closes a sheet by itself, even while its buttons are off.
+        .interactiveDismissDisabled(isSaving || Self.asksBeforeClosing(text, editing: file))
+        .alert(Text("Discard your changes to “\(item.label)”?"), isPresented: $isAskingToDiscard) {
+            Button("Discard Changes", role: .destructive) { dismiss() }
+            Button("Keep Editing", role: .cancel) {}
+        }
         .task { await open() }
         .onChange(of: text) { savingProblem = nil }
     }
 
     private var fileName: String { item.plistURL?.lastPathComponent ?? item.label }
+
+    static func asksBeforeClosing(_ text: String, editing file: LaunchAgentFile?) -> Bool {
+        file.map { text != $0.text } ?? false
+    }
 
     private var shownProblem: String? {
         if let openingProblem { return openingProblem.explanation(label: item.label, url: item.plistURL) }
@@ -73,7 +82,9 @@ struct LaunchAgentEditor: View {
                 ProgressView()
                     .controlSize(.small)
             }
-            Button("Cancel") { dismiss() }
+            Button("Cancel") {
+                if Self.asksBeforeClosing(text, editing: file) { isAskingToDiscard = true } else { dismiss() }
+            }
                 .buttonStyle(.bordered)
                 .keyboardShortcut(.cancelAction)
                 .disabled(isSaving)
