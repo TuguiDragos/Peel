@@ -27,6 +27,14 @@ public enum RunningCopies {
             )
         }
 
+        /// True for part of macOS, which starts it again when needed: anything in `/System` but the apps people open.
+        var isPartOfMacOS: Bool {
+            guard let bundleURL else { return false }
+            let path = PathPattern.comparablePath(of: bundleURL)
+            return PathComponents.isPath(path, inside: "/System")
+                && !["/System/Applications", "/System/Volumes/Data"].contains { PathComponents.isPath(path, inside: $0) }
+        }
+
         /// The name a person knows it by: its bundle's name as Finder shows it, else its identifier.
         public var name: String? {
             bundleURL.map(AppInspector.displayName) ?? bundleIdentifier

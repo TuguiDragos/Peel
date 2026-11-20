@@ -81,9 +81,11 @@ public enum SpaceRemoval {
         exclusions: Exclusions = .none,
         running: [RunningCopies.Process]
     ) async -> Plan {
-        await plan(
+        let others = running.filter { $0.identifier != getpid() }
+        return await plan(
             for: item, environment: environment, exclusions: exclusions,
-            running: namesOfRunningApps(running.filter { $0.identifier != getpid() }), own: peelsOwnNames(running)
+            running: namesOfRunningApps(others.filter { !$0.isPartOfMacOS }),
+            macOS: Set(namesOfRunningApps(others.filter(\.isPartOfMacOS)).keys), own: peelsOwnNames(running)
         )
     }
 
@@ -93,11 +95,12 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         running: [String: String] = [:],
+        macOS: Set<String> = [],
         own: Set<String> = [],
         measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
     ) async -> Plan {
         let children = children(
-            of: item, environment: environment, exclusions: exclusions, running: running, own: own
+            of: item, environment: environment, exclusions: exclusions, running: running, macOS: macOS, own: own
         )
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let reach = HelperReach(environment: environment)
@@ -116,7 +119,8 @@ public enum SpaceRemoval {
             if needsAnAdministrator { needsTheHelper.insert(child) }
             let beyond: HoldBack? = needsAnAdministrator && reach.isBeyond(child) ? .beyondTheHelper : nil
             heldBack[child] = beyond ?? item.heldBack
-                ?? (macOSsOwn.contains(child) ? .keptByMacOS : HoldBack.seen(in: contents))
+                ?? (macOSsOwn.contains(child) || children.keptByMacOS.contains(child)
+                    ? .keptByMacOS : HoldBack.seen(in: contents))
                 ?? (item.holdsBackRecentWrites && HoldBack.wasWrittenRecently(child, contents: contents)
                     ? .writtenRecently : nil)
         }
@@ -156,9 +160,11 @@ public enum SpaceRemoval {
         exclusions: Exclusions = .none,
         running: [RunningCopies.Process]
     ) async -> (removable: [URL], inUse: [(url: URL, name: String)]) {
-        await movableNow(
+        let others = running.filter { $0.identifier != getpid() }
+        return await movableNow(
             in: item, environment: environment, exclusions: exclusions,
-            running: namesOfRunningApps(running.filter { $0.identifier != getpid() }), own: peelsOwnNames(running)
+            running: namesOfRunningApps(others.filter { !$0.isPartOfMacOS }),
+            macOS: Set(namesOfRunningApps(others.filter(\.isPartOfMacOS)).keys), own: peelsOwnNames(running)
         )
     }
 
@@ -168,10 +174,11 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         running: [String: String] = [:],
+        macOS: Set<String> = [],
         own: Set<String> = []
     ) async -> (removable: [URL], inUse: [(url: URL, name: String)]) {
         let children = children(
-            of: item, environment: environment, exclusions: exclusions, running: running, own: own
+            of: item, environment: environment, exclusions: exclusions, running: running, macOS: macOS, own: own
         )
         return (children.removable, children.inUse)
     }
@@ -207,13 +214,14 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions,
         running: [String: String],
+        macOS: Set<String>,
         own: Set<String>
     ) -> (
         removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal],
-        unreadable: [URL], closed: [(url: URL, why: HoldBack)]
+        unreadable: [URL], closed: [(url: URL, why: HoldBack)], keptByMacOS: Set<URL>
     ) {
         // An area only its own app or tool should empty, such as a virtual machine's disks, offers nothing.
-        guard item.handling == .trash else { return ([], [], [], [:], [], []) }
+        guard item.handling == .trash else { return ([], [], [], [:], [], [], []) }
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []
@@ -221,6 +229,7 @@ public enum SpaceRemoval {
         var refused: [URL: GuardRefusal] = [:]
         var unreadable: [URL] = []
         var closed: [(url: URL, why: HoldBack)] = []
+        var keptByMacOS: Set<URL> = []
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?, onlyFiles inside: Bool = false) {
@@ -243,7 +252,10 @@ public enum SpaceRemoval {
                     continue
                 }
                 if onlyFiles, child.isRealFolder { continue }
-                let app = owner ?? running[Naming.normalized(name)]
+                // macOS starts its own processes again, so none is asked to quit.
+                let isMacOSs = macOS.contains(Naming.normalized(name))
+                if isMacOSs { keptByMacOS.insert(child) }
+                let app = isMacOSs ? nil : owner ?? running[Naming.normalized(name)]
                 let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }
                 if item.keepsItsFolders, child.isRealFolder, !listed.contains(where: { $0.count == 1 }) {
                     sort(child, leaving: listed.map { Array($0.dropFirst()) }, owner: app, onlyFiles: true)
@@ -293,7 +305,7 @@ public enum SpaceRemoval {
             let owner = macOSsOwn.container(holding: url).flatMap { running[Naming.normalized($0)] }
             sort(url, leaving: developerFolders.inside(url), owner: owner)
         }
-        return (removable, inUse, leftToDeveloper, refused, unreadable, closed)
+        return (removable, inUse, leftToDeveloper, refused, unreadable, closed, keptByMacOS)
     }
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle

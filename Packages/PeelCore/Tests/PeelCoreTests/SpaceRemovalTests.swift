@@ -131,6 +131,35 @@ struct SpaceRemovalTests {
         #expect(!plan.removable.contains { $0.lastPathComponent == "com.tuguidragos.Peel" })
     }
 
+    @Test func neverAsksToQuitPartOfMacOS() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.apple.AuthenticationServicesCore.AuthenticationServicesAgent/c.db")
+        try directory.file("home/Library/Caches/org.example.systemagent/Cache.db")
+        try directory.file("home/Library/Caches/org.example.editor/Cache.db")
+        let running = [
+            RunningCopies.Process(
+                identifier: getpid() + 1,
+                bundleIdentifier: "com.apple.AuthenticationServicesCore.AuthenticationServicesAgent",
+                bundleURL: URL(filePath: "/System/Volumes/Preboot/Cryptexes/App/usr/libexec/AuthenticationServicesAgent")
+            ),
+            RunningCopies.Process(
+                identifier: getpid() + 2, bundleIdentifier: "org.example.systemagent",
+                bundleURL: URL(filePath: "/System/Library/CoreServices/SystemAgent.app", directoryHint: .isDirectory)
+            ),
+            RunningCopies.Process(
+                identifier: getpid() + 3, bundleIdentifier: "org.example.editor",
+                bundleURL: URL(filePath: "/System/Applications/Editor.app", directoryHint: .isDirectory)
+            ),
+        ]
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: running)
+
+        #expect(plan.inUse.map(\.name) == ["Editor"])
+        #expect(Set(plan.heldBack.filter { $0.value == .keptByMacOS }.keys.map(\.lastPathComponent)) == [
+            "com.apple.AuthenticationServicesCore.AuthenticationServicesAgent", "org.example.systemagent",
+        ])
+    }
+
     @Test func measuresWhatItLeavesToDeveloper() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/caches/index.db", bytes: 8192)
