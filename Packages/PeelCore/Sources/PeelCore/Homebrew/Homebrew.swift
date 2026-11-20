@@ -156,10 +156,13 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         receipts: URL = URL(filePath: "/private/var/db/receipts", directoryHint: .isDirectory)
     ) -> HomebrewPackage {
         var checked = self
-        let missing = appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) }
-            .filter { $0.isMissing && !$0.isOnADiskNotConnected }
+        let places = appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) }
+            .filter { !$0.isOnADiskNotConnected }
+        let missing = places.filter(\.isMissing)
+        // Stopped while Homebrew moves the app, an upgrade can leave an empty folder in its place.
+        let withoutTheApp = places.filter { !AppBundleLayout.isAnApp($0) }
         checked.isStoppedMidUpgrade = caskroomFolder.map {
-            Self.holdsMidUpgrade(missing.map(\.lastPathComponent), in: $0)
+            Self.holdsMidUpgrade(withoutTheApp.map(\.lastPathComponent), in: $0)
         } ?? false
         checked.isMissingWhatItInstalled = caskroomFolder != nil && !checked.isStoppedMidUpgrade && (appTargets.isEmpty
             ? Self.packagesAreGone(packageIdentifiers, receipts: receipts)

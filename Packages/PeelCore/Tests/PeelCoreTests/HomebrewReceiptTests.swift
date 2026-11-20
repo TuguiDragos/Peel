@@ -79,6 +79,21 @@ struct HomebrewReceiptTests {
         #expect(!stopped.joinsUpgradeAll)
     }
 
+    @Test func anEmptyFolderLeftWhereTheAppWasIsNoApp() throws {
+        let installed = try Installed()
+        let target = installed.directory.url.appending(path: "root/Applications/Example.app", directoryHint: .isDirectory)
+        let cask = installed.cask(installing: [InstalledApp(url: target, bundleIdentifier: "org.example.app", name: "Example")])
+        try installed.directory.directory("root/Applications/Example.app")
+        try installed.directory.file("root/opt/homebrew/Caskroom/example/2.0.upgrading/Example.app/Contents/Info.plist")
+
+        let stopped = cask.checkingWhatItInstalled()
+        #expect(stopped.isStoppedMidUpgrade)
+        #expect(!stopped.isMissingWhatItInstalled)
+
+        try installed.directory.file("root/Applications/Example.app/Contents/Info.plist")
+        #expect(!cask.checkingWhatItInstalled().isStoppedMidUpgrade)
+    }
+
     @Test func aCaskOfPackagesAloneIsGoneOnceEveryReceiptIs() throws {
         let installed = try Installed()
         let receipts = try installed.directory.directory("root/private/var/db/receipts")
