@@ -42823,6 +42823,112 @@
         }
       }
     },
+    "Copy Trust Command" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkopírovat příkaz k udělení důvěry"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trust-Befehl kopieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar comando para confiar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier la commande de confiance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia comando di attendibilità"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信頼コマンドをコピー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "신뢰 명령 복사"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer trust-commando"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiuj polecenie zaufania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar Comando de Confiança"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiați comanda trust"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировать команду доверия"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiera förtroendekommando"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güvenme Komutunu Kopyala"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопіювати команду довіри"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷贝信任命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷貝信任指令"
+          }
+        }
+      }
+    },
     "Copy Uninstall Command" : {
       "localizations" : {
         "cs" : {
@@ -75349,6 +75455,112 @@
         }
       }
     },
+    "Homebrew does not trust the tap %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nepovažuje tap %@ za důvěryhodný"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew vertraut dem Tap %@ nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew no confía en el tap %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ne fait pas confiance au tap %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew non considera attendibile il tap %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewはtap“%@”を信頼していません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 ‘%@’ tap을 신뢰하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew vertrouwt de tap %@ niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nie ufa tapowi %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew não confia no tap %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nu are încredere în tap‑ul %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не доверяет tap «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew litar inte på tap %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, %@ tap deposuna güvenmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не довіряє tap %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew不信任tap %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew不信任tap「%@」"
+          }
+        }
+      }
+    },
     "Homebrew finished" : {
       "localizations" : {
         "cs" : {
@@ -78737,6 +78949,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew遇到問題。如果Peel中該App的頁面仍開著，你可以在那裡看到它的訊息。"
+          }
+        }
+      }
+    },
+    "Homebrew reads a tap only once you trust it, so it knows only what it recorded when it installed this cask and cannot tell whether a newer version is out. Trusting the cask alone lets Homebrew read it. `%@ trust %@` would trust every package in the tap." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew čte tap, až když ho označíte za důvěryhodný, takže zná jen to, co si zaznamenal, když tento cask instaloval, a nepozná, zda vyšla novější verze. Když za důvěryhodný označíte jen tento cask, Homebrew ho bude moci číst. Příkaz `%@ trust %@` by za důvěryhodné označil všechny balíčky, které tap obsahuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew liest einen Tap erst, wenn du ihm vertraust, daher kennt Homebrew nur, was es bei der Installation dieses Casks festgehalten hat, und kann nicht erkennen, ob eine neuere Version erschienen ist. Wenn du nur dem Cask vertraust, kann Homebrew ihn lesen. Mit `%@ trust %@` würdest du jedem Paket im Tap vertrauen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Homebrew reads a tap only once you trust it, so it knows only what it recorded when it installed this cask and cannot tell whether a newer version is out. Trusting the cask alone lets Homebrew read it. `%1$@ trust %2$@` would trust every package in the tap."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew solo lee un tap si confías en él, así que solo sabe lo que registró cuando instaló este cask y no puede saber si ha salido una versión más reciente. Confiar solo en el cask permite que Homebrew lo lea. Con `%@ trust %@`, Homebrew confiaría en todos los paquetes del tap."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ne lit un tap qu’une fois que vous lui faites confiance : il ne connaît donc que ce qu’il a enregistré en installant ce cask, et ne peut pas savoir si une version plus récente est disponible. Faire confiance à ce seul cask permet à Homebrew de le lire. `%@ trust %@` ferait confiance à tous les paquets du tap."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew legge un tap solo quando lo consideri attendibile, quindi conosce solo ciò che ha registrato quando ha installato questo cask e non può sapere se è uscita una versione più recente. Considerare attendibile solo il cask permette a Homebrew di leggerlo. `%@ trust %@` considererebbe attendibile ogni pacchetto del tap."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは信頼したtapしか読み込まないため、このcaskをインストールしたときに記録した内容しかわからず、新しいバージョンが出ているかどうかを判断できません。このcaskだけを信頼すれば、Homebrewはこれを読み込めるようになります。`%@ trust %@`を実行すると、このtapのすべてのパッケージを信頼することになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 사용자가 신뢰한 tap만 읽으므로, 이 cask를 설치할 때 기록한 정보만 알고 있으며 새 버전이 나왔는지 알 수 없습니다. 이 cask만 신뢰해도 Homebrew가 이 cask를 읽을 수 있습니다. `%@ trust %@` 명령을 사용하면 tap에 있는 모든 패키지를 신뢰하게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew leest een tap pas als je die vertrouwt. Daarom weet het alleen wat het heeft vastgelegd toen het deze cask installeerde, en kan het niet nagaan of er een nieuwere versie is. Als je alleen de cask vertrouwt, kan Homebrew die lezen. `%@ trust %@` zou elk pakket in de tap vertrouwen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew odczytuje tap dopiero wtedy, gdy mu zaufasz, więc zna tylko to, co zapisał, instalując ten cask, i nie może stwierdzić, czy jest dostępna nowsza wersja. Wystarczy zaufać tylko temu cask, aby Homebrew mógł go odczytać. Polecenie `%@ trust %@` sprawiłoby, że Homebrew ufałby każdemu pakietowi z tego tapu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew só lê um tap depois que você confia nele, então só conhece o que registrou quando instalou este cask e não consegue saber se saiu uma versão mais recente. Confiar só no cask permite que o Homebrew o leia. `%@ trust %@` confiaria em todos os pacotes do tap."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew citește un tap doar după ce îi acordați încredere, așa că știe doar ce a reținut când a instalat acest cask și nu poate afla dacă a apărut o versiune mai nouă. Dacă acordați încredere doar acestui cask, Homebrew îl poate citi. `%@ trust %@` ar acorda încredere tuturor pachetelor din tap."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew читает tap, только если Вы ему доверяете, поэтому знает лишь то, что записал, когда устанавливал этот cask, и не может определить, вышла ли новая версия. Достаточно доверять только этому cask, чтобы Homebrew мог его читать. Команда `%@ trust %@` сделала бы доверенными все пакеты в этом tap."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew läser ett tap först när du litar på det, så Homebrew vet bara det som registrerades när den här casken installerades och kan inte avgöra om det finns en nyare version. Om du bara litar på casken kan Homebrew läsa den. `%@ trust %@` skulle lita på alla paket i samma tap."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew bir tap deposunu ancak siz ona güvendikten sonra okur, bu yüzden yalnızca bu cask paketini yüklerken kaydettiklerini bilir ve daha yeni bir sürümün çıkıp çıkmadığını bilemez. Yalnızca bu cask paketine güvenmek, Homebrew’un onu okumasını sağlar. `%@ trust %@` komutuyla ise tap deposundaki her pakete güvenmiş olursunuz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew читає tap, лише якщо ви йому довіряєте, тож Homebrew знає тільки те, що записав під час інсталювання цього cask, і не може визначити, чи вийшла новіша версія. Якщо довіряти лише цьому cask, Homebrew зможе його прочитати. Команда `%@ trust %@` означала б довіру до кожного пакета в цьому tap."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew只有在你信任某个tap之后才会读取该tap，因此它只知道安装此cask时所记录的内容，无法判断是否已有更新的版本。只信任此cask即可让Homebrew读取它。`%@ trust %@`则会信任该tap中的所有软件包。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew只會在你信任某個tap之後才讀取它，因此它只知道安裝此cask時所記錄的內容，無法判斷是否已推出較新的版本。只信任此cask，Homebrew就能讀取它。`%@ trust %@`則會信任此tap中的所有套件。"
           }
         }
       }

@@ -65,6 +65,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// True for a cask whose app updates itself while Homebrew's settings leave such casks to their apps, so that
     /// Homebrew never counts it outdated. Set by `noting(_:)`.
     public private(set) var isLeftToItsApp = false
+    /// The tap of a cask Homebrew listed only from what it recorded when it installed it, since it could not read the
+    /// cask's definition: no source and no address. Homebrew then knows no newer version.
+    public private(set) var tapWithoutDefinition: String?
+    /// The tap Homebrew does not trust when that is why it could not read this cask's definition. Set by
+    /// `noting(untrustedTaps:)`.
+    public private(set) var untrustedTap: String?
     /// The entries of `packageIdentifiers` whose receipts are installed, lowercased. `noting(receipts:)` sets
     /// them, so the cask carries this proof to every place that checks it.
     public private(set) var receiptsOnThisMac: [String] = []
@@ -202,6 +208,19 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public func noting(lastUpdateCheck: Date?) -> HomebrewPackage {
         var noted = self
         noted.lastUpdateCheck = lastUpdateCheck
+        return noted
+    }
+
+    func listedWithoutDefinition(from tap: String) -> HomebrewPackage {
+        var listed = self
+        listed.tapWithoutDefinition = tap
+        return listed
+    }
+
+    /// Returns a copy that names its tap when the tap is among `untrustedTaps` and kept Homebrew from reading it.
+    public func noting(untrustedTaps: Set<String>) -> HomebrewPackage {
+        var noted = self
+        noted.untrustedTap = tapWithoutDefinition.flatMap { untrustedTaps.contains($0) ? $0 : nil }
         return noted
     }
 
@@ -1085,8 +1104,28 @@ public enum Homebrew {
             throw CommandFailure(output: output)
         }
         let overrides = await settings
-        let noted = packages.map { $0.noting(lastUpdateCheck: checked).noting(overrides) }
+        let refused = Set(packages.compactMap(\.tapWithoutDefinition))
+        let untrusted = refused.isEmpty ? [] : await untrustedTaps(among: refused)
+        let noted = packages.map {
+            $0.noting(lastUpdateCheck: checked).noting(overrides).noting(untrustedTaps: untrusted)
+        }
         return (await checkedOnThisMac(noted, pkgutil: PackageReceipts.pkgutil), overrides)
+    }
+
+    /// Which of `taps` are installed and not trusted, as `brew tap-info` says. Empty when it does not answer.
+    static func untrustedTaps(among taps: Set<String>) async -> Set<String> {
+        guard let output = try? await answer(["tap-info", "--json=v1"] + taps.sorted()) else { return [] }
+        return untrustedTaps(inTapInfo: Data(output.utf8))
+    }
+
+    static func untrustedTaps(inTapInfo data: Data) -> Set<String> {
+        struct Tap: Decodable {
+            let name: String
+            let installed: Bool?
+            let trusted: Bool?
+        }
+        let taps = (try? JSONDecoder().decode([Tap].self, from: data)) ?? []
+        return Set(taps.filter { $0.installed == true && $0.trusted == false }.map(\.name))
     }
 
     /// The installed packages with what this Mac says of them: the receipts their casks name, where those packages
@@ -1522,8 +1561,9 @@ public enum Homebrew {
                     ?? false,
                 appUpdatesItself: cask.autoUpdates ?? false
             )
-            guard let caskroom, cask.installed != nil else { return package }
-            return package.kept(inCaskroom: caskroom)
+            let listed = cask.isWithoutDefinition ? cask.tap.map(package.listedWithoutDefinition) ?? package : package
+            guard let caskroom, cask.installed != nil else { return listed }
+            return listed.kept(inCaskroom: caskroom)
         }
         return (formulae + casks).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
@@ -1897,9 +1937,10 @@ public enum Homebrew {
 
         struct Cask: Decodable {
             enum CodingKeys: String, CodingKey {
-                case token, desc, homepage, installed, version, outdated, pinned, artifacts
+                case token, desc, homepage, installed, version, outdated, pinned, artifacts, tap, url
                 case fullToken = "full_token"
                 case autoUpdates = "auto_updates"
+                case rubySourcePath = "ruby_source_path"
             }
 
             let token: String
@@ -1913,6 +1954,15 @@ public enum Homebrew {
             let autoUpdates: Bool?
             /// Free-form stanzas such as `app`, `uninstall`, and `zap`. Only what `CaskArtifact` understands is read.
             let artifacts: [CaskArtifact]?
+            let tap: String?
+            let url: String?
+            let rubySourcePath: String?
+
+            /// Homebrew lists a cask whose definition it can't read from what it recorded at install: no source file
+            /// and no address (`Cask::Caskroom.casks`).
+            var isWithoutDefinition: Bool {
+                rubySourcePath == nil && (url ?? "").isEmpty
+            }
         }
 
         /// A formula or a cask with what it says about retirement, both read from the same object.

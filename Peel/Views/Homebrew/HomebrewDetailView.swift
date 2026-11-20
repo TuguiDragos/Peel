@@ -33,6 +33,11 @@ struct HomebrewDetailView: View {
     }
 
     static let stoppedMidUpgradeNote: LocalizedStringResource = "Its app is still in a Homebrew folder. Reinstalling the cask in Terminal puts it back."
+    /// Why Homebrew offers no newer version of a cask from a tap it does not trust, and how to trust it.
+    static func untrustedTapNote(tap: String, word: String) -> String {
+        String(localized: "Homebrew reads a tap only once you trust it, so it knows only what it recorded when it installed this cask and cannot tell whether a newer version is out. Trusting the cask alone lets Homebrew read it. `\(word) trust \(tap)` would trust every package in the tap.")
+    }
+
     static let appGoneNote: LocalizedStringResource = "Its app is no longer where Homebrew put it, so Homebrew cannot upgrade it. Forget Cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."
 
     var body: some View {
@@ -127,6 +132,19 @@ struct HomebrewDetailView: View {
                     detail: Text(Self.appGoneNote),
                     kind: .note
                 ) {}
+            }
+
+            if let tap = package.untrustedTap {
+                Notice(
+                    title: Text("Homebrew does not trust the tap \(tap)"),
+                    detail: Text(Self.untrustedTapNote(tap: tap, word: homebrew.wordForTerminal)),
+                    kind: .note
+                ) {
+                    CopyButton(
+                        text: "\(homebrew.wordForTerminal) trust --cask \(Homebrew.lastWord(naming: "\(tap)/\(package.name)"))",
+                        title: "Copy Trust Command"
+                    )
+                }
             }
 
             Section {
