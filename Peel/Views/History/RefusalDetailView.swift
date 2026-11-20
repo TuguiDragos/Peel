@@ -59,7 +59,6 @@ struct RefusalDetailView: View {
                 Set(records.filter { !$0.url.isMissing }.map(\.id))
             }.value
         }
-        .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
     }
 }

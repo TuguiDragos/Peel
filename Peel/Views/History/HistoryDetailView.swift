@@ -55,7 +55,6 @@ struct HistoryDetailView: View {
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }
         }
-        .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
         .task(id: Look(batch: batch, trashLooks: history.trashLooks)) {
             let standing = await RemovalStanding.of(batch.records)
