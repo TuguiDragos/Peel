@@ -209,6 +209,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   itself, or Use the uninstaller from its maker for what an app left, here, in Package Receipts, Orphaned Files, and
   Background Items. Its circled i says the step, with the maker's instructions, and its buttons take the step: Open
   Uninstaller, Copy Command and Open Terminal, Open App, or Open Website.
+- An app's page lists the folders macOS keeps for the app in your account's temporary folder, which nothing but macOS
+  may move: unselected, outside the total, and saying macOS removes them at the next startup, as `peel uninstall` says
+  too.
 
 #### Orphaned Files
 
@@ -216,6 +219,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of apps Peel saw removed.
 - What an app left says on which day Peel last saw the app, with where in the circled i beside it, Copy Path, and
   Show in Finder while the place is still there.
+- Orphaned Files lists those folders of an app Peel saw go in the same way.
 
 #### Intel Software
 
