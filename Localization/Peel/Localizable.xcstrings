@@ -181773,6 +181773,112 @@
         }
       }
     },
+    "Peel lists no app from the team that signed its program. It may be left from an app that is gone, or run for an app kept outside your Applications folders, a driver, or a tool that needs no app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel neuvádí žádnou aplikaci od týmu, který podepsal program úlohy. Úloha mohla zůstat po aplikaci, která už tu není, nebo může běžet pro aplikaci uloženou mimo vaše složky Aplikace, pro ovladač či nástroj, který žádnou aplikaci nepotřebuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Programm dieses Objekts wurde von einem Team signiert, von dem Peel keine App auflistet. Möglicherweise ist es von einer App übrig, die nicht mehr da ist, oder es läuft für eine App, die außerhalb deiner Ordner „Programme“ liegt, für einen Treiber oder für ein Tool, das keine App braucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En la lista de Peel no hay ninguna app del equipo que firmó su programa. Puede ser un resto de una app que ya no está, o ejecutarse para una app guardada fuera de tus carpetas Aplicaciones, un driver o una herramienta que no necesita ninguna app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne répertorie aucune app de l’équipe qui a signé son programme. Il peut s’agir d’un reste d’une app qui n’est plus là, ou d’une tâche au service d’une app conservée hors de vos dossiers Applications, d’un gestionnaire ou d’un outil qui n’a besoin d’aucune app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non elenca nessuna app del team che ha firmato il suo programma. Potrebbe averlo lasciato un’app che non c’è più, oppure potrebbe essere eseguito per un’app tenuta fuori dalle tue cartelle Applicazioni, per un driver o per uno strumento che non richiede un’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このジョブのプログラムに署名したチームのアプリは、Peelの一覧にありません。すでになくなったアプリが残したものか、“アプリケーション”フォルダ以外に置かれたアプリ、ドライバ、またはアプリを必要としないツールのために実行されている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 프로그램에 서명한 팀의 앱이 Peel의 목록에 없습니다. 사라진 앱이 남긴 항목이거나, 응용 프로그램 폴더 밖에 있는 앱, 드라이버 또는 앱이 필요 없는 도구를 위해 실행되는 항목일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel toont geen app van het team dat het programma heeft ondertekend. Misschien is het overgebleven van een app die er niet meer is, of wordt het uitgevoerd voor een app die buiten je mappen 'Apps' staat, een besturingsbestand of een tool die geen app nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie wyświetla na liście żadnej aplikacji zespołu, który podpisał program tego zadania. Zadanie może być pozostałością po aplikacji, której już nie ma, albo działać na potrzeby aplikacji przechowywanej poza Twoimi folderami Aplikacje, sterownika lub narzędzia, które nie wymaga aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não lista nenhum app da equipe que assinou o programa dele. Ele pode ter sobrado de um app que não existe mais, ou ser executado para um app mantido fora das suas pastas Aplicativos, um driver ou uma ferramenta que não precisa de app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu listează nicio aplicație de la echipa care a semnat programul sarcinii. Sarcina poate să fi rămas de la o aplicație care nu mai există sau poate rula pentru o aplicație păstrată în afara dosarelor Aplicații, pentru un driver ori pentru un instrument care nu are nevoie de nicio aplicație."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В списке Peel нет приложений команды, которая подписала его программу. Возможно, задание осталось от приложения, которого больше нет, или работает для приложения вне Ваших папок «Программы», для драйвера либо инструмента, которому не нужно приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel listar ingen app från teamet som signerade programmet. Det kan ha blivit kvar efter en app som är borta, eller köras för en app som ligger utanför mapparna Appar, en drivrutin eller ett verktyg som inte behöver någon app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, programını imzalayan takımın hiçbir uygulamasını listelemiyor. Artık olmayan bir uygulamadan kalmış olabilir ya da Uygulamalar klasörlerinizin dışında tutulan bir uygulama, bir sürücü veya uygulama gerektirmeyen bir araç için çalışıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У списку програм Peel немає жодної програми від команди розробників, яка підписала його виконуваний файл. Можливо, це завдання лишилося від програми, якої вже немає, або працює для програми, що зберігається поза вашими папками «Програми», для драйвера чи інструмента, якому програма не потрібна."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未列出为其程序签名的团队的任何App。它可能是某个已不存在的App留下的，也可能是为存放在“应用程序”文件夹以外的App、驱动程序或不需要App的工具而运行的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel列出的App中，沒有任何一個來自簽署其程式的團隊。它可能是某個已不存在的App所留下的，也可能是為了存放在你的「應用程式」檔案夾以外的App、驅動程式或不需要App的工具而執行。"
+          }
+        }
+      }
+    },
     "Peel lists the biggest downloads, up to %@. The next ones show once you remove some of these." : {
       "localizations" : {
         "cs" : {
@@ -253694,112 +253800,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "前一個指令失敗時，符號會變成紅色，讓失敗更加醒目。"
-          }
-        }
-      }
-    },
-    "The team that signed its program has no app on this Mac. It may be left from an app that is gone, or run for a driver or a tool that needs no app." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tým, který podepsal program úlohy, nemá v tomto Macu žádnou aplikaci. Úloha mohla zůstat po aplikaci, která už tu není, nebo může běžet pro ovladač či nástroj, který žádnou aplikaci nepotřebuje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Programm dieses Objekts wurde von einem Team signiert, das keine App auf diesem Mac hat. Möglicherweise ist es von einer App übrig, die nicht mehr da ist, oder es läuft für einen Treiber oder ein Tool, das keine App braucht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El equipo que firmó su programa no tiene ninguna app en este Mac. Puede ser un resto de una app que ya no está, o ejecutarse para un driver o una herramienta que no necesita ninguna app."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’équipe qui a signé son programme n’a aucune app sur ce Mac. Il peut s’agir d’un reste d’une app qui n’est plus là, ou d’une tâche au service d’un gestionnaire ou d’un outil qui n’a besoin d’aucune app."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il team che ha firmato il suo programma non ha nessuna app su questo Mac. Potrebbe averlo lasciato un’app che non c’è più, oppure potrebbe essere eseguito per un driver o uno strumento che non richiede un’app."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このジョブのプログラムに署名したチームのアプリは、このMacにありません。すでになくなったアプリが残したものか、アプリを必要としないドライバやツールのために実行されている可能性があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 항목의 프로그램에 서명한 팀의 앱이 이 Mac에 없습니다. 사라진 앱이 남긴 항목이거나, 앱이 필요 없는 드라이버 또는 도구를 위해 실행되는 항목일 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het team dat het programma heeft ondertekend, heeft geen app op deze Mac. Misschien is het overgebleven van een app die er niet meer is, of wordt het uitgevoerd voor een besturingsbestand of een tool die geen app nodig heeft."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zespół, który podpisał program tego zadania, nie ma na tym Macu żadnej aplikacji. Zadanie może być pozostałością po aplikacji, której już nie ma, albo działać na potrzeby sterownika lub narzędzia, które nie wymaga aplikacji."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A equipe que assinou o programa dele não tem nenhum app neste Mac. Ele pode ter sobrado de um app que não existe mais, ou ser executado para um driver ou uma ferramenta que não precisa de app."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Echipa care a semnat programul sarcinii nu are nicio aplicație pe acest Mac. Sarcina poate să fi rămas de la o aplicație care nu mai există sau poate rula pentru un driver ori un instrument care nu are nevoie de nicio aplicație."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У команды, которая подписала его программу, нет приложений на этом Mac. Возможно, задание осталось от приложения, которого больше нет, или работает для драйвера либо инструмента, которому не нужно приложение."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teamet som signerade programmet har ingen app på den här datorn. Det kan ha blivit kvar efter en app som är borta, eller köras för en drivrutin eller ett verktyg som inte behöver någon app."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Programını imzalayan takımın bu Mac’te hiçbir uygulaması yok. Artık olmayan bir uygulamadan kalmış olabilir ya da uygulama gerektirmeyen bir sürücü veya araç için çalışıyor olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Команда розробників, яка підписала його виконуваний файл, не має жодної програми на цьому Mac. Можливо, це завдання лишилося від програми, якої вже немає, або працює для драйвера чи інструмента, якому програма не потрібна."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "为其程序签名的团队在这台Mac上没有任何App。它可能是某个已不存在的App留下的，也可能是为不需要App的驱动程序或工具而运行的。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "簽署其程式的團隊在這部Mac上沒有任何App。它可能是某個已不存在的App所留下的，也可能是為了不需要App的驅動程式或工具而執行。"
           }
         }
       }

@@ -51,7 +51,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("No app from its maker is installed"),
-                        detail: Text("The team that signed its program has no app on this Mac. It may be left from an app that is gone, or run for a driver or a tool that needs no app."),
+                        detail: Text("Peel lists no app from the team that signed its program. It may be left from an app that is gone, or run for an app kept outside your Applications folders, a driver, or a tool that needs no app."),
                         kind: .note
                     ) { EmptyView() }
                     .padding(.vertical, 6)
