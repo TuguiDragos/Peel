@@ -48,6 +48,14 @@ struct CombinedMovesTests {
         }
     }
 
+    /// Whether a new file can still be made on the disk at `disk`, as a journal's first line makes one.
+    private static func takesANewFile(_ disk: URL) -> Bool {
+        let descriptor = open(disk.appending(path: "probe").path(percentEncoded: false), O_WRONLY | O_CREAT | O_EXCL, 0o600)
+        guard descriptor >= 0 else { return false }
+        close(descriptor)
+        return true
+    }
+
     @Test func aDiskWithNoRoomForHistoryMovesNothingAndSaysSo() async throws {
         let directory = try TemporaryDirectory()
         let disk = try ScratchVolume(
@@ -58,6 +66,7 @@ struct CombinedMovesTests {
             at: history.deletingLastPathComponent(), withIntermediateDirectories: true
         )
         Self.fill(disk.url)
+        try #require(!Self.takesANewFile(disk.url), "the disk took a new file after it was filled")
         let files = try (1...2).map { try directory.file("home/Library/Caches/org.example.full/\($0).txt") }
         let service = try service(in: directory, history: history)
         let folder = RemovalJournal(beside: history).url.deletingLastPathComponent()

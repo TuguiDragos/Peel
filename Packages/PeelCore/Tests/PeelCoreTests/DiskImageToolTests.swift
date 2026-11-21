@@ -57,6 +57,18 @@ struct DiskImageToolTests {
         #expect(!disk.isAttached)
     }
 
+    @Test func aDiskThatLeavesUnderItsTestIsKnownToHaveLeft() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        #expect(!disk.leftUnderItsTest)
+
+        try DiskImageTool.eject(disk.url.path)
+
+        #expect(disk.leftUnderItsTest)
+        // Said here, so the disk's own end has nothing left to report.
+        _ = try? disk.eject()
+    }
+
     @Test func disksMadeTogetherHaveVolumesOfTheirOwn() async throws {
         let directory = try TemporaryDirectory()
         let places = ["First", "Second"].map { directory.url.appending(path: $0, directoryHint: .isDirectory) }

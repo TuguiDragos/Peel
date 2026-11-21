@@ -19,6 +19,7 @@ struct SpaceDisksTests {
         #expect(both.map(\.snapshotVolume) == [LocalSnapshots.volume, top])
         #expect(both.last?.name == "Scratch")
         #expect(one.map(\.snapshotVolume) == [LocalSnapshots.volume])
+        withExtendedLifetime(disk) {}
     }
 
     @Test func spaceListsTheSnapshotsOfEachDiskItShows() async throws {
@@ -35,6 +36,7 @@ struct SpaceDisksTests {
 
         #expect(report.snapshots.map(\.volume) == [LocalSnapshots.volume, top])
         #expect(report.snapshots.last?.snapshots == [], "an APFS disk with none")
+        withExtendedLifetime(disk) {}
     }
 
     @Test func aDiskThatIsNotAPFSKeepsNoSnapshots() async throws {

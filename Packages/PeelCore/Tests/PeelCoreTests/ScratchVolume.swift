@@ -2,12 +2,16 @@ import Darwin
 import Foundation
 @testable import PeelCore
 import Synchronization
+import Testing
 
 /// A small disk of its own for a test, formatted with a file system the startup disk does not use, made with `hdiutil`
 /// and mounted at a folder the test chooses, out of Finder's sight. It is detached when the test lets go of it.
 final class ScratchVolume {
     private(set) var url: URL
     private let image: TemporaryDirectory
+    /// True from when the disk is mounted for its test until the test takes it away itself, or leaves it to the
+    /// cleanup of leftovers.
+    private var isMeantToBeMounted = false
 
     /// FAT and exFAT take their serial from the clock, so disks made in the same second would share it, and with it
     /// the volume's UUID.
@@ -33,6 +37,18 @@ final class ScratchVolume {
             ["attach", "-nobrowse", "-noautoopen", "-noverify"] + (owners ? ["-owners", "on"] : [])
                 + ["-mountpoint", url.path, file.path]
         )
+        try requireMounted()
+        isMeantToBeMounted = true
+    }
+
+    /// Throws unless the disk is mounted where the test asked: a test that wrote before it was would write into the
+    /// folder under it.
+    private func requireMounted() throws {
+        guard isAttached else {
+            throw DiskImageTool.Failure(
+                command: "hdiutil attach", status: 0, said: "the disk is not mounted at \(url.path)"
+            )
+        }
     }
 
     private static func serial(for fileSystem: String, given: UInt32?) -> [String] {
@@ -44,14 +60,22 @@ final class ScratchVolume {
         return ["-fsargs", "-I \(serial)"]
     }
 
+    /// True when the disk went away while its test still counted on it.
+    var leftUnderItsTest: Bool { isMeantToBeMounted && !isAttached }
+
     deinit {
+        // What a test found on a disk that went away under it means nothing, so the test says the disk left.
+        if leftUnderItsTest {
+            Issue.record("the disk at \(url.path) was no longer mounted when its test ended")
+        }
         _ = try? DiskImageTool.eject(url.path)
     }
 
     /// Takes the disk away, as unplugging it does, until `attach(at:)` brings it back. Answers what the tool said.
     @discardableResult
     func eject() throws -> String {
-        try DiskImageTool.eject(url.path)
+        isMeantToBeMounted = false
+        return try DiskImageTool.eject(url.path)
     }
 
     /// Where a disk names the process that made it, since a process stopped before its tests end never detaches them.
@@ -101,6 +125,7 @@ final class ScratchVolume {
     /// Records the disk as made by a process that ended, as a suite stopped in the middle leaves it.
     func leaveAsIfItsProcessEnded() throws {
         try Data("999999 0.0".utf8).write(to: image.url.appending(path: Self.ownerFile))
+        isMeantToBeMounted = false
     }
 
     var isAttached: Bool {
@@ -171,5 +196,7 @@ final class ScratchVolume {
                 + ["-mountpoint", place.path, file.path]
         )
         url = place
+        try requireMounted()
+        isMeantToBeMounted = true
     }
 }
