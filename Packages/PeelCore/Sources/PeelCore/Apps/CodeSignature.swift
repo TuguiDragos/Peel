@@ -53,12 +53,14 @@ enum CodeSignature {
 
     /// Whether the bundle's whole seal holds: its executable for every processor, every resource, and the code nested
     /// in it, nothing added, nothing changed. A plain check reads only this Mac's slice and takes nested code on trust.
+    /// The resources are checked on this thread alone: in parallel, Security hands them to a global queue and waits,
+    /// and once every thread of Swift's pool waits so, that work never gets a thread.
     static func sealHolds(at url: URL) -> Bool {
         var staticCode: SecStaticCode?
         guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let staticCode else {
             return false
         }
-        let whole = kSecCSStrictValidate | kSecCSCheckNestedCode | kSecCSCheckAllArchitectures
+        let whole = kSecCSStrictValidate | kSecCSCheckNestedCode | kSecCSCheckAllArchitectures | kSecCSSingleThreaded
         return SecStaticCodeCheckValidity(staticCode, SecCSFlags(rawValue: UInt32(whole)), nil) == errSecSuccess
     }
 

@@ -457,6 +457,30 @@ struct MakersUninstallerTests {
 
     @Test func aSealHoldsOnlyWhileNothingInTheBundleChanged() throws {
         let directory = try TemporaryDirectory()
+        let (bundle, script) = try Self.signedMaker(in: directory)
+        #expect(CodeSignature.sealHolds(at: bundle))
+
+        try Data("exit 1\n".utf8).write(to: script)
+
+        #expect(!CodeSignature.sealHolds(at: bundle))
+    }
+
+    @Test func asManySealChecksAsTheProcessorsAllFinish() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try Self.signedMaker(in: directory).bundle
+        let checks = ProcessInfo.processInfo.activeProcessorCount
+
+        let held = await withTaskGroup(of: Bool.self) { group in
+            for _ in 0..<checks {
+                group.addTask { CodeSignature.sealHolds(at: bundle) }
+            }
+            return await group.reduce(0) { $0 + ($1 ? 1 : 0) }
+        }
+
+        #expect(held == checks)
+    }
+
+    private static func signedMaker(in directory: borrowing TemporaryDirectory) throws -> (bundle: URL, script: URL) {
         let bundle = try directory.directory("Maker.app")
         let info: [String: Any] = ["CFBundleIdentifier": "org.example.maker", "CFBundleExecutable": "Maker"]
         try directory.file(
@@ -474,11 +498,7 @@ struct MakersUninstallerTests {
         )
         signing.waitUntilExit()
         try #require(signing.terminationStatus == 0)
-        #expect(CodeSignature.sealHolds(at: bundle))
-
-        try Data("exit 1\n".utf8).write(to: script)
-
-        #expect(!CodeSignature.sealHolds(at: bundle))
+        return (bundle, script)
     }
 
     @Test func aSealBreaksWhenAProgramInsideOrAnotherSliceChanges() throws {
