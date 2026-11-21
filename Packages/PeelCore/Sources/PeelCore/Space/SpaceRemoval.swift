@@ -180,7 +180,9 @@ public enum SpaceRemoval {
         let children = children(
             of: item, environment: environment, exclusions: exclusions, running: running, macOS: macOS, own: own
         )
-        return (children.removable, children.inUse)
+        // What the plan lists with a reason it can still move for, such as a folder too full for a quick look.
+        let listed = children.closed.filter { !$0.why.cannotBeMoved }.map(\.url)
+        return (children.removable + listed, children.inUse)
     }
 
     /// What a move of the `chosen` folders takes from what the area offers now: those still offered, but what was

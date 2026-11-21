@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
@@ -143,6 +144,22 @@ struct SpaceRemovalTests {
         #expect(plan.removable.map(\.lastPathComponent) == ["Caches"])
         #expect(plan.heldBack.values.contains(.tooManyToList))
         #expect(plan.selectableRows(canUseHelper: true).selectable.isEmpty)
+    }
+
+    @Test func aFolderTooFullThatCanBeSelectedIsStillOfferedAtTheMove() async throws {
+        let directory = try TemporaryDirectory()
+        let big = try directory.directory("home/Library/Caches/net.example.client/big").path(percentEncoded: false)
+        for number in 0...FolderEntries.lookLimit {
+            let descriptor = open(big + "/\(number)", O_CREAT | O_WRONLY | O_EXCL, 0o644)
+            if descriptor >= 0 { close(descriptor) }
+        }
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory))
+        #expect(plan.heldBack.values.contains(.tooManyToLookThrough))
+        #expect(plan.selectableRows(canUseHelper: true).selectable.map(\.lastPathComponent) == ["net.example.client"])
+
+        let now = await SpaceRemoval.movableNow(in: item(directory), environment: environment(directory))
+        #expect(now.removable.map(\.lastPathComponent) == ["net.example.client"])
     }
 
     @Test func neverAsksToQuitPartOfMacOS() async throws {
