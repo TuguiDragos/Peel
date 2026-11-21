@@ -63,13 +63,11 @@ extension ProtectedData {
                 }
                 errno = 0
                 guard let entry = readdir(directory) else { return errno == 0 ? nil : .closed }
-                let name = withUnsafeBytes(of: entry.pointee.d_name) { bytes in
-                    String(decoding: bytes.prefix(Int(entry.pointee.d_namlen)), as: UTF8.self)
-                }
+                guard let (name, type) = Self.nameAndType(of: entry) else { return .closed }
                 guard name != ".", name != ".." else { continue }
                 counting(1)
                 let isAFile: Bool
-                switch Int32(entry.pointee.d_type) {
+                switch type {
                 case DT_REG: isAFile = true
                 case DT_UNKNOWN:
                     var kind = stat()
@@ -78,6 +76,20 @@ extension ProtectedData {
                 }
                 guard visit(name, isAFile) else { return nil }
             }
+        }
+
+        /// The name and `d_type` of `entry`, each read where it lies: `readdir` gives a record only as long as its
+        /// name, so the struct's whole name field would be read past the record, and past the buffer for its last one.
+        static func nameAndType(of entry: UnsafePointer<dirent>) -> (name: String, type: Int32)? {
+            let record = UnsafeRawPointer(entry)
+            guard let name = MemoryLayout<dirent>.offset(of: \.d_name),
+                  let length = MemoryLayout<dirent>.offset(of: \.d_namlen),
+                  let type = MemoryLayout<dirent>.offset(of: \.d_type)
+            else { return nil }
+            let bytes = UnsafeRawBufferPointer(
+                start: record + name, count: Int(record.load(fromByteOffset: length, as: UInt16.self))
+            )
+            return (String(decoding: bytes, as: UTF8.self), Int32(record.load(fromByteOffset: type, as: UInt8.self)))
         }
     }
 

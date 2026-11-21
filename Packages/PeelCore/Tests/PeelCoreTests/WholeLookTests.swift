@@ -116,6 +116,28 @@ struct WholeLookTests {
         #expect(asked == 1)
     }
 
+    @Test func aNameIsReadFromItsRecordAndNoFurther() throws {
+        // A record as short as `readdir` gives one, ending where the readable memory ends.
+        let page = Int(getpagesize())
+        let pages = try #require(mmap(nil, 2 * page, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0))
+        try #require(pages != MAP_FAILED)
+        defer { munmap(pages, 2 * page) }
+        try #require(mprotect(pages + page, page, PROT_NONE) == 0)
+        let name = Array("alpha".utf8)
+        let nameOffset = try #require(MemoryLayout<dirent>.offset(of: \.d_name))
+        let lengthOffset = try #require(MemoryLayout<dirent>.offset(of: \.d_namlen))
+        let typeOffset = try #require(MemoryLayout<dirent>.offset(of: \.d_type))
+        let record = pages + page - ((nameOffset + name.count + 8) & ~7)
+        record.storeBytes(of: UInt16(name.count), toByteOffset: lengthOffset, as: UInt16.self)
+        record.storeBytes(of: UInt8(DT_REG), toByteOffset: typeOffset, as: UInt8.self)
+        (record + nameOffset).copyMemory(from: name, byteCount: name.count)
+
+        let read = ProtectedData.WholeLook.nameAndType(of: record.assumingMemoryBound(to: dirent.self))
+
+        #expect(read?.name == "alpha")
+        #expect(read?.type == DT_REG)
+    }
+
     @Test func theHelperReadsAFolderTooFullWholeOnlyUnderAWholeLook() throws {
         let directory = try TemporaryDirectory()
         let big = try directory.directory("root/Library/Caches/org.example.big/big")
