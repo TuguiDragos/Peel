@@ -326,15 +326,14 @@ public enum DeveloperCaches {
         }
 
         func rows(in folder: URL) -> [URL] {
+            guard rowsDepth > 0 || rowsHolding != nil else { return [folder] }
             // A folder whose rows can't be listed, or that holds more than a scan reads, is one row of its own, so its
             // measure says why, as for a folder listed whole: read as no rows, it went unsaid.
-            if rowsDepth > 0 || rowsHolding != nil, folder.isRealFolder, Self.subfolders(of: folder) == nil {
-                return [folder]
-            }
-            if let rowsHolding { return Self.folders(holding: rowsHolding, in: folder) }
-            var level = [folder]
+            guard let top = Self.subfolders(of: folder) else { return folder.isRealFolder ? [folder] : [] }
+            if let rowsHolding { return Self.folders(holding: rowsHolding, among: top) }
+            var level = top
             var whole: [URL] = []
-            for _ in 0..<rowsDepth {
+            for _ in 1..<rowsDepth {
                 level = level.flatMap { url in
                     guard let inside = Self.subfolders(of: url) else {
                         if url.isRealFolder { whole.append(url) }
@@ -343,13 +342,13 @@ public enum DeveloperCaches {
                     return inside
                 }
             }
-            guard rowsDepth > 0, let rowEnding else { return level + whole }
+            guard let rowEnding else { return level + whole }
             return level.filter { $0.lastPathComponent.hasSuffix(rowEnding) } + whole
         }
 
-        private static func folders(holding marker: String, in folder: URL) -> [URL] {
+        private static func folders(holding marker: String, among top: [URL]) -> [URL] {
             var found: [URL] = []
-            var level = subfolders(of: folder) ?? []
+            var level = top
             for _ in 0..<3 {
                 var next: [URL] = []
                 for candidate in level {

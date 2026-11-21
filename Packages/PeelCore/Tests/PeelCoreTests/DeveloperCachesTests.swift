@@ -18,6 +18,21 @@ struct DeveloperCachesTests {
         #expect(folder.rows(in: listed).map(\.lastPathComponent) == ["26.1 (23B85)"])
     }
 
+    @Test func rowsTwoLevelsDownComeFromEachFolderAndAFolderThatIsGoneHasNone() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Archives/2026-11-01/First.xcarchive")
+        try directory.directory("Archives/2026-11-02/Second.xcarchive")
+        try directory.directory("Archives/2026-11-02/Notes")
+        let folder = DeveloperCaches.Folder(
+            "Archives", .archives, source: "https://example.org", rowsDepth: 2, rowEnding: ".xcarchive"
+        )
+
+        let rows = folder.rows(in: directory.url.appending(path: "Archives"))
+
+        #expect(rows.map(\.lastPathComponent).sorted() == ["First.xcarchive", "Second.xcarchive"])
+        #expect(folder.rows(in: directory.url.appending(path: "Gone")).isEmpty)
+    }
+
     @Test func anAppTheTableNamesGetsNoSecondToolFromTheElectronRule() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
