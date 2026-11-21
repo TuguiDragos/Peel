@@ -143,6 +143,36 @@ struct BackgroundItemLibraryTests {
         #expect(!ProcessEnds.isRunning(pid))
     }
 
+    @Test(.timeLimit(.minutes(1))) func aFailedRestartReadsTheListAgainForAProcessPeelCannotAskAfter() async throws {
+        // A process that has ended answers as root's do to a question only this account's processes answer.
+        let ended = Process()
+        ended.executableURL = URL(filePath: "/usr/bin/true")
+        try ended.run()
+        ended.waitUntilExit()
+        let pid = ended.processIdentifier
+        #expect(!ProcessEnds.isRunning(pid))
+        let (read, reading) = AsyncStream<Void>.makeStream()
+        var running = job
+        running.state = .running(pid: pid)
+        let listed = running
+        let library = BackgroundItemLibrary(
+            scan: { _, _ in
+                reading.yield()
+                return BackgroundItems.Scan(items: [listed])
+            },
+            control: { _, _ throws(BackgroundItemActions.Failure) in throw .launchctl("timed out") }
+        )
+        var reads = read.makeAsyncIterator()
+        await library.refresh(installedApps: [])
+        _ = await reads.next()
+
+        await library.perform(.restart, on: listed)
+        _ = await reads.next()
+
+        // The read that follows the process's end: without it this waits until the time limit.
+        _ = await reads.next()
+    }
+
     /// A scan whose answers the test gives, call by call, and which holds the calls in `held` until it lets them go.
     private final class Script {
         var calls = 0

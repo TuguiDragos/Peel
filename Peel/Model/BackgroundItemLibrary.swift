@@ -266,7 +266,8 @@ final class BackgroundItemLibrary {
             alerts.add(.stillStopping(label: item.label, exitTimeOut: stillEnding.exitTimeOut))
             readAgain(onceItEnds: stillEnding.pid)
         } else if action == .restart, failed, let now = items?.first(where: { $0.id == item.id }),
-                  case .running(let pid) = now.state, ProcessEnds.isRunning(pid) {
+                  case .running(let pid) = now.state {
+            // Not asked whether it still runs: only this account's processes answer that, and a daemon's is root's.
             readAgain(onceItEnds: pid)
         }
         // History tells of a move to the Trash, and an alert of a failure.
