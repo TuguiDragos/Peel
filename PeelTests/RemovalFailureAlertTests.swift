@@ -1,6 +1,6 @@
 import Foundation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Testing
 
 @MainActor
@@ -48,8 +48,78 @@ struct RemovalFailureAlertTests {
 
         let paragraphs = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
         #expect(paragraphs.count == 3, "\(paragraphs)")
-        #expect(paragraphs[0] == ([TrashFailure.Reason.locked.explanation] + (1...3).map { "/Users/someone/a\($0)" }).joined(separator: "\n"))
+        let locked = TrashFailure.Reason.locked.explanation(for: 3)
+        #expect(paragraphs[0] == ([locked] + (1...3).map { "/Users/someone/a\($0)" }).joined(separator: "\n"))
         #expect(paragraphs[1] == "\(TrashFailure.Reason.notPermitted.explanation)\n/Users/someone/b1")
+    }
+
+    @Test func aReasonAboveSeveralItemsIsWrittenForSeveral() {
+        let paths = (1...3).map { "/Users/someone/a\($0)" }
+        let outcome = RemovalOutcome()
+        outcome.report(TrashResult(failures: paths.map { TrashFailure(url: URL(filePath: $0), reason: .locked) }))
+        let forSeveral = String(localized: "They are locked. In Finder, choose File > Get Info for each and deselect Locked, then try again.")
+
+        #expect(RemovalFailureAlert.message(for: outcome) == ([forSeveral] + paths).joined(separator: "\n"))
+        #expect(RemovalFailureAlert.details(for: outcome) == ([forSeveral] + paths).joined(separator: "\n"))
+    }
+
+    @Test func aReasonAboveOneItemReadsAsItDoesForOne() {
+        let one = RemovalOutcome()
+        one.report(TrashResult(failures: [TrashFailure(url: URL(filePath: "/Users/someone/a1"), reason: .locked)]))
+        #expect(RemovalFailureAlert.message(for: one) == TrashFailure.Reason.locked.explanation + "\n/Users/someone/a1")
+
+        // Four reasons share the four items an alert lists, so each stands above one, though it has two.
+        let reasons: [TrashFailure.Reason] = [.locked, .needsHelper, .changedSinceScan, .attachedDiskImage]
+        let shared = RemovalOutcome()
+        shared.report(TrashResult(failures: (1...2).flatMap { round in
+            reasons.indices.map { TrashFailure(url: URL(filePath: "/Users/someone/b\($0)-\(round)"), reason: reasons[$0]) }
+        }))
+        let paragraphs = RemovalFailureAlert.message(for: shared).components(separatedBy: "\n\n")
+        #expect(Array(paragraphs.prefix(4)) == reasons.indices.map { reasons[$0].explanation + "\n/Users/someone/b\($0)-1" })
+        #expect(paragraphs.count == 5, "\(paragraphs)")
+    }
+
+    @Test func everyListUnderAReasonWritesItForSeveral() {
+        let putBack = RemovalOutcome()
+        putBack.reportPutBack(
+            (1...2).map { .init(url: URL(filePath: "/Users/someone/p\($0)"), failure: .notInATrash) }, of: 2
+        )
+        let stayed = String(localized: "They are not in the Trash where Peel put them, so Peel leaves them where they are.")
+        #expect(RemovalFailureAlert.message(for: putBack).contains(stayed + "\n/Users/someone/p1\n/Users/someone/p2"))
+
+        let chosen = (1...2).map { (url: URL(filePath: "/Users/someone/f\($0)"), reason: ProjectArtifacts.Refusal.systemFolder) }
+        #expect(ProjectList.reasons(chosen).hasPrefix(String(localized: "They are folders that macOS or every account uses, not folders of projects. Choose the folder your projects are in.")))
+
+        let aside = (1...2).map {
+            DuplicateScan.FolderSetAside(url: URL(filePath: "/Users/someone/d\($0)"), reason: .unreachable(.notAFolder))
+        }
+        #expect(DuplicateList.reasons(aside).hasPrefix(String(localized: "They are not folders.") + "\n"))
+
+        let download = CloudRefusal(url: URL(filePath: "/Users/someone/c1"), reason: .keptDownloaded)
+        #expect(download.explanation(for: 2) == String(localized: "Keep Downloaded is on for them in Finder, so iCloud would download them again."))
+        #expect(download.explanation(for: 1) == download.explanation)
+    }
+
+    @Test func aSentenceOfTheHelperIsWrittenForSeveralAndAnyOtherStaysAsItCame() throws {
+        let gone = TrashFailure.Reason.failed(FixedSentence.notThereAnymore.english)
+        #expect(gone.explanation(for: 2) == String(localized: "They are not there anymore."))
+        #expect(RestoreFailure.failed(FixedSentence.notInTrash.english).explanation(for: 2) == String(localized: "They are not in the Trash."))
+        #expect(TrashFailure.Reason.failed("Input/output error").explanation(for: 2) == "Input/output error")
+
+        let romanian = try #require(Bundle.main.url(forResource: "ro", withExtension: "lproj").flatMap(Bundle.init(url:)))
+        let english = "They are locked. In Finder, choose File > Get Info for each and deselect Locked, then try again."
+        let inRomanian = TrashFailure.Reason.locked.explanation(for: 2, in: romanian)
+        #expect(inRomanian == String(localized: String.LocalizationValue(english), bundle: romanian))
+        #expect(inRomanian != english)
+    }
+
+    @Test func aReasonThatNamesNoItemReadsTheSameAboveSeveral() {
+        #expect(TrashFailure.Reason.notPermitted.explanation(for: 3) == TrashFailure.Reason.notPermitted.explanation)
+        let unavailable = FixedSentence.helperUnavailable.english
+        #expect(TrashFailure.Reason.failed(unavailable).explanation(for: 3) == FixedSentence.translated(unavailable))
+        #expect(RestoreFailure.needsAppManagement.explanation(for: 3) == RestoreFailure.needsAppManagement.explanation)
+        #expect(ProjectArtifacts.Refusal.tooBroad.explanation(for: 3) == ProjectArtifacts.Refusal.tooBroad.explanation)
+        #expect(DuplicateFinder.Refusal.protected.explanation(for: 3) == DuplicateFinder.Refusal.protected.explanation)
     }
 
     @Test func namesTheAppThatSyncsWhatStaysAndItsMarker() {

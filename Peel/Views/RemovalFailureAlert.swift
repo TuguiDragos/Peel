@@ -53,10 +53,15 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     /// Paragraphs of `entries` under their reasons, a reason and then its items a line each, and then how many items
-    /// the others are.
-    static func underTheirReasons(_ entries: [(item: String, reason: String)], limit: Int? = mostListed) -> [String] {
-        let (groups, more) = grouped(entries, limit: limit, reason: \.reason)
-        let paragraphs = groups.map { ([$0.reason] + $0.items.map(\.item)).joined(separator: "\n") }
+    /// the others are. A reason is given as its words for a number of items: entries that share the words for one item
+    /// stand together, under the words for as many items as are listed there.
+    static func underTheirReasons(
+        _ entries: [(item: String, reason: (Int) -> String)], limit: Int? = mostListed
+    ) -> [String] {
+        let (groups, more) = grouped(entries, limit: limit) { $0.reason(1) }
+        let paragraphs = groups.map { group in
+            ([group.items[0].reason(group.items.count)] + group.items.map(\.item)).joined(separator: "\n")
+        }
         return more > 0 ? paragraphs + [String(inflecting: "And ^[\(more) more item](inflect: true).")] : paragraphs
     }
 
@@ -167,10 +172,10 @@ struct RemovalFailureAlert: ViewModifier {
 
     static func message(for outcome: RemovalOutcome) -> String {
         var lines = historyLines(outcome)
-            + underTheirReasons(outcome.putBackFailures.map { ($0.url.abbreviatedPath, $0.failure.explanation) })
+            + underTheirReasons(outcome.putBackFailures.map { ($0.url.abbreviatedPath, $0.failure.explanation(for:)) })
             + jobLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more job](inflect: true)") } }
             + quitLines(outcome, naming: Self.listed)
-            + underTheirReasons(outcome.failures.map { ($0.url.abbreviatedPath, $0.reason.explanation) })
+            + underTheirReasons(outcome.failures.map { ($0.url.abbreviatedPath, $0.reason.explanation(for:)) })
         lines += keptLines(outcome, naming: Self.listed) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
             + appManagementLines(outcome) + privacyLines(outcome, naming: Self.listed)
@@ -292,9 +297,11 @@ struct RemovalFailureAlert: ViewModifier {
     static func details(for outcome: RemovalOutcome) -> String {
         let all: ([String]) -> String = { $0.formatted(.list(type: .and)) }
         var lines = historyLines(outcome)
-            + underTheirReasons(outcome.putBackFailures.map { ($0.url.fullPath, $0.failure.explanation) }, limit: nil)
+            + underTheirReasons(
+                outcome.putBackFailures.map { ($0.url.fullPath, $0.failure.explanation(for:)) }, limit: nil
+            )
             + jobLines(outcome, naming: all) + quitLines(outcome, naming: all)
-            + underTheirReasons(outcome.failures.map { ($0.url.fullPath, $0.reason.explanation) }, limit: nil)
+            + underTheirReasons(outcome.failures.map { ($0.url.fullPath, $0.reason.explanation(for:)) }, limit: nil)
             + keptLines(outcome, naming: all) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome, naming: all) + appManagementLines(outcome) + privacyLines(outcome, naming: all)
         lines += trashLines(outcome, naming: all) + dockLines(outcome, naming: all)

@@ -39,7 +39,7 @@ struct CloudView: View {
                     let (groups, more) = RemovalFailureAlert.grouped(cloud.refusals, reason: \.explanation)
                     ForEach(groups, id: \.reason) { group in
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(group.reason)
+                            Text(group.items[0].explanation(for: group.items.count))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             ForEach(group.items) { refusal in
@@ -59,7 +59,7 @@ struct CloudView: View {
                             Spacer()
                             CopyButton(
                                 text: RemovalFailureAlert.underTheirReasons(
-                                    cloud.refusals.map { ($0.url.fullPath, $0.explanation) }, limit: nil
+                                    cloud.refusals.map { ($0.url.fullPath, $0.explanation(for:)) }, limit: nil
                                 ).joined(separator: "\n\n"),
                                 title: "Copy Details"
                             )
@@ -358,7 +358,7 @@ private struct LeftAlone {
     /// The first few files with the reason each stayed, as the alert after a removal lists them. Still Here, at the
     /// top of the page, lists them all.
     var message: String {
-        RemovalFailureAlert.underTheirReasons(refusals.map { ($0.url.abbreviatedPath, $0.explanation) })
+        RemovalFailureAlert.underTheirReasons(refusals.map { ($0.url.abbreviatedPath, $0.explanation(for:)) })
             .joined(separator: "\n\n")
     }
 }

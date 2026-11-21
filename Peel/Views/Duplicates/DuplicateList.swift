@@ -195,7 +195,7 @@ struct DuplicateList: View {
 
     /// Each folder set aside and why, as many as an alert lists.
     static func reasons(_ folders: [DuplicateScan.FolderSetAside]) -> String {
-        RemovalFailureAlert.underTheirReasons(folders.map { ($0.url.abbreviatedPath, $0.reason.explanation) })
+        RemovalFailureAlert.underTheirReasons(folders.map { ($0.url.abbreviatedPath, $0.reason.explanation(for:)) })
             .joined(separator: "\n\n")
     }
 

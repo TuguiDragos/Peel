@@ -310,6 +310,26 @@ extension GuardRefusal {
         case .tooManyToLookThrough: "Peel did not move this: a folder inside holds too many items for a quick look, and Peel did not look through all of it, so it cannot tell whether something it protects, such as a library or a wallet, is there."
         }
     }
+
+    /// The same above several items that share the reason.
+    var explanationForSeveral: LocalizedStringResource {
+        switch self {
+        case .exclusionsNotKnown: "Peel will not move these until it can read your exclusions."
+        case .excluded: "Peel will not move these: your exclusions in Settings keep them where they are."
+        case .staysItself: "Peel will not move these folders themselves, since macOS expects to find them. What is inside them can go."
+        case .protectedLocation: "Peel will not move these: they are part of macOS, or inside something Peel protects."
+        case .inUsrLocal: "Peel will not move these: /usr/local holds files of other programs, and from there Peel moves only the links an app made and the records Homebrew keeps."
+        case .holdsProtectedData: "Peel will not move these: something Peel protects is inside each, such as a keychain or a wallet."
+        case .inTheCloud(.cloud): "Peel will not move these: they sync to your other devices through iCloud or another app, and moving them to the Trash would also remove them from those devices."
+        case .inTheCloud(.app(let app, let marker)):
+            "Peel will not move these: they are in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), and moving them to the Trash would also remove them from those devices."
+        case .holdsDocuments: "Peel will not move these: the documents of an app are inside each."
+        case .holdsALibrary: "Peel will not move these: a photo, music, or video library is inside each."
+        case .holdsWorkKeptInACache: "Peel will not move these: an app keeps work inside each that exists nowhere else, such as the local history of an editor."
+        case .couldNotLookInside: "Peel will not move these: macOS would not let Peel look inside them to make sure nothing Peel protects, such as a library or a wallet, is there."
+        case .tooManyToLookThrough: "Peel did not move these: a folder inside each holds too many items for a quick look, and Peel did not look through all of it, so it cannot tell whether something it protects, such as a library or a wallet, is there."
+        }
+    }
 }
 
 extension TrashFailure.Reason {
@@ -372,6 +392,64 @@ extension TrashFailure.Reason {
         case .linkOnTheWay:
             String(localized: "A folder on its way is now a link to another place, so Peel left it. Scan again to review it.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
+        }
+    }
+
+    /// The explanation above `count` items that share the reason: the one for one item, or the one for several.
+    func explanation(for count: Int) -> String {
+        explanation(for: count, in: nil)
+    }
+
+    func explanation(for count: Int, in bundle: Bundle?) -> String {
+        count > 1 ? explanationForSeveral(in: bundle) ?? explanation(in: bundle) : explanation(in: bundle)
+    }
+
+    /// The explanation written for several items, or nil when the one for one item reads the same above any number.
+    private func explanationForSeveral(in bundle: Bundle?) -> String? {
+        switch self {
+        case .guarded(let refusal?): refusal.explanationForSeveral.resolved(in: bundle)
+        case .guarded(nil): String(localized: "Peel will not move these: they are protected, or your exclusions in Settings keep them where they are.", bundle: bundle)
+        case .changedSinceScan: String(localized: "They changed after Peel looked at them. Scan again to review them.", bundle: bundle)
+        case .changeNotKnown: String(localized: "Peel could not read them in time to see whether they changed after Peel looked at them. Scan again to review them.", bundle: bundle)
+        case .claimedSinceScan: String(localized: "Peel could not confirm they still belong to nobody: an installed app may claim them now. Scan again to review them.", bundle: bundle)
+        case .lastCopy: String(localized: "The copies Peel was keeping have changed or moved since the scan, so these may be the last ones, and Peel left them. Scan again to review them.", bundle: bundle)
+        case .locked: String(localized: "They are locked. In Finder, choose File > Get Info for each and deselect Locked, then try again.", bundle: bundle)
+        case .needsHelper: String(localized: "They need administrator access, which the Peel helper provides. Home says what the helper needs.", bundle: bundle)
+        case .movedWithoutATrace: String(localized: "They are in the Trash, but macOS did not say where, so they can only be put back from Finder.", bundle: bundle)
+        case .somethingElseMoved(let name): String(localized: "Something else was at those paths by the time they moved. Each is in the Trash as \(name), and Finder can put it back.", bundle: bundle)
+        case .heldOpen(let processes):
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.", bundle: bundle)
+        case .heldOpenByAJob(let processes) where processes.count > 1:
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items (View > Background Items) if they have no window, then try again.", bundle: bundle)
+        case .heldOpenByAJob(let processes):
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items (View > Background Items) if it has no window, then try again.", bundle: bundle)
+        case .heldByAnotherAccount(let processes) where processes.count > 1:
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the uninstaller of their app, then try again.", bundle: bundle)
+        case .heldByAnotherAccount(let processes):
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the uninstaller of its app, then try again.", bundle: bundle)
+        case .openForAnotherUser(let processes) where processes.count > 1:
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))) in the account of another user on this Mac. Quit those programs in that account, then try again.", bundle: bundle)
+        case .openForAnotherUser(let processes):
+            String(localized: "They are in use by \(processes.formatted(.list(type: .and))) in the account of another user on this Mac. Quit that program in that account, then try again.", bundle: bundle)
+        case .heldByABuildTool(let tools):
+            String(localized: "They are in use by \(tools.formatted(.list(type: .and))). Run \(BuildDaemon.stopCommands(for: tools).map { "`\($0)`" }.formatted(.list(type: .and))), then try again.", bundle: bundle)
+        case .inUseAsAnInputSource:
+            String(localized: "They are in use as input sources. In System Settings > Keyboard > Text Input, click Edit beside Input Sources, select each and click Remove, then try again.", bundle: bundle)
+        case .inUseByMacOS(let processes):
+            String(localized: "macOS is using them right now, through \(processes.formatted(.list(type: .and))), so they stay where they are.", bundle: bundle)
+        case .attachedDiskImage: String(localized: "They are disk images that are open right now. Eject them, then try again.", bundle: bundle)
+        case .attachedImagesNotKnown:
+            String(localized: "They are disk images, and Peel could not tell whether they are open right now, so they stay where they are. Try again.", bundle: bundle)
+        case .stillLeadsTo(let target):
+            String(localized: "They are links that still lead to \(URL(filePath: target).abbreviatedPath), and from this folder the Peel helper removes only links that lead nowhere.", bundle: bundle)
+        case .noRoomOnItsDisk:
+            String(localized: "They are on a disk that is full, with no room left even to move them to the Trash. Make some room on that disk, then try again.", bundle: bundle)
+        case .diskNotConnected: String(localized: "They are on a disk that is no longer connected. Connect it, then scan again.", bundle: bundle)
+        case .linkOnTheWay:
+            String(localized: "A folder on their way is now a link to another place, so Peel left them. Scan again to review them.", bundle: bundle)
+        case .failed(let message): FixedSentence(message)?.wordsForSeveral?.resolved(in: bundle)
+        case .notPermitted, .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .peelRunsFromIt,
+             .noTrashOnThisDisk: nil
         }
     }
 }
@@ -594,6 +672,26 @@ extension ProjectArtifacts.Refusal {
         case .holdsAnotherFolder(let folder): String(localized: "It holds \(folder.abbreviatedPath), which is already on the list. Remove that one first.")
         }
     }
+
+    /// Why `count` chosen folders that share the reason can't be searched: the words for one, or those for several.
+    func explanation(for count: Int) -> String {
+        count > 1 ? explanationForSeveral ?? explanation : explanation
+    }
+
+    /// The explanation written for several folders, or nil when the one for one reads the same above any number.
+    private var explanationForSeveral: String? {
+        switch self {
+        case .systemFolder: String(localized: "They are folders that macOS or every account uses, not folders of projects. Choose the folder your projects are in.")
+        case .inTheCloud(.cloud): String(localized: "They are in folders that sync to your other devices through iCloud or another app, which Peel leaves to that app.")
+        case .inTheCloud(.app(let app, let marker)):
+            String(localized: "They are in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), which Peel leaves to that app.")
+        case .unreachable(let problem): problem.explanationForSeveral
+        case .inAPackage: String(localized: "They are apps or other packages, or inside one, and what is inside a package belongs to it.")
+        case .insideAnotherFolder(let folder): String(localized: "They are inside \(folder.abbreviatedPath), which is already on the list.")
+        case .holdsAnotherFolder(let folder): String(localized: "They hold \(folder.abbreviatedPath), which is already on the list. Remove that one first.")
+        case .tooBroad, .neverSearched: nil
+        }
+    }
 }
 
 extension DuplicateFinder.Refusal {
@@ -609,6 +707,26 @@ extension DuplicateFinder.Refusal {
         case .outsideTheHome: String(localized: "It is outside your home folder, /Users/Shared, and the disks in /Volumes.")
         case .insideARepository: String(localized: "It is a repository, or sits inside one, and Peel leaves repositories alone.")
         case .unreachable(let problem): problem.explanation
+        }
+    }
+
+    /// Why `count` chosen folders that share the reason aren't scanned: the words for one, or those for several.
+    func explanation(for count: Int) -> String {
+        count > 1 ? explanationForSeveral ?? explanation : explanation
+    }
+
+    /// The explanation written for several folders, or nil when the one for one reads the same above any number.
+    private var explanationForSeveral: String? {
+        switch self {
+        case .library: String(localized: "They are your Library, or folders in it, where apps keep their data.")
+        case .mediaFolder(.music): String(localized: "They are the folder where the Music app keeps its media, or folders in it.")
+        case .mediaFolder(.tv): String(localized: "They are the folder where the TV app keeps its media, or folders in it.")
+        case .readOnlyDisk: String(localized: "They are on a disk that can only be read, so nothing there could move to the Trash.")
+        case .inAPackage: String(localized: "They are apps or other packages, or inside one, and what is inside a package belongs to it.")
+        case .outsideTheHome: String(localized: "They are outside your home folder, /Users/Shared, and the disks in /Volumes.")
+        case .insideARepository: String(localized: "They are repositories, or sit inside one, and Peel leaves repositories alone.")
+        case .unreachable(let problem): problem.explanationForSeveral
+        case .protected: nil
         }
     }
 }
@@ -664,6 +782,18 @@ extension FolderReach {
         case .failed(let error): String(localized: "macOS couldn’t reach it: \(error.localizedDescription)")
         }
     }
+
+    /// The same above several chosen folders that share the reason.
+    var explanationForSeveral: String {
+        switch self {
+        case .diskNotConnected(let disk): String(localized: "They are on \(disk), a disk that is not connected now.")
+        case .gone: String(localized: "They are not there anymore.")
+        case .notAFolder: String(localized: "They are not folders.")
+        case .closed: String(localized: "Their permissions, or those of a folder on their way, keep your account out.")
+        case .didNotAnswer: String(localized: "They are on a disk that did not answer in time.")
+        case .failed(let error): String(localized: "macOS could not reach them: \(error.localizedDescription)")
+        }
+    }
 }
 
 extension RestoreFailure {
@@ -696,6 +826,41 @@ extension RestoreFailure {
             String(localized: "The record of this item in History is not the one Peel wrote, so Peel leaves it in the Trash.")
         case .guardedPlace(let place):
             String(localized: "Peel cannot check the record of this item in History, so it puts it back into \(place.name) only once you say so.")
+        }
+    }
+
+    /// Why `count` items that share the reason stayed in the Trash: the words for one item, or those for several.
+    func explanation(for count: Int) -> String {
+        count > 1 ? explanationForSeveral ?? explanation : explanation
+    }
+
+    /// The explanation written for several items, or nil when the one for one item reads the same above any number.
+    private var explanationForSeveral: String? {
+        switch self {
+        case .missingFromTrash: String(localized: "They are no longer in the Trash, so there is nothing to put back.")
+        case .alreadyThere: String(localized: "Something is already in the place of each, and Peel never replaces what is there.")
+        case .emptyFolderInItsPlace:
+            String(localized: "An empty folder was made in the place of each after they moved, often by the app that uses it. Quit that app, move the empty folders to the Trash, then put these back.")
+        case .needsHelper: String(localized: "They need administrator access, which the Peel helper provides. Home says what the helper needs.")
+        case .notAllowed(.excluded):
+            String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take that exclusion off the list to put these back, or drag them out of the Trash in Finder.")
+        case .notAllowed: String(localized: "Peel protects those places now, so it puts nothing back there. You can drag them out of the Trash in Finder.")
+        case .notInATrash: String(localized: "They are not in the Trash where Peel put them, so Peel leaves them where they are.")
+        case .notAllowedByTheHelper(let message), .failed(let message):
+            FixedSentence(message).flatMap(\.wordsForSeveral).map { String(localized: $0) }
+        case .locked: String(localized: "They are locked. In Finder, choose File > Get Info for each and deselect Locked, then try again.")
+        case .folderLocked:
+            String(localized: "The folder each goes back to is locked. In Finder, choose File > Get Info for that folder and deselect Locked, then try again.")
+        case .folderGone:
+            String(localized: "The folder each goes back to is not there anymore. Put that folder back first, or drag these out of the Trash in Finder.")
+        case .replacementStays(let reason):
+            String(localized: "The versions now in their places could not move to the Trash first, so nothing changed.") + " "
+                + reason.explanation(for: 2)
+        case .changedOutsidePeel:
+            String(localized: "The records of these items in History are not the ones Peel wrote, so Peel leaves them in the Trash.")
+        case .guardedPlace(let place):
+            String(localized: "Peel cannot check the records of these items in History, so it puts them back into \(place.name) only once you say so.")
+        case .needsAppManagement, .notPermitted: nil
         }
     }
 }
@@ -734,6 +899,36 @@ extension CloudRefusal {
         case .couldNotBeRead:
             String(localized: "Peel could not read all of it, so it cannot tell whether it changed and left it alone. Scan again to review it.")
         case .failed(let message): message
+        }
+    }
+
+    /// Why `count` files that share the reason were not freed: the words for one file, or those for several.
+    func explanation(for count: Int) -> String {
+        count > 1 ? explanationForSeveral ?? explanation : explanation
+    }
+
+    /// The explanation written for several files, or nil when the one for one file reads the same above any number.
+    private var explanationForSeveral: String? {
+        switch reason {
+        case .gone: String(localized: "They are not there anymore.")
+        case .editedSinceScan: String(localized: "They were edited after Peel looked at them, so Peel left them alone. Scan again to review them.")
+        case .notDownloaded: String(localized: "Their downloads are not on this Mac anymore, so there is nothing to remove.")
+        case .olderVersion: String(localized: "A newer version of each waits in iCloud, so Peel left the ones on this Mac alone.")
+        case .notUploaded: String(localized: "iCloud does not have all of each yet, so removing their downloads could lose what is not uploaded.")
+        case .inConflict: String(localized: "They have versions in conflict that iCloud has not settled, so Peel left them alone.")
+        case .syncPaused: String(localized: "Their syncing is paused, so iCloud may not have their newest versions.")
+        case .uploadFailed(let message): String(localized: "iCloud could not upload them: \(message)")
+        case .inUse(let programs) where !programs.isEmpty:
+            String(localized: "They are in use by \(programs.formatted(.list(type: .and))), so macOS could not remove their downloads. Try again once nothing uses them.")
+        case .inUse:
+            String(localized: "macOS says they are in use, though no program of your account has them open, so their downloads could not be removed. Try again later.")
+        case .keptDownloaded: String(localized: "Keep Downloaded is on for them in Finder, so iCloud would download them again.")
+        case .notRemovable: String(localized: "iCloud keeps these downloads on this Mac, so they cannot be removed.")
+        case .hasSeveralNames:
+            String(localized: "They, or files inside them, have another name on this Mac, so iCloud keeps their downloads.")
+        case .couldNotBeRead:
+            String(localized: "Peel could not read all of each, so it cannot tell whether they changed and left them alone. Scan again to review them.")
+        case .excluded, .failed: nil
         }
     }
 }

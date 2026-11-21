@@ -52,6 +52,40 @@ extension FixedSentence {
         }
     }
 
+    /// The words above several items that share the sentence, where it is written about one item. Nil for a sentence
+    /// that reads the same above any number.
+    var wordsForSeveral: LocalizedStringResource? {
+        switch self {
+        case .notAFullPath: "Those are not full paths."
+        case .dotInPath: "The paths have a . or .. in them."
+        case .controlCharacter: "The paths hold a character no real name has."
+        case .folderNotFound: "The folder each is in could not be found."
+        case .outsideHelpersFolders: "They are outside the folders the Peel helper may touch."
+        case .partOfAnotherApp: "They are part of another app, and Peel removes only whole apps from that folder."
+        case .notThereAnymore: "They are not there anymore."
+        case .protectedByMacOS: "macOS marks them as protected."
+        case .irreplaceable: "They hold something nothing could bring back, so Peel never moves them."
+        case .codeFolder: "They could have changed while they were in the Trash, and code is loaded from that folder, so the Peel helper puts back only what belongs to root alone. You can drag them back out in Finder."
+        case .leadsSomewhere: "They are links that still lead to something on this Mac, and from that folder the Peel helper removes only links that lead nowhere."
+        case .noTrash: "There is no Trash to move these to."
+        case .pathTooLong: "The paths are too long."
+        case .notInTrash: "They are not in the Trash."
+        case .notInHelpersRecord: "The Peel helper has no record of moving these from there, so they stay in the Trash. You can drag them back out in Finder."
+        case .keptByTheHelper: "They could not go back where they were, so the Peel helper keeps them and moves them to the Trash the next time the helper starts."
+        case .anotherDisk: "Your home folder is on a different disk from macOS, and the Peel helper never moves anything from one disk to another. You can move them in Finder."
+        case .ranOutOfTime: "The Peel helper ran out of time before it got to these, so they stay where they were. Try again."
+        case .helperMayStillMove: "The Peel helper did not answer in time, so whether it moved these is not known. If it did, History lists them the next time Peel opens."
+        case .receiptMisplaced: "The receipts are not where macOS keeps receipts."
+        case .receiptForgotten: "They were already forgotten."
+        case .helperSaidNothing: "The Peel helper said nothing about these, so Peel does not know what became of them."
+        case .helperLeftItBehind: "The Peel helper could not take these with it. To remove them, choose Go > Go to Folder in Finder, enter the folder they are in, and drag them to the Trash, which asks for an administrator."
+        case .tooManyOpenFolders, .onlyAppsThere, .alreadyThere, .onlyLinksThere, .onlyGoneProgramsThere,
+             .helperOutOfDate, .accountNotAllowed, .notAuthorized, .tooManyItems, .cannotKeepRecord, .cannotReadRecord,
+             .invalidRequest, .configurationMissing, .declaredTwice, .toolTimedOut, .toolStopped, .notOnItsOwn,
+             .homebrewNotInstalled, .helperUnavailable, .helperStoppedMidway, .homebrewElsewhere: nil
+        }
+    }
+
     /// What PeelCore or the helper sent, in the reader's language when it is one of these, as it came otherwise. A
     /// transcript that ends with one on a line of its own, as a run Peel stopped does, has that line translated.
     static func translated(_ message: String, in bundle: Bundle? = nil) -> String {
