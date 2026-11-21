@@ -86777,7 +86777,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programe de instalare și backupuri"
+            "value" : "Instalare și backupuri"
           }
         },
         "ru" : {
@@ -278142,7 +278142,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mașinile virtuale VirtualBuddy și imaginile de sistem pe care le‑a descărcat pentru a le instala, care rămân după ștergerea unei mașini. Pagina Programe de instalare și backupuri listează aceste imagini."
+            "value" : "Mașinile virtuale VirtualBuddy și imaginile de sistem pe care le‑a descărcat pentru a le instala, care rămân după ștergerea unei mașini. Pagina Instalare și backupuri listează aceste imagini."
           }
         },
         "ru" : {
