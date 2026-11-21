@@ -586,8 +586,17 @@ final class RemovalHistoryStore {
                 problems[record.id] = failure
                 stayed.append((record, failure))
             }
-            let ordered = records.filter { !heldIDs.contains($0.id) }.map { $0.located(on: disks) }
-                .withTheFoldersTheyLeft(in: self.records.map { $0.located(on: disks) }).inPutBackOrder
+            let asked = records.filter { !heldIDs.contains($0.id) }
+            let askedIDs = Set(asked.map(\.id))
+            // A folder taken along is read from History's file, so it comes only when its own seal lets it.
+            let ordered = asked.map { $0.located(on: disks) }
+                .withTheFoldersTheyLeft(in: self.records.map { $0.located(on: disks) })
+                .filter { taken in
+                    askedIDs.contains(taken.id) || self.records.first { $0.id == taken.id }.map {
+                        $0.refusalBySeal(seal, guardedPlacesConfirmed: guardedPlacesConfirmed) == nil
+                    } ?? false
+                }
+                .inPutBackOrder
             let answers = await restoring(ordered.map(\.trashedItem), canUseHelper)
             for (record, answer) in zip(ordered, answers.failures) {
                 if let failure = answer {

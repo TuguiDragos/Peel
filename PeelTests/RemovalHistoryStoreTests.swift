@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 import Observation
 @testable import Peel
@@ -232,6 +233,46 @@ struct RemovalHistoryStoreTests {
         let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
         #expect(history.problem == .couldNotUpdate(.failed(refusedWrite)))
         #expect(history.trashLooks == looks + 1, "the page kept saying it is in the Trash")
+    }
+
+    @Test func aFolderAPutBackTakesAlongComesOnlyWhenItsOwnSealHolds() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let trash = folder.appending(path: "home/.Trash", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash.appending(path: "Maker"), withIntermediateDirectories: true)
+        let makers = folder.appending(path: "home/Library/Application Support/Maker", directoryHint: .isDirectory)
+        func record(_ original: URL, in trashed: String, size: Int64) -> RemovalRecord {
+            RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(originalURL: original, trashedURL: trash.appending(path: trashed), date: .now),
+                size: size, source: "Example", tool: Tool.applications.rawValue
+            )
+        }
+        let seal = HistorySeal(key: SymmetricKey(size: .bits256))
+        let file = record(makers.appending(path: "cache.db"), in: "cache.db", size: 4)
+        var emptied = record(makers, in: "Maker", size: 0)
+
+        for (isForged, expected) in [(true, ["cache.db"]), (false, ["Maker", "cache.db"])] {
+            let log = RemovalLog(url: folder.appending(path: "\(isForged)/removals.json"))
+            emptied.seal = isForged ? seal.broken : seal.seal(emptied)
+            _ = await log.add([emptied])
+            let asked = Mutex<[String]>([])
+            let history = RemovalHistoryStore(
+                log: log, refusals: RefusalLog(url: folder.appending(path: "\(isForged)/refusals.json")),
+                knowsTheExclusions: { true },
+                restoring: { items, _ in
+                    asked.withLock { $0 = items.map(\.originalURL.lastPathComponent) }
+                    return TrashService.Restored(failures: items.map { _ in nil }, movedAside: items.map { _ in nil })
+                }
+            )
+            await HistorySeal.$standIn.withValue(seal) {
+                _ = await log.add([file])
+                await history.load()
+                await history.restore(history.records.filter { $0.size == 4 }, canUseHelper: false)
+            }
+
+            #expect(asked.withLock { $0 } == expected)
+        }
     }
 
     @Test func aPutBackWritesDownTheEditItMovedAsideUnderTheSamePart() async throws {
