@@ -511,6 +511,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   what that means, and offers Show in Finder. When the search inside other folders stops early, it names the folder
   that holds too many, not the whole place it was searching, and a folder that can't hold the app's files is no longer
   named.
+- A path a Homebrew cask names with `**` no longer reads whole a folder of a million files under it: each folder is
+  counted first, the page names one it did not read or looked into only in part, and `peel leftovers` and
+  `peel uninstall` say it too.
 - A folder that holds a folder of a million files no longer takes minutes at every click and at its move while Peel
   looks inside it for what it never moves: that look reads no folder of more than 100,000 items, and what holds one is
   never selected for you, with its reason, there, in Orphaned Files and in Space.
