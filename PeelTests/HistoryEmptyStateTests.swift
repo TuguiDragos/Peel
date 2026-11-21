@@ -4,59 +4,35 @@ import Testing
 @MainActor
 struct HistoryEmptyStateTests {
     private func state(
-        hasLoaded: Bool = true, isKnownEmpty: Bool = false, filterIsOn: Bool = true, leftTheTrash: Int? = 0,
-        listsNothing: Bool = true, isSearching: Bool = false
+        hasLoaded: Bool = true, isKnownEmpty: Bool = false, listsNothing: Bool = true, isSearching: Bool = false
     ) -> HistoryList.EmptyState? {
         HistoryList.emptyState(
-            hasLoaded: hasLoaded, isKnownEmpty: isKnownEmpty, filterIsOn: filterIsOn, leftTheTrash: leftTheTrash,
-            listsNothing: listsNothing, isSearching: isSearching
+            hasLoaded: hasLoaded, isKnownEmpty: isKnownEmpty, listsNothing: listsNothing, isSearching: isSearching
         )
     }
 
-    @Test func underTheFilterASearchThatFindsNothingSaysSoWhileRemovalsHaveLeftTheTrash() {
-        #expect(state(leftTheTrash: 3, isSearching: true) == .nothingFound)
-        #expect(state(leftTheTrash: 0, isSearching: true) == .nothingHasLeftTheTrash)
-        #expect(state(leftTheTrash: 0) == .nothingHasLeftTheTrash)
-        #expect(state(leftTheTrash: 3, listsNothing: false) == nil)
+    @Test func aSearchThatFindsNothingSaysSo() {
+        #expect(state(isSearching: true) == .nothingFound)
+        #expect(state(listsNothing: false, isSearching: true) == nil)
+        #expect(state(listsNothing: false) == nil)
     }
 
-    @Test func aHistoryForgetEmptiedSaysNoRemovalsUnderTheFilterToo() {
-        #expect(state(isKnownEmpty: true, leftTheTrash: 0) == .noRemovals)
-        #expect(state(isKnownEmpty: true, filterIsOn: false, leftTheTrash: nil) == .noRemovals)
+    @Test func aHistoryForgetEmptiedSaysNoRemovals() {
+        #expect(state(isKnownEmpty: true) == .noRemovals)
+        #expect(state(isKnownEmpty: true, isSearching: true) == .noRemovals)
     }
 
-    @Test func looksBeforeItSaysAnything() {
-        #expect(state(hasLoaded: false) == .looking)
-        #expect(state(leftTheTrash: nil) == .looking)
-        #expect(state(filterIsOn: false, leftTheTrash: nil, isSearching: true) == .nothingFound)
+    @Test func readsHistoryBeforeItSaysAnything() {
+        #expect(state(hasLoaded: false) == .loading)
+        #expect(state(hasLoaded: false, isKnownEmpty: true, isSearching: true) == .loading)
     }
 
-    @Test func theSpinnerOfALookFollowsTheBusyTiming() {
-        #expect(HistoryList.drawn(.looking, lookShows: false) == nil)
-        #expect(HistoryList.drawn(.looking, lookShows: true) == .looking)
-        #expect(HistoryList.drawn(nil, lookShows: true) == .looking)
-        #expect(HistoryList.drawn(.nothingHasLeftTheTrash, lookShows: true) == .looking)
-        #expect(HistoryList.drawn(.noRemovals, lookShows: false) == .noRemovals)
-        #expect(HistoryList.drawn(nil, lookShows: false) == nil)
-    }
-
-    @Test func saysWhatPeelCouldNotFindOutWhereNothingHasLeftTheTrash() {
-        let everything = "Everything these removals moved is still in the Trash, so Put Back can bring it back."
-        #expect(HistoryList.nothingLeftDetail(away: 0, notKnown: 0) == everything)
-        #expect(
-            HistoryList.nothingLeftDetail(away: 3, notKnown: 0)
-                == "3 items on a disk that isn’t connected\nConnect the disk to put them back from its Trash."
-        )
-        #expect(
-            HistoryList.nothingLeftDetail(away: 0, notKnown: 2)
-                == "Peel can’t look in the Trash right now\nHistory keeps what it can’t see until Peel can look again."
-        )
-        #expect(!HistoryList.nothingLeftDetail(away: 1, notKnown: 1).contains(everything))
-        #expect(
-            HistoryList.nothingLeftDetail(away: 1, notKnown: 0)
-                == "1 item on a disk that isn’t connected\nConnect the disk to put it back from its Trash."
-        )
-        #expect(HistoryList.connectTheDisk(for: 1) == "Connect the disk to put it back from its Trash.")
-        #expect(HistoryList.connectTheDisk(for: 2) == "Connect the disk to put them back from its Trash.")
+    @Test func theSpinnerOfTheFirstReadFollowsTheBusyTiming() {
+        #expect(HistoryList.drawn(.loading, loadShows: false) == nil)
+        #expect(HistoryList.drawn(.loading, loadShows: true) == .loading)
+        #expect(HistoryList.drawn(nil, loadShows: true) == .loading)
+        #expect(HistoryList.drawn(.nothingFound, loadShows: true) == .loading)
+        #expect(HistoryList.drawn(.noRemovals, loadShows: false) == .noRemovals)
+        #expect(HistoryList.drawn(nil, loadShows: false) == nil)
     }
 }

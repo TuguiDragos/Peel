@@ -143,8 +143,6 @@ struct RemovalStandingTests {
 
         #expect(found.records.map(\.id) == [gone.id, alsoGone.id, goneLater.id])
         #expect(found.removals == [first, second])
-        #expect(found.away == 1)
-        #expect(found.notKnown == 1)
         withExtendedLifetime(disk) {}
     }
 

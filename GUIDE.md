@@ -464,8 +464,9 @@ It sets up the command line as well:
   Peel stays open, Undo in the Edit menu puts back the last removal you made in it. Check the removals and Not Moved
   entries you no longer need, or choose Select All, and Forget… at the foot takes off the list, after one question, what
   the checked removals moved that has already left the Trash, and the checked Not Moved entries whole; what is still in
-  the Trash, or on a disk that isn't connected, stays listed. Show Only What Left the Trash, in the toolbar, lists only
-  the removals from which something has left the Trash.
+  the Trash, or on a disk that isn't connected, stays listed. Select What Left the Trash, first in the toolbar's Select
+  menu, checks only the removals from which something has left the Trash, each marked Left the Trash or Partly left the
+  Trash in the list.
 - **Exclusions:** files, folders, and apps Peel must never touch. An excluded app still appears in Applications, and
   its jobs in Background Items, but Peel won't offer to remove or reset it or act on its jobs, and leaves out of every
   page the folders named exactly with its identifier, such as its caches, and an update it downloaded; to keep its

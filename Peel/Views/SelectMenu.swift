@@ -119,7 +119,7 @@ struct SelectMenu: View {
         ) { run(.recommended) } : nil
         let asks = !list.notRecommendedAdded(by: selected).isEmpty
         return SelectCommands(
-            recommended: recommended,
+            part: recommended,
             all: MenuCommand(title: asks ? "Select All…" : "Select All", isEnabled: !list.isAllSelected(in: selected)) {
                 run(.all)
             },

@@ -4,7 +4,7 @@ import Foundation
 import Testing
 
 @MainActor
-struct HistoryFilterTests {
+struct HistoryLeftTheTrashTests {
     private func history(in folder: URL) -> RemovalHistoryStore {
         RemovalHistoryStore(
             log: RemovalLog(url: folder.appending(path: "removals.json")),
@@ -44,32 +44,16 @@ struct HistoryFilterTests {
         await history.reload()
 
         #expect(history.batches.count == 1)
-        #expect(HistoryList.look(in: history) != before, "the filter kept what it found before the Trash was emptied")
+        #expect(HistoryList.look(in: history) != before, "the rows kept what Peel found before the Trash was emptied")
     }
 
-    @Test func saysWhatTheFilterShowsAndWhatEachRemovalLeft() {
-        #expect(
-            HistoryList.filterSummary(shown: 23, total: 33, hidesNotMoved: true)
-                == "Showing 23 of 33 removals: those that moved something that has left the Trash since. Not Moved is hidden."
-        )
-        #expect(
-            HistoryList.filterSummary(shown: 4, total: 4, hidesNotMoved: true)
-                == "Every removal here moved something that has left the Trash since, so the filter hides only Not Moved."
-        )
-        #expect(
-            HistoryList.filterSummary(shown: 23, total: 33, hidesNotMoved: false)
-                == "Showing 23 of 33 removals: those that moved something that has left the Trash since."
-        )
-        #expect(
-            HistoryList.filterSummary(shown: 4, total: 4, hidesNotMoved: false)
-                == "Every removal here moved something that has left the Trash since, so the filter hides nothing."
-        )
+    @Test func aRowSaysHowMuchOfItsRemovalLeftTheTrash() {
         #expect(HistoryList.leftKind(gone: 3, of: 3) == .all)
         #expect(HistoryList.leftKind(gone: 1, of: 3) == .part)
         #expect(HistoryList.leftKind(gone: 0, of: 3) == nil)
     }
 
-    @Test func listsEveryRemovalSomethingHasLeftTheTrashOf() async throws {
+    @Test func selectWhatLeftTheTrashChecksExactlyTheRemovalsSomethingHasLeftAndNothingUnderNotMoved() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
         let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
@@ -77,31 +61,44 @@ struct HistoryFilterTests {
         let history = history(in: folder)
         await record([["One", "Two"], ["Three", "Four"], ["Five"]], into: history, trash: trash)
         for name in ["One", "Five"] { try Data().write(to: trash.appending(path: name)) }
+        var notMoved = RemovalInProgress()
+        let stayed = TrashFailure(url: folder.appending(path: "Stayed"), reason: .locked)
+        let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)
+        await history.record(TrashResult(failures: [stayed]), part: part, sizes: [:], in: &notMoved)
         await history.load()
+        let stillInTheTrash = try #require(
+            history.batches.first { $0.records.map(\.originalURL.lastPathComponent) == ["Five"] }
+        )
+        history.checkedRemovals = [stillInTheTrash.id]
+        history.checkedRefusals = Set(history.refusalBatches.map(\.id))
+        try #require(history.checkedRefusals.count == 1)
 
-        let left = await RemovalStanding.leftTheTrash(history.records)
+        let gone = HistoryList.gone(in: await RemovalStanding.leftTheTrash(history.records))
+        HistoryList.selectWhatLeftTheTrash(among: history.batches, gone: gone, in: history)
 
-        let names = history.batches.filter { left.removals.contains($0.id) }.map { batch in
+        let checked = history.batches.filter { history.checkedRemovals.contains($0.id) }.map { batch in
             Set(batch.records.map(\.originalURL.lastPathComponent))
         }
-        #expect(Set(names) == [["One", "Two"], ["Three", "Four"]])
+        #expect(Set(checked) == [["One", "Two"], ["Three", "Four"]])
+        #expect(history.checkedRemovals.count == 2)
+        #expect(history.checkedRefusals.isEmpty, "it checked, or left checked, an entry under Not Moved")
     }
 
-    @Test func fadesOnlyWhenALookChangesTheRowsTheFilterLists() async throws {
+    @Test func selectWhatLeftTheTrashIsOffUntilALookFindsSuchARemovalInTheList() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
+        let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
         let history = history(in: folder)
-        await record([["One"], ["Two"]], into: history, trash: folder.appending(path: "Trash"))
-        let listed = history.batches
-        let (first, second) = (listed[0].id, listed[1].id)
+        await record([["One"], ["Two"]], into: history, trash: trash)
+        try Data().write(to: trash.appending(path: "One"))
+        await history.load()
+        let gone = HistoryList.gone(in: await RemovalStanding.leftTheTrash(history.records))
+        let inTheTrash = history.batches.filter { $0.records.map(\.originalURL.lastPathComponent) == ["One"] }
 
-        #expect(!HistoryList.changesRows(listed, from: nil, to: [first]), "turning the filter on faded the column")
-        #expect(HistoryList.changesRows(listed, from: [first, second], to: [first]))
-        #expect(HistoryList.changesRows(listed, from: [], to: [second]))
-        #expect(!HistoryList.changesRows(listed, from: [first], to: [first]))
-        #expect(
-            !HistoryList.changesRows(listed, from: [first, UUID()], to: [first]),
-            "a removal History no longer lists faded the column again"
-        )
+        #expect(HistoryList.whatLeftTheTrash(among: history.batches, gone: nil).isEmpty)
+        #expect(HistoryList.whatLeftTheTrash(among: history.batches, gone: gone).count == 1)
+        #expect(HistoryList.whatLeftTheTrash(among: inTheTrash, gone: gone).isEmpty)
+        #expect(HistoryList.whatLeftTheTrash(among: [], gone: gone).isEmpty)
     }
 }

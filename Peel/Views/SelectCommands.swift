@@ -1,10 +1,11 @@
 import PeelCore
 import SwiftUI
 
-/// A page's Select Recommended, Select All and Deselect All, offered in the Edit menu as well as in its lists' Select
-/// menus, so the keyboard reaches them too.
+/// A page's Select commands, offered in the Edit menu as well as in its lists' Select menus, so the keyboard reaches
+/// them too: the one that selects a part of the rows, where the page has one (Select Recommended, or in History
+/// Select What Left the Trash), then Select All and Deselect All.
 struct SelectCommands {
-    let recommended: MenuCommand?
+    let part: MenuCommand?
     let all: MenuCommand
     let none: MenuCommand
 }
@@ -56,6 +57,6 @@ private struct SelectCommandsHost: ViewModifier {
         let none = MenuCommand(title: "Deselect All", isEnabled: !list.isNoneSelected(in: selected)) { [selection, list] in
             selection.select(list.deselectingAll(in: selection.selectedURLs))
         }
-        return SelectCommands(recommended: recommended, all: all, none: none)
+        return SelectCommands(part: recommended, all: all, none: none)
     }
 }

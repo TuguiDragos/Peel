@@ -24,6 +24,13 @@ struct HistoryDetailView: View {
             : String(inflecting: "Peel cannot check the records of ^[\(items) item](inflect: true) in History, so another program may have written them. Put them back into \(places) only if Peel moved them.")
     }
 
+    /// What putting back what is on a disk that is not connected needs, said of one item or of several.
+    static func connectTheDisk(for count: Int) -> String {
+        count == 1
+            ? String(localized: "Connect the disk to put it back from its Trash.")
+            : String(localized: "Connect the disk to put them back from its Trash.")
+    }
+
     /// The id of the page's task: the batch, and each time History was read again. When either changes, the page
     /// reads the disk again, since the Trash may have been emptied in the meantime.
     private struct Look: Hashable {
@@ -142,7 +149,7 @@ struct HistoryDetailView: View {
         if !standing.away.isEmpty {
             Notice(
                 title: Text("^[\(standing.away.count) item](inflect: true) on a disk that isn’t connected"),
-                detail: Text(verbatim: HistoryList.connectTheDisk(for: standing.away.count)),
+                detail: Text(verbatim: Self.connectTheDisk(for: standing.away.count)),
                 kind: .note
             ) {
                 Button("Forget") {

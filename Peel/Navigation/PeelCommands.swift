@@ -122,9 +122,8 @@ struct PeelCommands: Commands {
         // Without a shortcut of its own: Select All in Edit belongs to the text field being typed in.
         CommandGroup(after: .pasteboard) {
             Menu("Select") {
-                if let recommended = selectRows?.recommended {
-                    Button(String(localized: recommended.title), action: recommended.perform)
-                        .disabled(!recommended.isEnabled)
+                if let part = selectRows?.part {
+                    Button(String(localized: part.title), action: part.perform).disabled(!part.isEnabled)
                 }
                 if let all = selectRows?.all {
                     Button(String(localized: all.title), action: all.perform).disabled(!all.isEnabled)
