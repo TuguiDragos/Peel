@@ -2,6 +2,7 @@ import Darwin
 import Foundation
 @testable import PeelCore
 @testable import PeelPrivileged
+import Synchronization
 import Testing
 
 /// A folder too full for a look inside, which a move the person asked for in the app looks through whole once.
@@ -10,15 +11,17 @@ struct WholeLookTests {
         let refusal: GuardRefusal
     }
 
-    /// `net.example.client` in the made-up home's Caches, holding a folder of more entries than a look reads.
-    private func tooFull(in directory: borrowing TemporaryDirectory, also: [String] = []) throws -> URL {
-        let big = try directory.directory("home/Library/Caches/net.example.client/big")
+    /// `name` in the made-up home's Caches, holding a folder of more entries than a look reads.
+    private func tooFull(
+        in directory: borrowing TemporaryDirectory, named name: String = "net.example.client", also: [String] = []
+    ) throws -> URL {
+        let big = try directory.directory("home/Library/Caches/\(name)/big")
         let path = big.path(percentEncoded: false)
         for number in 0...FolderEntries.lookLimit {
             let descriptor = open(path + "/\(number)", O_CREAT | O_WRONLY | O_EXCL, 0o644)
             if descriptor >= 0 { close(descriptor) }
         }
-        for name in also { try directory.directory("home/Library/Caches/net.example.client/big/\(name)") }
+        for inner in also { try directory.directory("home/Library/Caches/\(name)/big/\(inner)") }
         return big.deletingLastPathComponent()
     }
 
@@ -51,18 +54,66 @@ struct WholeLookTests {
         #expect(!count.isLooking)
     }
 
-    @Test func aLookStoppedLeavesTheFolderWhereItIs() async throws {
+    @Test func aMoveStoppedInItsFirstLookStillLooksThroughTheNext() async throws {
         let directory = try TemporaryDirectory()
-        let folder = try tooFull(in: directory)
+        let first = try tooFull(in: directory, named: "net.example.first")
+        let second = try tooFull(in: directory, named: "net.example.second")
         let service = try service(in: directory)
+        let count = MoveCount()
+        // Stop is pressed once the first look has begun, from a thread of its own, as the bar's click comes.
+        let pressing = Thread {
+            let deadline = Date.now.addingTimeInterval(60)
+            while !count.isLooking, Date.now < deadline { usleep(100) }
+            count.stopLooking()
+        }
+        pressing.start()
+
+        let moved = await MoveCount.$current.withValue(count) { await service.trash([first, second]) }
+
+        #expect(moved.failures.map(\.url) == [first])
+        #expect(moved.failures.map(\.reason) == [.guarded(.tooManyToLookThrough)])
+        #expect(moved.trashed.map(\.originalURL) == [second])
+        #expect(first.isThere)
+    }
+
+    @Test func aStopStopsOnlyTheLookItWasPressedIn() async {
         let count = MoveCount()
         count.stopLooking()
 
-        let kept = await MoveCount.$current.withValue(count) { await service.trash([folder]) }
+        let before = await count.whileLooking { count.isStopped }
+        let stopped = await count.whileLooking {
+            count.addLooked(3)
+            count.stopLooking()
+            return count.isStopped
+        }
+        let after = await count.whileLooking { (count.isStopped, count.lookedAt) }
 
-        #expect(kept.trashed.isEmpty)
-        #expect(kept.failures.map(\.reason) == [.guarded(.tooManyToLookThrough)])
-        #expect(folder.isThere)
+        #expect(!before)
+        #expect(stopped)
+        #expect(!after.0)
+        #expect(after.1 == 0)
+        #expect(!count.isLooking)
+    }
+
+    @Test func aLookStoppedOnceStillRemembersWhatItFindsAfter() throws {
+        let directory = try TemporaryDirectory()
+        let read = try directory.directory("read")
+        let found = try directory.directory("found")
+        let stopping = Switch()
+        let look = ProtectedData.WholeLook(stoppingWhen: { stopping.isOn })
+
+        stopping.isOn = true
+        #expect(look.read(read.path(percentEncoded: false), followingLinks: false) { _, _ in true } == .tooMany)
+        stopping.isOn = false
+        var asked = 0
+        for _ in 0..<2 {
+            _ = look.remembered("probe", in: found.path(percentEncoded: false)) {
+                asked += 1
+                return true
+            }
+        }
+
+        #expect(asked == 1)
     }
 
     @Test func theHelperReadsAFolderTooFullWholeOnlyUnderAWholeLook() throws {
@@ -105,5 +156,14 @@ struct WholeLookTests {
 
         #expect(kept.trashed.isEmpty)
         #expect(kept.failures.map(\.reason) == [.guarded(.tooManyToLookThrough)])
+    }
+}
+
+private final class Switch: Sendable {
+    private let state = Mutex(false)
+
+    var isOn: Bool {
+        get { state.withLock { $0 } }
+        set { state.withLock { $0 = newValue } }
     }
 }

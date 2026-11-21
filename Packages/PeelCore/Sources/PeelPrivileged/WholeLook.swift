@@ -9,7 +9,8 @@ extension ProtectedData {
     public final class WholeLook: Sendable {
         private let isStopped: @Sendable () -> Bool
         private let counting: @Sendable (Int) -> Void
-        private let stopped = Atomic<Bool>(false)
+        /// How many reads were told to stop.
+        private let stops = Atomic<Int>(0)
         private let found = Mutex<[Key: any Sendable]>([:])
 
         public init(
@@ -20,9 +21,6 @@ extension ProtectedData {
             self.counting = counting
         }
 
-        /// True once it was told to stop before it read all it looked for.
-        public var wasStopped: Bool { stopped.load(ordering: .relaxed) }
-
         /// The whole look the guard makes, when a move asked for one.
         @TaskLocal public static var current: WholeLook?
 
@@ -32,8 +30,8 @@ extension ProtectedData {
             let file: ino_t
         }
 
-        /// What `look` found in `folder` earlier in this look, else what `finding` finds now, remembered unless the
-        /// look stopped. A folder that can't be told by its numbers is looked into each time.
+        /// What `look` found in `folder` earlier in this look, else what `finding` finds now, remembered unless a read
+        /// stopped while it was found. A folder that can't be told by its numbers is looked into each time.
         package func remembered<Answer: Sendable>(
             _ look: String, in folder: String, _ finding: () -> Answer
         ) -> Answer {
@@ -41,8 +39,9 @@ extension ProtectedData {
             guard lstat(folder, &info) == 0 else { return finding() }
             let key = Key(look: look, device: info.st_dev, file: info.st_ino)
             if let known = found.withLock({ $0[key] }) as? Answer { return known }
+            let stopsBefore = stops.load(ordering: .relaxed)
             let answer = finding()
-            if !wasStopped { found.withLock { $0[key] = answer } }
+            if stops.load(ordering: .relaxed) == stopsBefore { found.withLock { $0[key] = answer } }
             return answer
         }
 
@@ -59,7 +58,7 @@ extension ProtectedData {
             defer { closedir(directory) }
             while true {
                 if isStopped() {
-                    stopped.store(true, ordering: .relaxed)
+                    stops.wrappingAdd(1, ordering: .relaxed)
                     return .tooMany
                 }
                 errno = 0
