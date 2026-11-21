@@ -11,9 +11,18 @@ struct HistoryDetailView: View {
     @State private var isAskingToForget = false
     /// What a Put Back waits for the person's word on: items going back into places macOS guards from records Peel
     /// can't check.
-    @State private var guardedPutBack: (records: [RemovalRecord], places: [GuardedPlace])?
+    @State private var guardedPutBack: (records: [RemovalRecord], places: [GuardedPlace], items: Int)?
     @State private var isAskingToForgetAway = false
     let batch: RemovalBatch
+
+    /// What the question before a Put Back into places macOS guards says, of the one item or the several whose
+    /// records Peel can't check.
+    static func guardedQuestion(items: Int, places: [String]) -> String {
+        let places = places.formatted(.list(type: .and))
+        return items == 1
+            ? String(localized: "Peel cannot check the record of one item in History, so another program may have written it. Put it back into \(places) only if Peel moved it.")
+            : String(inflecting: "Peel cannot check the records of ^[\(items) item](inflect: true) in History, so another program may have written them. Put them back into \(places) only if Peel moved them.")
+    }
 
     /// The id of the page's task: the batch, and each time History was read again. When either changes, the page
     /// reads the disk again, since the Trash may have been emptied in the meantime.
@@ -56,9 +65,9 @@ struct HistoryDetailView: View {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)
                 Task {
-                    let places = await history.guardedPlaces(among: selected)
-                    guard places.isEmpty else {
-                        guardedPutBack = (selected, places)
+                    let guarded = await history.guardedPlaces(among: selected)
+                    guard guarded.places.isEmpty else {
+                        guardedPutBack = (selected, guarded.places, guarded.items)
                         return
                     }
                     await history.restore(selected, canUseHelper: helper.canAct)
@@ -78,7 +87,7 @@ struct HistoryDetailView: View {
             Button("Cancel", role: .cancel) {}
                 .keyboardShortcut(.defaultAction)
         } message: { asked in
-            Text("Peel cannot check the record of these items in History, so another program may have written it. Put them back into \(asked.places.map(\.name).formatted(.list(type: .and))) only if Peel moved them.")
+            Text(verbatim: Self.guardedQuestion(items: asked.items, places: asked.places.map(\.name)))
         }
         .toolbar(removing: .title)
         .task(id: Look(batch: batch, trashLooks: history.trashLooks)) {

@@ -163748,108 +163748,108 @@
         }
       }
     },
-    "Peel cannot check the record of these items in History, so another program may have written it. Put them back into %@ only if Peel moved them." : {
+    "Peel cannot check the record of one item in History, so another program may have written it. Put it back into %@ only if Peel moved it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemůže ověřit záznam těchto položek v Historii, takže ho mohl zapsat jiný program. Vraťte je zpět do umístění %@, jen pokud je přesunul Peel."
+            "value" : "Peel nemůže ověřit záznam jedné položky v Historii, takže ho mohl zapsat jiný program. Vraťte ji zpět do umístění %@, jen pokud ji přesunul Peel."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kann die Aufzeichnung dieser Objekte im Verlauf nicht prüfen, sie könnte also von einem anderen Programm stammen. Lege diese Objekte nur dann in %@ zurück, wenn Peel sie verschoben hat."
+            "value" : "Peel kann die Aufzeichnung eines Objekts im Verlauf nicht prüfen, sie könnte also von einem anderen Programm stammen. Lege es nur dann in %@ zurück, wenn Peel es verschoben hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no puede comprobar el registro de estos ítems en Historial, así que puede que lo haya escrito otro programa. Restáuralos en %@ solo si los ha trasladado Peel."
+            "value" : "Peel no puede comprobar el registro de un ítem en Historial, así que puede que lo haya escrito otro programa. Restáuralo en %@ solo si lo ha trasladado Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ne peut pas vérifier l’enregistrement de ces éléments dans l’Historique : il se peut donc qu’un autre programme l’ait écrit. Ne les remettez dans %@ que si c’est Peel qui les a déplacés."
+            "value" : "Peel ne peut pas vérifier l’enregistrement d’un élément dans l’Historique : il se peut donc qu’un autre programme l’ait écrit. Ne le remettez dans %@ que si c’est Peel qui l’a déplacé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non può verificare le voci di questi elementi nella Cronologia, quindi un altro programma potrebbe averle scritte. Ripristinali dov’erano (%@) solo se li ha spostati Peel."
+            "value" : "Peel non può verificare la voce di un elemento nella Cronologia, quindi un altro programma potrebbe averla scritta. Ripristinalo dov’era (%@) solo se lo ha spostato Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、履歴にあるこれらの項目の記録を確認できないため、別のプログラムがこの記録を書き込んだ可能性があります。Peelが移動した項目である場合にのみ、%@に戻してください。"
+            "value" : "Peelは、履歴にある1つの項目の記録を確認できないため、別のプログラムがこの記録を書き込んだ可能性があります。Peelが移動した項目である場合にのみ、その項目を%@に戻してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 기록에 있는 이 항목들의 내역을 확인할 수 없으므로, 이 내역은 다른 프로그램이 작성한 것일 수도 있습니다. Peel이 이 항목들을 이동한 경우에만 %@에 되돌려 놓으십시오."
+            "value" : "Peel이 기록에 있는 항목 하나의 내역을 확인할 수 없으므로, 이 내역은 다른 프로그램이 작성한 것일 수도 있습니다. Peel이 이 항목을 이동한 경우에만 %@에 되돌려 놓으십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kan de registratie van deze onderdelen in Geschiedenis niet controleren, dus mogelijk heeft een ander programma die geschreven. Zet ze alleen terug naar %@ als Peel ze heeft verplaatst."
+            "value" : "Peel kan de registratie van één onderdeel in Geschiedenis niet controleren, dus mogelijk heeft een ander programma die geschreven. Zet het alleen terug naar %@ als Peel het heeft verplaatst."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie może sprawdzić zapisu tych rzeczy w Historii, więc mógł go utworzyć inny program. Przywróć je tam (%@) tylko wtedy, gdy przeniósł je Peel."
+            "value" : "Peel nie może sprawdzić zapisu jednej rzeczy w Historii, więc mógł go utworzyć inny program. Przywróć ją tam (%@) tylko wtedy, gdy przeniósł ją Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não consegue verificar o registro destes itens no Histórico, então outro programa pode tê-lo escrito. Mova-os de volta para %@ somente se foi o Peel que os moveu."
+            "value" : "O Peel não consegue verificar o registro de um item no Histórico, então outro programa pode tê-lo escrito. Mova-o de volta para %@ somente se foi o Peel que o moveu."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu poate verifica evidența din Istoric a acestor articole, așa că este posibil ca un alt program să o fi scris. Puneți‑le înapoi în %@ doar dacă Peel le‑a mutat."
+            "value" : "Peel nu poate verifica evidența din Istoric a unui articol, așa că este posibil ca un alt program să o fi scris. Puneți‑l înapoi în %@ doar dacă Peel l‑a mutat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не может проверить запись об этих объектах в Истории, поэтому ее могла сделать другая программа. Восстанавливайте их в исходные места (%@), только если их переместил Peel."
+            "value" : "Peel не может проверить запись об одном из объектов в Истории, поэтому ее могла сделать другая программа. Восстанавливайте его в исходное место (%@), только если его переместил Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kan inte kontrollera uppgifterna om de här objekten i Historik, så de kan ha skrivits av ett annat program. Lägg bara tillbaka objekten i %@ om Peel flyttade dem."
+            "value" : "Peel kan inte kontrollera uppgifterna om ett objekt i Historik, så de kan ha skrivits av ett annat program. Lägg bara tillbaka objektet i %@ om Peel flyttade det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, bu öğelerin Geçmiş’teki kaydını doğrulayamıyor, bu yüzden kaydı başka bir program yazmış olabilir. Bunları yalnızca Peel taşıdıysa %@ içine geri koyun."
+            "value" : "Peel, bir öğenin Geçmiş’teki kaydını doğrulayamıyor, bu yüzden kaydı başka bir program yazmış olabilir. Onu yalnızca Peel taşıdıysa %@ içine geri koyun."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не може перевірити запис про ці елементи в Історії, тож його могла створити інша програма. Повертайте їх на місце (%@), лише якщо їх перемістила Peel."
+            "value" : "Peel не може перевірити запис про один елемент в Історії, тож його могла створити інша програма. Повертайте цей елемент на місце (%@), лише якщо його перемістила Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel无法核实这些项目在“历史记录”中的记录，因此该记录可能是其他程序写入的。仅当这些项目确实由Peel移走时，才将它们放回%@。"
+            "value" : "Peel无法核实其中一个项目在“历史记录”中的记录，因此该记录可能是其他程序写入的。仅当该项目确实由Peel移走时，才将它放回%@。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel無法驗證「歷史記錄」中這些項目的記錄，因此該記錄可能是由其他程式寫入的。只有在這些項目確實是由Peel移動時，才應將它們還原到%@。"
+            "value" : "Peel無法驗證「歷史記錄」中一個項目的記錄，因此該記錄可能是由其他程式寫入的。只有在該項目確實是由Peel移動時，才應將它還原到%@。"
           }
         }
       }
@@ -163956,6 +163956,352 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法驗證「歷史記錄」中此項目的記錄，因此要等你確認後，才會將它還原到「%@」。"
+          }
+        }
+      }
+    },
+    "Peel cannot check the records of ^[%lld item](inflect: true) in History, so another program may have written them. Put them back into %@ only if Peel moved them." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže ověřit záznamy %lld položek v Historii, takže je mohl zapsat jiný program. Vraťte je zpět do umístění %@, jen pokud je přesunul Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže ověřit záznamy %lld položky v Historii, takže je mohl zapsat jiný program. Vraťte je zpět do umístění %@, jen pokud je přesunul Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže ověřit záznam %lld položky v Historii, takže ho mohl zapsat jiný program. Vraťte ji zpět do umístění %@, jen pokud ji přesunul Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže ověřit záznamy %lld položek v Historii, takže je mohl zapsat jiný program. Vraťte je zpět do umístění %@, jen pokud je přesunul Peel."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kann die Aufzeichnung von %lld Objekt im Verlauf nicht prüfen, sie könnte also von einem anderen Programm stammen. Lege es nur dann in %@ zurück, wenn Peel es verschoben hat."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kann die Aufzeichnungen von %lld Objekten im Verlauf nicht prüfen, sie könnten also von einem anderen Programm stammen. Lege diese Objekte nur dann in %@ zurück, wenn Peel sie verschoben hat."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel cannot check the records of ^[%1$lld item](inflect: true) in History, so another program may have written them. Put them back into %2$@ only if Peel moved them."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no puede comprobar los registros de %lld de ítems en Historial, así que puede que los haya escrito otro programa. Restáuralos en %@ solo si los ha trasladado Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no puede comprobar el registro de %lld ítem en Historial, así que puede que lo haya escrito otro programa. Restáuralo en %@ solo si lo ha trasladado Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no puede comprobar los registros de %lld ítems en Historial, así que puede que los haya escrito otro programa. Restáuralos en %@ solo si los ha trasladado Peel."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne peut pas vérifier les enregistrements de %lld d’éléments dans l’Historique : il se peut donc qu’un autre programme les ait écrits. Ne les remettez dans %@ que si c’est Peel qui les a déplacés."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne peut pas vérifier l’enregistrement de %lld élément dans l’Historique : il se peut donc qu’un autre programme l’ait écrit. Ne le remettez dans %@ que si c’est Peel qui l’a déplacé."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne peut pas vérifier les enregistrements de %lld éléments dans l’Historique : il se peut donc qu’un autre programme les ait écrits. Ne les remettez dans %@ que si c’est Peel qui les a déplacés."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non può verificare le voci di %lld di elementi nella Cronologia, quindi un altro programma potrebbe averle scritte. Ripristinali dov’erano (%@) solo se li ha spostati Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non può verificare la voce di %lld elemento nella Cronologia, quindi un altro programma potrebbe averla scritta. Ripristinalo dov’era (%@) solo se lo ha spostato Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non può verificare le voci di %lld elementi nella Cronologia, quindi un altro programma potrebbe averle scritte. Ripristinali dov’erano (%@) solo se li ha spostati Peel."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、履歴にある%lld項目の記録を確認できないため、別のプログラムがこれらの記録を書き込んだ可能性があります。Peelが移動した項目である場合にのみ、%@に戻してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 기록에 있는 항목 %lld개의 내역을 확인할 수 없으므로, 이 내역은 다른 프로그램이 작성한 것일 수도 있습니다. Peel이 이 항목들을 이동한 경우에만 %@에 되돌려 놓으십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan de registratie van %lld onderdeel in Geschiedenis niet controleren, dus mogelijk heeft een ander programma die geschreven. Zet het alleen terug naar %@ als Peel het heeft verplaatst."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan de registraties van %lld onderdelen in Geschiedenis niet controleren, dus mogelijk heeft een ander programma ze geschreven. Zet ze alleen terug naar %@ als Peel ze heeft verplaatst."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może sprawdzić zapisów %lld rzeczy w Historii, więc mógł je utworzyć inny program. Przywróć je tam (%@) tylko wtedy, gdy przeniósł je Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może sprawdzić zapisów %lld rzeczy w Historii, więc mógł je utworzyć inny program. Przywróć je tam (%@) tylko wtedy, gdy przeniósł je Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może sprawdzić zapisu %lld rzeczy w Historii, więc mógł go utworzyć inny program. Przywróć ją tam (%@) tylko wtedy, gdy przeniósł ją Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może sprawdzić zapisów %lld rzeczy w Historii, więc mógł je utworzyć inny program. Przywróć je tam (%@) tylko wtedy, gdy przeniósł je Peel."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não consegue verificar os registros de %lld de itens no Histórico, então outro programa pode tê-los escrito. Mova-os de volta para %@ somente se foi o Peel que os moveu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não consegue verificar o registro de %lld item no Histórico, então outro programa pode tê-lo escrito. Mova-o de volta para %@ somente se foi o Peel que o moveu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não consegue verificar os registros de %lld itens no Histórico, então outro programa pode tê-los escrito. Mova-os de volta para %@ somente se foi o Peel que os moveu."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu poate verifica evidențele din Istoric pentru %lld articole, așa că este posibil ca un alt program să le fi scris. Puneți‑le înapoi în %@ doar dacă Peel le‑a mutat."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu poate verifica evidența din Istoric pentru %lld articol, așa că este posibil ca un alt program să o fi scris. Puneți‑l înapoi în %@ doar dacă Peel l‑a mutat."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu poate verifica evidențele din Istoric pentru %lld de articole, așa că este posibil ca un alt program să le fi scris. Puneți‑le înapoi în %@ doar dacă Peel le‑a mutat."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может проверить записи о %lld объектах в Истории, поэтому их могла сделать другая программа. Восстанавливайте их в исходные места (%@), только если их переместил Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может проверить записи о %lld объектах в Истории, поэтому их могла сделать другая программа. Восстанавливайте их в исходные места (%@), только если их переместил Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может проверить записи о %lld объекте в Истории, поэтому их могла сделать другая программа. Восстанавливайте их в исходные места (%@), только если их переместил Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может проверить записи о %lld объекта в Истории, поэтому их могла сделать другая программа. Восстанавливайте их в исходные места (%@), только если их переместил Peel."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan inte kontrollera uppgifterna om %lld objekt i Historik, så de kan ha skrivits av ett annat program. Lägg bara tillbaka objektet i %@ om Peel flyttade det."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan inte kontrollera uppgifterna om %lld objekt i Historik, så de kan ha skrivits av ett annat program. Lägg bara tillbaka objekten i %@ om Peel flyttade dem."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, %lld öğenin Geçmiş’teki kaydını doğrulayamıyor, bu yüzden kaydı başka bir program yazmış olabilir. Onu yalnızca Peel taşıdıysa %@ içine geri koyun."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, %lld öğenin Geçmiş’teki kayıtlarını doğrulayamıyor, bu yüzden kayıtları başka bir program yazmış olabilir. Bunları yalnızca Peel taşıdıysa %@ içine geri koyun."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перевірити записи про %lld елементи в Історії, тож їх могла створити інша програма. Повертайте їх на місце (%@), лише якщо їх перемістила Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перевірити записи про %lld елементів в Історії, тож їх могла створити інша програма. Повертайте їх на місце (%@), лише якщо їх перемістила Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перевірити записи про %lld елемент в Історії, тож їх могла створити інша програма. Повертайте їх на місце (%@), лише якщо їх перемістила Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перевірити записи про %lld елемента в Історії, тож їх могла створити інша програма. Повертайте їх на місце (%@), лише якщо їх перемістила Peel."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法核实%lld个项目在“历史记录”中的记录，因此这些记录可能是其他程序写入的。仅当这些项目确实由Peel移走时，才将它们放回%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法驗證「歷史記錄」中%lld個項目的記錄，因此這些記錄可能是由其他程式寫入的。只有在這些項目確實是由Peel移動時，才應將它們還原到%@。"
           }
         }
       }

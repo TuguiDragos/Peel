@@ -635,9 +635,9 @@ final class RemovalHistoryStore {
         }
     }
 
-    /// The guarded places `records` would put items back into from records Peel can't check, which the person is
-    /// asked about first.
-    func guardedPlaces(among records: [RemovalRecord]) async -> [GuardedPlace] {
+    /// The guarded places `records` would put items back into from records Peel can't check, and how many items
+    /// those are, which the person is asked about first.
+    func guardedPlaces(among records: [RemovalRecord]) async -> (places: [GuardedPlace], items: Int) {
         await HistorySeal.answered()
         let seal = HistorySeal.current
         let places = records.compactMap { record -> GuardedPlace? in
@@ -647,7 +647,7 @@ final class RemovalHistoryStore {
             return place
         }
         var seen: Set<GuardedPlace> = []
-        return places.filter { seen.insert($0).inserted }
+        return (places.filter { seen.insert($0).inserted }, places.count)
     }
 
     /// Removes `records` from History, unless removals are held. The page offers this for items that have left the
