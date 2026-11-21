@@ -1113,7 +1113,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The words under a scan's spinner are centered, and each circled i sits on the middle of the first line beside it.
 - An alert that lists what stayed says each reason once, with the items under it, at most four in all and then how many
   more. Copy Details keeps every item, and the apps to quit, the apps that stayed, the privacy resets, Remove Peel,
-  Build Artifacts, Duplicates, and iCloud Drive say it the same way.
+  Build Artifacts, Duplicates, and iCloud Drive say it the same way. A reason above several items is written for
+  several, as in They are locked, where it read It is locked above three paths. Above one item it reads as before.
 - When the Peel helper stops during a move and answers again later in the same move, what it had not taken says to try
   the move again, instead of telling you to repair the helper.
 
