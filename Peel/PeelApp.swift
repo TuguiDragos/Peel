@@ -407,6 +407,9 @@ struct PeelApp: App {
     var body: some Scene {
         Window("Peel", id: Self.mainWindowID) {
             ContentView()
+                // On full screen macOS draws a line of its own across the columns, which no public setting takes away
+                // on macOS 26, so the green button zooms the window instead.
+                .windowFullScreenBehavior(.disabled)
                 // Above every page, because removing an app takes its page away, along with any alert attached to it.
                 .removalFailureAlert()
                 .alert("Peel couldn’t reopen itself", isPresented: $home.couldNotRelaunch) {
@@ -530,6 +533,7 @@ struct PeelApp: App {
 
         Settings {
             SettingsView()
+                .windowFullScreenBehavior(.disabled)
                 .buttonBorderShape(.capsule)
                 .environment(helper)
                 .environment(trashMonitor)
@@ -546,6 +550,7 @@ struct PeelApp: App {
 
         Window(Text(AboutView.title), id: AboutView.windowID) {
             AboutView()
+                .windowFullScreenBehavior(.disabled)
                 .environment(updater)
         }
         .windowResizability(.contentSize)
