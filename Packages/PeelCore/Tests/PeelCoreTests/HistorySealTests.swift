@@ -33,7 +33,19 @@ struct HistorySealTests {
         let changed = try JSONDecoder().decode(RemovalRecord.self, from: Data(text.utf8))
         #expect(seal.trust(of: changed) == .forged)
         #expect(changed.refusalBySeal(seal, guardedPlacesConfirmed: true, home: home) == .changedOutsidePeel)
-        #expect(HistorySeal(key: SymmetricKey(size: .bits256), isNew: true).trust(of: readBack) == .unsealed)
+    }
+
+    @Test func aSealAnEarlierKeyMadeIsNoSealAndNeverAForgedOne() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let earlier = HistorySeal(key: SymmetricKey(size: .bits256))
+        let kept = try record(going: "home/Projects/notes.txt", in: directory).sealed(by: earlier)
+        let guarded = try record(going: "home/Documents/notes.txt", in: directory).sealed(by: earlier)
+
+        #expect(seal.trust(of: kept) == .unsealed)
+        #expect(kept.refusalBySeal(seal, guardedPlacesConfirmed: false, home: home) == nil)
+        #expect(guarded.refusalBySeal(seal, guardedPlacesConfirmed: false, home: home) == .guardedPlace(.documents))
+        #expect(guarded.refusalBySeal(seal, guardedPlacesConfirmed: true, home: home) == nil)
     }
 
     @Test func aRecordWithoutASealGoesIntoAGuardedPlaceOnlyOnTheWordOfThePerson() throws {
@@ -68,6 +80,26 @@ struct HistorySealTests {
             journal.note([moved], batch: UUID(), by: ended)
             let records = try #require(await RemovalLog(url: history).load().records)
             #expect(records.map { seal.trust(of: $0) } == [.sealed])
+        }
+    }
+
+    @Test func aJournalLineChangedSinceItWasSealedGivesARecordThatStaysForged() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let moved = TrashedItem(
+            originalURL: directory.url.appending(path: "home/Projects/a.txt"),
+            trashedURL: try directory.file("home/.Trash/a.txt", bytes: 1), date: .now
+        )
+        let ended = try endedProcess()
+        try await HistorySeal.$standIn.withValue(seal) {
+            journal.note([moved], batch: UUID(), by: ended)
+            let lines = try String(contentsOf: journal.url, encoding: .utf8)
+            try lines.replacingOccurrences(of: "Projects", with: "Documents")
+                .write(to: journal.url, atomically: true, encoding: .utf8)
+
+            let records = try #require(await RemovalLog(url: history).load().records)
+            #expect(records.map { seal.trust(of: $0) } == [.forged])
         }
     }
 

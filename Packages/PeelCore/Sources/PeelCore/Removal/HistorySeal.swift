@@ -9,22 +9,25 @@ import Synchronization
 /// key it can't read makes is no word of Peel's on where to put an item back.
 public struct HistorySeal: Sendable {
     private let key: SymmetricKey
-    /// True for a key made in this run: a seal no key made can be one an earlier key made, so it is read as no seal.
-    private let isNew: Bool
+    /// What a seal of this key begins with, which says no more of the key than that it made the seal. A seal another
+    /// key made, such as one a new keychain no longer holds, is then read as no seal rather than as a forged one.
+    private let mark: Data
 
-    init(key: SymmetricKey, isNew: Bool = false) {
+    private static let markLength = 8
+
+    init(key: SymmetricKey) {
         self.key = key
-        self.isNew = isNew
+        mark = Data(HMAC<SHA256>.authenticationCode(for: Data("Peel History".utf8), using: key).prefix(Self.markLength))
     }
 
     /// What a seal says of what it is on.
     public enum Trust: Sendable, Equatable {
         /// Peel wrote it as it reads now.
         case sealed
-        /// It carries no seal: an earlier version of Peel wrote it, or the Keychain didn't answer then, or this is
-        /// `peel`, which never reads the key.
+        /// It carries no seal of this key: an earlier version of Peel wrote it, or the Keychain didn't answer then,
+        /// or an earlier key sealed it, or this is `peel`, which never reads the key.
         case unsealed
-        /// Its seal doesn't match what it says, so something other than Peel wrote it or changed it.
+        /// Its seal is this key's and doesn't match what it says, so something other than Peel wrote it or changed it.
         case forged
     }
 
@@ -45,7 +48,7 @@ public struct HistorySeal: Sendable {
     /// History. Without an answer from the Keychain, History is written without a seal and read as an earlier
     /// version's. `peel` never asks the Keychain.
     public static func useTheKeychain() {
-        keychain.allow { KeychainKey.read().map { HistorySeal(key: $0.key, isNew: $0.isNew) } }
+        keychain.allow { KeychainKey.read().map { HistorySeal(key: $0) } }
     }
 
     /// Starts the read of the key, so the Keychain answers beside the rest of the launch.
@@ -109,12 +112,19 @@ public struct HistorySeal: Sendable {
     }
 
     func seal(_ record: RemovalRecord) -> Data {
-        Data(HMAC<SHA256>.authenticationCode(for: Self.message(of: record), using: key))
+        seal(of: Self.message(of: record))
     }
 
     func seal(_ entry: RemovalJournal.Entry) -> Data {
-        Data(HMAC<SHA256>.authenticationCode(for: Self.message(of: entry), using: key))
+        seal(of: Self.message(of: entry))
     }
+
+    private func seal(of message: Data) -> Data {
+        mark + Data(HMAC<SHA256>.authenticationCode(for: message, using: key))
+    }
+
+    /// A seal of this key that matches nothing, for what is taken in from a line something else wrote.
+    var broken: Data { mark }
 
     func trust(of record: RemovalRecord) -> Trust {
         trust(of: record.seal, on: Self.message(of: record))
@@ -125,9 +135,9 @@ public struct HistorySeal: Sendable {
     }
 
     private func trust(of seal: Data?, on message: Data) -> Trust {
-        guard let seal else { return .unsealed }
-        if HMAC<SHA256>.isValidAuthenticationCode(seal, authenticating: message, using: key) { return .sealed }
-        return isNew ? .unsealed : .forged
+        guard let seal, seal.prefix(Self.markLength) == mark else { return .unsealed }
+        let code = seal.dropFirst(Self.markLength)
+        return HMAC<SHA256>.isValidAuthenticationCode(code, authenticating: message, using: key) ? .sealed : .forged
     }
 
     /// What a seal covers, in one fixed order: what Put Back reads of an item, with the time as History writes it.
@@ -182,16 +192,16 @@ enum KeychainKey {
         ]
     }
 
-    static func read() -> (key: SymmetricKey, isNew: Bool)? {
+    static func read() -> SymmetricKey? {
         var found: CFTypeRef?
         var asked = query
         asked[kSecReturnData as String] = true
         switch SecItemCopyMatching(asked as CFDictionary, &found) {
         case errSecSuccess:
             guard let data = found as? Data, data.count == 32 else { return nil }
-            return (SymmetricKey(data: data), false)
+            return SymmetricKey(data: data)
         case errSecItemNotFound:
-            return make().map { ($0, true) }
+            return make()
         default:
             return nil
         }

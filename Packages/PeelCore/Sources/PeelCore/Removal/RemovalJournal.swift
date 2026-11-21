@@ -81,7 +81,7 @@ struct RemovalJournal: Sendable {
             var taken = recordToTakeIn
             switch seal?.trust(of: self) {
             case .sealed?: taken = taken.sealed(by: seal)
-            case .forged?: taken.seal = Data()
+            case .forged?: taken.seal = seal?.broken
             case .unsealed?, nil: break
             }
             return taken
