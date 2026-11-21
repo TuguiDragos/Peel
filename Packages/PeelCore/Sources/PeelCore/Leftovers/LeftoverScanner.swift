@@ -469,10 +469,14 @@ public struct LeftoverScanner: Sendable {
             }
             return true
         }
-        return (
-            found, search.stoppedIn, search.unreadable.filter(mayHoldTheAppsFiles),
-            search.crowded.filter { mayHoldTheAppsFiles($0.url) }
-        )
+        // Inside a folder named for neither the app nor its maker, a find is never selected (`FoldersAbove`).
+        let crowded = search.crowded.filter { mayHoldTheAppsFiles($0.url) }.map { folder in
+            var folder = folder
+            folder.concernsTheApp = folder.url.pathComponents.dropFirst(locationLength)
+                .contains(where: matcher.namesTheAppOrItsMaker(folder:))
+            return folder
+        }
+        return (found, search.stoppedIn, search.unreadable.filter(mayHoldTheAppsFiles), crowded)
     }
 
     /// What a search took, less what one of Apple's packages installed, which is Apple's whatever its name says. Only

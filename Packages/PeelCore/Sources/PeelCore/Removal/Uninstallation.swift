@@ -131,6 +131,7 @@ public struct Uninstallation: Sendable {
             exclusions: exclusions
         )
         scan = scan.holdingBack(placesOthersKeep: matcher.placesOthersKeep(home: environment.homeDirectory))
+        scan.crowdedFolders = concerning(scan.crowdedFolders, onTheWayTo: scan.leftovers)
         let uninstallsItself = await UninstallsItself.of(app, environment: environment)
         if let uninstallsItself {
             scan = scan.leavingToItsUninstaller(uninstallsItself)
@@ -430,13 +431,29 @@ public struct Uninstallation: Sendable {
         environment: SearchEnvironment
     ) -> LeftoverScan {
         var scan = scan
-        scan.crowdedFolders = (scan.crowdedFolders + evidence.crowded.filter { !exclusions.excludes($0.url) }).eachOnce
+        // A folder the cask's own path names concerns the app, whatever the search made of it.
+        let ofTheCask = evidence.crowded.filter { !exclusions.excludes($0.url) }
+        scan.crowdedFolders = (ofTheCask + scan.crowdedFolders).eachOnce
         var named = Set(scan.cutShortLocations.map { PathPattern.comparablePath(of: $0.url) })
         scan.cutShortLocations += evidence.cutShort
             .filter { !exclusions.excludes($0) && named.insert(PathPattern.comparablePath(of: $0)).inserted }
             .map { SearchLocation(kind: place(of: $0, in: environment).kind, url: $0) }
         scan.cutShortLocations.sort { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
         return scan
+    }
+
+    /// `folders`, each that holds something found for the app another way, as a cask's path or a receipt finds it,
+    /// marked as concerning the app: something of the app's is known to be inside.
+    static func concerning(_ folders: [CrowdedFolder], onTheWayTo leftovers: [Leftover]) -> [CrowdedFolder] {
+        guard folders.contains(where: { !$0.concernsTheApp }) else { return folders }
+        let found = leftovers.map { PathPattern.comparablePath(of: $0.url) }
+        return folders.map { folder in
+            guard !folder.concernsTheApp else { return folder }
+            let path = PathPattern.comparablePath(of: folder.url)
+            var folder = folder
+            folder.concernsTheApp = found.contains { PathComponents.isPath($0, atOrInside: path) }
+            return folder
+        }
     }
 
     private static func isAtOrInside(_ folder: String, _ url: URL) -> Bool {

@@ -444,6 +444,8 @@ public struct LeftoverScan: Sendable {
     /// The folders whose folders the search inside other folders did not all reach, at its limit.
     public var cutShortLocations: [SearchLocation] = []
     public var crowdedFolders: [CrowdedFolder] = []
+    /// The crowded folders the app's page names: those that could hold what an uninstall would take.
+    public var crowdedFoldersOfTheApp: [CrowdedFolder] { crowdedFolders.filter(\.concernsTheApp) }
     /// True when macOS's privacy protection, not ordinary permissions, kept Peel out of one of `unreadableLocations`,
     /// so Full Disk Access would open it.
     public var needsFullDiskAccess = false

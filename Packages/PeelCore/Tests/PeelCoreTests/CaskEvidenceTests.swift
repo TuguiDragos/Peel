@@ -267,7 +267,39 @@ struct CaskEvidenceTests {
         #expect(uninstallation.scan.leftovers.map(\.url.lastPathComponent) == ["application-x-wine-extension.png"])
         #expect(uninstallation.scan.crowdedFolders.map(\.url.lastPathComponent) == ["apps"])
         #expect(uninstallation.scan.crowdedFolders.map(\.entries) == [PathPattern.entriesAStarReads + 1])
+        #expect(uninstallation.scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["apps"])
         #expect(kept.scan.crowdedFolders.isEmpty)
+    }
+
+    @Test func aCrowdedFolderOnTheWayToWhatTheCaskNamesConcernsThatAppAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url
+        fill(try directory.directory("Library/Application Support/BigStore"), with: ScanReads.entryLimit + 1)
+        try directory.file("Library/Application Support/BigStore/wine.db")
+        let cask = HomebrewPackage(
+            name: "example-wine", kind: .cask, appNames: ["Example Wine.app"],
+            leftoverPatterns: ["~/Library/Application Support/BigStore/wine.db"]
+        )
+        let wine = InstalledApp(
+            url: URL(filePath: "/Applications/Example Wine.app"), bundleIdentifier: "org.example.wine", name: "Example Wine"
+        )
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Otter.app"), bundleIdentifier: "net.sample.otter", name: "Otter"
+        )
+
+        let named = await Uninstallation.prepare(
+            wine, installedApps: [wine, other], casks: [cask], environment: environment(home)
+        )
+        let unnamed = await Uninstallation.prepare(
+            other, installedApps: [wine, other], casks: [cask], environment: environment(home)
+        )
+
+        #expect(named.scan.leftovers.map(\.url.lastPathComponent) == ["wine.db"])
+        #expect(named.scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["BigStore"])
+        #expect(unnamed.scan.crowdedFolders.map(\.url.lastPathComponent) == ["BigStore"], "all of them, for `peel`")
+        #expect(unnamed.scan.crowdedFoldersOfTheApp.isEmpty)
+        let both = BulkUninstallation(uninstallations: [named, unnamed])
+        #expect(both.crowdedFoldersOfTheApps.map(\.url.lastPathComponent) == ["BigStore"])
     }
 
     /// A cask's patterns are data from elsewhere, so `glob` keeps them within its limits.

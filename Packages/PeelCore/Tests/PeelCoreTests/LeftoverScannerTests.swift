@@ -776,6 +776,27 @@ struct LeftoverScannerTests {
         let scan = await scanner.scan(tunewell, installedApps: [tunewell])
 
         #expect(scan.crowdedFolders.map(\.url.lastPathComponent) == ["home"])
+        #expect(scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["home"], "a searched place itself")
+    }
+
+    /// Fills `folder`, made in `directory`, with one entry more than a scan reads of a folder.
+    private func crowd(_ folder: String, in directory: borrowing TemporaryDirectory) throws {
+        let path = try directory.directory(folder).path(percentEncoded: false)
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: path + "/\(number)", contents: nil)
+        }
+    }
+
+    @Test func aCrowdedFolderConcernsTheAppOnlyUnderItsOwnOrItsMakersName() async throws {
+        let directory = try TemporaryDirectory()
+        try crowd("home/.cache/crowded", in: directory)
+        try crowd("home/Library/Application Support/Example/Shared", in: directory)
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.crowdedFolders.map(\.url.lastPathComponent) == ["crowded", "Shared"], "all of them, for `peel`")
+        #expect(scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["Shared"])
     }
 
     @Test func namesAFolderTwoScansCountedDifferentlyOnce() {

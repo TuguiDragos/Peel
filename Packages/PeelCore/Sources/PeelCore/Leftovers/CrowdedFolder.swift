@@ -5,6 +5,10 @@ public struct CrowdedFolder: Sendable, Hashable {
     public let url: URL
     /// Nil when the file system doesn't tell.
     public let entries: Int?
+    /// False for a folder an uninstall passed over where nothing it found there would ever be selected: one below a
+    /// searched place, named for neither the app nor its maker, with nothing of the app known inside. The app's page
+    /// has no reason to name it. True in every other scan.
+    public var concernsTheApp = true
 
     public init(url: URL, entries: Int?) {
         self.url = url

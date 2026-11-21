@@ -220,7 +220,7 @@ struct AppDetailView: View {
                     )
                 }
                 SkippedFolderNotices(
-                    crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations.map(\.url), subject: .app
+                    crowded: scan.crowdedFoldersOfTheApp, cutShort: scan.cutShortLocations.map(\.url), subject: .app
                 )
                 if !helper.canAct, let use = plan.helperUse {
                     switch use {
