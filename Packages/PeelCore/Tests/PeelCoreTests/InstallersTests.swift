@@ -24,6 +24,27 @@ struct InstallersTests {
         #expect(scan.crowded.first?.entries == ScanReads.entryLimit + 2)
     }
 
+    @Test func aFolderTooFullWhereAppsKeepInstallersAndUpdatesIsNamedAndNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Application Support/Tidepool/Tidepool Setup.pkg", bytes: 400_000)
+        for folder in ["Library/Application Support/Tidepool/cache", "Library/Caches"] {
+            let path = try directory.directory(folder).path(percentEncoded: false)
+            for number in 0...ScanReads.entryLimit {
+                FileManager.default.createFile(atPath: "\(path)/\(number).bin", contents: nil)
+            }
+        }
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil, attachedImages: [])
+        )
+
+        #expect(scan.items.map(\.url.lastPathComponent) == ["Tidepool Setup.pkg"])
+        #expect(scan.crowded.map(\.url.lastPathComponent) == ["cache", "Caches"])
+        #expect(scan.crowded.allSatisfy { $0.entries == ScanReads.entryLimit + 1 })
+    }
+
     @Test func aDiskImageIsNotSuggestedWhileTheAttachedImagesAreNotKnown() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
@@ -1391,9 +1412,10 @@ struct InstallersTests {
         try (PropertyListSerialization.data(fromPropertyList: ["IsEncrypted": true], format: .xml, options: 0))
             .write(to: backup.appending(path: "Manifest.plist"))
 
+        var crowded: [CrowdedFolder] = []
         let items = await Installers.backups(
             in: directory.url.appending(path: "Backup", directoryHint: .isDirectory),
-            measure: LeftoverScanner.walk
+            measure: LeftoverScanner.walk, crowded: &crowded
         )
         let item = try #require(items.first)
 
@@ -1406,7 +1428,7 @@ struct InstallersTests {
             .write(to: tablet.appending(path: "Info.plist"))
         let tablets = await Installers.backups(
             in: directory.url.appending(path: "Backup", directoryHint: .isDirectory),
-            measure: LeftoverScanner.walk
+            measure: LeftoverScanner.walk, crowded: &crowded
         )
         #expect(tablets.first { $0.url.lastPathComponent == "00008112-00AB" }?.notes == [.name("iPad13,4"), .name("iPadOS 26.1")])
         #expect(item.date == Date(timeIntervalSince1970: 1_700_000_000))

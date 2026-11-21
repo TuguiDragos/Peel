@@ -316,7 +316,8 @@ public enum Installers {
             syncKeeper: syncKeeper,
             openFiles: openFiles,
             canLookInside: { canLookInside($0, for: $0) },
-            keptElsewhere: &keptElsewhere
+            keptElsewhere: &keptElsewhere,
+            crowded: &crowded
         )
         items += await updateDownloads(
             home: home,
@@ -326,7 +327,8 @@ public enum Installers {
             measure: measure,
             syncKeeper: syncKeeper,
             openFiles: openFiles,
-            keptElsewhere: &keptElsewhere
+            keptElsewhere: &keptElsewhere,
+            crowded: &crowded
         )
         items += await installersKeptByApps(
             home: home,
@@ -336,14 +338,15 @@ public enum Installers {
             measure: measure,
             syncKeeper: syncKeeper,
             openFiles: openFiles,
-            keptElsewhere: &keptElsewhere
+            keptElsewhere: &keptElsewhere,
+            crowded: &crowded
         )
 
         let backupPlace = home.appending(path: "Library/Application Support/MobileSync/Backup", directoryHint: .isDirectory)
         // Backups are only shown, so a folder of them kept elsewhere through a link is read where it leads.
         let backupFolder = backupPlace.isSymbolicLink ? PathPattern.canonical(backupPlace) : backupPlace
         if canLookInside(backupFolder, for: backupPlace) {
-            items += await backups(in: backupFolder, measure: measure)
+            items += await backups(in: backupFolder, measure: measure, crowded: &crowded)
         }
 
         let reach = HelperReach(environment: SearchEnvironment(homeDirectory: home, rootDirectory: root))
@@ -629,7 +632,8 @@ public enum Installers {
         syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles,
         canLookInside: (URL) -> Bool,
-        keptElsewhere: inout [URL]
+        keptElsewhere: inout [URL],
+        crowded: inout [CrowdedFolder]
     ) async -> [InstallerItem] {
         let finders = ["iPhone", "iPad", "iPod", "Apple TV"].map {
             home.appending(path: "Library/iTunes/\($0) Software Updates", directoryHint: .isDirectory)
@@ -645,7 +649,8 @@ public enum Installers {
             }
             // A scan its page left opens no folder macOS asks about.
             guard !Task.isCancelled, canLookInside(folder) else { continue }
-            for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
+            for url in files(in: folder, crowded: &crowded)
+            where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, taken, seen, _) = await measured(url, by: measure)
@@ -672,7 +677,8 @@ public enum Installers {
         measure: LeftoverScanner.Measure,
         syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles,
-        keptElsewhere: inout [URL]
+        keptElsewhere: inout [URL],
+        crowded: inout [CrowdedFolder]
     ) async -> [InstallerItem] {
         let caches = home.appending(path: "Library/Caches", directoryHint: .isDirectory)
         if caches.isSymbolicLink { keptElsewhere.append(caches) }
@@ -691,7 +697,7 @@ public enum Installers {
             guard app != nil || name.hasSuffix("-updater"), ElectronUpdater.holdsADownload(url) else { return }
             found.append((url, app?.bundleIdentifier, app))
         }
-        for url in files(in: caches) where url.isRealFolder {
+        for url in files(in: caches, crowded: &crowded) where url.isRealFolder {
             let name = url.lastPathComponent
             guard !developers.contains("library/caches/" + name.lowercased()) else { continue }
             if name.hasSuffix(Squirrel.folderSuffix) {
@@ -709,13 +715,13 @@ public enum Installers {
         let velopacks = Dictionary(
             installedApps.compactMap { app in app.velopackID.map { ($0.lowercased(), app) } }
         ) { first, _ in first }
-        for url in files(in: home.appending(path: Velopack.place, directoryHint: .isDirectory))
+        for url in files(in: home.appending(path: Velopack.place, directoryHint: .isDirectory), crowded: &crowded)
         where url.isRealFolder && Velopack.holdsAnUpdate(url) {
             let app = velopacks[url.lastPathComponent.lowercased()]
             found.append((url, app?.bundleIdentifier, app))
         }
         let former = home.appending(path: ElectronUpdater.formerPlace, directoryHint: .isDirectory)
-        for url in files(in: former) where url.isRealFolder {
+        for url in files(in: former, crowded: &crowded) where url.isRealFolder {
             guard !developers.contains("\(ElectronUpdater.formerPlace)/\(url.lastPathComponent)".lowercased()) else {
                 continue
             }
@@ -787,7 +793,8 @@ public enum Installers {
         measure: LeftoverScanner.Measure,
         syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles,
-        keptElsewhere: inout [URL]
+        keptElsewhere: inout [URL],
+        crowded: inout [CrowdedFolder]
     ) async -> [InstallerItem] {
         let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
         var items: [InstallerItem] = []
@@ -807,7 +814,7 @@ public enum Installers {
                 keptElsewhere.append(folder)
                 continue
             }
-            for url in files(in: folder) {
+            for url in files(in: folder, crowded: &crowded) {
                 guard !Task.isCancelled else { return items }
                 let kind = url.pathExtension.lowercased()
                 guard installerExtensions.contains(kind) || firmwareExtensions.contains(kind) else {
@@ -898,9 +905,11 @@ public enum Installers {
 
     /// Lists the device backups in `folder`, with what each says about itself: the device, its system, the
     /// date of the last backup, and whether it is encrypted.
-    static func backups(in folder: URL, measure: LeftoverScanner.Measure) async -> [InstallerItem] {
+    static func backups(
+        in folder: URL, measure: LeftoverScanner.Measure, crowded: inout [CrowdedFolder]
+    ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
-        for entry in files(in: folder) {
+        for entry in files(in: folder, crowded: &crowded) {
             let url = entry.isSymbolicLink ? PathPattern.canonical(entry) : entry
             guard url.isRealFolder, !Task.isCancelled else { continue }
             let info = plist(at: url.appending(path: "Info.plist"))
@@ -931,8 +940,18 @@ public enum Installers {
         return items
     }
 
-    private static func files(in folder: URL) -> [URL] {
-        (try? FileManager.default.contentsOfDirectory(
+    /// What `folder`, a place an app or macOS keeps files in, holds, Finder's hidden items left out. Like `entries`,
+    /// it counts a folder holding more than a scan reads rather than reading it, and notes it in `crowded`.
+    private static func files(in folder: URL, crowded: inout [CrowdedFolder]) -> [URL] {
+        // Without a count from the file system, the names are read a few at a time.
+        guard let count = FolderEntries.count(at: folder.path(percentEncoded: false)) else {
+            return entries(of: folder, crowded: &crowded)
+        }
+        guard count <= ScanReads.entryLimit else {
+            crowded.append(CrowdedFolder(url: folder, entries: count))
+            return []
+        }
+        return (try? FileManager.default.contentsOfDirectory(
             at: folder,
             includingPropertiesForKeys: [.isDirectoryKey, .creationDateKey],
             options: [.skipsHiddenFiles]
