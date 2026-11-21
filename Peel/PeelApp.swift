@@ -89,6 +89,7 @@ struct PeelApp: App {
     /// clicks on notifications to reach it. A view's task can run later than that. The storage tools are made here
     /// too, so the carrier of their selection reads the same libraries their pages show.
     init() {
+        HistorySeal.useTheKeychain()
         PrivilegedHelper.consentPrompt = String(localized: "This account isn’t an administrator, so Peel’s helper does this only with an administrator’s approval.")
         SettingsKey.showInMenuBarAsBefore()
         SettingsKey.keepSidebarChoicesAsBefore()
@@ -350,8 +351,8 @@ struct PeelApp: App {
     /// Loads what every page needs once, at launch: the exclusions, the apps, Homebrew, and Home's checks.
     private func launch() async {
         history.stats = stats
-        // Before History is first read, which takes in what the journal holds by the seal it carries.
-        await Task.detached { HistorySeal.useTheKeychain() }.value
+        // Beside the rest: only what writes or judges History waits for the key.
+        HistorySeal.readTheKey()
         await history.checkReadability()
         // On the main actor, so it never runs between the SSH tab's own read and write.
         SSHFile.bringUpToDate(ssh.file)

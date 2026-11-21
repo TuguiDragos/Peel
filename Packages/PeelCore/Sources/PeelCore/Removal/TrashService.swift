@@ -746,6 +746,8 @@ public struct TrashService: Sendable {
         var stayed: [URL] = []
         // What had nothing at its name when it was to move, which may hold something again once the pass is over.
         var emptied: [URL] = []
+        // The journal's lines carry the seal, so they wait for the key, for this part and the helper's after it.
+        if removal != nil, journal != nil { await HistorySeal.answered() }
         ownMoves.began()
         func move(_ url: URL) {
             if let refusal = refusals[url] {

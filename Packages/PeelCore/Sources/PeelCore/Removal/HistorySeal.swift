@@ -28,27 +28,84 @@ public struct HistorySeal: Sendable {
         case forged
     }
 
-    /// The seal Peel's app writes and checks with, once it asked for the Keychain's key; nil for `peel` and for tests,
-    /// which then write no seal and check none.
-    public static var current: HistorySeal? { standIn ?? fromTheKeychain.withLock { $0 } }
+    /// The seal Peel's app writes and checks with, once the Keychain answered (`answered`); nil for `peel` and for
+    /// tests, which then write no seal and check none.
+    public static var current: HistorySeal? { standIn ?? reading.seal }
 
     /// The seal a test writes and checks with.
     @TaskLocal static var standIn: HistorySeal?
 
-    private static let fromTheKeychain = Mutex<HistorySeal?>(nil)
+    /// The read of the key the app makes, or one a test stands in for a Keychain that doesn't answer.
+    @TaskLocal static var reading = keychain
 
-    /// Reads the key the app keeps in the Keychain, making it the first time, so nothing asks the person. Without an
-    /// answer from the Keychain, History is written without a seal and read as an earlier version's.
+    private static let keychain = Reading()
+
+    /// Lets the app seal History with the key it keeps in the Keychain, made the first time, so nothing asks the
+    /// person. The key is read once: at launch (`readTheKey`), or before then by whatever first writes or judges
+    /// History. Without an answer from the Keychain, History is written without a seal and read as an earlier
+    /// version's. `peel` never asks the Keychain.
     public static func useTheKeychain() {
-        let seal = KeychainKey.read().map { HistorySeal(key: $0.key, isNew: $0.isNew) }
-        fromTheKeychain.withLock { $0 = seal }
+        keychain.allow { KeychainKey.read().map { HistorySeal(key: $0.key, isNew: $0.isNew) } }
+    }
+
+    /// Starts the read of the key, so the Keychain answers beside the rest of the launch.
+    public static func readTheKey() {
+        keychain.start()
+    }
+
+    /// Returns once the key has answered, starting its read if nothing has yet; at once where no read is allowed.
+    public static func answered() async {
+        guard standIn == nil else { return }
+        await reading.answered()
     }
 
     /// Deletes the key's item, found by its service and account, never by its name, answering whether it is gone. Away
     /// from the main thread, since a locked keychain asks the person first.
     @concurrent public static func forgetTheKeychainKey() async -> Bool {
-        fromTheKeychain.withLock { $0 = nil }
+        // A first read may still be making the key, which would then outlive its deletion.
+        await keychain.answered()
+        keychain.forget()
         return KeychainKey.delete()
+    }
+
+    /// The one read of the key, made once it is allowed, on a thread of its own: the Keychain may wait for the person.
+    final class Reading: Sendable {
+        private struct State {
+            var read: (@Sendable () -> HistorySeal?)?
+            var seal: HistorySeal?
+            var answer: Task<Void, Never>?
+        }
+
+        private let state = Mutex(State())
+
+        var seal: HistorySeal? { state.withLock { $0.seal } }
+
+        func allow(_ read: @escaping @Sendable () -> HistorySeal?) {
+            state.withLock { if $0.read == nil { $0.read = read } }
+        }
+
+        func start() {
+            state.withLock { state in
+                guard state.answer == nil, let read = state.read else { return }
+                state.answer = Task.detached { [self] in
+                    let seal = await withCheckedContinuation { continuation in
+                        let thread = Thread { continuation.resume(returning: read()) }
+                        thread.qualityOfService = .userInitiated
+                        thread.start()
+                    }
+                    self.state.withLock { $0.seal = seal }
+                }
+            }
+        }
+
+        func answered() async {
+            start()
+            await state.withLock { $0.answer }?.value
+        }
+
+        func forget() {
+            state.withLock { $0.seal = nil }
+        }
     }
 
     func seal(_ record: RemovalRecord) -> Data {

@@ -65,8 +65,14 @@ public actor RemovalLog {
     }
 
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
-    /// the rows that could be read.
-    public func load() -> RemovalLogOutcome {
+    /// the rows that could be read. Like every read or change that takes in the journal, it waits for the key of
+    /// the seal.
+    public func load() async -> RemovalLogOutcome {
+        await HistorySeal.answered()
+        return loaded()
+    }
+
+    func loaded() -> RemovalLogOutcome {
         FileLock.whileReading(beside: url) { outcome(current()) }
     }
 
@@ -85,14 +91,17 @@ public actor RemovalLog {
 
     /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
     /// and what a removal under way has written down so far. Spelled as `PathPattern.comparablePath` spells them.
-    public func placesInTheTrash() -> Set<String> {
+    public func placesInTheTrash() async -> Set<String> {
+        await HistorySeal.answered()
         let entries = journal.entries()
         let written = entries.filter { $0.isBeforeTheMove != true }.map(\.item)
-        let items = (load().records ?? []).map(\.trashedItem) + written + journal.landedBeforeTheirLine(among: entries)
+        let recorded = (loaded().records ?? []).map(\.trashedItem)
+        let items = recorded + written + journal.landedBeforeTheirLine(among: entries)
         return Set(items.filter(\.isInTheTrash).map { PathPattern.comparablePath(of: $0.trashedURL) })
     }
 
-    public func add(_ records: [RemovalRecord]) -> RemovalLogOutcome {
+    public func add(_ records: [RemovalRecord]) async -> RemovalLogOutcome {
+        await HistorySeal.answered()
         // Only what Peel records now is sealed, never a record read back from the file, which anyone could write.
         let seal = HistorySeal.current
         let records = records.map { $0.sealed(by: seal) }
@@ -202,8 +211,9 @@ public actor RemovalLog {
         }
     }
 
-    public func remove(_ ids: Set<UUID>) -> RemovalLogOutcome {
-        whileNoOtherProcessWrites {
+    public func remove(_ ids: Set<UUID>) async -> RemovalLogOutcome {
+        await HistorySeal.answered()
+        return whileNoOtherProcessWrites {
             guard let existing = current() else { return outcome(nil) }
             let updated = existing.filter { !ids.contains($0.id) }
             return outcome(write(updated, orNote: RemovalLogProblem.couldNotUpdate))
@@ -212,8 +222,9 @@ public actor RemovalLog {
 
     /// Reads History, first taking out the records of items back in their place, as a Put Back that was cut short
     /// leaves them: one that ended would have taken them out. Like any read, it makes nothing where there is no folder.
-    public func loadForgettingWhatIsBack() -> RemovalLogOutcome {
-        FileLock.whileReading(beside: url) {
+    public func loadForgettingWhatIsBack() async -> RemovalLogOutcome {
+        await HistorySeal.answered()
+        return FileLock.whileReading(beside: url) {
             guard let existing = current() else { return outcome(nil) }
             let disks = MountedDisks.now()
             let back = Set(existing.filter {

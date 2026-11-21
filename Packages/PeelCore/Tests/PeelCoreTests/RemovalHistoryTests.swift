@@ -662,6 +662,6 @@ struct RemovalHistoryTests {
 extension RemovalLog {
     /// Measured on the actor's own thread, where the read runs.
     fileprivate func processorTimeToLoad() -> Duration {
-        processorTime { _ = load() }
+        processorTime { _ = loaded() }
     }
 }

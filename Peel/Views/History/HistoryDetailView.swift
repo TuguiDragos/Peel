@@ -55,12 +55,14 @@ struct HistoryDetailView: View {
             ) {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)
-                let places = history.guardedPlaces(among: selected)
-                guard places.isEmpty else {
-                    guardedPutBack = (selected, places)
-                    return
+                Task {
+                    let places = await history.guardedPlaces(among: selected)
+                    guard places.isEmpty else {
+                        guardedPutBack = (selected, places)
+                        return
+                    }
+                    await history.restore(selected, canUseHelper: helper.canAct)
                 }
-                Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }
         }
         .alert(

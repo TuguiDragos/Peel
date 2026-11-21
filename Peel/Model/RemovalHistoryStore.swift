@@ -575,6 +575,7 @@ final class RemovalHistoryStore {
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
             var stayed: [(record: RemovalRecord, failure: RestoreFailure)] = []
             let disks = await MountedDisks.read()
+            await HistorySeal.answered()
             let seal = HistorySeal.current
             // A record Peel didn't write moves nothing, before anything is asked of the disk.
             let held = checkingSeals ? records.compactMap { record in
@@ -627,7 +628,8 @@ final class RemovalHistoryStore {
 
     /// The guarded places `records` would put items back into from records Peel can't check, which the person is
     /// asked about first.
-    func guardedPlaces(among records: [RemovalRecord]) -> [GuardedPlace] {
+    func guardedPlaces(among records: [RemovalRecord]) async -> [GuardedPlace] {
+        await HistorySeal.answered()
         let seal = HistorySeal.current
         let places = records.compactMap { record -> GuardedPlace? in
             guard case .guardedPlace(let place)? = record.refusalBySeal(seal, guardedPlacesConfirmed: false) else {
