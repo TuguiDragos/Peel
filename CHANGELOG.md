@@ -12,8 +12,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Each removal and each Not Moved entry in History has a checkbox, with Select All and Deselect All in the toolbar and
   the Edit menu, and Forget… at the foot forgets, after one question, what is checked: from a removal only what has
   already left the Trash, and a Not Moved entry whole. What is still in the Trash, or on a disk that isn't connected,
-  stays listed. Show Only What Left the Trash, in the toolbar, lists only the removals from which something has left the
-  Trash.
+  stays listed. Select What Left the Trash, above Select All in both menus, checks only the removals from which
+  something has left the Trash, and each of those rows says Left the Trash or Partly left the Trash.
 - On a Not Moved entry's page, each item still where it was has Show in Finder, and a button opens each tool the items
   were to move from, where a new scan judges them again.
 
@@ -454,11 +454,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   again, while Peel still runs, rather than at Peel's next launch.
 - After a Move to Trash of items from several pages, Not Moved lists every item the alert says stayed, no longer one
   fewer.
-- Turning on Show Only What Left the Trash no longer flashes a spinner while Peel looks in the Trash: it shows only
-  after 150 ms, as Peel's other busy marks do.
+- History no longer flashes a spinner while it reads its list for the first time: the spinner shows only after 150 ms,
+  as Peel's other busy marks do.
 - Under one item on a disk that isn't connected, History says to connect the disk to put it back, not them.
-- Turning on Show Only What Left the Trash says how many removals it shows, and that Not Moved is hidden when Not
-  Moved lists anything, and a removal's row says Left the Trash or Partly left the Trash.
 
 #### Settings
 
