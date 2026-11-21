@@ -559,6 +559,12 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   `RemovalFailureAlert.firstItems`), and Copy Details, where the alert offers it, gives them all. What the person has
   to know whole before acting, the apps Peel asks to quit or would force quit and the formulae Clean Up uninstalls
   for good, is named whole, in one sentence.
+- **A reason that can stand above several items is written for one and for several.** Where items share a reason,
+  Peel writes it once and lists them under it (`RemovalFailureAlert.underTheirReasons`), so a reason has its words
+  for one item and, unless those read the same above any number, its words for several (`explanation(for:)`): a new
+  case goes into both switches. The number is how many items stand under the reason, and the choice between one and
+  several is made in code, not by the catalog's plural forms: the sentence holds no number, and in some languages
+  the form for one also serves 21.
 
 ## Words and translations
 
