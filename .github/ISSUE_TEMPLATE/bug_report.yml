@@ -63,7 +63,7 @@ body:
     attributes:
       label: Peel version
       description: Peel menu > About Peel.
-      placeholder: 1.4.0 (261109)
+      placeholder: 1.4.0 (261121)
     validations:
       required: true
   - type: input
