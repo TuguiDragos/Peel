@@ -215,7 +215,7 @@ struct CombinedMovesTests {
 
         let result = await service.trash(files, refusing: { _ in
             if asked.withLock({ $0 += 1; return $0 }) == 2 {
-                _ = try? DiskImageTool.hdiutil("detach", "-force", mountPoint)
+                _ = try? DiskImageTool.eject(mountPoint)
             }
             return nil
         })

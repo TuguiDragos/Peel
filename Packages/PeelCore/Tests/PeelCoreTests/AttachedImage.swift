@@ -24,7 +24,7 @@ final class AttachedImage {
 
     func detach() {
         guard let device else { return }
-        _ = try? DiskImageTool.hdiutil("detach", "-force", "/dev/" + device)
+        _ = try? DiskImageTool.eject("/dev/" + device)
         self.device = nil
     }
 }

@@ -1391,7 +1391,7 @@ struct DuplicateRemovalTests {
             homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )) { url in url }
 
-        try DiskImageTool.hdiutil("detach", "-force", disk.url.path)
+        try disk.eject()
         let result = await DuplicateRemoval.trash([copy], from: scan, using: service)
 
         #expect(result.failures.map(\.reason) == [.diskNotConnected])

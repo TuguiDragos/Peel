@@ -24,6 +24,39 @@ struct DiskImageToolTests {
         #expect(kept.isAttached)
     }
 
+    @Test func aRecordOfADiskThatLeftIsNotTakenForALeftover() {
+        let gone: [String: Any] = [
+            "image-path": "/tmp/gone/disk.dmg",
+            "system-entities": [["dev-entry": "/dev/disk12"], ["dev-entry": "/dev/disk12s1"]],
+        ]
+        let left: [String: Any] = [
+            "image-path": "/tmp/left/disk.dmg",
+            "system-entities": [["dev-entry": "/dev/disk14"], ["dev-entry": "/dev/disk15s1", "mount-point": "/tmp/left/Disk"]],
+        ]
+        let alive: [String: Any] = [
+            "image-path": "/tmp/alive/disk.dmg",
+            "system-entities": [["dev-entry": "/dev/disk16s1", "mount-point": "/tmp/alive/Disk"]],
+        ]
+
+        let places = ScratchVolume.mountPointsOfLeftovers(
+            among: [gone, left, alive],
+            owner: { $0.path.contains("/alive/") ? "42 1.1" : "999999 0.0" },
+            identity: { $0 == 42 ? "42 1.1" : nil }
+        )
+
+        #expect(places == ["/tmp/left/Disk"])
+    }
+
+    @Test func aDiskIsTakenAwayByACommandMacOSDoesNotCallDeprecated() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+
+        let said = try disk.eject()
+
+        #expect(!said.localizedCaseInsensitiveContains("deprecated"), "\(said)")
+        #expect(!disk.isAttached)
+    }
+
     @Test func disksMadeTogetherHaveVolumesOfTheirOwn() async throws {
         let directory = try TemporaryDirectory()
         let places = ["First", "Second"].map { directory.url.appending(path: $0, directoryHint: .isDirectory) }

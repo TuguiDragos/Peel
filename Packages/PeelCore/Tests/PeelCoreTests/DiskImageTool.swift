@@ -26,8 +26,23 @@ enum DiskImageTool {
         try run("/usr/sbin/diskutil", arguments, input: Data())
     }
 
-    /// The tool's streams are files rather than pipes, so neither can fill while the other waits to be read.
+    /// Takes the disk at `place`, a mount point or a device, away with `diskutil eject`, which `hdiutil` itself names
+    /// in place of its `detach` on macOS 27, where `detach` waits on the disk image driver with the volume still
+    /// mounted. Without `force`, a disk in use stays and the failure says what objects. Answers what the tool said.
+    @discardableResult
+    static func eject(_ place: String, force: Bool = true) throws -> String {
+        let said = try streams("/usr/sbin/diskutil", ["eject"] + (force ? ["force"] : []) + [place], input: Data())
+        return String(decoding: said.output + said.errors, as: UTF8.self)
+    }
+
     private static func run(_ tool: String, _ arguments: [String], input: Data) throws -> Data {
+        try streams(tool, arguments, input: input).output
+    }
+
+    /// The tool's streams are files rather than pipes, so neither can fill while the other waits to be read.
+    private static func streams(
+        _ tool: String, _ arguments: [String], input: Data
+    ) throws -> (output: Data, errors: Data) {
         let streams = try TemporaryDirectory()
         let given = try streams.file("input", contents: input)
         let output = try streams.file("output", contents: Data())
@@ -41,13 +56,14 @@ enum DiskImageTool {
         try process.run()
         process.waitUntilExit()
         let answer = try Data(contentsOf: output)
+        let complaints = try Data(contentsOf: errors)
         guard process.terminationStatus == 0 else {
-            let said = String(decoding: answer + (try Data(contentsOf: errors)), as: UTF8.self)
+            let said = String(decoding: answer + complaints, as: UTF8.self)
             throw Failure(
                 command: ([tool] + arguments).joined(separator: " "), status: process.terminationStatus,
                 said: said.trimmingCharacters(in: .whitespacesAndNewlines)
             )
         }
-        return answer
+        return (answer, complaints)
     }
 }

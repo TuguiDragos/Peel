@@ -45,7 +45,13 @@ final class ScratchVolume {
     }
 
     deinit {
-        _ = try? DiskImageTool.hdiutil("detach", "-force", url.path)
+        _ = try? DiskImageTool.eject(url.path)
+    }
+
+    /// Takes the disk away, as unplugging it does, until `attach(at:)` brings it back. Answers what the tool said.
+    @discardableResult
+    func eject() throws -> String {
+        try DiskImageTool.eject(url.path)
     }
 
     /// Where a disk names the process that made it, since a process stopped before its tests end never detaches them.
@@ -68,16 +74,27 @@ final class ScratchVolume {
               let info = try? PropertyListSerialization.propertyList(from: answer, format: nil) as? [String: Any],
               let images = info["images"] as? [[String: Any]]
         else { return }
-        for image in images {
-            guard let path = image["image-path"] as? String, path.hasSuffix("/disk.dmg") else { continue }
-            let owner = URL(filePath: path).deletingLastPathComponent().appending(path: ownerFile)
-            guard let recorded = try? String(contentsOf: owner, encoding: .utf8),
-                  let pid = pid_t(recorded.prefix { $0 != " " }), identity(of: pid) != recorded
-            else { continue }
+        let left = mountPointsOfLeftovers(
+            among: images, owner: { try? String(contentsOf: $0, encoding: .utf8) }, identity: identity(of:)
+        )
+        for place in left {
+            _ = try? DiskImageTool.eject(place)
+        }
+    }
+
+    /// Where the disks of processes that no longer run are mounted now, `owner` reading the file that names a disk's
+    /// process. A record with nothing mounted is passed over: macOS 27 goes on listing an image after it left, under
+    /// device names another disk may have by then.
+    static func mountPointsOfLeftovers(
+        among images: [[String: Any]], owner: (URL) -> String?, identity: (pid_t) -> String?
+    ) -> [String] {
+        images.flatMap { image -> [String] in
+            guard let path = image["image-path"] as? String, path.hasSuffix("/disk.dmg"),
+                  let recorded = owner(URL(filePath: path).deletingLastPathComponent().appending(path: ownerFile)),
+                  let pid = pid_t(recorded.prefix { $0 != " " }), identity(pid) != recorded
+            else { return [] }
             let entities = image["system-entities"] as? [[String: Any]] ?? []
-            if let disk = entities.compactMap({ $0["dev-entry"] as? String }).min() {
-                _ = try? DiskImageTool.hdiutil("detach", "-force", disk)
-            }
+            return entities.compactMap { $0["mount-point"] as? String }
         }
     }
 
@@ -99,7 +116,7 @@ final class ScratchVolume {
     /// skips writing out what the file system still holds.
     func remount(at place: URL, readOnly: Bool = false) throws {
         do {
-            try DiskImageTool.hdiutil("detach", url.path)
+            try DiskImageTool.eject(url.path, force: false)
         } catch let failure as DiskImageTool.Failure {
             throw DiskImageTool.Failure(
                 command: failure.command, status: failure.status, said: failure.said + "\nIn use: " + holders()
