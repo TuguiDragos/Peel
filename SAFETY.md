@@ -306,7 +306,8 @@ journal Peel writes carries a seal, an HMAC made with a key the app keeps in you
 another program wrote or changed can't send Put Back anywhere: one whose seal doesn't match moves nothing. A record with
 no seal, written by an earlier version or by the `peel` command, which never reads that key, goes back into your
 Desktop, Documents, Downloads, iCloud Drive, or another app's container only once you say so, and `peel restore --yes`
-leaves it in the Trash.
+leaves it in the Trash. A seal made with an earlier key, such as one a new keychain no longer holds, counts as no seal.
+An empty folder Put Back brings back on the way to an item is judged by the seal of its own record.
 History offers to forget a record only once its item has certainly left the Trash, or is on a disk you say won't come
 back, asks first, and looks again just before; an item Peel isn't allowed to look at is shown as not known and kept.
 Forget… at the foot of History does the same for the removals you check, and never takes what is on a disk that isn't

@@ -367,7 +367,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The note beside Peel's login item names Open at Login, the section where System Settings lists it.
 - What is free on the disk is read again each time Home appears, so it is right after a Homebrew uninstall or Clean Up.
 - Side by side, Home's two halves line up on what they show: the greeting on the line of the note beside it, and the
-  pair centered in the window, full screen included.
+  pair centered in the window.
 
 #### Menu bar
 
@@ -457,8 +457,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Turning on Show Only What Left the Trash no longer flashes a spinner while Peel looks in the Trash: it shows only
   after 150 ms, as Peel's other busy marks do.
 - Under one item on a disk that isn't connected, History says to connect the disk to put it back, not them.
-- Turning on Show Only What Left the Trash says how many removals it shows and that Not Moved is hidden, and each
-  removal says when what it moved left the Trash.
+- Turning on Show Only What Left the Trash says how many removals it shows, and that Not Moved is hidden when Not
+  Moved lists anything, and a removal's row says Left the Trash or Partly left the Trash.
 
 #### Settings
 
@@ -512,8 +512,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   that holds too many, not the whole place it was searching, and a folder that can't hold the app's files is no longer
   named.
 - A folder that holds a folder of a million files no longer takes minutes at every click and at its move while Peel
-  looks inside it for what it never moves: a folder of more than 100,000 items is not read, and what holds one is
-  left where it is, with its reason, there, in Orphaned Files and in Space.
+  looks inside it for what it never moves: that look reads no folder of more than 100,000 items, and what holds one is
+  never selected for you, with its reason, there, in Orphaned Files and in Space.
 - An item replaced after the scan, such as a folder swapped for a link, is no longer moved and written in History as
   what the scan found: it stays, and Peel says it changed since the scan, on an app's page, on several apps' page,
   for a reset and in `peel uninstall`.
@@ -917,8 +917,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The summary counts and sizes only what can move now, with the helper as it is.
 - A firmware file Apple Configurator keeps is named first, with its folder on a line under it, so two files never look
   the same at the narrowest window.
-- A folder of yours holding more items than a scan reads is counted first and named on the page, instead of read whole
-  twice.
+- A folder holding more items than a scan reads, yours or one where an app keeps installers or updates, is counted
+  first and named on the page, instead of read whole.
 
 #### Duplicates
 
@@ -1157,8 +1157,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Put Back no longer believes a record another program wrote: one whose seal does not match moves nothing, and one with
   no seal, from an earlier version or from `peel`, goes back into Desktop, Documents, Downloads, iCloud Drive, or
   another app's container only once you say so. Any program of your account could write History's file, and Put Back,
-  which reaches those places with Full Disk Access, followed it. The key is named Peel History, and Remove Peel deletes
-  it once History is in the Trash, or says it stayed.
+  which reaches those places with Full Disk Access, followed it. A seal made with an earlier key, such as one a new
+  keychain no longer holds, counts as no seal. The key is named Peel History, and Remove Peel deletes it once History is
+  in the Trash, or says it stayed.
 - Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
   in `/Library/Preferences`, `/Library/LaunchDaemons`, `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, and
   `/Library/Application Support`, such as `com.apple.loginwindow.plist`, and the network settings in

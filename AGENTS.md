@@ -422,6 +422,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   `FolderEntries.count`), names one holding more than `ScanReads.entryLimit` instead of reading it, and the guard's look
   inside stops at `FolderEntries.lookLimit`, reading further only for a move the person asks for in the app, name by
   name and keeping none (`ProtectedData.WholeLook`).
+- **A directory entry is read where it lies, and no further.** `readdir` gives a record only as long as its name, so
+  a name is read for `d_namlen` bytes at the offset of `d_name`, never as the struct's whole name field, which reaches
+  a kilobyte past a short record and past the buffer for its last one (`ProtectedData.WholeLook.nameAndType`).
 - **An object kept only by a weak reference is kept alive on purpose.** Swift may release an object after its last
   use, and an open panel holds its delegate weakly, so the panel's delegate is kept with `extendLifetime` until the
   panel closes (`ScreenshotFolderPanel`). Only an optimized build reports the mistake.
@@ -596,6 +599,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - `String(localized:)` leaves inflection markup as written, wherever its text goes (an alert's title or message, a
   notification, anything handed to AppKit), so text that counts and needs a plain `String` is built with
   `String(inflecting:)`. `InflectionMarkupTests` refuses a `String(localized:)` that carries the markup.
+- A `Text` made from a `String` draws Markdown as written, backticks included, so a sentence that carries a command
+  as code is shown from a localized key or from an `AttributedString(localized:)`, as `untrustedTapNote` is.
 
 ## Documents
 

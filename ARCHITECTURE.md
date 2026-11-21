@@ -200,7 +200,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      the keychain and reads once, at launch beside the rest, since any program of the account can write History's
      files. Only what writes History or judges a seal waits for that read (`HistorySeal.answered`). Put Back moves
      nothing for a record whose seal doesn't match, and takes one without a seal into a place macOS guards
-     (`GuardedPlace`) only once the person says so; `peel` never reads the key.
+     (`GuardedPlace`) only once the person says so; `peel` never reads the key. A seal begins with a mark of the key
+     that made it, so one an earlier key made reads as no seal, never as one something else wrote.
    - As it records, History adds what moved to the totals Home and the menu bar panel show (`totals.json`, through
      `RemovalTotals`), so the app and `peel` count alike.
    - Each item is also written down before it moves, a request to the helper before it goes, and again once it moved
