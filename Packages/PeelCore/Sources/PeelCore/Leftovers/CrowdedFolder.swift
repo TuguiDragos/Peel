@@ -17,10 +17,18 @@ public struct CrowdedFolder: Sendable, Hashable {
 }
 
 extension Sequence<CrowdedFolder> {
-    /// Each folder once, by its path: two places a scan reads can be one folder, as the home folder is.
+    /// Each folder once, by its path: two places a scan reads can be one folder, as the home folder is. One that any
+    /// of them says concerns the app does, whichever answered first.
     var eachOnce: [CrowdedFolder] {
-        var seen: Set<String> = []
-        return filter { seen.insert(PathPattern.comparablePath(of: $0.url)).inserted }
-            .sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+        var kept: [String: CrowdedFolder] = [:]
+        for folder in self {
+            let path = PathPattern.comparablePath(of: folder.url)
+            if kept[path] == nil {
+                kept[path] = folder
+            } else if folder.concernsTheApp {
+                kept[path]?.concernsTheApp = true
+            }
+        }
+        return kept.values.sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
     }
 }

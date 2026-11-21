@@ -431,9 +431,7 @@ public struct Uninstallation: Sendable {
         environment: SearchEnvironment
     ) -> LeftoverScan {
         var scan = scan
-        // A folder the cask's own path names concerns the app, whatever the search made of it.
-        let ofTheCask = evidence.crowded.filter { !exclusions.excludes($0.url) }
-        scan.crowdedFolders = (ofTheCask + scan.crowdedFolders).eachOnce
+        scan.crowdedFolders = (scan.crowdedFolders + evidence.crowded.filter { !exclusions.excludes($0.url) }).eachOnce
         var named = Set(scan.cutShortLocations.map { PathPattern.comparablePath(of: $0.url) })
         scan.cutShortLocations += evidence.cutShort
             .filter { !exclusions.excludes($0) && named.insert(PathPattern.comparablePath(of: $0)).inserted }

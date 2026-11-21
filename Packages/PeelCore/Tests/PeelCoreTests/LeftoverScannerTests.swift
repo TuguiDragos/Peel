@@ -799,6 +799,27 @@ struct LeftoverScannerTests {
         #expect(scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["Shared"])
     }
 
+    @Test func aSearchedPlaceTooFullConcernsTheAppThoughAnotherPlaceReachesItToo() async throws {
+        let directory = try TemporaryDirectory()
+        try crowd("home/.local/bin", in: directory)
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.crowdedFolders.map(\.url.lastPathComponent) == ["bin"])
+        #expect(scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["bin"], "a searched place itself")
+    }
+
+    @Test func aFolderOnePlaceFindsForTheAppConcernsItWhicheverPlaceAnsweredFirst() {
+        let folder = URL(filePath: "/Users/someone/.local/bin", directoryHint: .isDirectory)
+        var passedOver = CrowdedFolder(url: folder, entries: 20_500)
+        passedOver.concernsTheApp = false
+        let searched = CrowdedFolder(url: folder, entries: 20_500)
+
+        #expect([passedOver, searched].eachOnce.map(\.concernsTheApp) == [true])
+        #expect([searched, passedOver].eachOnce.map(\.concernsTheApp) == [true])
+    }
+
     @Test func namesAFolderTwoScansCountedDifferentlyOnce() {
         let folder = URL(filePath: "/Users/someone/.cache/tool", directoryHint: .isDirectory)
         let other = URL(filePath: "/Users/someone/.cache/another")
