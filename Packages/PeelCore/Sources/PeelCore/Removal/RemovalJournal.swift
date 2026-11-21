@@ -74,8 +74,6 @@ struct RemovalJournal: Sendable {
         /// What `HistorySeal` made of the line when Peel wrote it, or nil in one written without a seal.
         var seal: Data? = nil
 
-        /// History's record of the item: the one kept here, or else one of its part, with the size its page measured,
-        /// or else that of an interrupted removal, which names no tool, since which tool moved the item is not known.
         /// `recordToTakeIn`, sealed only when the line's own seal holds: a line Peel didn't write gives no record Peel
         /// vouches for.
         func recordToTakeIn(sealedBy seal: HistorySeal?) -> RemovalRecord {
@@ -89,6 +87,8 @@ struct RemovalJournal: Sendable {
             return taken
         }
 
+        /// History's record of the item: the one kept here, or else one of its part, with the size its page measured,
+        /// or else that of an interrupted removal, which names no tool, since which tool moved the item is not known.
         var recordToTakeIn: RemovalRecord {
             if let record { return record }
             let part = part ?? RemovalPart(source: "Interrupted removal", sourceKey: "interrupted", tool: "")
