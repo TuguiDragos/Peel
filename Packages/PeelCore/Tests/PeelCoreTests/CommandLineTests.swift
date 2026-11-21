@@ -1584,6 +1584,12 @@ struct CommandLineTests {
         #expect(discussion(DuplicatesCommand.self).contains("A copy that stays still holds the same contents"))
     }
 
+    @Test func aFolderTooFullIsSaidToBeTheAppsToLookThrough() {
+        let words = "a folder inside holds too many items for a quick look; the app looks through it whole when you move it there"
+        #expect(GuardRefusal.tooManyToLookThrough.summary == words)
+        #expect(HoldBack.tooManyToLookThrough.summary == words)
+    }
+
     @Test func aRefusalForAProgramUsingTheItemSaysWhatToQuitOrStop() {
         #expect(TrashFailure.Reason.heldOpen(by: ["node", "java"]).summary == "in use by node, java; quit them, then try again")
         #expect(TrashFailure.Reason.heldOpenByAJob(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it, or stop it in the Peel app's Background Items if it has no window, then try again")

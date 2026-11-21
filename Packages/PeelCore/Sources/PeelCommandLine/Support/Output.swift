@@ -445,7 +445,7 @@ extension GuardRefusal {
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
         case .couldNotLookInside: "macOS wouldn't let Peel look inside to make sure nothing Peel protects is there"
         case .tooManyToLookThrough:
-            "a folder inside holds too many items for Peel to look through to make sure nothing Peel protects is there"
+            "a folder inside holds too many items for a quick look; the app looks through it whole when you move it there"
         }
     }
 }
@@ -496,7 +496,7 @@ extension HoldBack {
         case .closedByPermissions: "its permissions keep Peel out"
         case .couldNotLookInside: "macOS wouldn't let Peel look inside to make sure nothing Peel protects is there"
         case .tooManyToLookThrough:
-            "a folder inside holds too many items for Peel to look through to make sure nothing Peel protects is there"
+            "a folder inside holds too many items for a quick look; the app looks through it whole when you move it there"
         case .tooManyToList: "holds too many items to read quickly, so nothing inside it is listed"
         case .goneAtNextStartup: "macOS removes it at the next startup"
         case .holdsDocuments: "holds the app's documents"
