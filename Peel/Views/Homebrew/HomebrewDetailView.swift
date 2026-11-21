@@ -33,9 +33,10 @@ struct HomebrewDetailView: View {
     }
 
     static let stoppedMidUpgradeNote: LocalizedStringResource = "Its app is still in a Homebrew folder. Reinstalling the cask in Terminal puts it back."
-    /// Why Homebrew offers no newer version of a cask from a tap it does not trust, and how to trust it.
-    static func untrustedTapNote(tap: String, word: String) -> String {
-        String(localized: "Homebrew reads a tap only once you trust it, so it knows only what it recorded when it installed this cask and cannot tell whether a newer version is out. Trusting the cask alone lets Homebrew read it. `\(word) trust \(tap)` would trust every package in the tap.")
+    /// Why Homebrew offers no newer version of a cask from a tap it does not trust, and how to trust it. Attributed, so
+    /// the command between backticks is drawn as code, which `Text` does not do for a plain string.
+    static func untrustedTapNote(tap: String, word: String) -> AttributedString {
+        AttributedString(localized: "Homebrew reads a tap only once you trust it, so it knows only what it recorded when it installed this cask and cannot tell whether a newer version is out. Trusting the cask alone lets Homebrew read it. `\(word) trust \(tap)` would trust every package in the tap.")
     }
 
     static let appGoneNote: LocalizedStringResource = "Its app is no longer where Homebrew put it, so Homebrew cannot upgrade it. Forget Cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."

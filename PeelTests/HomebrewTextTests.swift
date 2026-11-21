@@ -6,6 +6,14 @@ import Testing
 struct HomebrewTextTests {
     private let folder = URL(filePath: "/opt/example-homebrew", directoryHint: .isDirectory)
 
+    @Test func theNoteOfAnUntrustedTapWritesItsCommandAsCode() {
+        let note = HomebrewDetailView.untrustedTapNote(tap: "example/test", word: "brew")
+
+        #expect(!String(note.characters).contains("`"))
+        let code = note.runs.filter { $0.inlinePresentationIntent == .code }.map { String(note[$0.range].characters) }
+        #expect(code.joined() == "brew trust example/test")
+    }
+
     @Test func theNotesAreShortAndSayWhatTheCodeDoes() {
         #expect(HomebrewList.aboutHomebrew.key == "Homebrew installs command-line tools as formulae and apps as casks. Peel runs Homebrew commands here and shows what they report. Forget is done by Peel itself: it moves the Homebrew receipt of a cask to the Trash.")
         #expect(HomebrewList.updateNote.key == "Gets the newest Homebrew and its list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may rename a package, reinstall pkgconf, or delete an old copy of its core taps.")
