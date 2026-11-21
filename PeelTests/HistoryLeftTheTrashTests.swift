@@ -1,6 +1,8 @@
+import AppKit
 import Foundation
 @testable import Peel
 @testable import PeelCore
+import SwiftUI
 import Testing
 
 @MainActor
@@ -51,6 +53,19 @@ struct HistoryLeftTheTrashTests {
         #expect(HistoryList.leftKind(gone: 3, of: 3) == .all)
         #expect(HistoryList.leftKind(gone: 1, of: 3) == .part)
         #expect(HistoryList.leftKind(gone: 0, of: 3) == nil)
+    }
+
+    @Test func aRowMarksWhatLeftTheTrashWithItsSymbolAloneAndKeepsTheWordsForVoiceOverAndThePointer() {
+        let caption = NSFont.preferredFont(forTextStyle: .caption1)
+        let widths = [HistoryList.LeftKind.all, .part].map { kind in
+            let words = String(localized: LeftTheTrashMark.words(for: kind)) as NSString
+            let width = NSHostingView(rootView: LeftTheTrashMark(kind: kind)).fittingSize.width
+            #expect(width < words.size(withAttributes: [.font: caption]).width, "the row still draws the words")
+            return width
+        }
+        #expect(widths[0] == widths[1], "the mark is as wide as its words, so it draws them")
+        #expect(String(localized: LeftTheTrashMark.words(for: .all)) == "Left the Trash")
+        #expect(String(localized: LeftTheTrashMark.words(for: .part)) == "Partly left the Trash")
     }
 
     @Test func selectWhatLeftTheTrashChecksExactlyTheRemovalsSomethingHasLeftAndNothingUnderNotMoved() async throws {

@@ -417,14 +417,31 @@ private struct HistoryBatchRow: View {
                 }
                     .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))
                 if let left {
-                    Badge(
-                        title: left == .all ? Text("Left the Trash") : Text("Partly left the Trash"),
-                        systemImage: "trash.slash"
-                    )
+                    LeftTheTrashMark(kind: left)
                 }
             }
             .lineLimit(1)
         }
+    }
+}
+
+/// What a removal's row shows once something it moved has left the Trash: the symbol alone, since the row has no room
+/// to keep the words whole in every language. VoiceOver and the pointer's help say them.
+struct LeftTheTrashMark: View {
+    let kind: HistoryList.LeftKind
+
+    static func words(for kind: HistoryList.LeftKind) -> LocalizedStringResource {
+        switch kind {
+        case .all: "Left the Trash"
+        case .part: "Partly left the Trash"
+        }
+    }
+
+    var body: some View {
+        let words = Text(Self.words(for: kind))
+        Badge(title: words, systemImage: "trash.slash")
+            .labelStyle(.iconOnly)
+            .help(words)
     }
 }
 
