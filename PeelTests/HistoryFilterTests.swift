@@ -49,12 +49,20 @@ struct HistoryFilterTests {
 
     @Test func saysWhatTheFilterShowsAndWhatEachRemovalLeft() {
         #expect(
-            HistoryList.filterSummary(shown: 23, total: 33)
+            HistoryList.filterSummary(shown: 23, total: 33, hidesNotMoved: true)
                 == "Showing 23 of 33 removals: those that moved something that has left the Trash since. Not Moved is hidden."
         )
         #expect(
-            HistoryList.filterSummary(shown: 4, total: 4)
+            HistoryList.filterSummary(shown: 4, total: 4, hidesNotMoved: true)
                 == "Every removal here moved something that has left the Trash since, so the filter hides only Not Moved."
+        )
+        #expect(
+            HistoryList.filterSummary(shown: 23, total: 33, hidesNotMoved: false)
+                == "Showing 23 of 33 removals: those that moved something that has left the Trash since."
+        )
+        #expect(
+            HistoryList.filterSummary(shown: 4, total: 4, hidesNotMoved: false)
+                == "Every removal here moved something that has left the Trash since, so the filter hides nothing."
         )
         #expect(HistoryList.leftKind(gone: 3, of: 3) == .all)
         #expect(HistoryList.leftKind(gone: 1, of: 3) == .part)

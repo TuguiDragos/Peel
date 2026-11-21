@@ -97,7 +97,10 @@ struct HistoryList: View {
                     let shown = history.batches.count { left.removals.contains($0.id) }
                     if shown > 0 {
                         Notice(
-                            title: Text(verbatim: Self.filterSummary(shown: shown, total: history.batches.count)),
+                            title: Text(verbatim: Self.filterSummary(
+                                shown: shown, total: history.batches.count,
+                                hidesNotMoved: !history.refusalBatches.isEmpty
+                            )),
                             detail: nil,
                             kind: .note
                         ) { EmptyView() }
@@ -349,11 +352,18 @@ extension HistoryList {
         return gone >= total ? .all : .part
     }
 
-    /// What the filter shows, said above the list while it is on.
-    static func filterSummary(shown: Int, total: Int) -> String {
-        shown == total
-            ? String(localized: "Every removal here moved something that has left the Trash since, so the filter hides only Not Moved.")
-            : String(inflecting: "Showing \(shown) of ^[\(total) removal](inflect: true): those that moved something that has left the Trash since. Not Moved is hidden.")
+    /// What the filter shows, said above the list while it is on, with Not Moved named only while it lists something.
+    static func filterSummary(shown: Int, total: Int, hidesNotMoved: Bool) -> String {
+        switch (shown == total, hidesNotMoved) {
+        case (true, true):
+            String(localized: "Every removal here moved something that has left the Trash since, so the filter hides only Not Moved.")
+        case (true, false):
+            String(localized: "Every removal here moved something that has left the Trash since, so the filter hides nothing.")
+        case (false, true):
+            String(inflecting: "Showing \(shown) of ^[\(total) removal](inflect: true): those that moved something that has left the Trash since. Not Moved is hidden.")
+        case (false, false):
+            String(inflecting: "Showing \(shown) of ^[\(total) removal](inflect: true): those that moved something that has left the Trash since.")
+        }
     }
 
     private func check(_ removals: [RemovalBatch], _ entries: [RefusalBatch]) {
