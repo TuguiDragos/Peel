@@ -172641,6 +172641,112 @@
         }
       }
     },
+    "Peel did not move this: a folder inside holds too many items for a quick look, and Peel did not look through all of it, so it cannot tell whether something it protects, such as a library or a wallet, is there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesunul: složka uvnitř obsahuje příliš mnoho položek, než aby se daly rychle projít, a Peel ji celou neprošel, takže nemůže zjistit, zda v ní není něco, co Peel chrání, například knihovna nebo peněženka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat dies nicht verschoben: Ein Ordner darin enthält zu viele Objekte, um ihn schnell durchzusehen, und Peel hat ihn nicht vollständig durchgesehen, daher kann Peel nicht erkennen, ob darin etwas liegt, das Peel schützt, etwa eine Mediathek oder eine Wallet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha trasladado esto: dentro hay una carpeta con demasiados ítems para revisarla rápidamente y Peel no la ha revisado entera, así que no puede saber si hay algo que Peel protege, como una biblioteca o un monedero digital."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas déplacé cet élément : l’un des dossiers qu’il contient renferme trop d’éléments pour être parcouru rapidement, et Peel ne l’a pas parcouru en entier, si bien qu’il ne peut pas savoir si un élément qu’il protège, comme une bibliothèque ou un portefeuille, s’y trouve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo ha spostato: una cartella al suo interno contiene troppi elementi per esaminarli rapidamente, e Peel non l’ha esaminata per intero, quindi non può sapere se lì c’è qualcosa che Peel protegge, come una libreria o un wallet."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しませんでした。中のフォルダに、すばやく調べるには多すぎる数の項目があり、Peelはそのすべてを調べていないため、ライブラリやウォレットなど、Peelが保護しているものが中にあるかどうかを判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않았습니다. 안에 있는 폴더에 항목이 너무 많아 빠르게 살펴볼 수 없고 Peel이 그 폴더를 전부 살펴보지 않았으므로, 보관함이나 지갑처럼 Peel이 보호하는 항목이 그곳에 있는지 알 수 없기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft dit niet verplaatst: een map daarin bevat te veel onderdelen om snel te doorzoeken, en Peel heeft die niet helemaal doorzocht, dus Peel kan niet nagaan of er iets in zit wat Peel beschermt, zoals een bibliotheek of een wallet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniósł: jeden z folderów w środku zawiera zbyt wiele rzeczy, by szybko je przejrzeć, a Peel nie przejrzał go w całości, więc nie może stwierdzić, czy jest tam coś, co Peel chroni, na przykład biblioteka lub portfel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não moveu isto: uma pasta lá dentro contém itens demais para examinar rapidamente, e o Peel não a examinou por inteiro, então ele não consegue saber se há ali algo que ele protege, como uma biblioteca ou uma carteira."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a mutat acest articol: un subdosar conține prea multe articole pentru a fi examinate rapid, iar Peel nu l‑a examinat în întregime, așa că nu poate ști dacă acolo se află ceva protejat de Peel, cum ar fi o bibliotecă sau un portofel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не переместил это: в одной из папок внутри слишком много объектов, чтобы их можно было быстро просмотреть, и Peel просмотрел ее не полностью, поэтому он не может определить, есть ли там что-то из того, что защищает Peel, например медиатека или кошелек."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttade inte det här: en mapp inuti innehåller för många objekt för att gås igenom snabbt, och Peel gick inte igenom hela mappen, så Peel kan inte avgöra om något som Peel skyddar, till exempel ett bibliotek eller en plånbok, finns där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımadı: içindeki bir klasörde hızlıca bakılamayacak kadar çok öğe var ve Peel içine baştan sona bakmadı, bu yüzden koruduğu bir şeyin, örneğin bir fotoğraf, müzik ya da video arşivi veya bir cüzdan, orada olup olmadığını bilemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістила це: в одній із папок усередині забагато елементів, щоб швидко їх переглянути, і Peel не переглянула її повністю, тож не може визначити, чи є там щось, що вона захищає, як-от медіатека або гаманець."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未移动此项：其中的某个文件夹包含的项目过多，无法快速查看，而Peel没有将其完整查看，因此无法判断里面是否有受Peel保护的内容，例如资料库或钱包。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel沒有移動此項目：其中的某個檔案夾包含太多項目，無法快速查看，而Peel並未將它完整查看，因此無法確定裡面是否有任何受Peel保護的項目，例如資料庫或錢包。"
+          }
+        }
+      }
+    },
     "Peel did not open the uninstaller" : {
       "localizations" : {
         "cs" : {
@@ -189221,112 +189327,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移動此項目：/usr/local存放著其他程式的檔案，Peel只會從那裡移動App的連結和Homebrew的記錄。"
-          }
-        }
-      }
-    },
-    "Peel will not move this: a folder inside holds too many items for Peel to look through, so it cannot make sure nothing Peel protects, such as a library or a wallet, is there." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tuto položku nepřesune: složka uvnitř obsahuje příliš mnoho položek, než aby je Peel mohl projít, takže nemůže ověřit, že tam není nic, co Peel chrání, například knihovna nebo peněženka."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel verschiebt dies nicht: Ein Ordner darin enthält zu viele Objekte, als dass Peel ihn durchsehen könnte, daher kann Peel nicht sicherstellen, dass darin nichts liegt, was Peel schützt, etwa eine Mediathek oder eine Wallet."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no trasladará esto: dentro hay una carpeta con demasiados ítems para que Peel la revise, así que no puede asegurarse de que no hay nada que Peel proteja, como una biblioteca o un monedero digital."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel refuse de déplacer cet élément : l’un des dossiers qu’il contient renferme trop d’éléments pour que Peel le parcoure, si bien que Peel ne peut pas s’assurer qu’aucun élément qu’il protège, comme une bibliothèque ou un portefeuille, ne s’y trouve."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non lo sposta: una cartella al suo interno contiene troppi elementi perché Peel possa esaminarli, quindi non può assicurarsi che non contenga nulla di ciò che Peel protegge, come una libreria o un wallet."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはこれを移動しません。中のフォルダに、Peelが調べるには多すぎる数の項目があるため、ライブラリやウォレットなど、Peelが保護しているものが中にないことを確認できません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 이 항목을 이동하지 않습니다. 안에 있는 폴더에 항목이 너무 많아 Peel이 살펴볼 수 없어서 보관함이나 지갑처럼 Peel이 보호하는 항목이 그곳에 없는지 확인할 수 없기 때문입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel verplaatst dit niet: een map daarin bevat te veel onderdelen om te doorzoeken, dus Peel kan niet nagaan of er niets in zit wat Peel beschermt, zoals een bibliotheek of een wallet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tego nie przeniesie: jeden z folderów w środku zawiera zbyt wiele rzeczy, by Peel mógł je przejrzeć, więc nie może się upewnić, że nie ma tam niczego, co Peel chroni, na przykład biblioteki lub portfela."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não vai mover isto: uma pasta lá dentro contém itens demais para o Peel examinar, então ele não consegue ter certeza de que não há ali nada do que o Peel protege, como uma biblioteca ou uma carteira."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu mută acest articol: un subdosar conține prea multe articole pentru ca Peel să le examineze, așa că nu se poate asigura că acolo nu se află nimic protejat de Peel, cum ar fi o bibliotecă sau un portofel."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не будет это перемещать: в одной из папок внутри слишком много объектов, чтобы Peel мог их просмотреть, поэтому он не может убедиться, что там нет ничего из того, что защищает Peel, например медиатеки или кошелька."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel flyttar inte det här: en mapp inuti innehåller för många objekt för att Peel ska kunna gå igenom den, så Peel kan inte kontrollera att inget som Peel skyddar, till exempel ett bibliotek eller en plånbok, finns där."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bunu taşımaz: içindeki bir klasörde Peel’in tek tek bakamayacağı kadar çok öğe var, bu yüzden Peel’in koruduğu hiçbir şeyin, örneğin bir fotoğraf, müzik ya da video arşivi veya bir cüzdan, orada olmadığından emin olamıyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не перемістить це: в одній із папок усередині забагато елементів, щоб їх переглянути, тож Peel не може переконатися, що там немає нічого, що вона захищає, як-от медіатеки або гаманця."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不会移动此项：其中的某个文件夹包含的项目过多，Peel无法全部查看，因此无法确认里面没有受Peel保护的项目，例如资料库或钱包。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不會移動此項目：其中的某個檔案夾包含太多項目，Peel無法逐一查看，因此無法確定裡面沒有任何受Peel保護的項目，例如資料庫或錢包。"
           }
         }
       }

@@ -307,7 +307,7 @@ extension GuardRefusal {
         case .holdsALibrary: "Peel won’t move this: a photo, music, or video library is inside."
         case .holdsWorkKeptInACache: "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
         case .couldNotLookInside: "Peel won’t move this: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there."
-        case .tooManyToLookThrough: "Peel will not move this: a folder inside holds too many items for Peel to look through, so it cannot make sure nothing Peel protects, such as a library or a wallet, is there."
+        case .tooManyToLookThrough: "Peel did not move this: a folder inside holds too many items for a quick look, and Peel did not look through all of it, so it cannot tell whether something it protects, such as a library or a wallet, is there."
         }
     }
 }
