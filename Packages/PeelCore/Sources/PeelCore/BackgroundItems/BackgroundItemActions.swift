@@ -36,7 +36,8 @@ public enum BackgroundItemActions {
     /// when that is zero (`man launchd.plist`).
     public struct StillEnding: Sendable, Equatable {
         public let pid: Int32
-        /// As the job's file writes it, or nil when it doesn't.
+        /// The `ExitTimeOut` the job's file gives, 0 for never, while it is still to come; nil when the file gives
+        /// none, or the wait outlasted it and launchd has sent `SIGKILL` already.
         public let exitTimeOut: Int?
     }
 
@@ -72,7 +73,8 @@ public enum BackgroundItemActions {
         else { return nil }
         guard !(await untilEnded(process, limit)) else { return nil }
         let job = item.plistURL.flatMap(JobDefinition.init(contentsOf:))
-        return StillEnding(pid: process, exitTimeOut: job?.exitTimeOut)
+        let toCome = job?.exitTimeOut.flatMap { $0 == 0 || TimeInterval($0) > limit ? $0 : nil }
+        return StillEnding(pid: process, exitTimeOut: toCome)
     }
 
     /// How an item is started: loaded from its file with `bootstrap` when launchd does not have it, or

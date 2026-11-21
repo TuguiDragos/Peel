@@ -248,6 +248,24 @@ struct BackgroundItemActionsTests {
         #expect(try await stop(item(state: .running(pid: 4242), plist: plist), ending: true) == nil)
     }
 
+    @Test func aTimeOutTheWaitOutlastedIsNoLongerToCome() async throws {
+        let directory = try TemporaryDirectory()
+        let plist = try directory.file(
+            "com.example.agent.plist",
+            contents: try PropertyListSerialization.data(
+                fromPropertyList: ["Label": "com.example.agent", "ExitTimeOut": 20], format: .xml, options: 0
+            )
+        )
+        let printed = "gui/501/com.example.agent = {\n\tpath = \(plist.path)\n\tstate = SIGTERMed\n\tpid = 4242\n}"
+
+        let left = try await BackgroundItemActions.stop(
+            item(state: .running(pid: 4242), plist: plist), waitingUpTo: 30,
+            launchctl: { arguments in arguments[0] == "print" ? (0, printed) : (0, "") }, untilEnded: { _, _ in false }
+        )
+
+        #expect(left == BackgroundItemActions.StillEnding(pid: 4242, exitTimeOut: nil))
+    }
+
     @Test func stopWaitsForNothingOnceLaunchdNamesNoProcess() async throws {
         let job = item(state: .running(pid: 4242), plist: nil)
         let waited = Mutex(false)
