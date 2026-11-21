@@ -508,9 +508,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   keeps them until an app leaves the list or changes.
 - An app's page and several apps' page no longer read a folder of a million files whole at every click, which took a
   minute and gigabytes of memory: a folder with more than 20,000 items is left out, and the page names it, says
-  what that means, and offers Show in Finder. When the search inside other folders stops early, it names the folder
-  that holds too many, not the whole place it was searching, and a folder that can't hold the app's files is no longer
-  named.
+  what that means, and offers Show in Finder. It names such a folder only where what an uninstall takes could be: a
+  place Peel searches itself, a folder that carries the name of the app or of its maker, or one that holds something
+  Peel found for the app. `peel leftovers` and `peel uninstall` go on naming every folder Peel left unread, but one
+  named for another app, which can't hold this app's files. When the search inside other folders stops early, the
+  page names the folder that holds too many, not the whole place it was searching.
 - A path a Homebrew cask names with `**` no longer reads whole a folder of a million files under it: each folder is
   counted first, the page names one it did not read or looked into only in part, and `peel leftovers` and
   `peel uninstall` say it too.
