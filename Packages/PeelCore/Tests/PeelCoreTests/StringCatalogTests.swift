@@ -889,6 +889,10 @@ struct CatalogChecker {
                    found.allSatisfy({ $0.category == nil }) {
                     fail(path, key, language, "plural", "it counts something, and this language needs a plural variation for it")
                 }
+                if ((node["variations"] as? [String: Any])?["plural"]) != nil,
+                   Self.integer.numberOfMatches(in: source, range: NSRange(source.startIndex..., in: source)) > 1 {
+                    fail(path, key, language, "plural", "plural forms beside two numbers, which the catalog ties to neither: give the counted one a substitution")
+                }
                 let categories = Set(found.filter { !$0.isSubstitution }.compactMap(\.category))
                 let forms = found.filter { $0.category != nil && !$0.isSubstitution }
                 if !forms.isEmpty,
