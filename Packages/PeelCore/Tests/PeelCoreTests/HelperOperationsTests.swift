@@ -98,6 +98,30 @@ struct HelperOperationsTests {
         #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
     }
 
+    @Test func aLookTheRequestsTimeCutShortIsSaidToHaveRunOutOfTime() throws {
+        let directory = try TemporaryDirectory()
+        let big = try directory.directory("root/Library/Caches/org.example.big/big").path(percentEncoded: false)
+        for number in 0...FolderEntries.lookLimit {
+            let descriptor = open(big + "/\(number)", O_CREAT | O_WRONLY | O_EXCL, 0o644)
+            if descriptor >= 0 { close(descriptor) }
+        }
+        try directory.directory("root/Library/Caches/org.example.album/Family.photoslibrary")
+        let caches = directory.url.appending(path: "root/Library/Caches").path(percentEncoded: false)
+        let (tooFull, album) = (caches + "/org.example.big", caches + "/org.example.album")
+        let later = ContinuousClock.now + .seconds(600)
+
+        let cutShort = HelperOperations.open(
+            [tooFull], by: served(directory), under: ProtectedData.WholeLook(stoppingWhen: { true }), until: later
+        )
+        let looked = HelperOperations.open(
+            [album], by: served(directory), under: ProtectedData.WholeLook(), until: later
+        )
+
+        #expect(cutShort.items.isEmpty)
+        #expect(cutShort.failed[tooFull] == HelperRefusal.ranOutOfTime.rawValue)
+        #expect(looked.failed[album] == PrivilegedPathPolicy.Rejection.irreplaceable.explanation)
+    }
+
     @Test func movesWhatTheHelperServesIntoTheCallersTrash() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/.Trash")

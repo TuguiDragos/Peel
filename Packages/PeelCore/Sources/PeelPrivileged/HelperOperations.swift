@@ -36,25 +36,10 @@ public enum HelperOperations {
         }
         let deadline = ContinuousClock.now + .seconds(HelperRequest.timeToMove)
 
-        var failed: [String: String] = [:]
-        var items: [(path: String, item: OpenItem)] = []
         // The app asks to move only what the person chose, so a folder too full for a quick look is read whole, as
         // the app reads it, until the request's time runs out.
         let look = ProtectedData.WholeLook(stoppingWhen: { ContinuousClock.now >= deadline })
-        for path in paths {
-            guard !HelperRequest.isTooLong(path) else {
-                failed[path] = HelperRefusal.pathTooLong.rawValue
-                continue
-            }
-            guard ContinuousClock.now < deadline else {
-                failed[path] = HelperRefusal.ranOutOfTime.rawValue
-                continue
-            }
-            switch ProtectedData.WholeLook.$current.withValue(look, operation: { policy.open(path) }) {
-            case .failure(let rejection): failed[path] = rejection.explanation
-            case .success(let item): items.append((path, item))
-            }
-        }
+        let (items, failed) = open(paths, by: policy, under: look, until: deadline)
         // Recorded before anything moves, so no item reaches the Trash without a record. The helper puts
         // back only what its ledger lists.
         guard
@@ -71,6 +56,33 @@ public enum HelperOperations {
             HelperLog.left(path, by: request, for: admitted.user, because: reason)
         }
         return (result.moved, left)
+    }
+
+    /// Opens each of `paths` for a move, under `look`. A look told to stop found nothing either way, so its path is
+    /// said to have run out of time, never to hold what Peel keeps.
+    static func open(
+        _ paths: [String], by policy: PrivilegedPathPolicy, under look: ProtectedData.WholeLook,
+        until deadline: ContinuousClock.Instant
+    ) -> (items: [(path: String, item: OpenItem)], failed: [String: String]) {
+        var failed: [String: String] = [:]
+        var items: [(path: String, item: OpenItem)] = []
+        for path in paths {
+            guard !HelperRequest.isTooLong(path) else {
+                failed[path] = HelperRefusal.pathTooLong.rawValue
+                continue
+            }
+            guard ContinuousClock.now < deadline else {
+                failed[path] = HelperRefusal.ranOutOfTime.rawValue
+                continue
+            }
+            let stops = look.stopCount
+            switch ProtectedData.WholeLook.$current.withValue(look, operation: { policy.open(path) }) {
+            case .failure(let rejection):
+                failed[path] = look.stopCount == stops ? rejection.explanation : HelperRefusal.ranOutOfTime.rawValue
+            case .success(let item): items.append((path, item))
+            }
+        }
+        return (items, failed)
     }
 
     /// Nil once the item at `trashPath` is back at `destination`, otherwise why it isn't.

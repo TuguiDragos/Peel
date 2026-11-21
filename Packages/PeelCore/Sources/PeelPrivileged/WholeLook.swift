@@ -9,7 +9,6 @@ extension ProtectedData {
     public final class WholeLook: Sendable {
         private let isStopped: @Sendable () -> Bool
         private let counting: @Sendable (Int) -> Void
-        /// How many reads were told to stop.
         private let stops = Atomic<Int>(0)
         private let found = Mutex<[Key: any Sendable]>([:])
         /// The folders whose names were counted, since each of the guard's looks reads a folder again.
@@ -25,6 +24,9 @@ extension ProtectedData {
 
         /// The whole look the guard makes, when a move asked for one.
         @TaskLocal public static var current: WholeLook?
+
+        /// How many reads were told to stop so far.
+        var stopCount: Int { stops.load(ordering: .relaxed) }
 
         private struct Folder: Hashable {
             let device: dev_t
@@ -45,9 +47,9 @@ extension ProtectedData {
             guard lstat(folder, &info) == 0 else { return finding() }
             let key = Key(look: look, folder: Folder(device: info.st_dev, file: info.st_ino))
             if let known = found.withLock({ $0[key] }) as? Answer { return known }
-            let stopsBefore = stops.load(ordering: .relaxed)
+            let stopsBefore = stopCount
             let answer = finding()
-            if stops.load(ordering: .relaxed) == stopsBefore { found.withLock { $0[key] = answer } }
+            if stopCount == stopsBefore { found.withLock { $0[key] = answer } }
             return answer
         }
 
