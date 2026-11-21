@@ -139,7 +139,8 @@ public enum PathPattern {
     struct LeftUnread: Sendable, Equatable {
         /// The folders that hold more entries than a `**/` reads: counted, not read, and nothing in them matched.
         var crowded: [CrowdedFolder] = []
-        /// The folders a `**/` started from and had no entries left to read before it reached every folder below.
+        /// The folders a pattern's first `**/` started from, where it or a later one had no entries left to read before
+        /// it reached every folder below.
         var cutShort: [URL] = []
 
         var isEmpty: Bool { crowded.isEmpty && cutShort.isEmpty }
@@ -174,10 +175,14 @@ public enum PathPattern {
         let rest = path[star.upperBound...]
         var found: [URL] = []
         for start in matches(of: String(path[..<star.lowerBound]), root: root, source: .cask) where start.isRealFolder {
-            for folder in folders(from: start, toRead: &toRead, left: &left) {
+            var below = LeftUnread()
+            for folder in folders(from: start, toRead: &toRead, left: &below) {
                 let inside = quoted(comparablePath(of: folder)) + "/" + rest
-                found += matchesThroughStars(of: inside, root: root, toRead: &toRead, left: &left)
+                found += matchesThroughStars(of: inside, root: root, toRead: &toRead, left: &below)
             }
+            left.crowded += below.crowded
+            // A later `**/` starts inside this one, at as many folders as this one found: `start` names them all.
+            if !below.cutShort.isEmpty { left.cutShort.append(start) }
         }
         return found
     }

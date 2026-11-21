@@ -231,6 +231,17 @@ struct CaskEvidenceTests {
         #expect(left.cutShort.isEmpty)
     }
 
+    @Test func aSecondDoubleStarThatRunsOutNamesWhereTheFirstStarted() throws {
+        let directory = try TemporaryDirectory()
+        fill(try directory.directory("Library/Logs/Example/a-wide"), with: PathPattern.entriesAStarReads)
+        for name in ["b", "c", "d"] { try directory.file("Library/Logs/Example/\(name)/cache/deep/trace.log") }
+        var left = PathPattern.LeftUnread()
+
+        _ = CaskEvidence.expand("~/Library/Logs/Example/**/cache/**/trace.log", home: directory.url, leaving: &left)
+
+        #expect(left.cutShort.map(\.lastPathComponent) == ["Example"])
+    }
+
     @Test func anUninstallNamesTheFolderACasksDoubleStarDidNotRead() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url
