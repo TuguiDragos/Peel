@@ -50,7 +50,8 @@ struct WholeLookTests {
 
         #expect(moved.failures.isEmpty, "\(moved.failures.map(\.reason))")
         #expect(moved.trashed.map(\.originalURL) == [folder])
-        #expect(count.lookedAt > FolderEntries.lookLimit)
+        // The folder inside and its files, each once, however many looks of the guard read them.
+        #expect(count.lookedAt == FolderEntries.lookLimit + 2)
         #expect(!count.isLooking)
     }
 

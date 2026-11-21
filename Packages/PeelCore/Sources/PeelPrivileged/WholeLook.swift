@@ -3,7 +3,7 @@ import Synchronization
 
 extension ProtectedData {
     /// A look that reads each folder it looks into whole, one name at a time and keeping none, with no limit: what a
-    /// move the person asked for makes of a folder too full for the look a scan makes. It counts each name it reads,
+    /// move the person asked for makes of a folder too full for the look a scan makes. It counts each name once,
     /// stops when it is told to, and remembers what it found in each folder it looked through, so the guard asked
     /// again about one of them reads it no more.
     public final class WholeLook: Sendable {
@@ -12,6 +12,8 @@ extension ProtectedData {
         /// How many reads were told to stop.
         private let stops = Atomic<Int>(0)
         private let found = Mutex<[Key: any Sendable]>([:])
+        /// The folders whose names were counted, since each of the guard's looks reads a folder again.
+        private let counted = Mutex<Set<Folder>>([])
 
         public init(
             stoppingWhen isStopped: @escaping @Sendable () -> Bool = { false },
@@ -24,10 +26,14 @@ extension ProtectedData {
         /// The whole look the guard makes, when a move asked for one.
         @TaskLocal public static var current: WholeLook?
 
-        private struct Key: Hashable {
-            let look: String
+        private struct Folder: Hashable {
             let device: dev_t
             let file: ino_t
+        }
+
+        private struct Key: Hashable {
+            let look: String
+            let folder: Folder
         }
 
         /// What `look` found in `folder` earlier in this look, else what `finding` finds now, remembered unless a read
@@ -37,7 +43,7 @@ extension ProtectedData {
         ) -> Answer {
             var info = stat()
             guard lstat(folder, &info) == 0 else { return finding() }
-            let key = Key(look: look, device: info.st_dev, file: info.st_ino)
+            let key = Key(look: look, folder: Folder(device: info.st_dev, file: info.st_ino))
             if let known = found.withLock({ $0[key] }) as? Answer { return known }
             let stopsBefore = stops.load(ordering: .relaxed)
             let answer = finding()
@@ -56,6 +62,7 @@ extension ProtectedData {
             guard info.st_mode & S_IFMT == S_IFDIR else { return nil }
             guard let directory = opendir(folder) else { return .closed }
             defer { closedir(directory) }
+            let countsItsNames = counted.withLock { $0.insert(Folder(device: info.st_dev, file: info.st_ino)).inserted }
             while true {
                 if isStopped() {
                     stops.wrappingAdd(1, ordering: .relaxed)
@@ -65,7 +72,7 @@ extension ProtectedData {
                 guard let entry = readdir(directory) else { return errno == 0 ? nil : .closed }
                 guard let (name, type) = Self.nameAndType(of: entry) else { return .closed }
                 guard name != ".", name != ".." else { continue }
-                counting(1)
+                if countsItsNames { counting(1) }
                 let isAFile: Bool
                 switch type {
                 case DT_REG: isAFile = true
