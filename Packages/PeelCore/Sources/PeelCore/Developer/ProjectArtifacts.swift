@@ -1161,10 +1161,10 @@ public enum ProjectArtifacts {
         return PathComponents.of(kernelName).lazy.compactMap(skipped).first.map(Refusal.neverSearched)
     }
 
-    /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `budget`, since a
+    /// Walks `root` for artifacts. Each folder is counted and read on a thread of its own, within `budget`, since a
     /// folder on a network volume that stopped answering would otherwise hold one of the threads every scan
-    /// shares, where a Stop cannot reach it. A project is looked for up to `top`, by default `root`. `listing` stands
-    /// in for the listing in a test.
+    /// shares, where a Stop cannot reach it. A project is looked for up to `top`, by default `root`. `listing` and
+    /// `counting` stand in for the listing and the count in a test.
     static func artifacts(
         in root: URL,
         within top: URL? = nil,
@@ -1172,7 +1172,8 @@ public enum ProjectArtifacts {
         measure: LeftoverScanner.Measure,
         budget: TimeInterval = FileSize.budget,
         entryLimit: Int = ScanReads.entryLimit,
-        listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
+        listing: @escaping @Sendable (URL) -> [URL]? = contents(of:),
+        counting: @escaping @Sendable (URL, Int) -> CrowdedFolder? = crowded(_:limit:)
     ) async -> Walked {
         var pending: [Pending] = []
         var unreadable: [URL] = []
@@ -1195,15 +1196,19 @@ public enum ProjectArtifacts {
                 queue.removeFirst(next)
                 next = 0
             }
-            if let tooFull = Self.crowded(folder, limit: entryLimit) {
+            let answer = await SlowRead.answer(within: budget) { _ in
+                counting(folder, entryLimit).map(Read.tooFull)
+                    ?? look(in: folder, exclusions: exclusions, keepers: keepers, listing: listing).map(Read.looked)
+            }
+            let look: Look
+            switch answer ?? nil {
+            case .tooFull(let tooFull)?:
                 crowded.append(tooFull)
                 continue
-            }
-            let answer = await SlowRead.answer(within: budget) { _ in
-                look(in: folder, exclusions: exclusions, keepers: keepers, listing: listing)
-            }
+            case .looked(let found)?:
+                look = found
             // A folder that went away during the walk held nothing; one still there and not read is not known.
-            guard let look = answer ?? nil else {
+            case nil:
                 if !folder.isMissing { unreadable.append(folder) }
                 continue
             }
@@ -1362,6 +1367,12 @@ public enum ProjectArtifacts {
         var isKeptInStep = false
     }
 
+    /// What the walk's read of one folder gave: what it holds, or that it holds more than the walk reads.
+    private enum Read: Sendable {
+        case looked(Look)
+        case tooFull(CrowdedFolder)
+    }
+
     private struct Found: Sendable {
         let name: String
         let definition: Definition?
@@ -1509,7 +1520,7 @@ public enum ProjectArtifacts {
 
     /// `folder` as one holding more than `limit` entries, counted by its file system, or where it keeps no count,
     /// read a few names at a time up to `limit`; nil when it holds no more.
-    private static func crowded(_ folder: URL, limit: Int) -> CrowdedFolder? {
+    static func crowded(_ folder: URL, limit: Int) -> CrowdedFolder? {
         if let count = FolderEntries.count(at: folder.path(percentEncoded: false)) {
             return count > limit ? CrowdedFolder(url: folder, entries: count) : nil
         }

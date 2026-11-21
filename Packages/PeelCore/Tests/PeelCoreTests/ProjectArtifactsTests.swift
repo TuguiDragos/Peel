@@ -83,6 +83,34 @@ struct ProjectArtifactsTests {
         #expect(returned - stopped < .seconds(FileSize.budget / 2))
     }
 
+    @Test func aCountThatNeverAnswersHoldsNeitherTheWalkNorItsStop() async throws {
+        let directory = try TemporaryDirectory()
+        let root = try directory.directory("Code")
+        let never = DispatchSemaphore(value: 0)
+        defer { never.signal() }
+        let counting = Mutex(false)
+        let clock = ContinuousClock()
+        let walk = Task(priority: .userInitiated) {
+            _ = await ProjectArtifacts.artifacts(
+                in: root, exclusions: .none, measure: { _ in nil },
+                counting: { _, _ in
+                    counting.withLock { $0 = true }
+                    // Long past the walk's own patience, and never for good, so a walk that waits here still ends.
+                    _ = never.wait(timeout: .now() + 30)
+                    return nil
+                }
+            )
+            return clock.now
+        }
+        while !counting.withLock({ $0 }) { try await Task.sleep(for: .milliseconds(1)) }
+        let stopped = clock.now
+
+        walk.cancel()
+        let returned = await walk.value
+
+        #expect(returned - stopped < .seconds(FileSize.budget / 2))
+    }
+
     @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Developer")
