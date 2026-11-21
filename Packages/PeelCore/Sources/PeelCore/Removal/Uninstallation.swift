@@ -96,6 +96,7 @@ public struct Uninstallation: Sendable {
                     environment: environment
                 )
             )
+            scan = naming(whatWasLeftUnreadBy: evidence, in: scan, exclusions: exclusions, environment: environment)
         }
         scan = scan.adding(
             await receiptLeftovers(
@@ -421,6 +422,21 @@ public struct Uninstallation: Sendable {
             leftovers.append(exclusions.holdBack(for: item.url).map(leftover.heldBack) ?? leftover)
         }
         return leftovers
+    }
+
+    /// `scan` naming also the folders a `**/` in the cask's paths did not read, but what the person excluded.
+    static func naming(
+        whatWasLeftUnreadBy evidence: CaskEvidence, in scan: LeftoverScan, exclusions: Exclusions,
+        environment: SearchEnvironment
+    ) -> LeftoverScan {
+        var scan = scan
+        scan.crowdedFolders = (scan.crowdedFolders + evidence.crowded.filter { !exclusions.excludes($0.url) }).eachOnce
+        var named = Set(scan.cutShortLocations.map { PathPattern.comparablePath(of: $0.url) })
+        scan.cutShortLocations += evidence.cutShort
+            .filter { !exclusions.excludes($0) && named.insert(PathPattern.comparablePath(of: $0)).inserted }
+            .map { SearchLocation(kind: place(of: $0, in: environment).kind, url: $0) }
+        scan.cutShortLocations.sort { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+        return scan
     }
 
     private static func isAtOrInside(_ folder: String, _ url: URL) -> Bool {

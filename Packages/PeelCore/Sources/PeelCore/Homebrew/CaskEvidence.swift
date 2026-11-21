@@ -12,6 +12,10 @@ public struct CaskEvidence: Sendable, Hashable {
     }
 
     public let items: [Item]
+    /// The folders a `**/` in the cask's paths did not read: those holding more entries than it reads, where nothing
+    /// was looked for, and those it started from and looked into only in part.
+    public var crowded: [CrowdedFolder] = []
+    public var cutShort: [URL] = []
 
     public static func evidence(
         for app: InstalledApp,
@@ -20,15 +24,20 @@ public struct CaskEvidence: Sendable, Hashable {
     ) -> CaskEvidence? {
         guard let cask = cask(for: app, in: casks) else { return nil }
         var seen: Set<ItemKey> = []
-        let named = cask.leftoverPatterns.flatMap { expand($0, home: home) }
-        let emptied = cask.emptyFolderPatterns.flatMap { expand($0, home: home) }.filter(holdsNothing)
+        var left = PathPattern.LeftUnread()
+        let named = cask.leftoverPatterns.flatMap { expand($0, home: home, leaving: &left) }
+        let emptied = cask.emptyFolderPatterns.flatMap { expand($0, home: home, leaving: &left) }.filter(holdsNothing)
         let items = (named + emptied).compactMap { url -> Item? in
             // A folder listed twice, with and without a slash at the end or in another case, becomes one item.
             guard seen.insert(ItemKey(url)).inserted else { return nil }
             return Item(url: url, isInLibrary: isInLibrary(url, home: home))
         }
-        guard !items.isEmpty else { return nil }
-        return CaskEvidence(items: items)
+        guard !items.isEmpty || !left.isEmpty else { return nil }
+        var paths: Set<String> = []
+        return CaskEvidence(
+            items: items, crowded: left.crowded.eachOnce,
+            cutShort: left.cutShort.filter { paths.insert(PathPattern.comparablePath(of: $0)).inserted }
+        )
     }
 
     /// Returns the cask Homebrew installed this app from, if any. A cask Homebrew only has a definition for
@@ -232,10 +241,16 @@ public struct CaskEvidence: Sendable, Hashable {
     /// A cask's path read as Homebrew reads one (`each_resolved_path` in its `abstract_uninstall.rb`): `~` is the home
     /// folder only before a slash, and a relative path or one with a `.` or `..` in it is skipped.
     static func expand(_ pattern: String, home: URL) -> [URL] {
+        var left = PathPattern.LeftUnread()
+        return expand(pattern, home: home, leaving: &left)
+    }
+
+    /// `expand`, with what a `**/` in the path did not read added to `left`.
+    static func expand(_ pattern: String, home: URL, leaving left: inout PathPattern.LeftUnread) -> [URL] {
         guard pattern.hasPrefix("/") || pattern == "~" || pattern.hasPrefix("~/"),
               !PathComponents.of(pattern).contains(where: { $0 == "." || $0 == ".." })
         else { return [] }
-        return PathPattern.expand(pattern, home: home, from: .cask)
+        return PathPattern.expand(pattern, home: home, from: .cask, leaving: &left)
     }
 
     static func isInLibrary(_ url: URL, home: URL) -> Bool {

@@ -116,6 +116,28 @@ struct ExclusionsTests {
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], installation: installation) == false)
     }
 
+    @Test func aPackageWhoseDoubleStarLeftAFolderUnreadIsNotKnownToDeleteNothingExcluded() throws {
+        let directory = try TemporaryDirectory()
+        let installation = HomebrewInstallation(version: "7.0.9", prefix: directory.url.appending(path: "prefix"))
+        let kept = try directory.file("home/Documents/kept.txt")
+        let cask = HomebrewPackage(name: "example", kind: .cask, uninstallPatterns: ["~/Library/Logs/Example/**/trace.log"])
+        let excludes = { (home: String) in
+            Exclusions(paths: [kept]).excludes(
+                cask, apps: [], installation: installation, home: directory.url.appending(path: home)
+            )
+        }
+        try directory.file("home/Library/Logs/Example/near/trace.log")
+        try directory.file("crowded/Library/Logs/Example/near/trace.log")
+        let full = try directory.directory("crowded/Library/Logs/Example/full").path(percentEncoded: false)
+        for index in 0...PathPattern.entriesAStarReads {
+            let descriptor = open(full + "/\(index).log", O_CREAT | O_WRONLY | O_EXCL, 0o644)
+            if descriptor >= 0 { close(descriptor) }
+        }
+
+        #expect(excludes("home") == false)
+        #expect(excludes("crowded") == nil, "what the walk did not read may hold something excluded")
+    }
+
     @Test func keepsWhatElseBrewUninstallRemoves() throws {
         let directory = try TemporaryDirectory()
         let installation = HomebrewInstallation(version: "7.0.9", prefix: directory.url.appending(path: "prefix"))

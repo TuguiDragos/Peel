@@ -308,11 +308,15 @@ public struct Exclusions: Sendable, Codable, Hashable {
         let own = installation.map {
             (package.kind == .cask ? $0.caskroom : $0.cellar).appending(path: package.name, directoryHint: .isDirectory)
         }
-        let named = isEmpty ? [] : package.uninstallPatterns.flatMap { CaskEvidence.expand($0, home: home) }
+        var left = PathPattern.LeftUnread()
+        let named = isEmpty ? [] : package.uninstallPatterns.flatMap {
+            CaskEvidence.expand($0, home: home, leaving: &left)
+        }
         let folders = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
             + (package.commandLinks + package.otherTargets).map { URL(filePath: $0) } + named
             + [own].compactMap(\.self)
-        var isKnownToHoldNothing = true
+        // What a `**/` did not read may hold something excluded.
+        var isKnownToHoldNothing = left.isEmpty
         for folder in folders {
             if excludes(folder) { return true }
             switch holdsSomething(folder) {

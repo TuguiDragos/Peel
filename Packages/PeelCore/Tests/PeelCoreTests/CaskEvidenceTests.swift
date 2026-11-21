@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 @testable import PeelCore
 import Synchronization
@@ -189,18 +190,73 @@ struct CaskEvidenceTests {
         #expect(CaskEvidence.expand("~other/Library", home: home).isEmpty)
     }
 
-    @Test func aCasksDoubleStarLooksNoDeeperOnceItHasReadGlobsShare() throws {
-        let directory = try TemporaryDirectory()
-        let wide = try directory.directory("Library/Logs/Example/a-wide")
-        for index in 0..<16_384 {
-            FileManager.default.createFile(atPath: wide.appending(path: "\(index).log").path(percentEncoded: false), contents: nil)
+    /// `count` empty files in `folder`.
+    private func fill(_ folder: URL, with count: Int) {
+        let path = folder.path(percentEncoded: false)
+        for index in 0..<count {
+            let descriptor = open(path + "/\(index).log", O_CREAT | O_WRONLY | O_EXCL, 0o644)
+            if descriptor >= 0 { close(descriptor) }
         }
+    }
+
+    @Test func aCasksDoubleStarLooksNoDeeperOnceItHasReadGlobsShareAndSaysWhereItStarted() throws {
+        let directory = try TemporaryDirectory()
+        fill(try directory.directory("Library/Logs/Example/a-wide"), with: PathPattern.entriesAStarReads)
         try directory.file("Library/Logs/Example/b-near/trace.log")
         try directory.file("Library/Logs/Example/c-deep/deeper/trace.log")
+        var left = PathPattern.LeftUnread()
 
-        let found = CaskEvidence.expand("~/Library/Logs/Example/**/trace.log", home: directory.url)
+        let found = CaskEvidence.expand("~/Library/Logs/Example/**/trace.log", home: directory.url, leaving: &left)
 
         #expect(found.map { $0.deletingLastPathComponent().lastPathComponent } == ["b-near"])
+        #expect(left.cutShort.map(\.lastPathComponent) == ["Example"])
+        #expect(left.crowded.isEmpty)
+    }
+
+    @Test func aCasksDoubleStarCountsAFolderTooFullAndLooksForNothingInIt() throws {
+        let directory = try TemporaryDirectory()
+        let full = try directory.directory("Library/Logs/Example/a-full")
+        fill(full, with: PathPattern.entriesAStarReads)
+        try directory.file("Library/Logs/Example/a-full/trace.log")
+        try directory.file("Library/Logs/Example/b-near/trace.log")
+        try directory.file("Library/Logs/Example/c-deep/deeper/trace.log")
+        var left = PathPattern.LeftUnread()
+
+        let found = CaskEvidence.expand("~/Library/Logs/Example/**/trace.log", home: directory.url, leaving: &left)
+
+        // The folder too full takes nothing of what the walk reads, so the walk reaches every other folder.
+        #expect(found.map { $0.deletingLastPathComponent().lastPathComponent } == ["b-near", "deeper"])
+        #expect(left.crowded.map(\.url.lastPathComponent) == ["a-full"])
+        #expect(left.crowded.map(\.entries) == [PathPattern.entriesAStarReads + 1])
+        #expect(left.cutShort.isEmpty)
+    }
+
+    @Test func anUninstallNamesTheFolderACasksDoubleStarDidNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url
+        fill(try directory.directory(".local/share/icons/hicolor/48x48/apps"), with: PathPattern.entriesAStarReads + 1)
+        try directory.file(".local/share/icons/hicolor/32x32/apps/application-x-wine-extension.png")
+        let cask = HomebrewPackage(
+            name: "example-wine", kind: .cask, appNames: ["Example Wine.app"],
+            leftoverPatterns: ["~/.local/share/icons/hicolor/**/application-x-wine*"]
+        )
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example Wine.app"), bundleIdentifier: "org.example.wine", name: "Example Wine"
+        )
+
+        let uninstallation = await Uninstallation.prepare(
+            app, installedApps: [app], casks: [cask], environment: environment(home)
+        )
+        let kept = await Uninstallation.prepare(
+            app, installedApps: [app],
+            exclusions: Exclusions(paths: [home.appending(path: ".local/share/icons/hicolor/48x48")]), casks: [cask],
+            environment: environment(home)
+        )
+
+        #expect(uninstallation.scan.leftovers.map(\.url.lastPathComponent) == ["application-x-wine-extension.png"])
+        #expect(uninstallation.scan.crowdedFolders.map(\.url.lastPathComponent) == ["apps"])
+        #expect(uninstallation.scan.crowdedFolders.map(\.entries) == [PathPattern.entriesAStarReads + 1])
+        #expect(kept.scan.crowdedFolders.isEmpty)
     }
 
     /// A cask's patterns are data from elsewhere, so `glob` keeps them within its limits.

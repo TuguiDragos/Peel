@@ -133,11 +133,27 @@ public enum PathPattern {
         }
     }
 
-    private static let entriesAStarReads = 16_384
+    static let entriesAStarReads = 16_384
+
+    /// What the `**/` of a cask's pattern did not read, for whoever shows what it found.
+    struct LeftUnread: Sendable, Equatable {
+        /// The folders that hold more entries than a `**/` reads: counted, not read, and nothing in them matched.
+        var crowded: [CrowdedFolder] = []
+        /// The folders a `**/` started from and had no entries left to read before it reached every folder below.
+        var cutShort: [URL] = []
+
+        var isEmpty: Bool { crowded.isEmpty && cutShort.isEmpty }
+    }
 
     /// The existing files `pattern` names, leaving out irreplaceable ones (`isIrreplaceable`). A pattern without a
     /// leading `/` or `~` is read relative to `home`.
     static func expand(_ pattern: String, home: URL, from source: Source) -> [URL] {
+        var left = LeftUnread()
+        return expand(pattern, home: home, from: source, leaving: &left)
+    }
+
+    /// `expand`, with what a `**/` did not read added to `left`.
+    static func expand(_ pattern: String, home: URL, from source: Source, leaving left: inout LeftUnread) -> [URL] {
         let root = comparablePath(of: home)
         var path = pattern
         if path.hasPrefix("~") {
@@ -146,41 +162,64 @@ public enum PathPattern {
             path = root + "/" + path
         }
         guard source == .cask, path.contains("/**/") else { return matches(of: path, root: root, source: source) }
-        var unread = entriesAStarReads
-        return matchesThroughStars(of: path, root: root, unread: &unread)
+        var toRead = entriesAStarReads
+        return matchesThroughStars(of: path, root: root, toRead: &toRead, left: &left)
     }
 
     /// What a cask's `path` names when its first `**/` stands for the folder before it and every folder below.
-    private static func matchesThroughStars(of path: String, root: String, unread: inout Int) -> [URL] {
+    private static func matchesThroughStars(
+        of path: String, root: String, toRead: inout Int, left: inout LeftUnread
+    ) -> [URL] {
         guard let star = path.range(of: "/**/") else { return matches(of: path, root: root, source: .cask) }
         let rest = path[star.upperBound...]
         var found: [URL] = []
         for start in matches(of: String(path[..<star.lowerBound]), root: root, source: .cask) where start.isRealFolder {
-            for folder in folders(from: start, unread: &unread) {
+            for folder in folders(from: start, toRead: &toRead, left: &left) {
                 let inside = quoted(comparablePath(of: folder)) + "/" + rest
-                found += matchesThroughStars(of: inside, root: root, unread: &unread)
+                found += matchesThroughStars(of: inside, root: root, toRead: &toRead, left: &left)
             }
         }
         return found
     }
 
-    /// `start` and every folder below it, level by level, but hidden ones and links, until `unread` entries are read.
-    private static func folders(from start: URL, unread: inout Int) -> [URL] {
+    /// `start` and every folder below it, level by level, but hidden ones and links, each counted before it is read.
+    /// One holding more than a `**/` reads at all is left out, with what is in it, and noted as crowded; one holding
+    /// only more than is left `toRead` ends the walk, noted as cut short at `start`.
+    private static func folders(from start: URL, toRead: inout Int, left: inout LeftUnread) -> [URL] {
         var found = [start]
         var level = [start]
-        while !level.isEmpty {
+        var ranOut = false
+        while !level.isEmpty, !ranOut {
             var below: [URL] = []
-            for folder in level where unread > 0 {
-                let entries = (try? FileManager.default.contentsOfDirectory(
-                    at: folder, includingPropertiesForKeys: [.isDirectoryKey, .isSymbolicLinkKey]
-                )) ?? []
-                unread -= entries.count
-                below += entries.filter { !$0.lastPathComponent.hasPrefix(".") && $0.isRealFolder }
-                    .sorted { $0.lastPathComponent < $1.lastPathComponent }
+            for folder in level {
+                guard toRead > 0 else {
+                    ranOut = true
+                    break
+                }
+                switch ScanReads.listing(of: folder, limit: toRead) {
+                case .names(let names):
+                    toRead -= names.count
+                    below += names.filter { !$0.hasPrefix(".") }
+                        .map { folder.appending(path: $0, directoryHint: .notDirectory) }
+                        .filter(\.isRealFolder)
+                case .holdsTooMany(let count):
+                    // Where the file system keeps no count, the names read until the limit tell: they were a whole
+                    // walk's worth only when nothing had been read before.
+                    let isTooFull = count.map { $0 > entriesAStarReads } ?? (toRead == entriesAStarReads)
+                    if isTooFull {
+                        left.crowded.append(CrowdedFolder(url: folder, entries: count))
+                        found.removeAll { $0 == folder }
+                    }
+                    if count == nil || !isTooFull { toRead = 0 }
+                    if !isTooFull { ranOut = true }
+                case .missing, .unreadable:
+                    break
+                }
             }
             found += below
             level = below
         }
+        if ranOut { left.cutShort.append(start) }
         return found
     }
 
