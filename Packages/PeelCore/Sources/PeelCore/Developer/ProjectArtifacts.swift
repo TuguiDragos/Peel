@@ -1171,6 +1171,7 @@ public enum ProjectArtifacts {
         exclusions: Exclusions,
         measure: LeftoverScanner.Measure,
         budget: TimeInterval = FileSize.budget,
+        entryLimit: Int = ScanReads.entryLimit,
         listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
     ) async -> Walked {
         var pending: [Pending] = []
@@ -1194,8 +1195,8 @@ public enum ProjectArtifacts {
                 queue.removeFirst(next)
                 next = 0
             }
-            if let count = FolderEntries.count(at: folder.path(percentEncoded: false)), count > ScanReads.entryLimit {
-                crowded.append(CrowdedFolder(url: folder, entries: count))
+            if let tooFull = Self.crowded(folder, limit: entryLimit) {
+                crowded.append(tooFull)
                 continue
             }
             let answer = await SlowRead.answer(within: budget) { _ in
@@ -1504,6 +1505,16 @@ public enum ProjectArtifacts {
             return false
         }
         return values?.isUbiquitousItem != true
+    }
+
+    /// `folder` as one holding more than `limit` entries, counted by its file system, or where it keeps no count,
+    /// read a few names at a time up to `limit`; nil when it holds no more.
+    private static func crowded(_ folder: URL, limit: Int) -> CrowdedFolder? {
+        if let count = FolderEntries.count(at: folder.path(percentEncoded: false)) {
+            return count > limit ? CrowdedFolder(url: folder, entries: count) : nil
+        }
+        guard case .holdsTooMany(let count) = ScanReads.listing(of: folder, limit: limit) else { return nil }
+        return CrowdedFolder(url: folder, entries: count)
     }
 
     static func contents(of folder: URL) -> [URL]? {

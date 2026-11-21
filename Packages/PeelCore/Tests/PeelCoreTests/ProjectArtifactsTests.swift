@@ -1,9 +1,26 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
 struct ProjectArtifactsTests {
+    @Test func aFolderOnADiskThatKeepsNoCountIsCountedAsItIsRead() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let root = disk.url.appending(path: "Projects", directoryHint: .isDirectory)
+        let exports = root.appending(path: "exports", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: exports, withIntermediateDirectories: true)
+        for number in 0..<6 {
+            FileManager.default.createFile(atPath: exports.appending(path: "\(number).csv").path, contents: nil)
+        }
+        #expect(FolderEntries.count(at: exports.path(percentEncoded: false)) == nil)
+
+        let walked = await ProjectArtifacts.artifacts(in: root, exclusions: .none, measure: { _ in nil }, entryLimit: 5)
+
+        #expect(walked.crowded.map(\.url.lastPathComponent) == ["exports"])
+    }
+
     @Test func aFolderTooFullToReadIsNamedAndTheRestIsSearched() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Projects/app/package.json", bytes: 16)
