@@ -310,6 +310,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- Peel's windows no longer go full screen, where macOS drew a line of its own across the columns: the green button zooms
+  the window instead.
 - Refusals end with the next step: "macOS didn't allow it" adds that Home shows which permissions Peel is missing, a
   reason that needs administrator access that Home says what the helper needs, and a copy that changed since the scan to
   scan again.
