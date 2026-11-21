@@ -12,7 +12,7 @@ final class MoveProgress {
     private(set) var isReading = false
     /// True while Peel looks through a folder too full for a quick look, before that folder moves.
     private(set) var isLooking = false
-    /// How many items those looks have read.
+    /// How many items the look running now has read.
     private(set) var lookedAt = 0
     private var counted: MoveCount?
 

@@ -2,7 +2,8 @@ import Darwin
 import Foundation
 
 /// Whether the user can take an item out of a folder, judged from the folder's permissions and the item's
-/// owner. File flags are not read: moving a locked item fails, and the move reports that macOS didn't allow it.
+/// owner. Of the file flags only a folder's lock is read: a locked item needs no administrator, its move fails, and
+/// the move says it is locked.
 struct ParentAccess {
     let isWritable: Bool
     /// True when the folder is on a disk mounted to be read only (`access(2)` fails with `EROFS`), where nobody can
