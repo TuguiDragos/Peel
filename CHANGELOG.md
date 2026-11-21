@@ -13,7 +13,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   the Edit menu, and Forget… at the foot forgets, after one question, what is checked: from a removal only what has
   already left the Trash, and a Not Moved entry whole. What is still in the Trash, or on a disk that isn't connected,
   stays listed. Select What Left the Trash, above Select All in both menus, checks only the removals from which
-  something has left the Trash, and each of those rows says Left the Trash or Partly left the Trash.
+  something has left the Trash, and each of those rows carries a crossed-out Trash symbol, which says Left the Trash or
+  Partly left the Trash to VoiceOver and under the pointer.
 - On a Not Moved entry's page, each item still where it was has Show in Finder, and a button opens each tool the items
   were to move from, where a new scan judges them again.
 
