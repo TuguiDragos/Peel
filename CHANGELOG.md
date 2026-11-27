@@ -11,7 +11,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - On an account that is not an administrator, Peel installs, repairs, and uninstalls its helper once an administrator
   enters a name and password in the window macOS shows, where before an administrator had to set it up on their own
-  account. Home and Settings > Helper say where the helper stands and offer the step it needs.
+  account. Home and Settings > Helper say where the helper stands and offer the step it needs, and Remove Peel says to
+  uninstall the helper there first.
 
 ### Fixed
 

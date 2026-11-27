@@ -60,4 +60,9 @@ struct SelfUninstallAccountTests {
         #expect(!SelfUninstall.waitsForAnAdministrator(isAdministrator: false, status: .notRegistered))
         #expect(!SelfUninstall.waitsForAnAdministrator(isAdministrator: true, status: .enabled))
     }
+
+    @Test func onAStandardAccountTheWordsNameTheButtonThatRemovesTheHelper() {
+        #expect(SelfUninstall.helperGoesFirst.contains(String(localized: "Uninstall Helper")))
+        #expect(SelfUninstall.helperGoesFirst.contains(String(localized: "Remove Peel")))
+    }
 }

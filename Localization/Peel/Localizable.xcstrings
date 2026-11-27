@@ -152895,6 +152895,112 @@
         }
       }
     },
+    "On this account, choose Uninstall Helper in Settings > Helper first, where an administrator enters a name and password, then choose Remove Peel." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tomto účtu nejdřív zvolte „Odinstalovat pomocníka“ v Nastavení > Pomocník, kde správce zadá jméno a heslo, a potom zvolte „Odstranit Peel“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle mit diesem Benutzeraccount zuerst „Hilfsprogramm deinstallieren“ unter „Einstellungen“ > „Hilfsprogramm“, wo ein Administrator einen Namen und ein Passwort eingibt, und dann „Peel entfernen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En esta cuenta, elige primero “Desinstalar asistente” en Ajustes > Asistente, donde un administrador introduce un nombre y una contraseña, y luego elige “Eliminar Peel”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur ce compte, choisissez d’abord « Désinstaller l’utilitaire » dans Réglages > Utilitaire, où un administrateur saisit un nom et un mot de passe, puis choisissez « Supprimer Peel »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su questo account, scegli prima “Disinstalla assistente” in Impostazioni > Assistente, dove un amministratore inserisce nome e password, poi scegli “Rimuovi Peel”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでは、まず“設定” > “ヘルパー”で“ヘルパーをアンインストール”を選択して管理者が名前とパスワードを入力し、そのあと“Peelをアンインストール”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정에서는 먼저 설정 > 보조 프로그램에서 ‘보조 프로그램 제거’를 선택하여 관리자가 이름과 암호를 입력한 다음, ‘Peel 제거’를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies in deze account eerst 'Deïnstalleer hulpprogramma' in Instellingen > Hulpprogramma, waar een beheerder een naam en wachtwoord invoert, en kies daarna 'Verwijder Peel'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tym koncie najpierw wybierz „Odinstaluj pomocnika” w Ustawienia > Pomocnik, gdzie administrator wpisuje nazwę i hasło, a potem wybierz „Odinstaluj Peel”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nesta conta, escolha primeiro “Desinstalar Auxiliar” em Ajustes > Auxiliar, onde um administrador digita um nome e uma senha, e depois escolha “Remover o Peel”."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pe acest cont, alegeți întâi „Dezinstalați instrumentul de ajutor” în Configurări > Instrument de ajutor, unde un administrator introduce un nume și o parolă, apoi alegeți „Eliminați Peel”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой учетной записи сначала выберите «Удалить помощника» в разделе «Настройки» > «Помощник», где администратор вводит имя и пароль, а затем выберите «Удалить Peel»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På det här kontot väljer du först ”Avinstallera hjälpprogram” under Inställningar > Hjälpprogram, där en administratör anger namn och lösenord, och sedan ”Ta bort Peel”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesapta önce Ayarlar > Yardımcı bölümünde “Yardımcıyı Kaldır” düğmesini tıklayın; burada bir yönetici ad ve parola girer. Ardından “Peel’i Kaldır” düğmesini tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цьому обліковому записі спершу виберіть «Деінсталювати помічника» в «Параметри» > «Помічник», де адміністратор вводить імʼя та пароль, а потім виберіть «Вилучити Peel»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此账户中，请先在“设置” > “帮助程序”中选取“卸载帮助程序”，由管理员输入名称和密码，然后选取“移除Peel”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此帳號中，請先在「設定」>「輔助程式」中選擇「解除安裝輔助程式」，由管理者輸入名稱和密碼，然後選擇「移除Peel」。"
+          }
+        }
+      }
+    },
     "Once %@ leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which History cannot bring back. Then NoMachine Uninstall opens and asks for an administrator password to delete the accounts NoMachine made." : {
       "localizations" : {
         "cs" : {
@@ -154817,112 +154923,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有管理者能將它加入PATH。「設定」會改為提供適用於你的Shell的一行設定。"
-          }
-        }
-      }
-    },
-    "Only an administrator can remove Peel’s helper, so Peel can’t remove itself from this account. Log in as an administrator and choose Remove Peel there." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka Peelu může odstranit jen správce, takže Peel se z tohoto účtu odstranit nemůže. Přihlaste se jako správce a tam zvolte „Odstranit Peel“."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur ein Administrator kann das Hilfsprogramm von Peel entfernen, daher kann sich Peel mit diesem Benutzeraccount nicht selbst entfernen. Melde dich als Administrator an und wähle dort „Peel entfernen“."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un administrador puede eliminar el asistente de Peel, así que Peel no puede eliminarse desde esta cuenta. Inicia sesión como administrador y elige “Eliminar Peel” allí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seul un administrateur peut supprimer l’utilitaire de Peel : Peel ne peut donc pas se supprimer depuis ce compte. Ouvrez une session en tant qu’administrateur et choisissez « Supprimer Peel » dans cette session."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un amministratore può rimuovere l’assistente di Peel, quindi Peel non può rimuovere sé stesso da questo account. Esegui il login come amministratore e scegli “Rimuovi Peel” da lì."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーを取り除けるのは管理者だけのため、Peelはこのアカウントから自身をアンインストールできません。管理者としてログインし、そこで“Peelをアンインストール”を選択してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "관리자만 Peel 보조 프로그램을 제거할 수 있으므로, 이 계정에서는 Peel이 자신을 제거할 수 없습니다. 관리자로 로그인한 다음 그곳에서 ‘Peel 제거’를 선택하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen een beheerder kan het hulpprogramma van Peel verwijderen, dus Peel kan zichzelf niet verwijderen vanuit deze account. Log in als beheerder en kies daar 'Verwijder Peel'."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tylko administrator może odinstalować pomocnika Peel, więc Peel nie może odinstalować się z tego konta. Zaloguj się jako administrator i tam wybierz „Odinstaluj Peel”."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Só um administrador pode remover o auxiliar do Peel, então o Peel não pode se remover a partir desta conta. Inicie sessão como administrador e escolha “Remover o Peel” lá."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar un administrator poate elimina instrumentul de ajutor Peel, așa că Peel nu se poate elimina din acest cont. Faceți login ca administrator și alegeți „Eliminați Peel” de acolo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить помощника Peel может только администратор, поэтому из этой учетной записи Peel не может удалить себя. Войдите как администратор и выберите там «Удалить Peel»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bara en administratör kan ta bort Peels hjälpprogram, så Peel kan inte ta bort sig själv från det här kontot. Logga in som administratör och välj ”Ta bort Peel” där."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısını yalnızca bir yönetici kaldırabilir, bu yüzden Peel kendini bu hesaptan kaldıramaz. Yönetici olarak oturum açın ve orada “Peel’i Kaldır” düğmesini tıklayın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучити помічника Peel може лише адміністратор, тож із цього облікового запису Peel не може вилучити себе. Увійдіть як адміністратор і виберіть там «Вилучити Peel»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理员才能移除Peel的帮助程序，因此Peel无法在此账户中移除自己。请以管理员身份登录，然后在那里选取“移除Peel”。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理者能移除Peel的輔助程式，因此Peel無法從此帳號移除自己。請以管理者身分登入，並在那裡選擇「移除Peel」。"
           }
         }
       }

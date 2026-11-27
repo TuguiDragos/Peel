@@ -526,7 +526,7 @@ struct GeneralSettingsView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if waitsForAnAdministrator {
-                        Text(verbatim: SelfUninstall.onlyAnAdministrator)
+                        Text(verbatim: SelfUninstall.helperGoesFirst)
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if way == .waitingForHomebrew {

@@ -90,8 +90,8 @@ final class SelfUninstall {
         !isAdministrator && status.isRegistered
     }
 
-    static var onlyAnAdministrator: String {
-        String(localized: "Only an administrator can remove Peel’s helper, so Peel can’t remove itself from this account. Log in as an administrator and choose Remove Peel there.")
+    static var helperGoesFirst: String {
+        String(localized: "On this account, choose Uninstall Helper in Settings > Helper first, where an administrator enters a name and password, then choose Remove Peel.")
     }
 
     /// What Remove Peel's question says goes before the files: the helper while it is registered, since every
@@ -239,7 +239,7 @@ final class SelfUninstall {
         let helperStayed = String(localized: "The Peel helper could not be removed, so Peel stayed where it was.")
         switch stay {
         case .helperIsNotThisAccounts:
-            return onlyAnAdministrator
+            return helperGoesFirst
         case .helperStayed(let reason, let ledger):
             let reason = reason ?? helperStayed
             return ledger == .moved ? "\(reason)\n\n\(ledgerInTheTrash)" : reason
