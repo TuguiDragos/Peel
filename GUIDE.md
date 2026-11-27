@@ -595,8 +595,9 @@ can't change, it says who can: log in as the account Peel belongs to, or as an a
 when neither can, drag Peel to the Trash in Finder, which asks for an administrator's password. When the helper went
 before Peel, Remove Peel lists the helper's folder that stays, with how to remove it in Finder. From the copy macOS
 runs while Peel is still marked as downloaded, or from its disk image, move Peel to
-the Applications folder, open it there, and choose Remove Peel. And while its helper is installed, only an
-administrator's account can remove it, so from another account Peel stays where it is.
+the Applications folder, open it there, and choose Remove Peel. And while its helper is installed, an account that
+isn't an administrator uninstalls the helper first, with Uninstall Helper in Settings > Helper and an administrator's
+name and password, and then chooses Remove Peel, as Peel says there.
 
 If you dragged Peel to the Trash instead, its helper stays registered: System Settings > General > Login Items &
 Extensions still lists Peel among the apps with background activity. Put Peel back from the Trash in Finder, open it,
