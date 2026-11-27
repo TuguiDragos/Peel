@@ -69,17 +69,17 @@ struct AppInspectorTests {
         #expect(!AppInspector.anotherCopyIsInstalled(of: moved, among: stillListed))
     }
 
-    @Test func aCopyOnTheDiskImageAnAppCameOnIsNoCopyInstalled() throws {
+    @Test func aCopyOnTheDiskImageAnAppCameOnIsNoCopyInstalled() async throws {
         let directory = try TemporaryDirectory()
         let info: [String: Any] = ["CFBundleIdentifier": "org.example.inspector.image", "CFBundlePackageType": "APPL"]
         let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
         let place = directory.url.appending(path: "Image", directoryHint: .isDirectory)
-        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: place)
+        let disk = try await ScratchVolume(fileSystem: "HFS+", mountedAt: place)
         try FileManager.default.createDirectory(
             at: place.appending(path: "Probe.app/Contents"), withIntermediateDirectories: true
         )
         try data.write(to: place.appending(path: "Probe.app/Contents/Info.plist"))
-        try disk.remount(at: place, readOnly: true)
+        try await disk.remount(at: place, readOnly: true)
         let onTheImage = place.appending(path: "Probe.app", directoryHint: .isDirectory)
         let trashed = try directory.file("home/.Trash/Probe.app/Contents/Info.plist", contents: data)
             .deletingLastPathComponent().deletingLastPathComponent()

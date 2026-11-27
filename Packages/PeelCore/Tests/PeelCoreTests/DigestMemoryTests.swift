@@ -170,7 +170,7 @@ struct DigestMemoryTests {
     @Test(arguments: ["ExFAT", "MS-DOS FAT32"])
     func readsAgainAFileOnADiskThatKeepsNoStatusChangeTime(fileSystem: String) async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: fileSystem, mountedAt: directory.url.appending(path: "home", directoryHint: .isDirectory)
         )
         let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))

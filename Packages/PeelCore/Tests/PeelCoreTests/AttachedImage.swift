@@ -6,11 +6,11 @@ final class AttachedImage {
     let url: URL
     private var device: String?
 
-    init(at url: URL) throws {
+    init(at url: URL) async throws {
         self.url = url
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try DiskImageTool.hdiutil("create", "-size", "1m", "-fs", "APFS", "-volname", "Probe", url.path)
-        let answer = try DiskImageTool.diskutil(
+        try await DiskImageTool.hdiutil("create", "-size", "1m", "-fs", "APFS", "-volname", "Probe", url.path)
+        let answer = try await DiskImageTool.diskutil(
             "image", "attach", "--plist", "--readOnly", "--nobrowse", "--noMount", url.path
         )
         let plist = try PropertyListSerialization.propertyList(from: answer, format: nil) as? [String: Any]

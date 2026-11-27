@@ -58,7 +58,7 @@ struct CombinedMovesTests {
 
     @Test func aDiskWithNoRoomForHistoryMovesNothingAndSaysSo() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"), size: "256m"
         )
         let history = disk.url.appending(path: "Peel/removals.json")
@@ -82,7 +82,7 @@ struct CombinedMovesTests {
 
     @Test func aDiskThatFillsBetweenTwoItemsKeepsWhatMovedWrittenDown() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"), size: "256m"
         )
         let place = disk.url
@@ -119,7 +119,7 @@ struct CombinedMovesTests {
     @Test func aRemovalKilledHalfwayOnAnExFATDiskIsInHistoryAndGoesBackFromThatDisksTrash() async throws {
         let directory = try TemporaryDirectory()
         let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: place)
+        let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: place)
         let files = try (1...3).map { number -> URL in
             let file = place.appending(path: "org.example.cut/\(number).txt")
             try FileManager.default.createDirectory(
@@ -202,7 +202,7 @@ struct CombinedMovesTests {
     @Test func aDiskTakenAwayHalfwayKeepsWhatMovedWrittenDownAndPutsItBackWhereverItComesBack() async throws {
         let directory = try TemporaryDirectory()
         let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
-        let disk = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        let disk = try await ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
         let files = try (1...3).map { number -> URL in
             let file = place.appending(path: "org.example.away/\(number).txt")
             try FileManager.default.createDirectory(
@@ -236,7 +236,7 @@ struct CombinedMovesTests {
         #expect(RemovalStanding(records).away == Set(records.map(\.id)))
 
         let elsewhere = directory.url.appending(path: "Elsewhere", directoryHint: .isDirectory)
-        try disk.attach(at: elsewhere)
+        try await disk.attach(at: elsewhere)
         let located = try #require(records.first).located(on: .now())
 
         #expect(await service.restore(located.trashedItem) == nil)

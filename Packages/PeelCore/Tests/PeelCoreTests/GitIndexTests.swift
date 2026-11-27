@@ -165,7 +165,7 @@ struct GitIndexTests {
         let directory = try TemporaryDirectory()
         let git = try await GitFixture(home: directory.url.appending(path: "home"))
         try await git.run("init", "-q", in: directory.url)
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let project = disk.url.appending(path: "App", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: project.appending(path: "Pods"), withIntermediateDirectories: true)
 

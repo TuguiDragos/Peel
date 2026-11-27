@@ -2,23 +2,23 @@ import Foundation
 import Testing
 
 struct DiskImageToolTests {
-    @Test func aDiskThatCantBeMadeSaysWhatHdiutilAnswered() throws {
+    @Test func aDiskThatCantBeMadeSaysWhatHdiutilAnswered() async throws {
         let directory = try TemporaryDirectory()
 
-        let error = #expect(throws: (any Error).self) {
-            try ScratchVolume(fileSystem: "No Such File System", mountedAt: directory.url.appending(path: "Disk"))
+        let error = await #expect(throws: (any Error).self) {
+            try await ScratchVolume(fileSystem: "No Such File System", mountedAt: directory.url.appending(path: "Disk"))
         }
 
         #expect(String(describing: error).contains("hdiutil: create failed"))
     }
 
-    @Test func aDiskWhoseProcessEndedIsDetachedByTheNextAndNoOtherIs() throws {
+    @Test func aDiskWhoseProcessEndedIsDetachedByTheNextAndNoOtherIs() async throws {
         let directory = try TemporaryDirectory()
-        let left = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Left"))
-        let kept = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Kept"))
+        let left = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Left"))
+        let kept = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Kept"))
         try left.leaveAsIfItsProcessEnded()
 
-        ScratchVolume.detachTheLeftovers()
+        await ScratchVolume.detachTheLeftovers()
 
         #expect(!left.isAttached)
         #expect(kept.isAttached)
@@ -47,9 +47,9 @@ struct DiskImageToolTests {
         #expect(places == ["/tmp/left/Disk"])
     }
 
-    @Test func aDiskIsTakenAwayByACommandMacOSDoesNotCallDeprecated() throws {
+    @Test func aDiskIsTakenAwayByACommandMacOSDoesNotCallDeprecated() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
 
         let said = try disk.eject()
 
@@ -57,9 +57,9 @@ struct DiskImageToolTests {
         #expect(!disk.isAttached)
     }
 
-    @Test func aDiskThatLeavesUnderItsTestIsKnownToHaveLeft() throws {
+    @Test func aDiskThatLeavesUnderItsTestIsKnownToHaveLeft() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         #expect(!disk.leftUnderItsTest)
 
         try DiskImageTool.eject(disk.url.path)
@@ -76,7 +76,7 @@ struct DiskImageToolTests {
         let volumes = try await withThrowingTaskGroup(of: String?.self) { group in
             for place in places {
                 group.addTask {
-                    let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: place)
+                    let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: place)
                     return try withExtendedLifetime(disk) {
                         try disk.url.resourceValues(forKeys: [.volumeUUIDStringKey]).volumeUUIDString
                     }

@@ -11,11 +11,11 @@ struct HomeOnAnotherDiskTests {
     enum HomeDisk: String, CaseIterable {
         case apfsWithOwners, apfs, exFAT
 
-        func mount(at url: URL) throws -> ScratchVolume {
+        func mount(at url: URL) async throws -> ScratchVolume {
             switch self {
-            case .apfsWithOwners: try ScratchVolume(fileSystem: "APFS", mountedAt: url, owners: true)
-            case .apfs: try ScratchVolume(fileSystem: "APFS", mountedAt: url)
-            case .exFAT: try ScratchVolume(fileSystem: "ExFAT", mountedAt: url)
+            case .apfsWithOwners: try await ScratchVolume(fileSystem: "APFS", mountedAt: url, owners: true)
+            case .apfs: try await ScratchVolume(fileSystem: "APFS", mountedAt: url)
+            case .exFAT: try await ScratchVolume(fileSystem: "ExFAT", mountedAt: url)
             }
         }
     }
@@ -68,9 +68,9 @@ struct HomeOnAnotherDiskTests {
     }
 
     @Test(arguments: HomeDisk.allCases)
-    func whatTheHelperServesOnTheStartupDiskGoesToTheAccountsTrashThere(home kind: HomeDisk) throws {
+    func whatTheHelperServesOnTheStartupDiskGoesToTheAccountsTrashThere(home kind: HomeDisk) async throws {
         let directory = try TemporaryDirectory()
-        let disk = try kind.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await kind.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -97,9 +97,9 @@ struct HomeOnAnotherDiskTests {
         #expect(try String(contentsOfFile: item, encoding: .utf8) == "cache")
     }
 
-    @Test func whatIsInTheLibraryOfAHomeOnAnotherDiskStaysUnrecorded() throws {
+    @Test func whatIsInTheLibraryOfAHomeOnAnotherDiskStaysUnrecorded() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfsWithOwners.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfsWithOwners.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -117,9 +117,9 @@ struct HomeOnAnotherDiskTests {
         #expect(try ledger.origin(of: opened, movedBy: getuid()) == nil)
     }
 
-    @Test func whatGoesBackToAHomeOnAnotherDiskStaysInTheTrash() throws {
+    @Test func whatGoesBackToAHomeOnAnotherDiskStaysInTheTrash() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfsWithOwners.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfsWithOwners.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -146,9 +146,9 @@ struct HomeOnAnotherDiskTests {
         #expect(!FileManager.default.fileExists(atPath: library + "/org.example.cache"))
     }
 
-    @Test func theHelperMakesTheAccountsTrashOnTheStartupDiskWhenAsked() throws {
+    @Test func theHelperMakesTheAccountsTrashOnTheStartupDiskWhenAsked() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -169,7 +169,7 @@ struct HomeOnAnotherDiskTests {
 
     @Test func peelsOwnMoveHasTheHelperMakeItsTrashOnTheStartupDiskFirst() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = URL(filePath: try home(on: disk), directoryHint: .isDirectory)
         let onTheStartupDisk = try directory.file("root/Library/Caches/org.example.cache", contents: Data("cache".utf8))
         let inTheHome = home.appending(path: "Library/Caches/org.example.home")
@@ -192,9 +192,9 @@ struct HomeOnAnotherDiskTests {
         #expect((fromTheStartupDisk.failures.map(\.reason) == [.noTrashOnThisDisk]) == lacked)
     }
 
-    @Test func peelOffersWhatTheHelperCanMoveForAHomeOnAnotherDisk() throws {
+    @Test func peelOffersWhatTheHelperCanMoveForAHomeOnAnotherDisk() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         try directory.file("root/Applications/Example.app/Contents/Info.plist")
         let root = directory.url.appending(path: "root")
@@ -204,9 +204,9 @@ struct HomeOnAnotherDiskTests {
         #expect(reach.isBeyond(URL(filePath: home + "/Library/Caches")), "the helper never takes it to another disk")
     }
 
-    @Test func theStartupDisksTrashIsNamedWhereMacOSKeepsIt() throws {
+    @Test func theStartupDisksTrashIsNamedWhereMacOSKeepsIt() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let away = URL(filePath: try home(on: disk)), here = try directory.directory("home")
         let startupDisk = try #require(AccountTrash.top(ofTheDiskOf: "/private/var/db"))
 
@@ -228,9 +228,9 @@ struct HomeOnAnotherDiskTests {
         }
     }
 
-    @Test func whatAMoveCutShortLeftGoesToTheTrashOnTheStartupDiskForAHomeElsewhere() throws {
+    @Test func whatAMoveCutShortLeftGoesToTheTrashOnTheStartupDiskForAHomeElsewhere() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -246,9 +246,9 @@ struct HomeOnAnotherDiskTests {
         #expect(try FileManager.default.contentsOfDirectory(atPath: staging).isEmpty)
     }
 
-    @Test func peelsLedgerGoesToTheTrashOnTheStartupDiskForAHomeElsewhere() throws {
+    @Test func peelsLedgerGoesToTheTrashOnTheStartupDiskForAHomeElsewhere() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -269,9 +269,9 @@ struct HomeOnAnotherDiskTests {
         #expect(into == top + "/.Trashes/\(getuid())")
     }
 
-    @Test func theDisksTrashIsOpenedOnlyWhenItIsRootsAndTheAccountsOwn() throws {
+    @Test func theDisksTrashIsOpenedOnlyWhenItIsRootsAndTheAccountsOwn() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }
@@ -320,9 +320,9 @@ struct HomeOnAnotherDiskTests {
         #expect(opened(user: getuid() + 1) == nil, "ATTACK SUCCEEDED: another account's folder took this one's place")
     }
 
-    @Test func aTrashSwappedAfterItOpenedSendsNothingElsewhere() throws {
+    @Test func aTrashSwappedAfterItOpenedSendsNothingElsewhere() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let disk = try await HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
         let home = try home(on: disk)
         let top = try top(directory)
         defer { openingAgain(top) }

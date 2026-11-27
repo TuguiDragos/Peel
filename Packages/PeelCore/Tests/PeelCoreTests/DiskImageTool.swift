@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 
 /// Runs `hdiutil` and `diskutil` for the tests that make disk images, and throws what the tool said when it fails.
 enum DiskImageTool {
@@ -12,18 +13,18 @@ enum DiskImageTool {
 
     /// Runs `hdiutil` with `arguments`, `input` on its standard input, and answers what it wrote on standard output.
     @discardableResult
-    static func hdiutil(_ arguments: String..., input: Data = Data()) throws -> Data {
-        try hdiutil(arguments, input: input)
+    static func hdiutil(_ arguments: String..., input: Data = Data()) async throws -> Data {
+        try await hdiutil(arguments, input: input)
     }
 
     @discardableResult
-    static func hdiutil(_ arguments: [String], input: Data = Data()) throws -> Data {
-        try run("/usr/bin/hdiutil", arguments, input: input)
+    static func hdiutil(_ arguments: [String], input: Data = Data()) async throws -> Data {
+        try await onAThreadOfItsOwn("/usr/bin/hdiutil", arguments, input: input).output
     }
 
     @discardableResult
-    static func diskutil(_ arguments: String...) throws -> Data {
-        try run("/usr/sbin/diskutil", arguments, input: Data())
+    static func diskutil(_ arguments: String...) async throws -> Data {
+        try await onAThreadOfItsOwn("/usr/sbin/diskutil", arguments, input: Data()).output
     }
 
     /// Takes the disk at `place`, a mount point or a device, away with `diskutil eject`, which `hdiutil` itself names
@@ -35,8 +36,18 @@ enum DiskImageTool {
         return String(decoding: said.output + said.errors, as: UTF8.self)
     }
 
-    private static func run(_ tool: String, _ arguments: [String], input: Data) throws -> Data {
-        try streams(tool, arguments, input: input).output
+    /// As many tools at once as this Mac has processors, as ran when each held one of the threads the tests share.
+    private static let turns = Turns(ProcessInfo.processInfo.activeProcessorCount)
+
+    /// Runs the tool on a thread of its own, so no thread the tests share waits for it.
+    private static func onAThreadOfItsOwn(
+        _ tool: String, _ arguments: [String], input: Data
+    ) async throws -> (output: Data, errors: Data) {
+        await turns.take()
+        defer { turns.give() }
+        return try await withCheckedThrowingContinuation { continuation in
+            Thread { continuation.resume(with: Result { try streams(tool, arguments, input: input) }) }.start()
+        }
     }
 
     /// The tool's streams are files rather than pipes, so neither can fill while the other waits to be read.
@@ -65,5 +76,44 @@ enum DiskImageTool {
             )
         }
         return (answer, complaints)
+    }
+
+    /// A set number of turns: who comes when none is free waits for one without holding a thread.
+    private final class Turns: Sendable {
+        private struct State {
+            var free: Int
+            var waiting: [CheckedContinuation<Void, Never>] = []
+        }
+
+        private let state: Mutex<State>
+
+        init(_ count: Int) {
+            state = Mutex(State(free: count))
+        }
+
+        func take() async {
+            await withCheckedContinuation { continuation in
+                let isFree = state.withLock { state in
+                    guard state.free > 0 else {
+                        state.waiting.append(continuation)
+                        return false
+                    }
+                    state.free -= 1
+                    return true
+                }
+                if isFree { continuation.resume() }
+            }
+        }
+
+        func give() {
+            let next = state.withLock { state -> CheckedContinuation<Void, Never>? in
+                guard !state.waiting.isEmpty else {
+                    state.free += 1
+                    return nil
+                }
+                return state.waiting.removeFirst()
+            }
+            next?.resume()
+        }
     }
 }

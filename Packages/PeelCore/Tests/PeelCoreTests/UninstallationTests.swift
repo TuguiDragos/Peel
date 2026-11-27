@@ -39,13 +39,13 @@ struct UninstallationTests {
 
     @Test func anAppOnADiskThatCanOnlyBeReadStaysAndNeedsNoAdministrator() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
         let bundle = disk.url.appending(path: "Applications/Reader.app", directoryHint: .isDirectory)
         for folder in [home.appending(path: "Library/Caches/org.example.reader"), bundle] {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         }
-        try disk.remount(at: disk.url, readOnly: true)
+        try await disk.remount(at: disk.url, readOnly: true)
         let app = InstalledApp(url: bundle, bundleIdentifier: "org.example.reader", name: "Reader")
         let environment = SearchEnvironment(
             homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)

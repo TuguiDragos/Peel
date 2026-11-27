@@ -132,9 +132,9 @@ struct DesktopWalletTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: cache)))
     }
 
-    @Test func framesSignersKeptOnAnotherDiskFromACaseSensitiveHome() throws {
+    @Test func framesSignersKeptOnAnotherDiskFromACaseSensitiveHome() async throws {
         let directory = try TemporaryDirectory()
-        let volume = try ScratchVolume(
+        let volume = try await ScratchVolume(
             fileSystem: "Case-sensitive APFS",
             mountedAt: directory.url.appending(path: "Volume", directoryHint: .isDirectory)
         )

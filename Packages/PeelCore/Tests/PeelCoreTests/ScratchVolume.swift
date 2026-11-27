@@ -22,18 +22,18 @@ final class ScratchVolume {
     /// external disk, unless `owners` says otherwise.
     init(
         fileSystem: String, mountedAt url: URL, serial: UInt32? = nil, owners: Bool = false, size: String = "64m"
-    ) throws {
-        _ = Self.detachTheLeftoversOnce
+    ) async throws {
+        await Self.leftoversDetached.value
         image = try TemporaryDirectory()
         self.url = url
         try Data((Self.identity(of: getpid()) ?? "").utf8).write(to: image.url.appending(path: Self.ownerFile))
         let file = image.url.appending(path: "disk.dmg")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
-        try DiskImageTool.hdiutil(
+        try await DiskImageTool.hdiutil(
             ["create", "-size", size, "-fs", fileSystem] + Self.serial(for: fileSystem, given: serial)
                 + ["-volname", "Scratch", "-type", "UDIF", file.path]
         )
-        try DiskImageTool.hdiutil(
+        try await DiskImageTool.hdiutil(
             ["attach", "-nobrowse", "-noautoopen", "-noverify"] + (owners ? ["-owners", "on"] : [])
                 + ["-mountpoint", url.path, file.path]
         )
@@ -89,12 +89,12 @@ final class ScratchVolume {
         return "\(pid) \(info.pbi_start_tvsec).\(info.pbi_start_tvusec)"
     }
 
-    private static let detachTheLeftoversOnce: Void = detachTheLeftovers()
+    private static let leftoversDetached = Task { await detachTheLeftovers() }
 
     /// Detaches the disks whose process no longer runs, and no other: those of a process still running, another
     /// suite's included, stay.
-    static func detachTheLeftovers() {
-        guard let answer = try? DiskImageTool.hdiutil("info", "-plist"),
+    static func detachTheLeftovers() async {
+        guard let answer = try? await DiskImageTool.hdiutil("info", "-plist"),
               let info = try? PropertyListSerialization.propertyList(from: answer, format: nil) as? [String: Any],
               let images = info["images"] as? [[String: Any]]
         else { return }
@@ -139,7 +139,7 @@ final class ScratchVolume {
     /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere, or,
     /// `readOnly`, as the disk image an app came on is mounted. It is unmounted without force, since a forced unmount
     /// skips writing out what the file system still holds.
-    func remount(at place: URL, readOnly: Bool = false) throws {
+    func remount(at place: URL, readOnly: Bool = false) async throws {
         do {
             try DiskImageTool.eject(url.path, force: false)
         } catch let failure as DiskImageTool.Failure {
@@ -147,7 +147,7 @@ final class ScratchVolume {
                 command: failure.command, status: failure.status, said: failure.said + "\nIn use: " + holders()
             )
         }
-        try attach(at: place, readOnly: readOnly)
+        try await attach(at: place, readOnly: readOnly)
     }
 
     /// What keeps the disk from being detached without force: what this process holds open on it, read at once, then
@@ -188,10 +188,10 @@ final class ScratchVolume {
     }
 
     /// The disk plugged in again at `place`, once something took it away.
-    func attach(at place: URL, readOnly: Bool = false) throws {
+    func attach(at place: URL, readOnly: Bool = false) async throws {
         try FileManager.default.createDirectory(at: place, withIntermediateDirectories: true)
         let file = image.url.appending(path: "disk.dmg")
-        try DiskImageTool.hdiutil(
+        try await DiskImageTool.hdiutil(
             ["attach", "-nobrowse", "-noautoopen", "-noverify"] + (readOnly ? ["-readonly"] : [])
                 + ["-mountpoint", place.path, file.path]
         )

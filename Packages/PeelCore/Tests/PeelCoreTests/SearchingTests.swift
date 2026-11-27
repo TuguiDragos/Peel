@@ -143,14 +143,14 @@ struct SearchingTests {
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
     }
 
-    @Test func knowsAFileOnADiskMountedToBeReadOnly() throws {
+    @Test func knowsAFileOnADiskMountedToBeReadOnly() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let file = disk.url.appending(path: "Tool.dmg")
         try Data(count: 16).write(to: file)
         #expect(!FileAccess.isOnAReadOnlyDisk(file))
 
-        try disk.remount(at: disk.url, readOnly: true)
+        try await disk.remount(at: disk.url, readOnly: true)
 
         #expect(FileAccess.isOnAReadOnlyDisk(file))
         #expect(!FileAccess.requiresPrivilegesToRemove(file), "an administrator can't move it either")

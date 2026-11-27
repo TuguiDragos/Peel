@@ -15,9 +15,9 @@ struct LookLimitTests {
         #expect((try? ProtectedData.look(in: folder, followingLinks: false, limit: 6).get())?.count == 6)
     }
 
-    @Test func countsAFolderOnADiskThatDoesNotTellHowManyEntriesItHolds() throws {
+    @Test func countsAFolderOnADiskThatDoesNotTellHowManyEntriesItHolds() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
         let folder = disk.url.appending(path: "folder", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         for name in 0..<6 {

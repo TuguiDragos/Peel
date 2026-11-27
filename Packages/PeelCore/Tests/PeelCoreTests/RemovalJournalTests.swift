@@ -625,10 +625,10 @@ struct RemovalJournalTests {
         #expect(journal.entries().count == 1)
     }
 
-    @Test func aLineWrittenBeforeAMoveKnowsTheDiskTheItemLeavesFrom() throws {
+    @Test func aLineWrittenBeforeAMoveKnowsTheDiskTheItemLeavesFrom() async throws {
         let directory = try TemporaryDirectory()
         let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
-        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "Disk"))
         let file = disk.url.appending(path: "Example")
         try Data("x".utf8).write(to: file)
         let volume = try #require(try disk.url.resourceValues(forKeys: [.volumeUUIDStringKey]).volumeUUIDString)

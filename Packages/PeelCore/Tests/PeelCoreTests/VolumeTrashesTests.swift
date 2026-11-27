@@ -7,9 +7,9 @@ import Testing
 struct VolumeTrashesTests {
     /// An app thrown away from another disk lands in that disk's own Trash, so that is where the watch looks. An
     /// app on the home's disk lands in the home's Trash, which is watched already.
-    @Test func watchesTheTrashOfEachOtherDiskAnAppIsOn() throws {
+    @Test func watchesTheTrashOfEachOtherDiskAnAppIsOn() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let app = disk.url.appending(path: "Applications/Example.app", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: app, withIntermediateDirectories: true)
         let calculator = URL(filePath: "/System/Applications/Calculator.app", directoryHint: .isDirectory)

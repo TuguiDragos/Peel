@@ -33,9 +33,9 @@ struct TrashMoverTests {
         #expect(ItemIdentity(info) == ItemIdentity(info))
     }
 
-    @Test func aFileMovesWhereTheDiskCannotRefuseToReplace() throws {
+    @Test func aFileMovesWhereTheDiskCannotRefuseToReplace() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: "ExFAT",
             mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
         )
@@ -96,9 +96,9 @@ struct TrashMoverTests {
         #expect(!file.isThere)
     }
 
-    @Test func whatIsAlreadyThereIsNeverReplaced() throws {
+    @Test func whatIsAlreadyThereIsNeverReplaced() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: "ExFAT",
             mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
         )
@@ -115,9 +115,9 @@ struct TrashMoverTests {
         #expect(try String(contentsOfFile: landed, encoding: .utf8) == "mine")
     }
 
-    @Test func aFolderMovesWithEverythingInIt() throws {
+    @Test func aFolderMovesWithEverythingInIt() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: "ExFAT",
             mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
         )
@@ -133,9 +133,9 @@ struct TrashMoverTests {
         #expect(try contents(of: trash) == ["Project"])
     }
 
-    @Test func putBackNeverReplacesWhatCameBackInTheMeantime() throws {
+    @Test func putBackNeverReplacesWhatCameBackInTheMeantime() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(
+        let disk = try await ScratchVolume(
             fileSystem: "ExFAT",
             mountedAt: directory.url.appending(path: "Stick", directoryHint: .isDirectory)
         )

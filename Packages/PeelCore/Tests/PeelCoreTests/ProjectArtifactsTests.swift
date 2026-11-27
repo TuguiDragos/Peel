@@ -7,7 +7,7 @@ import Testing
 struct ProjectArtifactsTests {
     @Test func aFolderOnADiskThatKeepsNoCountIsCountedAsItIsRead() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
         let root = disk.url.appending(path: "Projects", directoryHint: .isDirectory)
         let exports = root.appending(path: "exports", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: exports, withIntermediateDirectories: true)

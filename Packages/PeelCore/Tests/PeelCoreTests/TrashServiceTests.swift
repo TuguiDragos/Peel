@@ -1397,7 +1397,7 @@ struct TrashServiceTests {
     @Test func refusesADiskImageOpenRightNowAndTheFolderItIsIn() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)
-        let image = try AttachedImage(at: directory.url.appending(path: "home/Downloads/Tool/Tool.dmg"))
+        let image = try await AttachedImage(at: directory.url.appending(path: "home/Downloads/Tool/Tool.dmg"))
         let folder = image.url.deletingLastPathComponent()
 
         let result = await service.trash([image.url, folder])
@@ -1627,7 +1627,7 @@ struct TrashServiceTests {
     /// with a History of the test's own, so neither the person's Trash nor Peel's folder is touched.
     @Test func reallyMovesAFolderToTheTrashOfAnotherVolume() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "Disk"))
         let history = directory.url.appending(path: "Peel/removals.json")
         let work = disk.url.appending(path: "PeelTrashRoundTrip", directoryHint: .isDirectory)
         let folder = work.appending(path: "home/Library/Caches/Example", directoryHint: .isDirectory)
@@ -1951,7 +1951,7 @@ struct TrashServiceTests {
     func theFirstMoveOnAFATDiskRecordsAnEmptyFile(fileSystem: String) async throws {
         let directory = try TemporaryDirectory()
         let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
-        let disk = try ScratchVolume(fileSystem: fileSystem, mountedAt: place)
+        let disk = try await ScratchVolume(fileSystem: fileSystem, mountedAt: place)
         let file = place.appending(path: "folder/empty.txt")
         try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
         try Data().write(to: file)
@@ -1971,12 +1971,13 @@ struct TrashServiceTests {
         withExtendedLifetime(disk) {}
     }
 
-    @Test func aMoveByNameThatTookAnItemOfAnotherDiskSaysSo() throws {
+    @Test func aMoveByNameThatTookAnItemOfAnotherDiskSaysSo() async throws {
         let directory = try TemporaryDirectory()
-        let disks = try ["Judged", "Other"].map { name in
-            try ScratchVolume(
+        var disks: [ScratchVolume] = []
+        for name in ["Judged", "Other"] {
+            disks.append(try await ScratchVolume(
                 fileSystem: "APFS", mountedAt: directory.url.appending(path: name, directoryHint: .isDirectory)
-            )
+            ))
         }
         let notes = try disks.map { disk in
             let note = disk.url.appending(path: "folder/note.txt")

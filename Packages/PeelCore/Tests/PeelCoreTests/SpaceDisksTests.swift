@@ -8,7 +8,7 @@ import Testing
 struct SpaceDisksTests {
     @Test func aHomeOnAnotherDiskShowsTheStartupDiskFirstAndThenItsOwn() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let away = disk.url.appending(path: "home", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: away, withIntermediateDirectories: true)
         let top = try #require(PrivilegedPathPolicy.resolvedPath(disk.url.path(percentEncoded: false)))
@@ -24,7 +24,7 @@ struct SpaceDisksTests {
 
     @Test func spaceListsTheSnapshotsOfEachDiskItShows() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
         let top = try #require(PrivilegedPathPolicy.resolvedPath(disk.url.path(percentEncoded: false)))
@@ -41,7 +41,7 @@ struct SpaceDisksTests {
 
     @Test func aDiskThatIsNotAPFSKeepsNoSnapshots() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Disk"))
 
         #expect(await LocalSnapshots.list(volume: disk.url.path(percentEncoded: false)) == [])
     }

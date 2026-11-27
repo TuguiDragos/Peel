@@ -77,13 +77,13 @@ struct AppFoldersTests {
         #expect(refusal("/Volumes/org-example-not-connected") == nil)
     }
 
-    @Test func takesADiskOfAppsAndNotOneThatHoldsMacOSOrABackup() throws {
+    @Test func takesADiskOfAppsAndNotOneThatHoldsMacOSOrABackup() async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
-        let apps = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Software"))
-        let system = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Other Mac"))
-        let backup = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Backup"))
-        let samples = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Samples"))
+        let apps = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Software"))
+        let system = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Other Mac"))
+        let backup = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Backup"))
+        let samples = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Samples"))
         for folder in [
             apps.url.appending(path: "Games"), apps.url.appending(path: "Homes/someone"), system.url.appending(path: "Users"),
             backup.url.appending(path: "Backups.backupdb"), samples.url.appending(path: "Library/Strings"),

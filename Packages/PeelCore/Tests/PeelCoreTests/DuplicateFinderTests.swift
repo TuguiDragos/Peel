@@ -1071,9 +1071,9 @@ struct DuplicateFinderTests {
         #expect(finder.canScan(home.appending(path: "Documents", directoryHint: .isDirectory)))
     }
 
-    @Test func aFolderSpelledInAnotherCaseIsJudgedAsTheDiskSpellsIt() throws {
+    @Test func aFolderSpelledInAnotherCaseIsJudgedAsTheDiskSpellsIt() async throws {
         let directory = try TemporaryDirectory()
-        let volume = try ScratchVolume(
+        let volume = try await ScratchVolume(
             fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk", directoryHint: .isDirectory)
         )
         let home = volume.url.appending(path: "home", directoryHint: .isDirectory)
@@ -1093,7 +1093,7 @@ struct DuplicateFinderTests {
     @Test func keepsTheCopyOnTheHomeDisk() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let volume = try ScratchVolume(
+        let volume = try await ScratchVolume(
             fileSystem: "APFS", mountedAt: home.appending(path: "Card", directoryHint: .isDirectory)
         )
         let contents = Data(repeating: 7, count: 200_000)
@@ -1156,7 +1156,7 @@ struct DuplicateFinderTests {
     @Test func keepsTheCopyOnTheHomeDiskEvenInDownloads() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let volume = try ScratchVolume(
+        let volume = try await ScratchVolume(
             fileSystem: "APFS", mountedAt: home.appending(path: "Card", directoryHint: .isDirectory)
         )
         let contents = Data(repeating: 9, count: 200_000)
@@ -1316,7 +1316,7 @@ struct DuplicateFinderTests {
     func aCopyOnADiskThatSharesNothingFreesAllItTakes(fileSystem: String) async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
-        let volume = try ScratchVolume(
+        let volume = try await ScratchVolume(
             fileSystem: fileSystem,
             mountedAt: home.appending(path: "Stick", directoryHint: .isDirectory)
         )
@@ -1379,7 +1379,7 @@ struct DuplicateRemovalTests {
 
     @Test func aCopyOnADiskThatWasEjectedSaysSo() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
         let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })

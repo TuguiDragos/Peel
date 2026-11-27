@@ -3,9 +3,9 @@ import Foundation
 import Testing
 
 struct DisksTests {
-    @Test func tellsADiskImageFromTheDiskMacOSStartedFrom() throws {
+    @Test func tellsADiskImageFromTheDiskMacOSStartedFrom() async throws {
         let directory = try TemporaryDirectory()
-        let volume = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Image"))
+        let volume = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Image"))
 
         let image = try #require(Disks.volume(mountedAt: volume.url.path(percentEncoded: false)))
         let startup = try #require(Disks.volume(mountedAt: "/"))

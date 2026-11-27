@@ -6,12 +6,12 @@ import Testing
 struct OrphanScannerTests {
     @Test func anOrphanOnADiskThatCanOnlyBeReadIsLeftAloneAndNeedsNoAdministrator() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
         let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
         let cache = home.appending(path: "Library/Caches/com.gone.app", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: cache, withIntermediateDirectories: true)
         try Data(count: 16).write(to: cache.appending(path: "cache.db"))
-        try disk.remount(at: disk.url, readOnly: true)
+        try await disk.remount(at: disk.url, readOnly: true)
         let environment = SearchEnvironment(
             homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )

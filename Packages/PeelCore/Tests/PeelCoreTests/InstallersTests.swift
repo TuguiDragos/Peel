@@ -265,7 +265,7 @@ struct InstallersTests {
         let photos = try directory.file("Documents/Photos 2019.dmg", bytes: 400_000)
         let backup = try directory.file("Desktop/Backup.iso", bytes: 400_000)
         let secrets = try directory.directory("Downloads").appending(path: "Secrets.dmg")
-        try makeEncryptedImage(at: secrets)
+        try await makeEncryptedImage(at: secrets)
         try directory.directory("Applications")
         for url in [unknown, fromTheWeb] { try downloaded(url) }
         try quarantined(known)
@@ -481,8 +481,8 @@ struct InstallersTests {
         try #require(setattrlist(path, &list, &time, MemoryLayout<timespec>.size, 0) == 0)
     }
 
-    private func makeEncryptedImage(at url: URL) throws {
-        try DiskImageTool.hdiutil(
+    private func makeEncryptedImage(at url: URL) async throws {
+        try await DiskImageTool.hdiutil(
             "create", "-encryption", "AES-128", "-stdinpass", "-size", "1m", "-fs", "APFS", "-volname", "Probe",
             url.path(percentEncoded: false), input: Data("probe".utf8)
         )
@@ -1302,7 +1302,7 @@ struct InstallersTests {
     @Test func aDiskImageOpenRightNowIsNotSuggested() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Applications")
-        let image = try AttachedImage(at: directory.url.appending(path: "Downloads/Tool.dmg"))
+        let image = try await AttachedImage(at: directory.url.appending(path: "Downloads/Tool.dmg"))
         try downloaded(try directory.file("Downloads/Other.dmg", bytes: 400_000))
 
         let scan = await Installers.scan(

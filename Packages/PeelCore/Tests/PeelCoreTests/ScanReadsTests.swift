@@ -56,9 +56,9 @@ struct ScanReadsTests {
         #expect(ScanReads.listing(of: directory.url.appending(path: "folder"), limit: 5) == .holdsTooMany(6))
     }
 
-    @Test func stopsAtItsLimitOnADiskThatDoesNotTellHowManyEntriesAFolderHolds() throws {
+    @Test func stopsAtItsLimitOnADiskThatDoesNotTellHowManyEntriesAFolderHolds() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
         let folder = disk.url.appending(path: "folder", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         for name in 0..<6 {
@@ -74,7 +74,7 @@ struct ScanReadsTests {
 
     @Test func stopsAReadThatIsStoppedOrRunsPastItsBudget() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let disk = try await ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
         let folder = disk.url.appending(path: "folder", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         for name in 0..<2_000 {

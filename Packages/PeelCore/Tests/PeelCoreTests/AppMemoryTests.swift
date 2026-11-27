@@ -73,7 +73,7 @@ struct AppMemoryTests {
 
     @Test func anAppOnADiskMountedElsewhereNowIsFoundThere() async throws {
         let directory = try TemporaryDirectory()
-        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "First"))
+        let disk = try await ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "First"))
         let bundle = disk.url.appending(path: "Apps/On Disk.app", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: bundle.appending(path: "Contents"), withIntermediateDirectories: true)
         let info = ["CFBundleIdentifier": "org.example.ondisk", "CFBundleName": "On Disk", "CFBundlePackageType": "APPL"]
@@ -83,7 +83,7 @@ struct AppMemoryTests {
         let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
         let remembered = try #require(await memory.remember([app]).first)
 
-        try disk.remount(at: directory.url.appending(path: "Second"))
+        try await disk.remount(at: directory.url.appending(path: "Second"))
         let found = remembered.stillInstalled(on: .now())
 
         #expect(found?.bundleIdentifier == "org.example.ondisk")
@@ -93,8 +93,9 @@ struct AppMemoryTests {
     static func appsOnTwinDisks(
         in folder: URL, serial: UInt32
     ) async throws -> (disks: [ScratchVolume], apps: [RememberedApp]) {
-        let disks = try ["First", "Second"].map {
-            try ScratchVolume(fileSystem: "ExFAT", mountedAt: folder.appending(path: $0), serial: serial)
+        var disks: [ScratchVolume] = []
+        for name in ["First", "Second"] {
+            disks.append(try await ScratchVolume(fileSystem: "ExFAT", mountedAt: folder.appending(path: name), serial: serial))
         }
         let apps = try disks.enumerated().map { index, disk in
             let bundle = disk.url.appending(path: "Apps/Twin \(index).app", directoryHint: .isDirectory)
