@@ -19,7 +19,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Applications
 
 - Uninstalling Msty, Msty Studio, BoltAI, 5ire, Witsy, DeepChat, ChatALL, macai, or Ollamac no longer selects the
-  folders where they keep their conversations, which exist only on this Mac.
+  folders where they keep their conversations, which may exist only on this Mac.
 - On the page of an app, or of several, an item inside another one on the list, such as the part of the Steam folder
   that its Homebrew cask names, says so under its name. Where nothing on the page can be selected, the total counts
   such an item once.
