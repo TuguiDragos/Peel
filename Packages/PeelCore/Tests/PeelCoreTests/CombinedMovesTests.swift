@@ -56,7 +56,7 @@ struct CombinedMovesTests {
         return true
     }
 
-    @Test func aDiskWithNoRoomForHistoryMovesNothingAndSaysSo() async throws {
+    @Test(.fillsADiskToItsLastBlock) func aDiskWithNoRoomForHistoryMovesNothingAndSaysSo() async throws {
         let directory = try TemporaryDirectory()
         let disk = try await ScratchVolume(
             fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"), size: "256m"
