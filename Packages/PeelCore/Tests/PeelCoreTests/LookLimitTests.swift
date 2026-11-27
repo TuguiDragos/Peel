@@ -40,7 +40,7 @@ struct LookLimitTests {
         #expect(finding == .tooMany)
     }
 
-    @Test func whatHoldsAFolderTooFullToLookThroughStaysWithoutItBeingRead() async throws {
+    @Test(.fillsAFolderPastALimit) func whatHoldsAFolderTooFullToLookThroughStaysWithoutItBeingRead() async throws {
         let directory = try TemporaryDirectory()
         let big = try directory.directory("home/Library/Caches/net.example.client/big")
         let path = big.path(percentEncoded: false)

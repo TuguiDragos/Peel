@@ -40,7 +40,7 @@ struct WholeLookTests {
         }
     }
 
-    @Test func aMoveInTheAppLooksThroughAFolderTooFullAndMovesIt() async throws {
+    @Test(.fillsAFolderPastALimit) func aMoveInTheAppLooksThroughAFolderTooFullAndMovesIt() async throws {
         let directory = try TemporaryDirectory()
         let folder = try tooFull(in: directory)
         let service = try service(in: directory)
@@ -55,7 +55,7 @@ struct WholeLookTests {
         #expect(!count.isLooking)
     }
 
-    @Test func aMoveStoppedInItsFirstLookStillLooksThroughTheNext() async throws {
+    @Test(.fillsAFolderPastALimit) func aMoveStoppedInItsFirstLookStillLooksThroughTheNext() async throws {
         let directory = try TemporaryDirectory()
         let first = try tooFull(in: directory, named: "net.example.first")
         let second = try tooFull(in: directory, named: "net.example.second")
@@ -139,7 +139,7 @@ struct WholeLookTests {
         #expect(read?.type == DT_REG)
     }
 
-    @Test func theHelperReadsAFolderTooFullWholeOnlyUnderAWholeLook() throws {
+    @Test(.fillsAFolderPastALimit) func theHelperReadsAFolderTooFullWholeOnlyUnderAWholeLook() throws {
         let directory = try TemporaryDirectory()
         let big = try directory.directory("root/Library/Caches/org.example.big/big")
         let path = big.path(percentEncoded: false)
@@ -160,7 +160,7 @@ struct WholeLookTests {
         #expect(opened == .success("org.example.big"))
     }
 
-    @Test func aFolderTooFullStaysWhenTheLookFindsWhatPeelProtects() async throws {
+    @Test(.fillsAFolderPastALimit) func aFolderTooFullStaysWhenTheLookFindsWhatPeelProtects() async throws {
         let directory = try TemporaryDirectory()
         let folder = try tooFull(in: directory, also: ["Family.photoslibrary"])
         let service = try service(in: directory)
@@ -171,7 +171,7 @@ struct WholeLookTests {
         #expect(kept.failures.map(\.reason) == [.guarded(.holdsALibrary)])
     }
 
-    @Test func peelLeavesAFolderTooFullWhereItIs() async throws {
+    @Test(.fillsAFolderPastALimit) func peelLeavesAFolderTooFullWhereItIs() async throws {
         let directory = try TemporaryDirectory()
         let folder = try tooFull(in: directory)
 

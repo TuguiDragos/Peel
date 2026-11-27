@@ -4,7 +4,7 @@ import PeelPrivileged
 import Testing
 
 struct DeveloperCachesTests {
-    @Test func aFolderTooFullToListIsARowOfItsOwn() throws {
+    @Test(.fillsAFolderPastALimit) func aFolderTooFullToListIsARowOfItsOwn() throws {
         let directory = try TemporaryDirectory()
         let support = try directory.directory("iOS DeviceSupport")
         for number in 0...ScanReads.entryLimit {

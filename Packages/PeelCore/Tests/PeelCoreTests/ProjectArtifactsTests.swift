@@ -21,7 +21,7 @@ struct ProjectArtifactsTests {
         #expect(walked.crowded.map(\.url.lastPathComponent) == ["exports"])
     }
 
-    @Test func aFolderTooFullToReadIsNamedAndTheRestIsSearched() async throws {
+    @Test(.fillsAFolderPastALimit) func aFolderTooFullToReadIsNamedAndTheRestIsSearched() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Projects/app/package.json", bytes: 16)
         try directory.file("Projects/app/node_modules/left-pad/index.js", bytes: 16)
@@ -1877,7 +1877,7 @@ struct ProjectArtifactsTests {
 
     /// A project too big to read to the end says nothing about when it was last worked on, and what is not
     /// known is never selected for the user.
-    @Test func doesNotSelectAProjectItCouldNotReadToTheEnd() async throws {
+    @Test(.fillsAFolderPastALimit) func doesNotSelectAProjectItCouldNotReadToTheEnd() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Project/package.json")
         try directory.file("Project/node_modules/left-pad/index.js", bytes: 1_000)

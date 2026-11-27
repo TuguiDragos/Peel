@@ -747,7 +747,7 @@ struct LeftoverScannerTests {
 
     /// A vendor's folder the deep search cannot look into may hold the app's files, so the scan says it could not
     /// read it rather than passing over it as if it held nothing.
-    @Test func readsNoFolderWithMoreEntriesThanAScanReads() async throws {
+    @Test(.fillsAFolderPastALimit) func readsNoFolderWithMoreEntriesThanAScanReads() async throws {
         let directory = try TemporaryDirectory()
         let crowded = try directory.directory("home/.cache/crowded")
         for number in 0...ScanReads.entryLimit {
@@ -764,7 +764,7 @@ struct LeftoverScannerTests {
         #expect(scan.crowdedFolders.map(\.entries) == [ScanReads.entryLimit + 1])
     }
 
-    @Test func namesACrowdedHomeFolderOnceThoughTwoPlacesReadIt() async throws {
+    @Test(.fillsAFolderPastALimit) func namesACrowdedHomeFolderOnceThoughTwoPlacesReadIt() async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
         for number in 0...ScanReads.entryLimit {
@@ -787,7 +787,7 @@ struct LeftoverScannerTests {
         }
     }
 
-    @Test func aCrowdedFolderConcernsTheAppOnlyUnderItsOwnOrItsMakersName() async throws {
+    @Test(.fillsAFolderPastALimit) func aCrowdedFolderConcernsTheAppOnlyUnderItsOwnOrItsMakersName() async throws {
         let directory = try TemporaryDirectory()
         try crowd("home/.cache/crowded", in: directory)
         try crowd("home/Library/Application Support/Example/Shared", in: directory)
@@ -799,7 +799,8 @@ struct LeftoverScannerTests {
         #expect(scan.crowdedFoldersOfTheApp.map(\.url.lastPathComponent) == ["Shared"])
     }
 
-    @Test func aSearchedPlaceTooFullConcernsTheAppThoughAnotherPlaceReachesItToo() async throws {
+    @Test(.fillsAFolderPastALimit)
+    func aSearchedPlaceTooFullConcernsTheAppThoughAnotherPlaceReachesItToo() async throws {
         let directory = try TemporaryDirectory()
         try crowd("home/.local/bin", in: directory)
 

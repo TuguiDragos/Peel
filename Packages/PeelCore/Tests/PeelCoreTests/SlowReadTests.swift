@@ -5,7 +5,7 @@ import Testing
 
 /// A folder a file provider owns can hold a read in the kernel for minutes, and no answer is not an empty folder.
 struct SlowReadTests {
-    @Test func aFolderTooFullToReadIsNotKnown() async throws {
+    @Test(.fillsAFolderPastALimit) func aFolderTooFullToReadIsNotKnown() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("Crowded")
         for number in 0...ScanReads.entryLimit {

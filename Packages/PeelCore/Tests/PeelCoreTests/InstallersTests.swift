@@ -5,7 +5,7 @@ import Synchronization
 import Testing
 
 struct InstallersTests {
-    @Test func aFolderTooFullToReadIsNamedAndNotRead() async throws {
+    @Test(.fillsAFolderPastALimit) func aFolderTooFullToReadIsNamedAndNotRead() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
         let downloads = directory.url.appending(path: "Downloads").path(percentEncoded: false)
@@ -24,7 +24,8 @@ struct InstallersTests {
         #expect(scan.crowded.first?.entries == ScanReads.entryLimit + 2)
     }
 
-    @Test func aFolderTooFullWhereAppsKeepInstallersAndUpdatesIsNamedAndNotRead() async throws {
+    @Test(.fillsAFolderPastALimit)
+    func aFolderTooFullWhereAppsKeepInstallersAndUpdatesIsNamedAndNotRead() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Application Support/Tidepool/Tidepool Setup.pkg", bytes: 400_000)
         for folder in ["Library/Application Support/Tidepool/cache", "Library/Caches"] {

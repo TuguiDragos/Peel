@@ -132,7 +132,7 @@ struct SpaceRemovalTests {
         #expect(!plan.removable.contains { $0.lastPathComponent == "com.tuguidragos.Peel" })
     }
 
-    @Test func anAreaTooFullToListIsLeftAloneWithItsReason() async throws {
+    @Test(.fillsAFolderPastALimit) func anAreaTooFullToListIsLeftAloneWithItsReason() async throws {
         let directory = try TemporaryDirectory()
         let caches = try directory.directory("home/Library/Caches")
         for number in 0...ScanReads.entryLimit {
@@ -146,7 +146,7 @@ struct SpaceRemovalTests {
         #expect(plan.selectableRows(canUseHelper: true).selectable.isEmpty)
     }
 
-    @Test func aFolderTooFullThatCanBeSelectedIsStillOfferedAtTheMove() async throws {
+    @Test(.fillsAFolderPastALimit) func aFolderTooFullThatCanBeSelectedIsStillOfferedAtTheMove() async throws {
         let directory = try TemporaryDirectory()
         let big = try directory.directory("home/Library/Caches/net.example.client/big").path(percentEncoded: false)
         for number in 0...FolderEntries.lookLimit {

@@ -199,7 +199,8 @@ struct CaskEvidenceTests {
         }
     }
 
-    @Test func aCasksDoubleStarLooksNoDeeperOnceItHasReadGlobsShareAndSaysWhereItStarted() throws {
+    @Test(.fillsAFolderPastALimit)
+    func aCasksDoubleStarLooksNoDeeperOnceItHasReadGlobsShareAndSaysWhereItStarted() throws {
         let directory = try TemporaryDirectory()
         fill(try directory.directory("Library/Logs/Example/a-wide"), with: PathPattern.entriesAStarReads)
         try directory.file("Library/Logs/Example/b-near/trace.log")
@@ -213,7 +214,7 @@ struct CaskEvidenceTests {
         #expect(left.crowded.isEmpty)
     }
 
-    @Test func aCasksDoubleStarCountsAFolderTooFullAndLooksForNothingInIt() throws {
+    @Test(.fillsAFolderPastALimit) func aCasksDoubleStarCountsAFolderTooFullAndLooksForNothingInIt() throws {
         let directory = try TemporaryDirectory()
         let full = try directory.directory("Library/Logs/Example/a-full")
         fill(full, with: PathPattern.entriesAStarReads)
@@ -231,7 +232,7 @@ struct CaskEvidenceTests {
         #expect(left.cutShort.isEmpty)
     }
 
-    @Test func aSecondDoubleStarThatRunsOutNamesWhereTheFirstStarted() throws {
+    @Test(.fillsAFolderPastALimit) func aSecondDoubleStarThatRunsOutNamesWhereTheFirstStarted() throws {
         let directory = try TemporaryDirectory()
         fill(try directory.directory("Library/Logs/Example/a-wide"), with: PathPattern.entriesAStarReads)
         for name in ["b", "c", "d"] { try directory.file("Library/Logs/Example/\(name)/cache/deep/trace.log") }
@@ -242,7 +243,7 @@ struct CaskEvidenceTests {
         #expect(left.cutShort.map(\.lastPathComponent) == ["Example"])
     }
 
-    @Test func anUninstallNamesTheFolderACasksDoubleStarDidNotRead() async throws {
+    @Test(.fillsAFolderPastALimit) func anUninstallNamesTheFolderACasksDoubleStarDidNotRead() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url
         fill(try directory.directory(".local/share/icons/hicolor/48x48/apps"), with: PathPattern.entriesAStarReads + 1)
@@ -271,7 +272,7 @@ struct CaskEvidenceTests {
         #expect(kept.scan.crowdedFolders.isEmpty)
     }
 
-    @Test func aCrowdedFolderOnTheWayToWhatTheCaskNamesConcernsThatAppAlone() async throws {
+    @Test(.fillsAFolderPastALimit) func aCrowdedFolderOnTheWayToWhatTheCaskNamesConcernsThatAppAlone() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url
         fill(try directory.directory("Library/Application Support/BigStore"), with: ScanReads.entryLimit + 1)

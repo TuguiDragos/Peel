@@ -116,7 +116,8 @@ struct ExclusionsTests {
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], installation: installation) == false)
     }
 
-    @Test func aPackageWhoseDoubleStarLeftAFolderUnreadIsNotKnownToDeleteNothingExcluded() throws {
+    @Test(.fillsAFolderPastALimit)
+    func aPackageWhoseDoubleStarLeftAFolderUnreadIsNotKnownToDeleteNothingExcluded() throws {
         let directory = try TemporaryDirectory()
         let installation = HomebrewInstallation(version: "7.0.9", prefix: directory.url.appending(path: "prefix"))
         let kept = try directory.file("home/Documents/kept.txt")

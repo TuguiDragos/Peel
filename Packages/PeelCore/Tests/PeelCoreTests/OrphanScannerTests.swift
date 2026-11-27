@@ -24,7 +24,7 @@ struct OrphanScannerTests {
         withExtendedLifetime(disk) {}
     }
 
-    @Test func namesACrowdedHomeFolderOnceThoughTwoPlacesReadIt() async throws {
+    @Test(.fillsAFolderPastALimit) func namesACrowdedHomeFolderOnceThoughTwoPlacesReadIt() async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
         for number in 0...ScanReads.entryLimit {
