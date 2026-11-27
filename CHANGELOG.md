@@ -23,6 +23,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On the page of an app, or of several, an item inside another one on the list, such as the part of the Steam folder
   that its Homebrew cask names, says so under its name. Where nothing on the page can be selected, the total counts
   such an item once.
+- Obsidian, which updates itself without changing the copy you installed, shows the version it runs, so it no longer
+  waits under Updates Available for a version it already has. A badge on its page says so.
 
 #### Orphaned Files
 
@@ -33,6 +35,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - `peel leftovers` and `peel uninstall` name the listed item an item sits inside, in their lines and in their JSON as
   `inside`.
+- `peel apps`, `peel leftovers`, and `peel updates` show the version an app runs after it updated itself, and their
+  JSON adds it as `runningVersion`.
 
 ## 1.4.0 (2026-11-21)
 

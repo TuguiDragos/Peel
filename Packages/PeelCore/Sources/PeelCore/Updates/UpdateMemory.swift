@@ -43,13 +43,13 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         self.standsInFor = standsInFor
         self.isNotListed = isNotListed
         self.failure = failure
-        version = app.version
+        version = app.versionItRuns
         buildVersion = app.buildVersion
         revision = UpdateChecker.revision
     }
 
     public func describes(_ app: InstalledApp) -> Bool {
-        version == app.version && buildVersion == app.buildVersion
+        version == app.versionItRuns && buildVersion == app.buildVersion
     }
 
     /// Whether the answer came a day or more before `now`, or when isn't known. Opening Peel asks again about such an

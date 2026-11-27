@@ -24,6 +24,15 @@ struct UpdateMemoryTests {
 
     private let schedule = UpdateSchedule.next(after: .upToDate, following: nil)
 
+    @Test func forgetsAnAnswerOnceTheAppUpdatedItself() {
+        let running = app("1.15.0").withRunningVersion("1.15.1")
+        let answer = UpdateMemory(status: .upToDate, schedule: schedule, checked: .now, describing: running)
+
+        #expect(answer.version == "1.15.1")
+        #expect(answer.describes(running))
+        #expect(!answer.describes(app("1.15.0").withRunningVersion("1.15.2")))
+    }
+
     @Test func anAnswerIsADayOldFromADayAfterItCame() {
         let checked = Date(timeIntervalSince1970: 1_800_000_000)
         let day: TimeInterval = 24 * 60 * 60

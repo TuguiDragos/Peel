@@ -116,6 +116,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   current. For an app Homebrew didn't install, never one from the App Store, its catalog answers last, after the app's
   own feed, and counts an update only when its version is written with as many numbers as the app's and they are higher,
   and since Homebrew can't upgrade that copy, the app's page says to update it from inside the app or from its homepage.
+  An app that updates itself without changing the copy you installed, as Obsidian does, is compared at the version it
+  runs, and its page says so.
   What Homebrew says counts for a day after it last checked for new versions, the time Homebrew itself waits before it
   checks again. Past that, an app only Homebrew can answer for reads Can't check for updates until Homebrew checks
   again, with Update Homebrew on the Homebrew page or `brew update` in Terminal, and Peel reads Homebrew again once it

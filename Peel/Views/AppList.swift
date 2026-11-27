@@ -316,7 +316,7 @@ private struct AppRow: View {
     /// The versions this row sits between, when it is waiting for an update.
     private var update: (installed: String?, latest: String)? {
         guard hasUpdate, let latest = updateStatus?.displayVersion else { return nil }
-        return (app.version, latest)
+        return (app.versionItRuns, latest)
     }
 
     /// An app waiting for an update says which version it would go to, the way the Homebrew list does. The

@@ -147,7 +147,7 @@ public struct UpdateChecker: Sendable {
     /// Whether a check of `app` has no server to ask: its bundle names no version or no feed, and it isn't an app
     /// from the App Store with the App Store preferred.
     private static func asksNobody(about app: InstalledApp, preference: UpdateSource) -> Bool {
-        (app.version == nil || app.updateFeed == nil) && !(preference == .appStore && app.isFromAppStore)
+        (app.versionItRuns == nil || app.updateFeed == nil) && !(preference == .appStore && app.isFromAppStore)
     }
 
     /// Whether a check of `app` has no server to ask, whichever source is preferred.
@@ -166,10 +166,10 @@ public struct UpdateChecker: Sendable {
         for app: InstalledApp, casks: [HomebrewPackage]
     ) -> (status: UpdateStatus?, isFromTheCatalog: Bool) {
         if let cask = CaskEvidence.installedCask(for: app, in: casks) {
-            return (Self.homebrewStatus(of: cask, appVersion: app.version, at: clock()), false)
+            return (Self.homebrewStatus(of: cask, appVersion: app.versionItRuns, at: clock()), false)
         }
         let status = Self.catalogCask(for: app, in: casks).flatMap {
-            Self.catalogStatus(of: $0, appVersion: app.version, at: clock())
+            Self.catalogStatus(of: $0, appVersion: app.versionItRuns, at: clock())
         }
         return (status, true)
     }
@@ -252,7 +252,7 @@ public struct UpdateChecker: Sendable {
         }
         if app.isSystemProtected { return .cameWithMacOS }
         if app.isFromSetapp { return .cameFromSetapp }
-        if app.version == nil { return .namesNoVersion }
+        if app.versionItRuns == nil { return .namesNoVersion }
         if app.isFromAppStore { return .notInTheAppStore }
         return .namesNoFeed
     }
@@ -271,14 +271,14 @@ public struct UpdateChecker: Sendable {
         let now = clock()
         guard Self.asksNobody(about: app, preference: preference) else { return nil }
         if let cask = CaskEvidence.installedCask(for: app, in: casks) {
-            guard Self.homebrewStatus(of: cask, appVersion: app.version, at: now) == nil,
+            guard Self.homebrewStatus(of: cask, appVersion: app.versionItRuns, at: now) == nil,
                   let reason = Self.whyHomebrewCannotTell(about: cask, at: now)
             else { return nil }
             return HomebrewCannotTell(cask: cask, reason: reason)
         }
         guard let cask = Self.catalogCask(for: app, in: casks),
-              Self.catalogStatus(of: cask, appVersion: app.version, at: now) == nil,
-              let reason = Self.whyTheCatalogCannotTell(about: cask, appVersion: app.version, at: now)
+              Self.catalogStatus(of: cask, appVersion: app.versionItRuns, at: now) == nil,
+              let reason = Self.whyTheCatalogCannotTell(about: cask, appVersion: app.versionItRuns, at: now)
         else { return nil }
         return HomebrewCannotTell(cask: cask, reason: reason)
     }
@@ -287,7 +287,7 @@ public struct UpdateChecker: Sendable {
         for app: InstalledApp, earlier: UpdateStatus?, notListedBefore: Bool
     ) async -> UpdateAnswer {
         // An app whose bundle names no version has nothing to compare a release with, so nobody is asked.
-        guard let installed = app.version else { return UpdateAnswer(status: .unsupported) }
+        guard let installed = app.versionItRuns else { return UpdateAnswer(status: .unsupported) }
         return switch app.updateFeed {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
@@ -354,7 +354,7 @@ public struct UpdateChecker: Sendable {
     private func appStoreAnswer(
         for app: InstalledApp, earlier: UpdateStatus?, notListedBefore: Bool
     ) async -> UpdateAnswer {
-        guard app.isFromAppStore, let installed = app.version, let identifier = app.bundleIdentifier else {
+        guard app.isFromAppStore, let installed = app.versionItRuns, let identifier = app.bundleIdentifier else {
             return UpdateAnswer(status: .unsupported)
         }
         let listing: AppStoreListing = if case .appStore(let listing) = app.updateFeed { listing } else { .mac }

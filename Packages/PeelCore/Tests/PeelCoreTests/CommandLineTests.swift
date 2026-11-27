@@ -809,6 +809,24 @@ struct CommandLineTests {
         #expect(kept.goesWith(items[2]) == nil)
     }
 
+    @Test func anAppRecordSaysTheVersionTheAppRuns() throws {
+        let obsidian = InstalledApp(
+            url: URL(filePath: "/Applications/Obsidian.app"), bundleIdentifier: "md.obsidian", name: "Obsidian",
+            version: "1.15.0", runningVersion: "1.15.1"
+        )
+        let plain = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example",
+            version: "1.0"
+        )
+
+        let json = try Output.jsonText([AppRecord(obsidian), AppRecord(plain)])
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+
+        #expect(records[0]["version"] as? String == "1.15.0")
+        #expect(records[0]["runningVersion"] as? String == "1.15.1")
+        #expect(records[1]["runningVersion"] is NSNull)
+    }
+
     @Test func aLeftoverInsideAnotherListedOneSaysWhichHoldsIt() throws {
         let folder = URL(filePath: "/Users/me/Library/Application Support/Tide", directoryHint: .isDirectory)
         let leftover = Leftover(

@@ -159,12 +159,17 @@ public enum AppInspector {
     }
 
     public static func inspect(_ url: URL) -> InstalledApp? {
+        inspect(url, home: .homeDirectory)
+    }
+
+    /// Reads the app at `url` for the account whose home is `home`.
+    static func inspect(_ url: URL, home: URL) -> InstalledApp? {
         // A link names the app it leads to, which is what is read: never the link, whose page would select the app's
         // files while only the link moved.
         if url.isSymbolicLink {
             let destination = PathPattern.canonicalWithoutOpening(url).path(percentEncoded: false)
             let bundle = URL(filePath: destination, directoryHint: .isDirectory)
-            return isABundle(bundle) ? inspect(bundle) : nil
+            return isABundle(bundle) ? inspect(bundle, home: home) : nil
         }
         guard isABundle(url) else { return nil }
         let layout = AppBundleLayout(of: url)
@@ -198,6 +203,7 @@ public enum AppInspector {
             name: displayName(of: url, identifier: bundleIdentifier),
             bundleName: info["CFBundleName"] as? String,
             version: statedVersion(in: info),
+            runningVersion: runningVersion(ofAppAt: url, home: home),
             buildVersion: stated(info["CFBundleVersion"]),
             teamIdentifier: signing.teamIdentifier,
             developer: signing.developer,
@@ -231,6 +237,11 @@ public enum AppInspector {
                 team: signing.teamIdentifier, identifier: bundleIdentifier
             ) ? CodeSignature.sealHolds(at: url) : nil
         )
+    }
+
+    /// The version the app runs for the account at `home` when it updated itself outside its bundle.
+    static func runningVersion(ofAppAt url: URL, home: URL) -> String? {
+        ObsidianLoader.runningVersion(ofAppAt: url, home: home)
     }
 
     private static func iPhoneAndiPadListing(metadataAt url: URL) -> AppStoreListing {

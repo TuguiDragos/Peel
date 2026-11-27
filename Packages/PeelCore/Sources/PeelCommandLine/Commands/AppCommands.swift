@@ -15,7 +15,7 @@ struct AppsCommand: AsyncParsableCommand {
             try Output.json(apps.map(AppRecord.init))
         } else {
             Output.table([["NAME", "VERSION", "IDENTIFIER", "PATH"]] + apps.map {
-                [$0.name, $0.version ?? "", $0.bundleIdentifier ?? "", Output.path($0.url)]
+                [$0.name, $0.versionItRuns ?? "", $0.bundleIdentifier ?? "", Output.path($0.url)]
             })
         }
         if let note = Output.unreadableNote(for: catalog) { Output.note(note) }
@@ -248,7 +248,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             return
         }
         let appSize = uninstallation.isAppMeasured ? Output.size(uninstallation.appSize) : "unknown"
-        Output.line("\(target.name) \(target.version ?? "")  \(appSize)  \(Output.path(target.url))")
+        Output.line("\(target.name) \(target.versionItRuns ?? "")  \(appSize)  \(Output.path(target.url))")
         if leftovers.isEmpty {
             Output.line(Self.whenNothingIsShown(hidden: hidden))
         } else {
@@ -1180,7 +1180,7 @@ struct UpdatesCommand: AsyncParsableCommand {
         } else if !report.rows.isEmpty {
             Output.table([["NAME", "INSTALLED", "STATUS"]] + report.rows.map { row in
                 let summary = Self.summary(row.status, isWaiting: preferences.isWaiting(row.status, for: row.app))
-                return [row.app.name, row.app.version ?? "", summary]
+                return [row.app.name, row.app.versionItRuns ?? "", summary]
             })
         } else {
             Output.line("Every app Peel could check is up to date.")

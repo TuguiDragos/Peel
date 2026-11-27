@@ -27,4 +27,13 @@ struct AppRowCaptionTests {
         #expect(AppRowCaption(app: app(version: "2.0", added: date), sort: .dateAdded) == .added(date))
         #expect(AppRowCaption(app: app(version: "2.0"), sort: .dateAdded) == .version("2.0"))
     }
+
+    @Test func saysTheVersionAnAppRunsAfterItUpdatedItself() {
+        let updated = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide",
+            version: "1.15.0", runningVersion: "1.15.1"
+        )
+        #expect(AppRowCaption(app: updated, sort: .name) == .version("1.15.1"))
+        #expect(AppRowCaption(app: updated, sort: .dateAdded) == .version("1.15.1"))
+    }
 }

@@ -15,7 +15,7 @@ enum AppRowCaption: Equatable {
         case .lastOpened, .name, .size:
             if let date = app.lastUsedDate {
                 self = .opened(date)
-            } else if let version = app.version {
+            } else if let version = app.versionItRuns {
                 self = .version(version)
             } else if app.isUseRecorded {
                 self = .neverOpened
@@ -25,7 +25,7 @@ enum AppRowCaption: Equatable {
         case .dateAdded:
             if let date = app.dateAdded {
                 self = .added(date)
-            } else if let version = app.version {
+            } else if let version = app.versionItRuns {
                 self = .version(version)
             } else {
                 return nil

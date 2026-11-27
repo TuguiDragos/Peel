@@ -8,6 +8,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let name: String
     public let bundleName: String?
     public let version: String?
+    /// The version the app runs when it updated itself outside its bundle, as Obsidian does (`ObsidianLoader`).
+    public private(set) var runningVersion: String?
     public let buildVersion: String?
     public let teamIdentifier: String?
     /// The maker, as the app's signature names it. Nil when the signature names nobody, as for an App Store
@@ -55,9 +57,12 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
     /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
     public func isTheSameBuild(as other: InstalledApp) -> Bool {
-        version == other.version && buildVersion == other.buildVersion && architectures == other.architectures
-            && teamIdentifier == other.teamIdentifier
+        version == other.version && runningVersion == other.runningVersion && buildVersion == other.buildVersion
+            && architectures == other.architectures && teamIdentifier == other.teamIdentifier
     }
+
+    /// The version the app runs: the one it updated itself to, or its own.
+    public var versionItRuns: String? { runningVersion ?? version }
 
     public init(
         url: URL,
@@ -65,6 +70,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         name: String,
         bundleName: String? = nil,
         version: String? = nil,
+        runningVersion: String? = nil,
         buildVersion: String? = nil,
         teamIdentifier: String? = nil,
         developer: String? = nil,
@@ -92,6 +98,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.name = name
         self.bundleName = bundleName
         self.version = version
+        self.runningVersion = runningVersion
         self.buildVersion = buildVersion
         self.teamIdentifier = teamIdentifier
         self.developer = developer
@@ -156,6 +163,13 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         var copy = self
         copy.lastUsedDate = date
         copy.isUseRecorded = isRecorded
+        return copy
+    }
+
+    /// Returns a copy with the version the app runs, which can change while the bundle stays the same.
+    func withRunningVersion(_ version: String?) -> InstalledApp {
+        var copy = self
+        copy.runningVersion = version
         return copy
     }
 

@@ -100600,6 +100600,112 @@
         }
       }
     },
+    "It runs version %@, which it downloaded itself. The copy you installed is version %@, and the app says when it needs a newer one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Běží verze %@, kterou si aplikace stáhla sama. Nainstalovaná kopie má verzi %@ a aplikace řekne, kdy potřebuje novější."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie führt Version %@ aus, die sie selbst geladen hat. Die installierte Kopie ist Version %@, und die App sagt, wann sie eine neuere braucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta la versión %@, que descargó por sí misma. La copia que instalaste es la versión %@, y la app avisa cuando necesita una más reciente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elle exécute la version %@, qu’elle a téléchargée elle-même. La copie installée est la version %@, et l’app indique quand il lui en faut une plus récente."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegue la versione %@, che ha scaricato da sé. La copia installata è la versione %@, e l’app indica quando ne serve una più recente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリは自身でダウンロードしたバージョン%@を実行しています。インストールしたコピーはバージョン%@で、新しいものが必要になるとアプリが知らせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱은 직접 다운로드한 버전 %@을(를) 실행합니다. 설치한 사본은 버전 %@이며, 더 최신 사본이 필요하면 앱이 알려 줍니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app draait versie %@, die hij zelf heeft gedownload. De kopie die je hebt geïnstalleerd is versie %@, en de app meldt wanneer hij een nieuwere nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Działa wersja %@, którą aplikacja pobrała sama. Zainstalowana kopia to wersja %@, a aplikacja powie, kiedy potrzebuje nowszej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ela executa a versão %@, que ela mesma baixou. A cópia que você instalou é a versão %@, e o app avisa quando precisa de uma mais nova."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulează versiunea %@, pe care a descărcat‑o singură. Copia pe care ați instalat‑o este versiunea %@, iar aplicația vă spune când îi trebuie una mai nouă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запущена версия %@, которую приложение загрузило само. Установленная копия имеет версию %@, и приложение сообщит, когда понадобится более новая."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den kör version %@, som den laddade ned själv. Kopian du installerade är version %@, och appen säger till när den behöver en nyare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kendi indirdiği %@ sürümünü çalıştırıyor. Yüklediğiniz kopya %@ sürümü; daha yenisi gerektiğinde uygulama bunu söyler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Працює версія %@, яку програма завантажила сама. Встановлена копія має версію %@, і програма скаже, коли їй потрібна новіша."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在运行自行下载的版本%@。你安装的副本是版本%@，需要更新的副本时该App会提示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在執行自行下載的版本%@。你安裝的拷貝是版本%@，需要較新的拷貝時該App會提示。"
+          }
+        }
+      }
+    },
     "It sent Peel on to %@, which isn’t https, so Peel didn’t follow." : {
       "localizations" : {
         "cs" : {
@@ -283351,6 +283457,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可更新至%@"
+          }
+        }
+      }
+    },
+    "Updated itself" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualizovala se sama"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selbst aktualisiert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se actualizó sola"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S’est mise à jour"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornata da sé"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自身でアップデート済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자체 업데이트됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zelf bijgewerkt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaktualizowana samodzielnie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizou-se sozinha"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizată singură"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновилось само"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uppdaterade sig själv"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kendini güncelledi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновилася сама"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已自行更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已自行更新"
           }
         }
       }

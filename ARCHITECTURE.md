@@ -454,7 +454,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   whose answer is a day old (`UpdateMemory.isADayOld`). `UpdateMemory` keeps the last answer across launches, with the
   revision of the checker that gave it (`UpdateChecker.revision`): an answer an earlier revision gave about an app it
   couldn't check, or about one this revision asks nobody about, is dropped, so the app is asked again at the next
-  round.
+  round. An app that updates itself outside its bundle, as Obsidian does, is compared at the version it runs
+  (`InstalledApp.versionItRuns`, which `ObsidianLoader` reads as Obsidian's loader picks it).
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can name it
   (`AppMemory`), and selects nothing for the person. Where a name proves nothing by itself, the folders of code macOS
   loads, which an installer can fill with no app, and the account's temporary folder, where every program writes files

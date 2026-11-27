@@ -54,7 +54,7 @@ struct AppHeader<Actions: View>: View {
                         .truncationMode(.middle)
                         .textSelection(.enabled)
                 }
-                if let version = app.version {
+                if let version = app.versionItRuns {
                     if app.bundleIdentifier != nil {
                         Text(verbatim: "·")
                             .accessibilityHidden(true)
@@ -67,6 +67,13 @@ struct AppHeader<Actions: View>: View {
 
             if app.isFromAppStore {
                 Badge(title: Text("App Store"), systemImage: "bag")
+            }
+            if let running = app.runningVersion, let installed = app.version {
+                NoteBadge(
+                    title: Text("Updated itself"), systemImage: "arrow.down.circle",
+                    name: String(localized: "Updated itself"),
+                    detail: Text("It runs version \(running), which it downloaded itself. The copy you installed is version \(installed), and the app says when it needs a newer one.")
+                )
             }
             if app.isIntelOnly {
                 NoteBadge(

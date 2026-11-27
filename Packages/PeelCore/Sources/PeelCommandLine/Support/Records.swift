@@ -5,6 +5,8 @@ struct AppRecord: Encodable {
     let name: String
     let bundleIdentifier: String?
     let version: String?
+    /// The version the app runs when it updated itself outside its bundle, or `null`.
+    let runningVersion: String?
     let path: String
     let isFromAppStore: Bool
 
@@ -12,6 +14,7 @@ struct AppRecord: Encodable {
         name = app.name
         bundleIdentifier = app.bundleIdentifier
         version = app.version
+        runningVersion = app.runningVersion
         path = Output.path(app.url)
         isFromAppStore = app.isFromAppStore
     }
@@ -20,6 +23,7 @@ struct AppRecord: Encodable {
         case name
         case bundleIdentifier
         case version
+        case runningVersion
         case path
         case isFromAppStore
     }
@@ -31,6 +35,7 @@ struct AppRecord: Encodable {
         try container.encode(name, forKey: .name)
         try container.encode(bundleIdentifier, forKey: .bundleIdentifier)
         try container.encode(version, forKey: .version)
+        try container.encode(runningVersion, forKey: .runningVersion)
         try container.encode(path, forKey: .path)
         try container.encode(isFromAppStore, forKey: .isFromAppStore)
     }

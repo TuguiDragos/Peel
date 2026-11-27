@@ -228,6 +228,7 @@ public enum AppCatalog {
             if let remembered = known.withLock({ $0[path] }), remembered.identity == identity {
                 let use = AppInspector.use(of: bundle)
                 return remembered.app.withUse(lastUsedDate: use.lastUsedDate, isUseRecorded: use.isRecorded)
+                    .withRunningVersion(AppInspector.runningVersion(ofAppAt: bundle, home: .homeDirectory))
             }
             guard let app = AppInspector.inspect(bundle) else { return nil }
             known.withLock { $0[path] = (identity, app) }

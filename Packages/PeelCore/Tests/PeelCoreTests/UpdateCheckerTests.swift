@@ -520,6 +520,26 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(recent.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: [compared]) == nil)
     }
 
+    @Test func comparesTheVersionAnAppRunsAfterItUpdatedItself() {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let obsidian = InstalledApp(
+            url: URL(filePath: "/Applications/Obsidian.app"), bundleIdentifier: "md.obsidian", name: "Obsidian",
+            version: "1.15.0", runningVersion: "1.15.1"
+        )
+        func listed(_ latest: String) -> [HomebrewPackage] {
+            [
+                HomebrewPackage(
+                    name: "obsidian", kind: .cask, latestVersion: latest, appNames: ["Obsidian.app"],
+                    appUpdatesItself: true
+                ).noting(lastUpdateCheck: homebrewChecked),
+            ]
+        }
+        let newer = UpdateStatus.updateAvailable(version: "1.15.2", source: .homebrew, releaseNotes: nil)
+
+        #expect(recent.statusWithoutAsking(for: obsidian, preference: .automatic, casks: listed("1.15.1")) == .upToDate)
+        #expect(recent.statusWithoutAsking(for: obsidian, preference: .automatic, casks: listed("1.15.2")) == newer)
+    }
+
     @Test func answersFromTheCatalogAboutACopyHomebrewDidNotInstall() async {
         let recent = checking(at: homebrewChecked + 60 * 60)
         let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
