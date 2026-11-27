@@ -45,15 +45,11 @@ struct UninstallPlan {
     /// app that is still installed aren't leftovers.
     var appStays: TrashFailure.Reason? { items.first { $0.url == app }?.refusal }
 
+    /// Worked out anew at each read, so a caller reads it once.
     var itemsInsideOthers: ItemsInsideOthers { ItemsInsideOthers(items.map(\.url)) }
 
-    /// The moving item this one sits inside, or nil.
-    func goesWith(_ item: Item) -> URL? {
-        guard whyItStays(item) == nil, let holder = itemsInsideOthers.holder(of: item.url),
-              moving.contains(where: { $0.url == holder })
-        else { return nil }
-        return holder
-    }
+    /// The same among the moving items alone: each goes with the moving item it sits inside.
+    var movingInsideOthers: ItemsInsideOthers { ItemsInsideOthers(moving.map(\.url)) }
 
     func whyItStays(_ item: Item) -> (word: String, summary: String)? {
         if let refusal = item.refusal { return (refusal.name, refusal.summary) }

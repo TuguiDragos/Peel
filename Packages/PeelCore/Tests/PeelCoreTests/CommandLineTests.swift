@@ -801,12 +801,18 @@ struct CommandLineTests {
         let plan = UninstallPlan(app: app, items: items, needsAdministrator: 0, needsReview: 0)
 
         #expect(plan.total == SizeTotal(known: 807, isComplete: true))
-        #expect(plan.goesWith(items[2]) == support)
-        #expect(plan.goesWith(items[1]) == nil)
+        #expect(plan.movingInsideOthers.holder(of: bundle) == support)
+        #expect(plan.movingInsideOthers.holder(of: support) == nil)
         let kept = UninstallPlan(app: app, items: [
             items[0], UninstallPlan.Item(url: support, size: 800, refusal: .guarded(.excluded)), items[2],
         ], needsAdministrator: 0, needsReview: 0)
-        #expect(kept.goesWith(items[2]) == nil)
+        #expect(kept.movingInsideOthers.holder(of: bundle) == nil)
+        let inner = UninstallPlan.Item(url: bundle.appending(path: "Steam"), size: 600, refusal: nil)
+        let between = UninstallPlan(app: app, items: [
+            items[0], items[1], UninstallPlan.Item(url: bundle, size: 700, refusal: .guarded(.excluded)), inner,
+        ], needsAdministrator: 0, needsReview: 0)
+        #expect(between.movingInsideOthers.holder(of: inner.url) == support)
+        #expect(between.itemsInsideOthers.holder(of: inner.url) == bundle)
     }
 
     @Test func anAppRecordSaysTheVersionTheAppRuns() throws {

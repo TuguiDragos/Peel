@@ -491,14 +491,15 @@ struct UninstallCommand: AsyncParsableCommand {
         shellReferences: [ShellReferences.Reference] = [],
         dockIconStayed: DockTiles.Stayed.Reason? = nil
     ) -> Report {
-        Report(
+        let inside = plan.itemsInsideOthers
+        return Report(
             app: AppRecord(app),
             dryRun: result == nil,
             items: plan.items.map { item in
                 Report.Item(
                     path: Output.path(item.url), size: MeasuredSize(item.size), stays: plan.whyItStays(item)?.word,
                     leadsTo: item.leadsTo.map(Output.path), loaded: item.isALoadedJob,
-                    inside: plan.itemsInsideOthers.holder(of: item.url).map(Output.path)
+                    inside: inside.holder(of: item.url).map(Output.path)
                 )
             },
             moved: (result?.trashed ?? []).map { Output.path($0.originalURL) },
@@ -891,17 +892,19 @@ struct UninstallCommand: AsyncParsableCommand {
             Output.note("\(wontMove) While it stays, none of its files moves.")
         }
         if !output.json {
+            let moving = plan.moving
+            let goingWith = plan.movingInsideOthers
             // A third column only when an item stays or goes with another.
-            let saysWhy = plan.moving.count < plan.items.count || plan.items.contains { plan.goesWith($0) != nil }
+            let saysWhy = moving.count < plan.items.count || moving.contains { goingWith.holder(of: $0.url) != nil }
             if !plan.items.isEmpty {
                 Output.table(plan.items.map { item in
                     let fate = plan.whyItStays(item).map { "stays: \($0.summary)" }
-                        ?? plan.goesWith(item).map { "moves with \(Output.path($0))" } ?? "moves"
+                        ?? goingWith.holder(of: item.url).map { "moves with \(Output.path($0))" } ?? "moves"
                     return [Output.size(item.size), Output.path(item.url)] + (saysWhy ? [fate] : [])
                 })
             }
-            Output.line(plan.moving.isEmpty ? "Nothing here can be moved." : "Total: \(Output.size(plan.total))")
-            for item in plan.moving {
+            Output.line(moving.isEmpty ? "Nothing here can be moved." : "Total: \(Output.size(plan.total))")
+            for item in moving {
                 if let leadsTo = item.leadsTo {
                     Output.note("\(Output.path(item.url)) is a link to \(Output.path(leadsTo)): only the link moves.")
                 }
