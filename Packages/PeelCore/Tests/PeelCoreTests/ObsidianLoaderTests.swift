@@ -11,7 +11,10 @@ struct ObsidianLoaderTests {
             entries[name] = ["size": data.count, "offset": String(contents.count)]
             contents.append(data)
         }
-        let index = try JSONSerialization.data(withJSONObject: ["files": entries])
+        return archive(index: try JSONSerialization.data(withJSONObject: ["files": entries]), contents: contents)
+    }
+
+    static func archive(index: Data, contents: Data) -> Data {
         let padding = (4 - index.count % 4) % 4
         func number(_ value: Int) -> Data { withUnsafeBytes(of: UInt32(value).littleEndian) { Data($0) } }
         let header = number(4 + index.count + padding) + number(index.count) + index + Data(count: padding)
@@ -91,6 +94,39 @@ struct ObsidianLoaderTests {
 
             #expect(AppInspector.inspect(bundle, home: home(directory))?.runningVersion == nil, "\(name)")
         }
+    }
+
+    @Test func readsNothingFromAnArchiveThatLiesAboutASizeOrAPlace() throws {
+        let entries = [
+            #"{"size":9223372036854775807,"offset":"0"}"#, #"{"size":2,"offset":"9223372036854775807"}"#,
+            #"{"size":3,"offset":"0"}"#, #"{"size":-1,"offset":"0"}"#, #"{"size":2,"offset":"-1"}"#,
+        ]
+        for entry in entries {
+            let index = Data(#"{"files":{"package.json":\#(entry)}}"#.utf8)
+            let archive = Self.archive(index: index, contents: Data("{}".utf8))
+            #expect(ElectronArchive.file(named: "package.json", in: archive) == nil, "\(entry)")
+        }
+    }
+
+    @Test func anAppWhoseArchiveLiesIsStillRead() throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try app(in: directory)
+        let index = Data(#"{"files":{"package.json":{"size":9223372036854775807,"offset":"0"}}}"#.utf8)
+        try Self.archive(index: index, contents: Data("{}".utf8))
+            .write(to: directory.file("Applications/Obsidian.app/Contents/Resources/app.asar"))
+        try directory.file("home/Library/Application Support/obsidian/obsidian-1.15.1.asar")
+
+        let read = try #require(AppInspector.inspect(bundle, home: home(directory)))
+
+        #expect(read.version == "1.15.0")
+        #expect(read.runningVersion == nil)
+    }
+
+    @Test func readsAnArchiveThatIsPartOfMoreData() throws {
+        let archive = try Self.archive(["package.json": Data("{}".utf8)])
+        let part = (Data("before".utf8) + archive + Data("after".utf8)).dropFirst(6).dropLast(5)
+
+        #expect(ElectronArchive.file(named: "package.json", in: part) == Data("{}".utf8))
     }
 
     @Test func aNewVersionIsAnotherBuild() {
