@@ -11,7 +11,7 @@ struct RemovalRow: View {
     var name: String?
     /// The folder shown under `name`, when the name is the file's own and a cut path would hide it.
     var folder: String?
-    /// The item of the same list this one sits inside, which takes it along when it moves, shown under its name.
+    /// The listed folder this item sits inside, shown under its name.
     var insideListed: String?
     let icon: Icon
     let detail: LocalizedStringResource?
@@ -209,7 +209,7 @@ struct RemovalRow: View {
         }
     }
 
-    /// What the row says under the item's own name: the folder it is in, or the listed item it sits inside.
+    /// The line under the item's name.
     private var caption: String? {
         folder ?? insideListed.map { String(localized: "Inside \($0), also on this list") }
     }

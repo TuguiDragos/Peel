@@ -368,7 +368,7 @@ struct UninstallCommand: AsyncParsableCommand {
             var leadsTo: String?
             /// True for a job's file whose job launchd has loaded from it: moved, the job stops; left, it stays loaded.
             var loaded = false
-            /// The listed item it sits inside, which takes it along when that one moves, or `null`.
+            /// The listed item it sits inside, or `null`.
             var inside: String?
 
             private enum CodingKeys: String, CodingKey {
@@ -891,8 +891,7 @@ struct UninstallCommand: AsyncParsableCommand {
             Output.note("\(wontMove) While it stays, none of its files moves.")
         }
         if !output.json {
-            // The third column appears only when some item stays or goes with another, so an ordinary list has no
-            // trailing spaces.
+            // A third column only when an item stays or goes with another.
             let saysWhy = plan.moving.count < plan.items.count || plan.items.contains { plan.goesWith($0) != nil }
             if !plan.items.isEmpty {
                 Output.table(plan.items.map { item in

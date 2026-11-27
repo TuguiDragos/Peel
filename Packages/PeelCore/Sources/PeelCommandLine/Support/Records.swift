@@ -57,7 +57,7 @@ struct LeftoverRecord: Encodable {
     let otherCopies: [String]
     let isRecommended: Bool
     let needsAdministrator: Bool
-    /// The listed item it sits inside, which takes it along when that one moves, or `null`.
+    /// The listed item it sits inside, or `null`.
     let inside: String?
 
     init(_ leftover: Leftover, inside: URL? = nil) {

@@ -1,9 +1,7 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// What a group of orphaned files belongs to, as the person said: an app, by its bundle identifier, or by its place
-/// when it has none; a formula Homebrew installed; or a command in the tool folders, by its place, or by its name
-/// alone when it was chosen before Peel kept the place.
+/// What the person said a group of orphaned files belongs to.
 public enum OrphanOwner: Sendable, Hashable {
     case app(String)
     case appWithNoIdentifier(at: URL)
@@ -19,8 +17,7 @@ extension OrphanOwner: Codable {
         case at
     }
 
-    /// An app is written as its bundle identifier alone, as every list written before tools could be named, and an
-    /// app with no identifier, a formula, or a command under its own key.
+    /// An app is written as its identifier alone, as in older lists; anything else under its own key.
     public init(from decoder: any Decoder) throws {
         if let identifier = try? decoder.singleValueContainer().decode(String.self) {
             self = .app(identifier)
@@ -143,9 +140,8 @@ public struct OrphanOwners: Sendable {
         change { owners in groups.forEach { owners[$0.lowercased()] = nil } }
     }
 
-    /// The groups, lowercased, whose owner is on this Mac: an app among `installedApps`, or a formula or a command
-    /// among `tools`, an app or a command chosen where it is only while it is still there. While a kind of tool isn't
-    /// known, every group given to one stays out, since the person's word stands until Peel knows better.
+    /// The groups, lowercased, whose owner is still on this Mac. A group given to a tool Peel can't read yet stays
+    /// out.
     public static func given(
         _ owners: [String: OrphanOwner], installedApps: [InstalledApp], tools: InstalledTools
     ) -> Set<String> {

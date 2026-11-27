@@ -154,7 +154,7 @@ public enum SelfRemoval {
     }
 
     public enum Stay: Equatable {
-        /// This account removes the helper only from Settings > Helper, with an administrator's approval.
+        /// On this account the helper goes first, from Settings > Helper.
         case helperIsNotThisAccounts
         /// The helper is still registered. `reason` says why its uninstall failed, when it did say.
         case helperStayed(reason: String?, ledger: PrivilegedHelper.LedgerMove)

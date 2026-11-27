@@ -37,8 +37,6 @@ struct UninstallationTests {
         )
     }
 
-    /// A cask names `Steam.AppBundle` inside the Steam folder the scan finds by name: both are listed, and what the
-    /// page found counts its bytes once.
     @Test func countsWhatItFoundOnceWhenOneItemSitsInsideAnother() {
         let folder = Leftover(
             url: URL(filePath: "/Users/me/Library/Application Support/Steam", directoryHint: .isDirectory),

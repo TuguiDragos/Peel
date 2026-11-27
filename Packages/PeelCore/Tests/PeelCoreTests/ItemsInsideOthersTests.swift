@@ -21,7 +21,6 @@ struct ItemsInsideOthersTests {
         #expect(inside.holder(of: bundle) == steam)
     }
 
-    /// A folder whose name only begins another's holds nothing of it, and an item listed twice holds neither copy.
     @Test func goesByWholeNames() {
         let beside = URL(filePath: "/Users/me/Library/Application Support/Steam 2")
         let again = URL(filePath: "/Users/me/Library/Application Support/Steam")

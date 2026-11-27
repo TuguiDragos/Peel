@@ -47,9 +47,7 @@ struct SlowReadTests {
         #expect(late.withLock { $0 } == [7])
     }
 
-    /// A read that works in steps is told when nobody waits for it anymore, and stops. A thread of its own cancels
-    /// the read once it starts, so a test whose turn comes late still cancels in time; the loop's time limit only
-    /// keeps a broken build from spinning forever.
+    /// A read that works in steps stops once nobody waits for it.
     @Test func tellsAReadThatNobodyWaitsForAnymore() async {
         let started = DispatchSemaphore(value: 0)
         let stopped = Mutex(false)

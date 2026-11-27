@@ -809,8 +809,6 @@ struct CommandLineTests {
         #expect(kept.goesWith(items[2]) == nil)
     }
 
-    /// A folder a cask names inside one the scan found is listed on its own, and its line says which listed folder
-    /// holds it, so the sizes are not read as adding up.
     @Test func aLeftoverInsideAnotherListedOneSaysWhichHoldsIt() throws {
         let folder = URL(filePath: "/Users/me/Library/Application Support/Tide", directoryHint: .isDirectory)
         let leftover = Leftover(

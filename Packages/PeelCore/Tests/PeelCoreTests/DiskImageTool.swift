@@ -36,10 +36,10 @@ enum DiskImageTool {
         return String(decoding: said.output + said.errors, as: UTF8.self)
     }
 
-    /// As many tools at once as this Mac has processors, as ran when each held one of the threads the tests share.
+    /// At most one tool per processor.
     private static let turns = Turns(ProcessInfo.processInfo.activeProcessorCount)
 
-    /// Runs the tool on a thread of its own, so no thread the tests share waits for it.
+    /// Runs the tool on its own thread, so no test thread waits for it.
     private static func onAThreadOfItsOwn(
         _ tool: String, _ arguments: [String], input: Data
     ) async throws -> (output: Data, errors: Data) {
@@ -78,7 +78,7 @@ enum DiskImageTool {
         return (answer, complaints)
     }
 
-    /// A set number of turns: who comes when none is free waits for one without holding a thread.
+    /// A set number of turns, waited for without holding a thread.
     private final class Turns: Sendable {
         private struct State {
             var free: Int

@@ -194,7 +194,7 @@ public struct BulkUninstallation: Sendable {
         }.map(\.url))
     }
 
-    /// What the page lists, each item once: one inside another listed item is part of that one's size.
+    /// What the page lists, each item counted once.
     public var foundSize: SizeTotal {
         SizeTotal(
             movingItemsAt: Dictionary(items.map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first }

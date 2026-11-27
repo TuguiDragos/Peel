@@ -47,7 +47,7 @@ struct UninstallPlan {
 
     var itemsInsideOthers: ItemsInsideOthers { ItemsInsideOthers(items.map(\.url)) }
 
-    /// The moving item `item` sits inside, which takes it along, or nil when it moves on its own or stays.
+    /// The moving item this one sits inside, or nil.
     func goesWith(_ item: Item) -> URL? {
         guard whyItStays(item) == nil, let holder = itemsInsideOthers.holder(of: item.url),
               moving.contains(where: { $0.url == holder })

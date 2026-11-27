@@ -41,7 +41,6 @@ final class RemovalPlan {
     private(set) var reviewMovable: (count: Int, size: SizeTotal) = (0, SizeTotal([]))
     /// The size of everything that could be moved, the app included, which the header shows.
     private(set) var total = SizeTotal([])
-    /// What the page lists, each item once, for a page where nothing can be selected.
     private(set) var foundSize = SizeTotal([])
     private(set) var itemsInsideOthers = ItemsInsideOthers([])
     private var leftoverSizes: [URL: (size: Int64, isMeasured: Bool)] = [:]

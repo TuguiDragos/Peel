@@ -138,8 +138,7 @@ final class HelperModel {
         return told(.uninstall, approval, error.map { Failure(action: .uninstall, reason: $0.localizedDescription) })
     }
 
-    /// Runs a change of the helper's registration once it is approved, and answers the approval and the change's
-    /// error. Nothing about the helper shows meanwhile; what it leaves shows through the check that follows.
+    /// Changes the helper once it is approved, and answers the approval and the error.
     private func change(_ action: Action) async -> (approval: PrivilegedHelper.ChangeApproval, error: (any Error)?) {
         changing = action
         defer { changing = nil }
@@ -158,8 +157,7 @@ final class HelperModel {
         return (approval, error)
     }
 
-    /// Tells VoiceOver the helper's state in Settings' words once a change went through. A failure has an alert, and so
-    /// has a change no administrator approved; a canceled one has nothing.
+    /// Tells VoiceOver the new state after a change. A failure or a refusal has an alert, a cancel nothing.
     private func told(_ action: Action, _ approval: PrivilegedHelper.ChangeApproval, _ failure: Failure?) -> Failure? {
         switch approval {
         case .canceled:

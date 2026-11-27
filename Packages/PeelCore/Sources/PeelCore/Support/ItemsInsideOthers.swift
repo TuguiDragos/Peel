@@ -1,8 +1,7 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// The items of one list that sit inside another item of the same list, read from the names in their paths. Moving
-/// that item takes them along, so a total counts them once.
+/// Which items of a list sit inside another item of the same list.
 public struct ItemsInsideOthers: Sendable {
     private let holders: [URL: URL]
 
@@ -18,7 +17,7 @@ public struct ItemsInsideOthers: Sendable {
         self.holders = holders
     }
 
-    /// The item of the list `url` sits inside, the nearest when several hold it, or nil when none does.
+    /// The nearest listed item `url` sits inside, or nil.
     public func holder(of url: URL) -> URL? {
         holders[url]
     }

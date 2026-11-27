@@ -176,28 +176,28 @@ enum KeptOnlyHere {
         ("Library/Application Support/com.prakashjoshipax.VoiceInk", "Recordings", .holdsWorkMadeWithTheApp),
         // Buzz's `buzz/db/db.py`: its transcriptions.
         ("Library/Application Support/Buzz", "Buzz.sqlite", .holdsWorkMadeWithTheApp),
-        // Msty's "Share Msty Data Between Devices using Workspaces": `msty.db` holds the conversations, only here.
+        // Msty's "Share Msty Data Between Devices using Workspaces": the conversations, in `msty.db`.
         ("Library/Application Support/Msty", nil, .holdsWorkMadeWithTheApp),
-        // Msty Studio's workspaces, with the chat history its "Privacy FAQ" says stays on the device.
+        // Msty Studio's "Privacy FAQ": the chat history stays on the device, in its workspaces.
         ("Library/Application Support/MstyStudio", "data/workspaces", .holdsWorkMadeWithTheApp),
-        // BoltAI's "Locations" (version 1) and "Back up and restore local BoltAI data" (version 3): chats stay here.
+        // BoltAI's "Locations" (version 1) and "Back up and restore local BoltAI data" (version 3).
         ("Library/Application Support/co.podzim.BoltGPT", nil, .holdsWorkMadeWithTheApp),
         (
             "Library/Containers/co.podzim.boltai-mobile",
             "Data/Library/Application Support/co.podzim.boltai-mobile",
             .holdsWorkMadeWithTheApp
         ),
-        // 5ire's `src/main/main.ts`: its chats in the `Database` folder, and before that in `5ire.db`.
+        // 5ire's `src/main/main.ts`: the chats, in `Database`, before that in `5ire.db`.
         ("Library/Application Support/5ire", "Database", .holdsWorkMadeWithTheApp),
         ("Library/Application Support/5ire", "5ire.db", .holdsWorkMadeWithTheApp),
-        // Witsy's `src/main/history.ts`: each workspace's chats in its `history.json`, once in the folder itself.
+        // Witsy's `src/main/history.ts`: the chats, in `workspaces`, before that in `history.json`.
         ("Library/Application Support/Witsy", "workspaces", .holdsWorkMadeWithTheApp),
         ("Library/Application Support/Witsy", "history.json", .holdsWorkMadeWithTheApp),
-        // DeepChat's `src/main/app/databaseInitializer.ts`: its conversations in `app_db`.
+        // DeepChat's `src/main/app/databaseInitializer.ts`: the chats, in `app_db`.
         ("Library/Application Support/DeepChat", "app_db", .holdsWorkMadeWithTheApp),
-        // ChatALL's "Privacy": its chat history stays on this computer, in its `IndexedDB` (`src/store/db.js`).
+        // ChatALL's "Privacy": the chat history stays on this computer, in `IndexedDB`.
         ("Library/Application Support/ChatALL", "IndexedDB", .holdsWorkMadeWithTheApp),
-        // macai's `macaiApp.swift` and Ollamac's `OllamacApp.swift` keep their chats in their containers.
+        // macai's `macaiApp.swift` and Ollamac's `OllamacApp.swift`: the chats, in their containers.
         ("Library/Containers/notfullin.com.macai", nil, .holdsWorkMadeWithTheApp),
         ("Library/Containers/com.kevinhermawan.Ollamac", nil, .holdsWorkMadeWithTheApp),
         // Objective Development's "How can I uninstall Little Snitch 4?": the person's rules and settings are here and

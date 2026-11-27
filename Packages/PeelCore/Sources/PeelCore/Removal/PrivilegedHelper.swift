@@ -180,8 +180,7 @@ public enum PrivilegedHelper {
         return try result.get()
     }
 
-    /// Runs `change` once this account may change the helper: an administrator may, and another account once an
-    /// administrator approves it in macOS's own window, since macOS lets any account unregister the helper.
+    /// Runs `change` for an administrator, or once one approves it: macOS lets any account unregister the helper.
     @discardableResult
     public static func changeAsAnAdministrator(
         _ change: () async throws -> Void,
@@ -192,7 +191,7 @@ public enum PrivilegedHelper {
         return answer
     }
 
-    /// Approved at once for an administrator, and otherwise what an administrator answers in macOS's window.
+    /// Approved at once for an administrator, otherwise asked in macOS's window.
     @concurrent
     public static func approvalToChange() async -> ChangeApproval {
         await approvalToChange(

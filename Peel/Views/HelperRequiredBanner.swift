@@ -1,8 +1,7 @@
 import PeelCore
 import SwiftUI
 
-/// Over a page that needs the helper for what it does. It says what that is, and what is in the way, since "install it"
-/// is no use to somebody whose helper is installed.
+/// Over a page that needs the helper: what for, and what is in the way.
 struct HelperRequiredBanner: View {
     @Environment(HelperModel.self) private var helper
     @Environment(\.openSettings) private var openSettings

@@ -43,7 +43,7 @@ actor AdministratorConsent {
         if case .approved(let approval) = await answer(prompt: prompt) { approval } else { nil }
     }
 
-    /// What an administrator answers to a change of the helper, whose approval nothing else needs.
+    /// An administrator's answer to a change of the helper.
     static func approvalToChange(prompt: String?) async -> PrivilegedHelper.ChangeApproval {
         switch await answer(prompt: prompt) {
         case .approved(let approval):

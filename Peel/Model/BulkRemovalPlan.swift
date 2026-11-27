@@ -32,7 +32,6 @@ final class BulkRemovalPlan {
     private(set) var recommendedFiles: [BulkUninstallation.Item] = []
     /// The files nothing selects for the person, as an app's own page lists them under Review Before Removing.
     private(set) var filesToReview: [BulkUninstallation.Item] = []
-    /// What the page lists, each item once, for a page where nothing can be selected.
     private(set) var foundSize = SizeTotal([])
     private(set) var itemsInsideOthers = ItemsInsideOthers([])
     /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.

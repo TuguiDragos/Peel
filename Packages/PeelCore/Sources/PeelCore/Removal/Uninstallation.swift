@@ -556,8 +556,7 @@ public struct Uninstallation: Sendable {
             && (match.confidence == .certain || isInItsNamespace)
     }
 
-    /// What the page lists, the app included, each item once: one inside another listed item is part of that one's
-    /// size.
+    /// What the page lists, the app included, each item counted once.
     public var foundSize: SizeTotal {
         let leftovers = scan.leftovers.map { ($0.url, $0.isMeasured ? $0.size : nil) }
         return SizeTotal(movingItemsAt: Dictionary([(app.url, isAppMeasured ? appSize : nil)] + leftovers) { first, _ in

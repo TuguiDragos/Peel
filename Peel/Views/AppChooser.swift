@@ -30,8 +30,7 @@ enum OwnerChoice: Identifiable, Hashable {
         }
     }
 
-    /// What Orphaned Files keeps the choice as: an app by its bundle identifier, or by its place when it has none, a
-    /// tool by its formula, and a command by its name and its place.
+    /// How Orphaned Files keeps the choice.
     var owner: OrphanOwner {
         switch self {
         case .app(let app): app.bundleIdentifier.map(OrphanOwner.app) ?? .appWithNoIdentifier(at: app.url)
