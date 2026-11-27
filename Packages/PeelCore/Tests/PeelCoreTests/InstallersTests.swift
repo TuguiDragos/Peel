@@ -133,7 +133,9 @@ struct InstallersTests {
 
     /// Random, so an archive of it is as big as it: zeros shrink to nothing and fall under the floor.
     private func randomData(count: Int) -> Data {
-        Data((0..<count).map { _ in UInt8.random(in: 0...255) })
+        var data = Data(count: count)
+        data.withUnsafeMutableBytes { arc4random_buf($0.baseAddress, count) }
+        return data
     }
 
     private func run(_ tool: String, _ arguments: [String], in folder: URL) throws {

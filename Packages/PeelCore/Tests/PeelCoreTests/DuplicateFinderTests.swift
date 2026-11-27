@@ -140,7 +140,9 @@ struct DuplicateFinderTests {
     }
 
     private func randomData(count: Int) -> Data {
-        Data((0..<count).map { _ in UInt8.random(in: 0...255) })
+        var data = Data(count: count)
+        data.withUnsafeMutableBytes { arc4random_buf($0.baseAddress, count) }
+        return data
     }
 
     @Test(.fillsAFolderPastALimit) func twoFoldersTooFullToReadAreNotComparedAsFolders() async throws {
