@@ -100629,7 +100629,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esegue la versione %@, che ha scaricato da sé. La copia installata è la versione %@, e l’app indica quando ne serve una più recente."
+            "value" : "Esegue la versione %@, che ha scaricato da sola. La copia installata è la versione %@, e l’app indica quando ne serve una più recente."
           }
         },
         "ja" : {
@@ -100641,7 +100641,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 앱은 직접 다운로드한 버전 %@을(를) 실행합니다. 설치한 사본은 버전 %@이며, 더 최신 사본이 필요하면 앱이 알려 줍니다."
+            "value" : "이 앱은 직접 다운로드한 버전 %@을(를) 실행합니다. 설치한 사본은 버전 %@입니다. 더 최신 사본이 필요하면 앱이 알려 줍니다."
           }
         },
         "nl" : {
@@ -100659,7 +100659,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ela executa a versão %@, que ela mesma baixou. A cópia que você instalou é a versão %@, e o app avisa quando precisa de uma mais nova."
+            "value" : "Ele executa a versão %@, que ele mesmo baixou. A cópia que você instalou é a versão %@, e o app avisa quando precisa de uma mais nova."
           }
         },
         "ro" : {
@@ -283490,7 +283490,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiornata da sé"
+            "value" : "Aggiornata da sola"
           }
         },
         "ja" : {
@@ -283520,7 +283520,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atualizou-se sozinha"
+            "value" : "Atualizou-se sozinho"
           }
         },
         "ro" : {
