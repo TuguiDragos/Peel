@@ -73,6 +73,26 @@ struct DocumentedPlacesTests {
         #expect(!row.match.isRecommended)
     }
 
+    @Test func holdsBackTheConversationsOfMstyAndBoltAI() async throws {
+        let apps = [
+            ("app.msty.app", "Msty", "home/Library/Application Support/Msty", "msty.db"),
+            ("MstyStudio", "MstyStudio", "home/Library/Application Support/MstyStudio",
+             "data/workspaces/default/msty.cloud.db"),
+            ("co.podzim.BoltGPT", "BoltAI", "home/Library/Application Support/co.podzim.BoltGPT", "data"),
+            ("co.podzim.boltai-mobile", "BoltAI", "home/Library/Containers/co.podzim.boltai-mobile",
+             "Data/Library/Application Support/co.podzim.boltai-mobile/boltai_v2.sqlite"),
+        ]
+        for (identifier, name, place, inside) in apps {
+            let app = try MakersApp(identifier: identifier, name: name)
+            try app.directory.file("\(place)/\(inside)")
+
+            let row = try #require(await app.rows()[app.path(place)], "\(place)")
+
+            #expect(row.match.heldBack == .holdsWorkMadeWithTheApp, "\(place)")
+            #expect(!row.match.isRecommended, "\(place)")
+        }
+    }
+
     @Test func listsOsaurusModelsAndChatsAndSelectsNeither() async throws {
         let osaurus = try MakersApp(identifier: "com.dinoki.osaurus", name: "Osaurus")
         try osaurus.directory.file("home/MLXModels/mlx-community/Qwen3-4B-4bit/model.safetensors", bytes: 4_096)

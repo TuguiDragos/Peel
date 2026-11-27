@@ -176,6 +176,17 @@ enum KeptOnlyHere {
         ("Library/Application Support/com.prakashjoshipax.VoiceInk", "Recordings", .holdsWorkMadeWithTheApp),
         // Buzz's `buzz/db/db.py`: its transcriptions.
         ("Library/Application Support/Buzz", "Buzz.sqlite", .holdsWorkMadeWithTheApp),
+        // Msty's "Share Msty Data Between Devices using Workspaces": `msty.db` holds the conversations, only here.
+        ("Library/Application Support/Msty", nil, .holdsWorkMadeWithTheApp),
+        // Msty Studio's workspaces, with the chat history its "Privacy FAQ" says stays on the device.
+        ("Library/Application Support/MstyStudio", "data/workspaces", .holdsWorkMadeWithTheApp),
+        // BoltAI's "Locations" (version 1) and "Back up and restore local BoltAI data" (version 3): chats stay here.
+        ("Library/Application Support/co.podzim.BoltGPT", nil, .holdsWorkMadeWithTheApp),
+        (
+            "Library/Containers/co.podzim.boltai-mobile",
+            "Data/Library/Application Support/co.podzim.boltai-mobile",
+            .holdsWorkMadeWithTheApp
+        ),
         // Objective Development's "How can I uninstall Little Snitch 4?": the person's rules and settings are here and
         // in `Objective Development/Little Snitch` in the Library every account shares.
         ("Library/Application Support/Little Snitch", nil, .holdsWorkMadeWithTheApp),
