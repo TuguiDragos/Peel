@@ -22,12 +22,12 @@ struct ExclusionsSettingsView: View {
         exclusions.exclusions.bundleIdentifiers.sorted()
     }
 
-    /// The tool a group was given to, beside the terminal symbol: a command by where it is, once Peel keeps that.
     private func appName(at place: URL) -> String? {
         let path = PathPattern.comparablePath(of: place)
         return library.apps.first { PathPattern.comparablePath(of: $0.url) == path }?.name
     }
 
+    /// The tool a group was given to, beside the terminal symbol: a command by where it is, once Peel keeps that.
     private func tool(_ text: String, truncation: Text.TruncationMode) -> some View {
         HStack(spacing: 4) {
             Image(systemName: "terminal")

@@ -1,7 +1,7 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// What the person said a group of orphaned files belongs to.
+/// What the person said a group of orphaned files belongs to. A command chosen before Peel kept its place has none.
 public enum OrphanOwner: Sendable, Hashable {
     case app(String)
     case appWithNoIdentifier(at: URL)

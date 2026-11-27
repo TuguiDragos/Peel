@@ -37,7 +37,7 @@ enum ObsidianLoader {
         return manifest["version"] as? String
     }
 
-    /// Each part as JavaScript's `parseInt` reads it, as the loader does.
+    /// The whole number each part begins with, as the loader's `parseInt` reads a version.
     static func parts(of version: String) -> [Int]? {
         let parts = version.split(separator: ".", omittingEmptySubsequences: false).map { part -> Int? in
             let trimmed = part.drop { $0.isWhitespace }

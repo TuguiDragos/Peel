@@ -63,6 +63,7 @@ struct SlowReadTests {
                 return 0
             }
         }
+        // A thread of its own cancels, since this test's own turn can come too late.
         Thread {
             started.wait()
             asking.cancel()
