@@ -826,7 +826,7 @@ struct HelperSettingsView: View {
     /// What can be done about the state, the step it asks for last.
     @ViewBuilder
     private var actions: some View {
-        if helper.standing.offersUninstall(isAdministrator: helper.isAdministrator) {
+        if helper.isRegistered {
             uninstallButton
         }
         switch helper.standing {
@@ -845,7 +845,7 @@ struct HelperSettingsView: View {
                 PrivilegedHelper.openLoginItemsSettings()
             }
             .buttonStyle(.borderedProminent)
-        case .notThisAccount, .ready:
+        case .ready:
             EmptyView()
         case .notAnswering:
             Button("Repair Helper") {
@@ -859,13 +859,14 @@ struct HelperSettingsView: View {
     /// What the helper's state asks of the person, said under its row.
     private var explanation: Text? {
         switch helper.standing {
+        case .notInstalled where helper.isRegisteredByAnotherCopy:
+            Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
         case .notInstalled:
-            helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy)
-                ? nil : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status))
+            helper.isAdministrator
+                ? nil
+                : Text("On this account, Peel asks for an administrator name and password before it installs, repairs, or removes the helper.")
         case .waitingForApproval:
             Text("Allow Peel in System Settings > General > Login Items & Extensions.")
-        case .notThisAccount:
-            Text(helper.whyItCannotAct)
         case .notAnswering:
             nil
         case .ready:
@@ -886,7 +887,6 @@ struct HelperSettingsView: View {
             ("hourglass", .secondary)
         } else {
             switch helper.standing {
-            case .notThisAccount: ("person.crop.circle.badge.exclamationmark", .orange)
             case .notAnswering: ("exclamationmark.triangle", .orange)
             case .ready: ("checkmark.circle", .green)
             case .waitingForApproval: ("clock", .orange)

@@ -40,16 +40,37 @@ actor AdministratorConsent {
     /// Asks for an administrator's name and password in macOS's own window, on a thread of its own, since the window
     /// holds the thread until it closes.
     static func askAnAdministrator(prompt: String? = PrivilegedHelper.consentPrompt) async -> Approval? {
+        if case .approved(let approval) = await answer(prompt: prompt) { approval } else { nil }
+    }
+
+    /// What an administrator answers to a change of the helper, whose approval nothing else needs.
+    static func approvalToChange(prompt: String?) async -> PrivilegedHelper.ChangeApproval {
+        switch await answer(prompt: prompt) {
+        case .approved(let approval):
+            approval.destroy()
+            return .approved
+        case .canceled: return .canceled
+        case .refused: return .refused
+        }
+    }
+
+    private enum Answer: Sendable {
+        case approved(Approval)
+        case canceled
+        case refused
+    }
+
+    private static func answer(prompt: String?) async -> Answer {
         await withCheckedContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
-                continuation.resume(returning: approvalFromAnAdministrator(prompt: prompt))
+                continuation.resume(returning: answerFromAnAdministrator(prompt: prompt))
             }
         }
     }
 
-    private static func approvalFromAnAdministrator(prompt: String?) -> Approval? {
+    private static func answerFromAnAdministrator(prompt: String?) -> Answer {
         var made: AuthorizationRef?
-        guard AuthorizationCreate(nil, nil, [], &made) == errAuthorizationSuccess, let made else { return nil }
+        guard AuthorizationCreate(nil, nil, [], &made) == errAuthorizationSuccess, let made else { return .refused }
         let authorization = Authorization(made)
         // Pre-authorized, the approval holds in the helper, which checks it without asking anybody.
         let flags: AuthorizationFlags = [.interactionAllowed, .extendRights, .preAuthorize]
@@ -61,9 +82,9 @@ actor AdministratorConsent {
               AuthorizationMakeExternalForm(made, &external) == errAuthorizationSuccess
         else {
             authorization.destroy()
-            return nil
+            return status == errAuthorizationCanceled ? .canceled : .refused
         }
-        return Approval(form: withUnsafeBytes(of: &external) { Data($0) }, destroy: authorization.destroy)
+        return .approved(Approval(form: withUnsafeBytes(of: &external) { Data($0) }, destroy: authorization.destroy))
     }
 
     private static func withEnvironment<T>(

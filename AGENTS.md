@@ -207,9 +207,9 @@ disk that somebody may have replaced.
   that doesn't exist yet (`config.add.`), so another process of the account could define one as granted first.
 - It accepts only a copy of Peel signed by the same team and no older a build than itself, checked when a connection
   opens and for every message after it, and a released helper refuses a build that can be debugged.
-- **Only an administrator changes it.** macOS lets any account unregister a system daemon without asking, so every
-  install, repair, and uninstall asks again, at that moment, whether this account is an administrator
-  (`PrivilegedHelper.changeAsAnAdministrator`).
+- **Only an administrator, or an administrator's approval, changes it.** macOS lets any account unregister a system
+  daemon without asking, so every install, repair, and uninstall from another account first gets an administrator's
+  approval in macOS's own window, for `system.privilege.admin` (`PrivilegedHelper.changeAsAnAdministrator`).
 - Every question and request goes to it from a task of its own at user-initiated quality, which makes its own
   connection (`PrivilegedHelper.ask`): XPC delivers a reply at the quality its message went out with, so a reply to a
   lower one waits while Peel is busy, and the wait for it ends first.

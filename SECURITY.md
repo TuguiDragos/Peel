@@ -117,7 +117,8 @@ have, and anything that destroys data that cannot be recovered.
   daemon (bootstrap, bootout, kickstart, enable, and disable), or in the one that moves the helper's
   own ledger to the Trash for Remove Peel.
 - Anything that leaves a root daemon installed, running, or reachable after Remove Peel, or that
-  lets an account that is not an administrator install, replace, or remove it. A Peel dragged to
+  lets an account that is not an administrator install, replace, or remove it without an
+  administrator's approval. A Peel dragged to
   the Trash leaves its helper registered, as [GUIDE.md](GUIDE.md#uninstall-peel) says, until it is
   put back and removed with Remove Peel.
 

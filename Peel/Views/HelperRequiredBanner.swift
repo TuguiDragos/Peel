@@ -1,8 +1,8 @@
 import PeelCore
 import SwiftUI
 
-/// Over a page that needs the helper for what it does. It says what that is, and which of the four things is in the
-/// way, since "install it" is no use to somebody whose helper is installed, or who isn't an administrator.
+/// Over a page that needs the helper for what it does. It says what that is, and what is in the way, since "install it"
+/// is no use to somebody whose helper is installed.
 struct HelperRequiredBanner: View {
     @Environment(HelperModel.self) private var helper
     @Environment(\.openSettings) private var openSettings
@@ -20,13 +20,11 @@ struct HelperRequiredBanner: View {
 
     var body: some View {
         Notice(title: title, detail: detail) {
-            if helper.standing != .notThisAccount {
-                Button(helper.standing == .waitingForApproval ? "Open System Settings" : "Open Peel Settings") {
-                    if helper.standing == .waitingForApproval {
-                        PrivilegedHelper.openLoginItemsSettings()
-                    } else {
-                        SettingsPane.helper.open(with: openSettings)
-                    }
+            Button(helper.standing == .waitingForApproval ? "Open System Settings" : "Open Peel Settings") {
+                if helper.standing == .waitingForApproval {
+                    PrivilegedHelper.openLoginItemsSettings()
+                } else {
+                    SettingsPane.helper.open(with: openSettings)
                 }
             }
         }
@@ -54,29 +52,14 @@ extension PrivilegedHelper.Standing {
         self == .notInstalled && !registeredByAnotherCopy
     }
 
-    /// Only an administrator changes the helper, so only an administrator is offered to uninstall it.
-    func offersUninstall(isAdministrator: Bool) -> Bool {
-        isAdministrator && [.ready, .waitingForApproval, .notAnswering].contains(self)
-    }
-
-    /// Why Peel's helper can't act, for a page or a control that needs it. An account that isn't an administrator's
-    /// hears where the helper stands, by its `status`, the step an administrator takes, and what follows.
-    func whyItCannotAct(registeredByAnotherCopy: Bool, status: PrivilegedHelper.Status) -> LocalizedStringResource {
+    /// Why Peel's helper can't act, for a page or a control that needs it.
+    func whyItCannotAct(registeredByAnotherCopy: Bool) -> LocalizedStringResource {
         switch self {
         case .ready, .notInstalled:
             registeredByAnotherCopy
                 ? "Peel’s helper was installed by another copy of Peel, and this copy can’t use it. Open the copy of Peel that installed it."
                 : "Install Peel’s helper, which does this as an administrator in the system folders it serves."
         case .waitingForApproval: "The Peel helper is waiting to be allowed in System Settings > General > Login Items & Extensions."
-        case .notThisAccount:
-            switch status {
-            case .notRegistered, .unavailable:
-                "The Peel helper is not installed, and only an administrator can install it. Log in as an administrator, open Peel there, and install the helper. Then this account can use it, with an administrator name and password each time."
-            case .requiresApproval:
-                "The Peel helper is installed but not yet allowed, and only an administrator can allow it. Log in as an administrator, open Peel there, and allow the helper. Then this account can use it, with an administrator name and password each time."
-            case .enabled:
-                "The Peel helper is not answering, and only an administrator can repair it. Log in as an administrator, open Peel there, and repair the helper. Then this account can use it, with an administrator name and password each time."
-            }
         case .notAnswering: "Peel’s helper isn’t answering. Repair it in Settings."
         }
     }

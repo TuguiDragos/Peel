@@ -91,6 +91,7 @@ struct PeelApp: App {
     init() {
         HistorySeal.useTheKeychain()
         PrivilegedHelper.consentPrompt = String(localized: "This account isn’t an administrator, so Peel’s helper does this only with an administrator’s approval.")
+        PrivilegedHelper.changePrompt = String(localized: "This account is not an administrator, so Peel installs, repairs, or removes its helper only with the approval of an administrator.")
         SettingsKey.showInMenuBarAsBefore()
         SettingsKey.keepSidebarChoicesAsBefore()
         let notifications = PeelNotifications()

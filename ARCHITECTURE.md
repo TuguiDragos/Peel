@@ -296,9 +296,10 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
 The helper (`com.tuguidragos.Peel.Helper`) is registered with `SMAppService` when the user asks for it, and
 macOS asks the user to approve it once. It talks to the app over XPC.
 
-- Only an administrator installs, repairs, or uninstalls it. macOS lets any account unregister a daemon, so the app
-  asks again at that moment whether this account is an administrator (`PrivilegedHelper.changeAsAnAdministrator`),
-  and Remove Peel, from an account that isn't, leaves the helper and Peel where they are.
+- An administrator installs, repairs, or uninstalls it, and another account only once an administrator approves the
+  change in macOS's own window, asked at that moment (`PrivilegedHelper.changeAsAnAdministrator`), since macOS lets
+  any account unregister a daemon. Remove Peel, from an account that isn't an administrator, leaves the helper and
+  Peel where they are.
 - It answers an administrator, and another account only with an administrator's approval for each action, which
   Peel asks for once per action in macOS's own window (`AdministratorConsent`, for `system.privilege.admin`), asked
   again with each message, and it accepts only a copy of Peel signed by the same team and no older a build than

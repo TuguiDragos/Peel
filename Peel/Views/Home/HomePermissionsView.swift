@@ -258,7 +258,7 @@ struct HomePermissionsContent: View {
             let missing = toSetUp.map { String(localized: $0.title) }.formatted(.list(type: .and))
             let detail = notice.detail(
                 otherCopy: String(
-                    localized: helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status)
+                    localized: helper.standing.whyItCannotAct(registeredByAnotherCopy: true)
                 ),
                 reopens: home.needsRelaunchForFullDiskAccess
             )
@@ -295,18 +295,9 @@ struct HomePermissionsContent: View {
                     .renderingMode(.template)
                     .foregroundStyle(Album.orange)
                     .frame(width: 26, height: 26)
-                let hasLooked = home.hasChecked && !home.isStillChecking
-                let allSet = HomeModel.allSet(helper: home.state(of: .helper))
-                let title = Text(!hasLooked ? "Checking what Peel can reach" : allSet == .forThisAccount ? "Set for this account" : "You’re all set")
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    title
-                        .font(.system(size: 12.5, weight: .bold, design: .rounded))
-                        .foregroundStyle(Album.ink)
-                    if hasLooked, let note = HomeModel.allSetNote(allSet, helper: helper.whyItCannotAct) {
-                        InfoNote(about: title, detail: Text(note), isAlbum: true)
-                            .beside(.system(size: 12.5, weight: .bold, design: .rounded))
-                    }
-                }
+                Text(home.hasChecked && !home.isStillChecking ? "You’re all set" : "Checking what Peel can reach")
+                    .font(.system(size: 12.5, weight: .bold, design: .rounded))
+                    .foregroundStyle(Album.ink)
                 Spacer(minLength: 0)
             }
             .padding(.horizontal, 12)
@@ -387,9 +378,7 @@ extension HomeModel {
         switch permission {
         case .helper where state(of: .helper) == .missing && helper.standing != .notAnswering
             && helper.isRegisteredByAnotherCopy:
-            Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status))
-        case .helper where state(of: .helper) == .notThisAccount:
-            Text(helper.whyItCannotAct)
+            Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
         case .openAtLogin where loginItem.failure != nil:
             Text(verbatim: loginItem.failure ?? "")
         case .appManagement where state(of: .appManagement) == .pending:

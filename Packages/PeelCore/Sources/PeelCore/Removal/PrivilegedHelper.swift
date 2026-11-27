@@ -27,31 +27,27 @@ public enum PrivilegedHelper {
         }
     }
 
-    /// Whether the helper can act for this account, and if not, why.
+    /// Whether the helper can act, and if not, why.
     public enum Standing: Sendable, Equatable {
         case ready
         case notInstalled
         case waitingForApproval
-        case notThisAccount
         case notAnswering
 
-        /// Another account uses a helper that works, with an administrator's approval for each action, and anything
-        /// else needs an administrator: only one installs, approves, or repairs the helper.
-        public init(status: Status, isAdministrator: Bool, isResponding: Bool?) {
-            if status == .enabled, isResponding != false {
-                self = .ready
-                return
-            }
-            guard isAdministrator else {
-                self = .notThisAccount
-                return
-            }
+        public init(status: Status, isResponding: Bool?) {
             self = switch status {
-            case .enabled: .notAnswering
+            case .enabled: isResponding == false ? .notAnswering : .ready
             case .requiresApproval: .waitingForApproval
             case .notRegistered, .unavailable: .notInstalled
             }
         }
+    }
+
+    /// What came of asking to change the helper.
+    public enum ChangeApproval: Sendable, Equatable {
+        case approved
+        case canceled
+        case refused
     }
 
     private static var service: SMAppService {
@@ -151,6 +147,14 @@ public enum PrivilegedHelper {
 
     private static let prompt = Mutex<String?>(nil)
 
+    /// The same, when Peel asks to install, repair, or remove the helper.
+    public static var changePrompt: String? {
+        get { changeWords.withLock { $0 } }
+        set { changeWords.withLock { $0 = newValue } }
+    }
+
+    private static let changeWords = Mutex<String?>(nil)
+
     /// The approval the requests of the action under way carry.
     @TaskLocal static var consent: AdministratorConsent?
 
@@ -176,16 +180,31 @@ public enum PrivilegedHelper {
         return try result.get()
     }
 
-    /// Runs `change` only while this account is an administrator, asked again now: macOS lets any account unregister
-    /// the helper, which serves every administrator. Answers whether it ran.
+    /// Runs `change` once this account may change the helper: an administrator may, and another account once an
+    /// administrator approves it in macOS's own window, since macOS lets any account unregister the helper.
     @discardableResult
     public static func changeAsAnAdministrator(
         _ change: () async throws -> Void,
-        isAdministrator: () async -> Bool = { await isAdministratorNow() }
-    ) async throws -> Bool {
-        guard await isAdministrator() else { return false }
-        try await change()
-        return true
+        approval: () async -> ChangeApproval = { await approvalToChange() }
+    ) async throws -> ChangeApproval {
+        let answer = await approval()
+        if answer == .approved { try await change() }
+        return answer
+    }
+
+    /// Approved at once for an administrator, and otherwise what an administrator answers in macOS's window.
+    @concurrent
+    public static func approvalToChange() async -> ChangeApproval {
+        await approvalToChange(
+            isAdministrator: { await isAdministratorNow() },
+            ask: { await AdministratorConsent.approvalToChange(prompt: changePrompt) }
+        )
+    }
+
+    static func approvalToChange(
+        isAdministrator: () async -> Bool, ask: () async -> ChangeApproval
+    ) async -> ChangeApproval {
+        await isAdministrator() ? .approved : await ask()
     }
 
     public static func openLoginItemsSettings() {

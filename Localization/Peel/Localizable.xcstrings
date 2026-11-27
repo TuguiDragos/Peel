@@ -21830,6 +21830,112 @@
         }
       }
     },
+    "An administrator did not approve the change, so the Peel helper stays as it was." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Správce změnu neschválil, takže pomocník Peelu zůstává beze změny."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Administrator hat die Änderung nicht genehmigt, daher bleibt das Hilfsprogramm von Peel unverändert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrador no aprobó el cambio, así que el asistente de Peel sigue como estaba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrateur n’a pas approuvé la modification : l’utilitaire de Peel reste donc tel quel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un amministratore non ha approvato la modifica, quindi l’assistente di Peel resta com’era."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者が変更を承認しなかったため、Peelのヘルパーはそのままです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자가 변경을 승인하지 않았으므로 Peel 보조 프로그램은 그대로 유지됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een beheerder heeft de wijziging niet goedgekeurd, dus het hulpprogramma van Peel blijft zoals het was."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator nie zatwierdził zmiany, więc pomocnik Peel pozostaje bez zmian."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um administrador não aprovou a alteração, então o auxiliar do Peel continua como estava."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrator nu a aprobat modificarea, așa că instrumentul de ajutor Peel rămâne așa cum era."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Администратор не одобрил изменение, поэтому помощник Peel остается прежним."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En administratör godkände inte ändringen, så Peels hjälpprogram förblir som det var."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir yönetici değişikliği onaylamadı, bu yüzden Peel’in yardımcısı olduğu gibi kalıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адміністратор не схвалив зміну, тому помічник Peel залишається таким, як був."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理员未批准此更改，因此Peel的帮助程序保持不变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者未核准此變更，因此Peel的輔助程式維持不變。"
+          }
+        }
+      }
+    },
     "An administrator didn’t allow this." : {
       "localizations" : {
         "cs" : {
@@ -152471,6 +152577,112 @@
         }
       }
     },
+    "On this account, Peel asks for an administrator name and password before it installs, repairs, or removes the helper." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tomto účtu si Peel před instalací, opravou nebo odstraněním pomocníka vyžádá jméno a heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei diesem Benutzeraccount fragt Peel nach Namen und Passwort eines Administrators, bevor es das Hilfsprogramm installiert, repariert oder entfernt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En esta cuenta, Peel pide el nombre y la contraseña de un administrador antes de instalar, reparar o eliminar el asistente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur ce compte, Peel demande le nom et le mot de passe d’un administrateur avant d’installer, de réparer ou de supprimer l’utilitaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su questo account, Peel chiede il nome e la password di un amministratore prima di installare, riparare o rimuovere l’assistente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでは、Peelはヘルパーをインストール、修復、または削除する前に、管理者の名前とパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정에서는 Peel이 보조 프로그램을 설치, 복구 또는 제거하기 전에 관리자 이름 및 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij deze account vraagt Peel om de naam en het wachtwoord van een beheerder voordat het hulpprogramma wordt geïnstalleerd, hersteld of verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tym koncie Peel prosi o nazwę i hasło administratora, zanim zainstaluje, naprawi lub usunie pomocnika."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nesta conta, o Peel pede o nome e a senha de um administrador antes de instalar, reparar ou remover o auxiliar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pe acest cont, Peel cere numele și parola unui administrator înainte să instaleze, să repare sau să elimine instrumentul de ajutor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой учетной записи Peel запрашивает имя и пароль администратора, прежде чем установить, исправить или удалить помощника."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På det här kontot ber Peel om en administratörs namn och lösenord innan det installerar, reparerar eller tar bort hjälpprogrammet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesapta Peel, yardımcıyı yüklemeden, onarmadan veya kaldırmadan önce bir yönetici adı ve parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цьому обліковому записі Peel запитує імʼя та пароль адміністратора, перш ніж інсталювати, полагодити або видалити помічника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此账户上，Peel会在安装、修复或移除帮助程序前要求输入管理员名称和密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在此帳號上，Peel會在安裝、修復或移除輔助程式前要求輸入管理者的名稱和密碼。"
+          }
+        }
+      }
+    },
     "Once %@ leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which History cannot bring back. Then NoMachine Uninstall opens and asks for an administrator password to delete the accounts NoMachine made." : {
       "localizations" : {
         "cs" : {
@@ -154075,112 +154287,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有「系統設定」>「一般」>「登入項目與延伸功能」能更改它。"
-          }
-        }
-      }
-    },
-    "Only an administrator can change the Peel helper." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka Peelu může změnit jen správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur ein Administrator kann das Hilfsprogramm von Peel ändern."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un administrador puede modificar el asistente de Peel."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seul un administrateur peut modifier l’utilitaire de Peel."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un amministratore può modificare l’assistente di Peel."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーを変更できるのは管理者だけです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "관리자만 Peel 보조 프로그램을 변경할 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen een beheerder kan het hulpprogramma van Peel wijzigen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tylko administrator może zmienić pomocnika Peel."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Só um administrador pode alterar o auxiliar do Peel."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar un administrator poate modifica instrumentul de ajutor Peel."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Изменить помощника Peel может только администратор."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bara en administratör kan ändra Peels hjälpprogram."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısını yalnızca bir yönetici değiştirebilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Змінювати помічника Peel може лише адміністратор."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理员才能更改Peel的帮助程序。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理者能更改Peel的輔助程式。"
           }
         }
       }
@@ -221615,112 +221721,6 @@
         }
       }
     },
-    "Set for this account" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nastaveno pro tento účet"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Für diesen Benutzeraccount eingerichtet"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo listo para esta cuenta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout est prêt pour ce compte"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impostato per questo account"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このアカウントでは準備ができました"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 계정에 설정됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ingesteld voor deze account"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ustawione dla tego konta"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tudo pronto para esta conta"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setat pentru acest cont"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Задано для этой учетной записи"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inställt för det här kontot"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu hesap için ayarlandı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Задано для цього облікового запису"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此账户已一切就绪"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此帳號已準備就緒"
-          }
-        }
-      }
-    },
     "Set in a file your Git settings include" : {
       "localizations" : {
         "cs" : {
@@ -246350,112 +246350,6 @@
         }
       }
     },
-    "The Peel helper is installed but not yet allowed, and only an administrator can allow it. Log in as an administrator, open Peel there, and allow the helper. Then this account can use it, with an administrator name and password each time." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu je nainstalovaný, ale ještě není povolený. Povolit ho může jen správce. Přihlaste se jako správce, otevřete tam Peel a povolte pomocníka. Pak ho bude moci používat i tento účet, pokaždé po zadání jména a hesla správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel ist installiert, aber noch nicht erlaubt, und nur ein Administrator kann es erlauben. Melde dich als Administrator an, öffne dort Peel und erlaube das Hilfsprogramm. Danach kann dieser Benutzeraccount es verwenden, jeweils mit Namen und Passwort eines Administrators."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel está instalado, pero aún no se ha permitido, y solo un administrador puede permitirlo. Inicia sesión como administrador, abre Peel allí y permite el asistente. Después, esta cuenta podrá usarlo, con el nombre y la contraseña de un administrador cada vez."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel est installé mais pas encore autorisé, et seul un administrateur peut l’autoriser. Ouvrez une session en tant qu’administrateur, ouvrez Peel dans cette session et autorisez l’utilitaire. Ce compte pourra ensuite l’utiliser, en saisissant à chaque fois le nom et le mot de passe d’un administrateur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel è installato ma non ancora autorizzato, e solo un amministratore può autorizzarlo. Esegui il login come amministratore, apri Peel da lì e autorizza l’assistente. Poi questo account potrà usarlo, inserendo ogni volta il nome e la password di un amministratore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーはインストールされていますが、まだ許可されていません。ヘルパーを許可できるのは管理者だけです。管理者としてログインし、そこでPeelを開いてヘルパーを許可してください。その後は、このアカウントでもヘルパーを使用できます。その際は毎回、管理者の名前とパスワードが必要です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램이 설치되었지만 아직 허용되지 않았으며, 관리자만 보조 프로그램을 허용할 수 있습니다. 관리자로 로그인한 다음 그곳에서 Peel을 열고 보조 프로그램을 허용하십시오. 그러면 이 계정에서 보조 프로그램을 사용할 수 있으며, 사용할 때마다 관리자 이름 및 암호가 필요합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel is geïnstalleerd maar nog niet toegestaan, en alleen een beheerder kan het toestaan. Log in als beheerder, open Peel daar en sta het hulpprogramma toe. Daarna kan deze account het gebruiken, telkens met de naam en het wachtwoord van een beheerder."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel jest zainstalowany, ale nie pozwolono jeszcze na jego działanie, a może to zrobić tylko administrator. Zaloguj się jako administrator, otwórz tam Peel i pozwól na działanie pomocnika. Wtedy to konto będzie mogło z niego korzystać, za każdym razem po podaniu nazwy i hasła administratora."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel está instalado, mas ainda não foi permitido, e só um administrador pode permiti-lo. Inicie sessão como administrador, abra o Peel lá e permita o auxiliar. Depois, esta conta poderá usá-lo, sempre com o nome e a senha de um administrador."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel este instalat, dar nu este încă permis, iar doar un administrator îl poate permite. Faceți login ca administrator, deschideți Peel în acel cont și permiteți instrumentul de ajutor. După aceea, acest cont îl poate folosi, de fiecare dată cu numele și parola unui administrator."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel установлен, но еще не разрешен, а разрешить его может только администратор. Войдите как администратор, откройте там Peel и разрешите помощника. Тогда эта учетная запись сможет им пользоваться, но каждый раз потребуются имя и пароль администратора."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram är installerat men ännu inte tillåtet, och bara en administratör kan tillåta det. Logga in som administratör, öppna Peel där och tillåt hjälpprogrammet. Sedan kan det här kontot använda det, med en administratörs namn och lösenord varje gång."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı yüklü ancak henüz izin verilmiş değil ve ona yalnızca bir yönetici izin verebilir. Yönetici olarak oturum açın, orada Peel’i açın ve yardımcıya izin verin. Ardından bu hesap, her seferinde bir yönetici adı ve parolasıyla yardımcıyı kullanabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічника Peel інстальовано, але ще не дозволено, а дозволити його може лише адміністратор. Увійдіть як адміністратор, відкрийте там Peel і дозвольте помічника. Після цього цей обліковий запис зможе ним користуватися, а Peel щоразу запитуватиме імʼя та пароль адміністратора."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序已安装但尚未获得允许，并且只有管理员才能允许它。请以管理员身份登录，在那里打开Peel并允许帮助程序。之后此账户便可使用它，但每次都需要输入管理员名称和密码。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的輔助程式已安裝但尚未獲得允許，而只有管理者能允許它。請以管理者身分登入，在那裡打開Peel，然後允許輔助程式。之後此帳號就能使用它，每次都需輸入管理者的名稱和密碼。"
-          }
-        }
-      }
-    },
     "The Peel helper is not answering" : {
       "localizations" : {
         "cs" : {
@@ -246562,112 +246456,6 @@
         }
       }
     },
-    "The Peel helper is not answering, and only an administrator can repair it. Log in as an administrator, open Peel there, and repair the helper. Then this account can use it, with an administrator name and password each time." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu neodpovídá a opravit ho může jen správce. Přihlaste se jako správce, otevřete tam Peel a opravte pomocníka. Pak ho bude moci používat i tento účet, pokaždé po zadání jména a hesla správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel antwortet nicht, und nur ein Administrator kann es reparieren. Melde dich als Administrator an, öffne dort Peel und repariere das Hilfsprogramm. Danach kann dieser Benutzeraccount es verwenden, jeweils mit Namen und Passwort eines Administrators."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel no responde, y solo un administrador puede repararlo. Inicia sesión como administrador, abre Peel allí y repara el asistente. Después, esta cuenta podrá usarlo, con el nombre y la contraseña de un administrador cada vez."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel ne répond pas, et seul un administrateur peut le réparer. Ouvrez une session en tant qu’administrateur, ouvrez Peel dans cette session et réparez l’utilitaire. Ce compte pourra ensuite l’utiliser, en saisissant à chaque fois le nom et le mot de passe d’un administrateur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel non risponde, e solo un amministratore può ripararlo. Esegui il login come amministratore, apri Peel da lì e ripara l’assistente. Poi questo account potrà usarlo, inserendo ogni volta il nome e la password di un amministratore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーが応答しません。ヘルパーを修復できるのは管理者だけです。管理者としてログインし、そこでPeelを開いてヘルパーを修復してください。その後は、このアカウントでもヘルパーを使用できます。その際は毎回、管理者の名前とパスワードが必要です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램이 응답하지 않으며, 관리자만 보조 프로그램을 복구할 수 있습니다. 관리자로 로그인한 다음 그곳에서 Peel을 열고 보조 프로그램을 복구하십시오. 그러면 이 계정에서 보조 프로그램을 사용할 수 있으며, 사용할 때마다 관리자 이름 및 암호가 필요합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel reageert niet, en alleen een beheerder kan het herstellen. Log in als beheerder, open Peel daar en herstel het hulpprogramma. Daarna kan deze account het gebruiken, telkens met de naam en het wachtwoord van een beheerder."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel nie odpowiada, a naprawić go może tylko administrator. Zaloguj się jako administrator, otwórz tam Peel i napraw pomocnika. Wtedy to konto będzie mogło z niego korzystać, za każdym razem po podaniu nazwy i hasła administratora."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel não está respondendo, e só um administrador pode repará-lo. Inicie sessão como administrador, abra o Peel lá e repare o auxiliar. Depois, esta conta poderá usá-lo, sempre com o nome e a senha de um administrador."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel nu răspunde, iar doar un administrator îl poate repara. Faceți login ca administrator, deschideți Peel în acel cont și reparați instrumentul de ajutor. După aceea, acest cont îl poate folosi, de fiecare dată cu numele și parola unui administrator."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel не отвечает, а исправить его может только администратор. Войдите как администратор, откройте там Peel и исправьте помощника. Тогда эта учетная запись сможет им пользоваться, но каждый раз потребуются имя и пароль администратора."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram svarar inte, och bara en administratör kan reparera det. Logga in som administratör, öppna Peel där och reparera hjälpprogrammet. Sedan kan det här kontot använda det, med en administratörs namn och lösenord varje gång."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı yanıt vermiyor ve onu yalnızca bir yönetici onarabilir. Yönetici olarak oturum açın, orada Peel’i açın ve yardımcıyı onarın. Ardından bu hesap, her seferinde bir yönetici adı ve parolasıyla yardımcıyı kullanabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник Peel не відповідає, а полагодити його може лише адміністратор. Увійдіть як адміністратор, відкрийте там Peel і полагодьте помічника. Після цього цей обліковий запис зможе ним користуватися, а Peel щоразу запитуватиме імʼя та пароль адміністратора."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序没有响应，并且只有管理员才能修复它。请以管理员身份登录，在那里打开Peel并修复帮助程序。之后此账户便可使用它，但每次都需要输入管理员名称和密码。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的輔助程式沒有回應，而只有管理者能修復它。請以管理者身分登入，在那裡打開Peel，然後修復輔助程式。之後此帳號就能使用它，每次都需輸入管理者的名稱和密碼。"
-          }
-        }
-      }
-    },
     "The Peel helper is not answering. Repair it in Settings > Helper." : {
       "localizations" : {
         "cs" : {
@@ -246770,112 +246558,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式沒有回應。請在「設定」>「輔助程式」中修復它。"
-          }
-        }
-      }
-    },
-    "The Peel helper is not installed, and only an administrator can install it. Log in as an administrator, open Peel there, and install the helper. Then this account can use it, with an administrator name and password each time." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu není nainstalovaný a nainstalovat ho může jen správce. Přihlaste se jako správce, otevřete tam Peel a nainstalujte pomocníka. Pak ho bude moci používat i tento účet, pokaždé po zadání jména a hesla správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel ist nicht installiert, und nur ein Administrator kann es installieren. Melde dich als Administrator an, öffne dort Peel und installiere das Hilfsprogramm. Danach kann dieser Benutzeraccount es verwenden, jeweils mit Namen und Passwort eines Administrators."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel no está instalado, y solo un administrador puede instalarlo. Inicia sesión como administrador, abre Peel allí e instala el asistente. Después, esta cuenta podrá usarlo, con el nombre y la contraseña de un administrador cada vez."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel n’est pas installé, et seul un administrateur peut l’installer. Ouvrez une session en tant qu’administrateur, ouvrez Peel dans cette session et installez l’utilitaire. Ce compte pourra ensuite l’utiliser, en saisissant à chaque fois le nom et le mot de passe d’un administrateur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel non è installato, e solo un amministratore può installarlo. Esegui il login come amministratore, apri Peel da lì e installa l’assistente. Poi questo account potrà usarlo, inserendo ogni volta il nome e la password di un amministratore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーはインストールされていません。ヘルパーをインストールできるのは管理者だけです。管理者としてログインし、そこでPeelを開いてヘルパーをインストールしてください。その後は、このアカウントでもヘルパーを使用できます。その際は毎回、管理者の名前とパスワードが必要です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램이 설치되어 있지 않으며, 관리자만 보조 프로그램을 설치할 수 있습니다. 관리자로 로그인한 다음 그곳에서 Peel을 열고 보조 프로그램을 설치하십시오. 그러면 이 계정에서 보조 프로그램을 사용할 수 있으며, 사용할 때마다 관리자 이름 및 암호가 필요합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel is niet geïnstalleerd, en alleen een beheerder kan het installeren. Log in als beheerder, open Peel daar en installeer het hulpprogramma. Daarna kan deze account het gebruiken, telkens met de naam en het wachtwoord van een beheerder."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel nie jest zainstalowany, a zainstalować go może tylko administrator. Zaloguj się jako administrator, otwórz tam Peel i zainstaluj pomocnika. Wtedy to konto będzie mogło z niego korzystać, za każdym razem po podaniu nazwy i hasła administratora."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel não está instalado, e só um administrador pode instalá-lo. Inicie sessão como administrador, abra o Peel lá e instale o auxiliar. Depois, esta conta poderá usá-lo, sempre com o nome e a senha de um administrador."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel nu este instalat, iar doar un administrator îl poate instala. Faceți login ca administrator, deschideți Peel în acel cont și instalați instrumentul de ajutor. După aceea, acest cont îl poate folosi, de fiecare dată cu numele și parola unui administrator."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel не установлен, а установить его может только администратор. Войдите как администратор, откройте там Peel и установите помощника. Тогда эта учетная запись сможет им пользоваться, но каждый раз потребуются имя и пароль администратора."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram är inte installerat, och bara en administratör kan installera det. Logga in som administratör, öppna Peel där och installera hjälpprogrammet. Sedan kan det här kontot använda det, med en administratörs namn och lösenord varje gång."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı yüklü değil ve onu yalnızca bir yönetici yükleyebilir. Yönetici olarak oturum açın, orada Peel’i açın ve yardımcıyı yükleyin. Ardından bu hesap, her seferinde bir yönetici adı ve parolasıyla yardımcıyı kullanabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічника Peel не інстальовано, а інсталювати його може лише адміністратор. Увійдіть як адміністратор, відкрийте там Peel та інсталюйте помічника. Після цього цей обліковий запис зможе ним користуватися, а Peel щоразу запитуватиме імʼя та пароль адміністратора."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序尚未安装，并且只有管理员才能安装它。请以管理员身份登录，在那里打开Peel并安装帮助程序。之后此账户便可使用它，但每次都需要输入管理员名称和密码。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的輔助程式尚未安裝，而只有管理者能安裝它。請以管理者身分登入，在那裡打開Peel，然後安裝輔助程式。之後此帳號就能使用它，每次都需輸入管理者的名稱和密碼。"
           }
         }
       }
@@ -268554,6 +268236,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此帳號未在這部Mac上使用「iCloud雲碟」，因此這裡沒有可釋放的項目。"
+          }
+        }
+      }
+    },
+    "This account is not an administrator, so Peel installs, repairs, or removes its helper only with the approval of an administrator." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet není účtem správce, takže Peel svého pomocníka nainstaluje, opraví nebo odstraní jen se schválením správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount hat keine Administratorrechte, daher installiert, repariert oder entfernt Peel sein Hilfsprogramm nur mit der Erlaubnis eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no es de administrador, así que Peel solo instala, repara o elimina su asistente con la aprobación de un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte n’est pas administrateur : Peel a donc besoin de l’approbation d’un administrateur pour installer, réparer ou supprimer son utilitaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un account di amministratore, quindi Peel installa, ripara o rimuove il suo assistente solo con l’approvazione di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントは管理者ではないため、Peelは管理者の承認がある場合にのみヘルパーをインストール、修復、または削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 관리자가 아니므로, Peel은 관리자의 승인이 있어야만 보조 프로그램을 설치, 복구 또는 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account heeft geen beheerdersrechten, dus Peel installeert, herstelt of verwijdert zijn hulpprogramma alleen met toestemming van een beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie jest kontem administratora, więc Peel zainstaluje, naprawi lub usunie swojego pomocnika tylko za zgodą administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não é de administrador, então o Peel só instala, repara ou remove o seu auxiliar com a aprovação de um administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu este un cont de administrator, așa că Peel instalează, repară sau elimină instrumentul său de ajutor doar cu aprobarea unui administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этой учетной записи нет прав администратора, поэтому Peel устанавливает, исправляет или удаляет своего помощника только с разрешения администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot är inte ett administratörskonto, så Peel installerar, reparerar eller tar bort sitt hjälpprogram bara med en administratörs godkännande."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap bir yönetici hesabı değil, bu yüzden Peel yardımcısını yalnızca bir yöneticinin onayıyla yükler, onarır veya kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не має прав адміністратора, тому Peel інсталює, лагодить або видаляє свого помічника лише зі схвалення адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户不是管理员，因此只有在管理员批准后，Peel才会安装、修复或移除其帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號不是管理者，因此Peel只有在管理者核准後才會安裝、修復或移除其輔助程式。"
           }
         }
       }

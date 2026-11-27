@@ -41,19 +41,33 @@ struct ActionAnnouncementTests {
 
     @Test func aChangeOfTheHelperThatWentThroughTellsItsState() async {
         let spoken = Spoken()
-        let helper = HelperModel(performing: { _ in }) { spoken.words.append($0) }
+        var ran = false
+        let helper = HelperModel(
+            performing: { _ in ran = true },
+            announcing: { spoken.words.append($0) },
+            status: .notRegistered,
+            reading: { Self.standardAccount },
+            approving: { .approved }
+        )
 
         let failure = await helper.uninstall()
 
-        #expect((failure == nil) == PrivilegedHelper.isAdministrator)
+        #expect(failure == nil)
+        #expect(ran)
         let state = String(localized: "\(String(localized: "Helper")): \(String(localized: helper.stateWords))")
-        #expect(spoken.texts == (PrivilegedHelper.isAdministrator ? [state] : []))
+        #expect(spoken.texts == [state])
     }
 
     @Test func aFailedChangeOfTheHelperIsLeftToItsAlert() async {
         struct Refused: Error {}
         let spoken = Spoken()
-        let helper = HelperModel(performing: { _ in throw Refused() }) { spoken.words.append($0) }
+        let helper = HelperModel(
+            performing: { _ in throw Refused() },
+            announcing: { spoken.words.append($0) },
+            status: .notRegistered,
+            reading: { Self.standardAccount },
+            approving: { .approved }
+        )
 
         let failure = await helper.uninstall()
 
@@ -61,25 +75,28 @@ struct ActionAnnouncementTests {
         #expect(spoken.words.isEmpty)
     }
 
-    @Test func aChangeAStandardAccountCannotMakeSaysWhy() async {
-        let spoken = Spoken()
-        var ran = false
-        let reading = HelperModel.Reading(
-            status: .enabled, isAdministrator: false, isResponding: true, isRegisteredByAnotherCopy: false
-        )
-        let helper = HelperModel(
-            performing: { _ in ran = true },
-            announcing: { spoken.words.append($0) },
-            status: .enabled,
-            reading: { reading },
-            mayChange: { false }
-        )
+    @Test func aChangeNoAdministratorApprovedSaysWhyAndACanceledOneSaysNothing() async {
+        for approval in [PrivilegedHelper.ChangeApproval.refused, .canceled] {
+            let spoken = Spoken()
+            var ran = false
+            let helper = HelperModel(
+                performing: { _ in ran = true },
+                announcing: { spoken.words.append($0) },
+                status: .enabled,
+                reading: { Self.standardAccount },
+                approving: { approval }
+            )
 
-        let failure = await helper.uninstall()
+            let failure = await helper.uninstall()
 
-        #expect(failure?.action == .uninstall)
-        #expect(failure?.reason == String(localized: "Only an administrator can change the Peel helper."))
-        #expect(!ran)
-        #expect(spoken.words.isEmpty)
+            let refused = String(localized: "An administrator did not approve the change, so the Peel helper stays as it was.")
+            #expect(failure?.reason == (approval == .refused ? refused : nil))
+            #expect(!ran)
+            #expect(spoken.words.isEmpty)
+        }
     }
+
+    private static let standardAccount = HelperModel.Reading(
+        status: .notRegistered, isAdministrator: false, isResponding: nil, isRegisteredByAnotherCopy: false
+    )
 }

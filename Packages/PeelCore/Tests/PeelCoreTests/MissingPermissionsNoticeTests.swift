@@ -8,7 +8,7 @@ struct MissingPermissionsNoticeTests {
     }
 
     @Test func whatIsNotThereIsSetUp() {
-        for helper in [PrivilegedHelper.Standing.ready, .notInstalled, .waitingForApproval, .notThisAccount] {
+        for helper in [PrivilegedHelper.Standing.ready, .notInstalled, .waitingForApproval] {
             #expect(MissingPermissionsNotice(helper: helper, othersMissing: true) == .setUp)
             #expect(MissingPermissionsNotice(helper: helper, othersMissing: false) == .setUp)
         }

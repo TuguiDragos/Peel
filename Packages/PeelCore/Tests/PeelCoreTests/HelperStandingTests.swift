@@ -2,8 +2,6 @@
 import Testing
 
 struct HelperStandingTests {
-    private let statuses: [PrivilegedHelper.Status] = [.notRegistered, .requiresApproval, .enabled, .unavailable]
-
     @MainActor @Test func readsTheStatusAwayFromTheMainActor() async {
         final class Turn {
             var taken = false
@@ -28,41 +26,38 @@ struct HelperStandingTests {
         #expect(turn.taken)
     }
 
-    @Test func anAccountThatCantUseTheHelperNeverChangesIt() async throws {
-        var changed = false
+    @Test func aChangeRunsOnlyOnceApproved() async throws {
+        for approval in [PrivilegedHelper.ChangeApproval.approved, .canceled, .refused] {
+            var changed = false
 
-        let ran = try await PrivilegedHelper.changeAsAnAdministrator({ changed = true }, isAdministrator: { false })
+            let answer = try await PrivilegedHelper.changeAsAnAdministrator({ changed = true }, approval: { approval })
 
-        #expect(!ran)
-        #expect(!changed)
-    }
-
-    @Test func anAdministratorChangesTheHelper() async throws {
-        var changed = false
-
-        let ran = try await PrivilegedHelper.changeAsAnAdministrator({ changed = true }, isAdministrator: { true })
-
-        #expect(ran)
-        #expect(changed)
-    }
-
-    @Test func aStandardAccountUsesAHelperThatWorksAndNeedsAnAdministratorForAnythingElse() {
-        func standing(_ status: PrivilegedHelper.Status, _ isResponding: Bool?) -> PrivilegedHelper.Standing {
-            PrivilegedHelper.Standing(status: status, isAdministrator: false, isResponding: isResponding)
-        }
-        #expect(standing(.enabled, true) == .ready)
-        #expect(standing(.enabled, nil) == .ready)
-        #expect(standing(.enabled, false) == .notThisAccount)
-        for status in statuses where status != .enabled {
-            for isResponding in [true, false, nil] as [Bool?] {
-                #expect(standing(status, isResponding) == .notThisAccount)
-            }
+            #expect(answer == approval)
+            #expect(changed == (approval == .approved))
         }
     }
 
-    @Test func anAdministratorSeesWhatTheRegistrationSays() {
+    @Test func anAdministratorIsNeverAsked() async {
+        var asked = false
+
+        let answer = await PrivilegedHelper.approvalToChange(isAdministrator: { true }) {
+            asked = true
+            return .refused
+        }
+
+        #expect(answer == .approved)
+        #expect(!asked)
+    }
+
+    @Test func anotherAccountChangesTheHelperWithWhatAnAdministratorAnswers() async {
+        for given in [PrivilegedHelper.ChangeApproval.approved, .canceled, .refused] {
+            #expect(await PrivilegedHelper.approvalToChange(isAdministrator: { false }, ask: { given }) == given)
+        }
+    }
+
+    @Test func everyAccountSeesWhatTheRegistrationSays() {
         func standing(_ status: PrivilegedHelper.Status, _ isResponding: Bool?) -> PrivilegedHelper.Standing {
-            PrivilegedHelper.Standing(status: status, isAdministrator: true, isResponding: isResponding)
+            PrivilegedHelper.Standing(status: status, isResponding: isResponding)
         }
         #expect(standing(.enabled, true) == .ready)
         #expect(standing(.enabled, nil) == .ready)

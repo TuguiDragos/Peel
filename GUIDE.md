@@ -553,11 +553,12 @@ and takes you straight to the right place in System Settings, or, for the comman
 | Open Peel at Login (optional) | Start Peel when you log in. With Show in Menu Bar on, it keeps running after you close its window, so Watch the Trash keeps working. |
 | Command-Line Tool (optional) | Use `peel` from anywhere in Terminal. Home's Copy button, like Settings > General, copies the command that puts it on your path, and Terminal asks for your password when you run it. |
 
-Install the helper from Home, or with Install Helper in Settings > Helper, from an administrator's account, then allow
-it in System Settings > General > Login Items & Extensions. Once it works, an account that isn't an administrator uses
-it too: macOS asks for an administrator's name and password once for each action that needs it. If Home says the
-helper isn't answering, choose Repair there, or Repair Helper in Settings > Helper. If it keeps waiting for approval,
-the questions in [README.md](README.md#frequently-asked-questions) say what to do.
+Install the helper from Home, or with Install Helper in Settings > Helper, then allow it in System Settings > General >
+Login Items & Extensions. From an account that isn't an administrator, Peel asks for an administrator's name and
+password before it installs, repairs, or uninstalls the helper, and macOS may ask again when you allow it. Once it
+works, such an account uses it too: macOS asks for an administrator's name and password once for each action that
+needs it. If Home says the helper isn't answering, choose Repair there, or Repair Helper in Settings > Helper. If it
+keeps waiting for approval, the questions in [README.md](README.md#frequently-asked-questions) say what to do.
 
 ## Languages
 

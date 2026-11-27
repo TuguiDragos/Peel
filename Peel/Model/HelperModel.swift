@@ -31,12 +31,12 @@ final class HelperModel {
     }
 
     var standing: PrivilegedHelper.Standing {
-        PrivilegedHelper.Standing(status: status, isAdministrator: isAdministrator, isResponding: isResponding)
+        PrivilegedHelper.Standing(status: status, isResponding: isResponding)
     }
 
     /// Why the helper can't act for this account, as the pages that need it say it.
     var whyItCannotAct: LocalizedStringResource {
-        standing.whyItCannotAct(registeredByAnotherCopy: isRegisteredByAnotherCopy, status: status)
+        standing.whyItCannotAct(registeredByAnotherCopy: isRegisteredByAnotherCopy)
     }
 
     private(set) var isAdministrator = PrivilegedHelper.isAdministrator
@@ -51,7 +51,7 @@ final class HelperModel {
     @ObservationIgnored private let performing: (Action) async throws -> Void
     @ObservationIgnored private let announcing: (AttributedString) -> Void
     @ObservationIgnored private let reading: () async -> Reading
-    @ObservationIgnored private let mayChange: () async -> Bool
+    @ObservationIgnored private let approving: () async -> PrivilegedHelper.ChangeApproval
 
     /// What a check of the helper reads: its status, whether this account is an administrator, whether the helper
     /// answers, and whether another copy of Peel registered it.
@@ -67,13 +67,13 @@ final class HelperModel {
         announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() },
         status: PrivilegedHelper.Status = PrivilegedHelper.status,
         reading: @escaping () async -> Reading = HelperModel.read,
-        mayChange: @escaping () async -> Bool = PrivilegedHelper.isAdministratorNow
+        approving: @escaping () async -> PrivilegedHelper.ChangeApproval = PrivilegedHelper.approvalToChange
     ) {
         self.performing = performing
         self.announcing = announcing
         self.status = status
         self.reading = reading
-        self.mayChange = mayChange
+        self.approving = approving
     }
 
     /// Asks macOS and the helper, the helper only once it is registered.
@@ -115,58 +115,63 @@ final class HelperModel {
     /// throws an error. Neither is reported as a failure, since the status says what happened.
     func install() async -> Failure? {
         guard !isChanging, !isRegisteredByAnotherCopy else { return nil }
-        let (wasAllowed, error) = await change(.install)
-        if wasAllowed, status == .requiresApproval {
+        let (approval, error) = await change(.install)
+        if approval == .approved, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        guard let error, status != .requiresApproval, status != .enabled else { return told(.install, wasAllowed, nil) }
+        guard let error, status != .requiresApproval, status != .enabled else { return told(.install, approval, nil) }
         return Failure(action: .install, reason: error.localizedDescription)
     }
 
     func repair() async -> Failure? {
         guard !isChanging else { return nil }
-        let (wasAllowed, error) = await change(.repair)
-        if wasAllowed, status == .requiresApproval {
+        let (approval, error) = await change(.repair)
+        if approval == .approved, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        return told(.repair, wasAllowed, error.map { Failure(action: .repair, reason: $0.localizedDescription) })
+        return told(.repair, approval, error.map { Failure(action: .repair, reason: $0.localizedDescription) })
     }
 
     func uninstall() async -> Failure? {
         guard !isChanging else { return nil }
-        let (wasAllowed, error) = await change(.uninstall)
-        return told(.uninstall, wasAllowed, error.map { Failure(action: .uninstall, reason: $0.localizedDescription) })
+        let (approval, error) = await change(.uninstall)
+        return told(.uninstall, approval, error.map { Failure(action: .uninstall, reason: $0.localizedDescription) })
     }
 
-    /// Runs a change of the helper's registration, for an administrator only, and answers whether it was allowed and
-    /// its error. Nothing about the helper shows meanwhile; what it leaves shows through the check that follows.
-    private func change(_ action: Action) async -> (wasAllowed: Bool, error: (any Error)?) {
+    /// Runs a change of the helper's registration once it is approved, and answers the approval and the change's
+    /// error. Nothing about the helper shows meanwhile; what it leaves shows through the check that follows.
+    private func change(_ action: Action) async -> (approval: PrivilegedHelper.ChangeApproval, error: (any Error)?) {
         changing = action
         defer { changing = nil }
         checks.changeStarts()
-        var wasAllowed = true
+        var approval = PrivilegedHelper.ChangeApproval.approved
         var error: (any Error)?
         do {
-            wasAllowed = try await PrivilegedHelper.changeAsAnAdministrator(
-                { try await performing(action) }, isAdministrator: mayChange
+            approval = try await PrivilegedHelper.changeAsAnAdministrator(
+                { try await performing(action) }, approval: approving
             )
         } catch let thrown {
             error = thrown
         }
         checks.changeEnds()
         await checkConnection()
-        return (wasAllowed, error)
+        return (approval, error)
     }
 
-    /// Tells VoiceOver the helper's state in Settings' words once a change went through; a failure has an alert, and so
-    /// has a change this account may not make.
-    private func told(_ action: Action, _ wasAllowed: Bool, _ failure: Failure?) -> Failure? {
-        guard wasAllowed else {
-            return Failure(action: action, reason: String(localized: "Only an administrator can change the Peel helper."))
+    /// Tells VoiceOver the helper's state in Settings' words once a change went through. A failure has an alert, and so
+    /// has a change no administrator approved; a canceled one has nothing.
+    private func told(_ action: Action, _ approval: PrivilegedHelper.ChangeApproval, _ failure: Failure?) -> Failure? {
+        switch approval {
+        case .canceled:
+            return nil
+        case .refused:
+            let reason = String(localized: "An administrator did not approve the change, so the Peel helper stays as it was.")
+            return Failure(action: action, reason: reason)
+        case .approved:
+            if failure == nil {
+                announcing(AttributedString(localized: "\(String(localized: "Helper")): \(String(localized: stateWords))"))
+            }
+            return failure
         }
-        if failure == nil {
-            announcing(AttributedString(localized: "\(String(localized: "Helper")): \(String(localized: stateWords))"))
-        }
-        return failure
     }
 }

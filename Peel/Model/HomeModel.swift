@@ -176,24 +176,6 @@ final class HomeModel {
         String(localized: "If you turned on Full Disk Access, reopen Peel: macOS gives it only to an app opened after that.")
     }
 
-    /// What Home says once nothing this account can set up is missing.
-    enum AllSet {
-        case everything
-        /// Only an administrator can install, allow, or repair Peel's helper, so what only an administrator can move
-        /// stays.
-        case forThisAccount
-    }
-
-    static func allSet(helper: State) -> AllSet {
-        helper == .notThisAccount ? .forThisAccount : .everything
-    }
-
-    /// What the circled i beside Home's banner says once it has looked: on an account that isn't an administrator's,
-    /// `helper`, where the helper stands and what an administrator does about it. Nil when all is set.
-    static func allSetNote(_ allSet: AllSet, helper: LocalizedStringResource) -> LocalizedStringResource? {
-        allSet == .forThisAccount ? helper : nil
-    }
-
     /// What the Command Line row's note says to do, which is what its button offers and what Settings says. Nil once
     /// the tool is on the path.
     static func commandLineNextStep(
@@ -417,15 +399,12 @@ final class HomeModel {
         }
     }
 
-    /// The helper serves administrator accounts only, so on a standard account it is not missing: there is
-    /// nothing for this account to install.
     private var helperState: State {
         guard helper.hasChecked else { return .checking }
         return switch helper.standing {
         case .ready: .on
         case .waitingForApproval: .pending
         case .notInstalled, .notAnswering: .missing
-        case .notThisAccount: .notThisAccount
         }
     }
 
