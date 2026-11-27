@@ -474,7 +474,8 @@ It sets up the command line as well:
   Settings > Exclusions, or Control-click a row and choose Exclude from Peel. In Orphaned Files, Control-click a
   group and choose This Belongs To…, and Peel stops listing it while the app or the command-line tool you chose is
   installed: one Homebrew installed, or a command in `/usr/local/bin`, MacPorts' `/opt/local/bin`, or your home's `bin`
-  and `.local/bin`.
+  and `.local/bin`. An app with no bundle identifier, such as a game's launcher, counts while it stays where it was
+  when you chose it.
 
 ## More ways to use Peel
 

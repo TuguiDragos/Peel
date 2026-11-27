@@ -23,6 +23,11 @@ struct ExclusionsSettingsView: View {
     }
 
     /// The tool a group was given to, beside the terminal symbol: a command by where it is, once Peel keeps that.
+    private func appName(at place: URL) -> String? {
+        let path = PathPattern.comparablePath(of: place)
+        return library.apps.first { PathPattern.comparablePath(of: $0.url) == path }?.name
+    }
+
     private func tool(_ text: String, truncation: Text.TruncationMode) -> some View {
         HStack(spacing: 4) {
             Image(systemName: "terminal")
@@ -234,6 +239,12 @@ struct ExclusionsSettingsView: View {
                                             .font(.caption)
                                             .foregroundStyle(.secondary)
                                             .lineLimit(1)
+                                    case .appWithNoIdentifier(let place)?:
+                                        Text(verbatim: appName(at: place) ?? place.abbreviatedPath)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                            .lineLimit(1)
+                                            .truncationMode(.middle)
                                     case .formula(let name)?, .command(let name, nil)?:
                                         tool(name, truncation: .tail)
                                     case .command(_, let place?)?:

@@ -22,6 +22,12 @@ struct OwnerChoicePlacesTests {
         #expect(command.owner == .command("jq", at: place))
     }
 
+    @Test func anAppWithNoIdentifierIsKeptByWhereItIs() {
+        let place = URL(filePath: "/Users/me/Applications/Example Game.app", directoryHint: .isDirectory)
+        let launcher = OwnerChoice.app(InstalledApp(url: place, bundleIdentifier: nil, name: "Example Game"))
+        #expect(launcher.owner == .appWithNoIdentifier(at: place))
+    }
+
     @Test func twoCopiesOfAnAppSayTheirFolders() {
         let one = app(at: "/Applications/Tide.app")
         let other = app(at: NSHomeDirectory() + "/Applications/Tide.app")

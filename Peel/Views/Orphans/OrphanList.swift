@@ -208,15 +208,9 @@ struct OrphanList: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                 }
-                // What a group belongs to is kept by the app's identifier, the tool's formula or the command's name.
-                AppChooser(
-                    apps: library.apps.filter { $0.bundleIdentifier != nil },
-                    tools: homebrew.formulae,
-                    commands: orphans.offeredCommands
-                ) { choice in
+                AppChooser(apps: library.apps, tools: homebrew.formulae, commands: orphans.offeredCommands) { choice in
                     orphans.groupToGive = nil
-                    guard let owner = choice.owner else { return }
-                    if case .notSaved(let why) = orphans.give(group, to: owner) { notGiven = (choice.name, why) }
+                    if case .notSaved(let why) = orphans.give(group, to: choice.owner) { notGiven = (choice.name, why) }
                 }
                 HStack {
                     Spacer()

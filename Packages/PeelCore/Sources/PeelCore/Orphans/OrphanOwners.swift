@@ -1,31 +1,35 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// What a group of orphaned files belongs to, as the person said: an app, by its bundle identifier, a command-line
-/// tool Homebrew installed, by the name of its formula, or a command in the tool folders (`CommandLineTools`), by its
-/// place there, or by its name alone when it was chosen before Peel kept the place.
+/// What a group of orphaned files belongs to, as the person said: an app, by its bundle identifier, or by its place
+/// when it has none; a formula Homebrew installed; or a command in the tool folders, by its place, or by its name
+/// alone when it was chosen before Peel kept the place.
 public enum OrphanOwner: Sendable, Hashable {
     case app(String)
+    case appWithNoIdentifier(at: URL)
     case formula(String)
     case command(String, at: URL? = nil)
 }
 
 extension OrphanOwner: Codable {
     private enum CodingKeys: String, CodingKey {
+        case app
         case formula
         case command
         case at
     }
 
-    /// An app is written as its bundle identifier alone, as every list written before tools could be named, and a
-    /// formula or a command under its own key.
+    /// An app is written as its bundle identifier alone, as every list written before tools could be named, and an
+    /// app with no identifier, a formula, or a command under its own key.
     public init(from decoder: any Decoder) throws {
         if let identifier = try? decoder.singleValueContainer().decode(String.self) {
             self = .app(identifier)
             return
         }
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let name = try container.decodeIfPresent(String.self, forKey: .formula) {
+        if let place = try container.decodeIfPresent(String.self, forKey: .app) {
+            self = .appWithNoIdentifier(at: URL(filePath: place))
+        } else if let name = try container.decodeIfPresent(String.self, forKey: .formula) {
             self = .formula(name)
         } else {
             self = .command(
@@ -40,6 +44,9 @@ extension OrphanOwner: Codable {
         case .app(let identifier):
             var container = encoder.singleValueContainer()
             try container.encode(identifier)
+        case .appWithNoIdentifier(let place):
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(place.path(percentEncoded: false), forKey: .app)
         case .formula(let name):
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .formula)
@@ -136,15 +143,19 @@ public struct OrphanOwners: Sendable {
         change { owners in groups.forEach { owners[$0.lowercased()] = nil } }
     }
 
-    /// The groups, lowercased, whose owner is on this Mac: an app among `apps`, the installed bundle identifiers, or
-    /// a formula or a command among `tools`, a command chosen where it is only while it is still there. While a kind
-    /// of tool isn't known, every group given to one stays out, since the person's word stands until Peel knows
-    /// better.
-    public static func given(_ owners: [String: OrphanOwner], apps: Set<String>, tools: InstalledTools) -> Set<String> {
-        Set(
+    /// The groups, lowercased, whose owner is on this Mac: an app among `installedApps`, or a formula or a command
+    /// among `tools`, an app or a command chosen where it is only while it is still there. While a kind of tool isn't
+    /// known, every group given to one stays out, since the person's word stands until Peel knows better.
+    public static func given(
+        _ owners: [String: OrphanOwner], installedApps: [InstalledApp], tools: InstalledTools
+    ) -> Set<String> {
+        let identifiers = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
+        let places = Set(installedApps.map { PathPattern.comparablePath(of: $0.url) })
+        return Set(
             owners.filter { _, owner in
                 switch owner {
-                case .app(let identifier): apps.contains(identifier.lowercased())
+                case .app(let identifier): identifiers.contains(identifier.lowercased())
+                case .appWithNoIdentifier(let place): places.contains(PathPattern.comparablePath(of: place))
                 case .formula(let name): tools.formulae?.contains(name) ?? true
                 case .command(let name, nil): tools.commands?.contains(name) ?? true
                 case .command(_, let place?):

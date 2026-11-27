@@ -91,7 +91,6 @@ public struct OrphanScanner: Sendable {
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
         let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
-        let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
         let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
         let knownToMacOS = AppsKnownToMacOS()
         let toolsFolders = self.toolsFolders
@@ -198,7 +197,7 @@ public struct OrphanScanner: Sendable {
         )
         let folders = manifestFolders
         let loadedByOtherApps = Plugins.LoadedByOtherApps(environment: environment)
-        let given = OrphanOwners.given(owners, apps: here, tools: tools)
+        let given = OrphanOwners.given(owners, installedApps: installedApps, tools: tools)
         let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: ProtectedData.Finding)? in
             guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
                   !Self.isInAGroup(entry.identifier, among: given),

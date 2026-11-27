@@ -178,8 +178,7 @@ public struct OrphanScan: Sendable {
     public func leavingOut(
         given owners: [String: OrphanOwner], installedApps: [InstalledApp], tools: InstalledTools
     ) -> OrphanScan {
-        let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
-        let given = OrphanOwners.given(owners, apps: here, tools: tools)
+        let given = OrphanOwners.given(owners, installedApps: installedApps, tools: tools)
         return keeping { !OrphanScanner.isInAGroup($0.identifier, among: given) }
     }
 

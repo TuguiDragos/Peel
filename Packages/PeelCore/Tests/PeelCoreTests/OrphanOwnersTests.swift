@@ -41,6 +41,36 @@ struct OrphanOwnersTests {
         #expect(owners.load()?["org.example.jq"] == .command("jq", at: local))
     }
 
+    @Test func keepsWhereTheChosenAppWithNoIdentifierIs() throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "orphan-owners.json")
+        let owners = OrphanOwners(url: url)
+        let launcher = URL(filePath: "/Users/me/Applications/Example Game.app", directoryHint: .isDirectory)
+
+        #expect(owners.give("org.example.game", to: .appWithNoIdentifier(at: launcher)) == .saved)
+
+        let written = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        #expect(written["org.example.game"] as? [String: String] == ["app": "/Users/me/Applications/Example Game.app/"])
+        #expect(owners.load()?["org.example.game"] == .appWithNoIdentifier(at: launcher))
+    }
+
+    @Test func anAppWithNoIdentifierHoldsItsGroupWhileItStaysWhereItWasChosen() {
+        let owners: [String: OrphanOwner] = [
+            "org.example.game": .appWithNoIdentifier(at: URL(filePath: "/Users/me/Applications/Example Game.app")),
+        ]
+        let there = InstalledApp(
+            url: URL(filePath: "/Users/me/Applications/Example Game.app", directoryHint: .isDirectory),
+            bundleIdentifier: nil, name: "Example Game"
+        )
+        let moved = InstalledApp(
+            url: URL(filePath: "/Users/me/Games/Example Game.app", directoryHint: .isDirectory),
+            bundleIdentifier: nil, name: "Example Game"
+        )
+
+        #expect(OrphanOwners.given(owners, installedApps: [there], tools: .notKnown) == ["org.example.game"])
+        #expect(OrphanOwners.given(owners, installedApps: [moved], tools: .notKnown).isEmpty)
+    }
+
     @Test func aCommandChosenWhereItIsGoesWithItWhateverElseHasItsName() {
         let owners: [String: OrphanOwner] = [
             "org.example.jq": .command("jq", at: URL(filePath: "/Users/me/.local/bin/jq")),
@@ -49,9 +79,9 @@ struct OrphanOwnersTests {
         let both = InstalledTools(commands: ["jq"], commandPlaces: ["/Users/me/.local/bin/jq", "/opt/local/bin/jq"])
         let theOtherOne = InstalledTools(commands: ["jq"], commandPlaces: ["/opt/local/bin/jq"])
 
-        #expect(OrphanOwners.given(owners, apps: [], tools: both) == ["org.example.jq", "org.example.byname"])
-        #expect(OrphanOwners.given(owners, apps: [], tools: theOtherOne) == ["org.example.byname"])
-        #expect(OrphanOwners.given(owners, apps: [], tools: .notKnown) == ["org.example.jq", "org.example.byname"])
+        #expect(OrphanOwners.given(owners, installedApps: [], tools: both) == ["org.example.jq", "org.example.byname"])
+        #expect(OrphanOwners.given(owners, installedApps: [], tools: theOtherOne) == ["org.example.byname"])
+        #expect(OrphanOwners.given(owners, installedApps: [], tools: .notKnown) == ["org.example.jq", "org.example.byname"])
     }
 
     @Test func leavesOutWhatBelongsToAnInstalledAppOrToolAndToAToolNotYetKnown() {
@@ -60,18 +90,20 @@ struct OrphanOwnersTests {
             "org.example.tool": .formula("exampletool"), "org.example.lost": .formula("gonetool"),
             "org.example.cmd": .command("mytool"), "org.example.nocmd": .command("gone"),
         ]
-        let apps: Set<String> = ["com.installed.app"]
+        let apps = [
+            InstalledApp(url: URL(filePath: "/Applications/Installed.app"), bundleIdentifier: "com.installed.app", name: "Installed"),
+        ]
 
         #expect(
-            OrphanOwners.given(owners, apps: apps, tools: InstalledTools(formulae: ["exampletool"], commands: ["mytool"]))
+            OrphanOwners.given(owners, installedApps: apps, tools: InstalledTools(formulae: ["exampletool"], commands: ["mytool"]))
                 == ["org.example.given", "org.example.tool", "org.example.cmd"]
         )
         #expect(
-            OrphanOwners.given(owners, apps: apps, tools: InstalledTools(formulae: [], commands: []))
+            OrphanOwners.given(owners, installedApps: apps, tools: InstalledTools(formulae: [], commands: []))
                 == ["org.example.given"]
         )
         #expect(
-            OrphanOwners.given(owners, apps: apps, tools: .notKnown)
+            OrphanOwners.given(owners, installedApps: apps, tools: .notKnown)
                 == ["org.example.given", "org.example.tool", "org.example.lost", "org.example.cmd", "org.example.nocmd"]
         )
     }
