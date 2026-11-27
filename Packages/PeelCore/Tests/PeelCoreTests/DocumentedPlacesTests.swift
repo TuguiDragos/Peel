@@ -93,6 +93,30 @@ struct DocumentedPlacesTests {
         }
     }
 
+    @Test func holdsBackTheConversationsOfOtherChatApps() async throws {
+        let apps = [
+            ("app.5ire.desktop", "5ire", "home/Library/Application Support/5ire", "Database/PG_VERSION"),
+            ("com.nabocorp.witsy", "Witsy", "home/Library/Application Support/Witsy",
+             "workspaces/00000000-0000-0000-0000-000000000000/history.json"),
+            ("com.wefonk.deepchat", "DeepChat", "home/Library/Application Support/DeepChat", "app_db/agent.db"),
+            ("ai.chatall", "ChatALL", "home/Library/Application Support/ChatALL",
+             "IndexedDB/app_chatall_0.indexeddb.leveldb/CURRENT"),
+            ("notfullin.com.macai", "macai", "home/Library/Containers/notfullin.com.macai",
+             "Data/Library/Application Support/macaiDataModel.sqlite"),
+            ("com.kevinhermawan.Ollamac", "Ollamac", "home/Library/Containers/com.kevinhermawan.Ollamac",
+             "Data/Library/Application Support/default.store"),
+        ]
+        for (identifier, name, place, inside) in apps {
+            let app = try MakersApp(identifier: identifier, name: name)
+            try app.directory.file("\(place)/\(inside)")
+
+            let row = try #require(await app.rows()[app.path(place)], "\(place)")
+
+            #expect(row.match.heldBack == .holdsWorkMadeWithTheApp, "\(place)")
+            #expect(!row.match.isRecommended, "\(place)")
+        }
+    }
+
     @Test func listsOsaurusModelsAndChatsAndSelectsNeither() async throws {
         let osaurus = try MakersApp(identifier: "com.dinoki.osaurus", name: "Osaurus")
         try osaurus.directory.file("home/MLXModels/mlx-community/Qwen3-4B-4bit/model.safetensors", bytes: 4_096)
