@@ -152,7 +152,8 @@ struct DuplicateFinderTests {
             }
         }
 
-        let result = try await scan(directory)
+        // Each file holds one byte, under the floor, so only the folders are compared.
+        let result = try await scan(directory) { $0.minimumSize = 2 }
 
         #expect(result.folderGroups.isEmpty)
     }
