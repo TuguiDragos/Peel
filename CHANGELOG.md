@@ -3,6 +3,28 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
+## 1.4.1 (not released yet)
+
+### Changed
+
+#### Settings
+
+- On an account that is not an administrator, Peel installs, repairs, and uninstalls its helper once an administrator
+  enters a name and password in the window macOS shows, where before an administrator had to set it up on their own
+  account. Home and Settings > Helper say where the helper stands and offer the step it needs.
+
+### Fixed
+
+#### Applications
+
+- Uninstalling Msty, Msty Studio, or BoltAI no longer selects the folders where they keep their conversations, which
+  exist only on this Mac.
+
+#### Orphaned Files
+
+- This Belongs To also offers an app with no bundle identifier, such as a game launcher, and keeps it by the place it
+  had when you chose it.
+
 ## 1.4.0 (2026-11-21)
 
 ### Added
