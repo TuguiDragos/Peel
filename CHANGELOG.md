@@ -39,6 +39,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   such an item once.
 - Obsidian, which updates itself without changing the copy you installed, shows the version it runs, so it no longer
   waits under Updates Available for a version it already has. A badge on its page says so.
+- On an app's page, the badges under the name use the room up to the size, so one no longer drops to a second line
+  while there is room for it, and a long name is cut a little later.
 
 #### Orphaned Files
 

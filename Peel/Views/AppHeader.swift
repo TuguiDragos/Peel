@@ -35,7 +35,7 @@ struct AppHeader<Actions: View>: View {
                 }
                 actions
             }
-            Spacer(minLength: 12)
+            .frame(maxWidth: .infinity, alignment: .leading)
             if let total, !total.isNothing {
                 TotalLabel(total: total, caption: Text("to remove"))
                     .accessibilityLabel(Text("\(total.text) can be moved to the Trash"))
