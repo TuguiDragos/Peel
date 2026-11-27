@@ -599,13 +599,13 @@ the helper went before Peel, Remove Peel lists the helper's folder that stays, w
 the copy macOS runs while Peel is still marked as downloaded, or from its disk image, move Peel to the Applications
 folder, open it there, and choose Remove Peel.
 
-An account that isn't an administrator removes Peel with an administrator's name and password, by the steps Peel
-gives under Remove Peel. While the helper is installed, it goes first: choose Uninstall Helper in Settings > Helper,
-where an administrator enters them. Then, where that account can move Peel, as in the Applications folder of its own
-home folder, choose Remove Peel. Where it can't, as in the Applications folder every account shares, quit Peel and
-drag it to the Trash in Finder, which asks for an administrator too. Finder moves only the app: the files Peel keeps
-in that account stay, and so does its login item unless you turn off Open Peel at login first, and the helper's folder
-in `/private/var/db` stays for an administrator to remove.
+On an account that isn't an administrator, Remove Peel gives the steps that account can take. While the helper is
+installed, it goes first: choose Uninstall Helper in Settings > Helper, where an administrator enters a name and
+password. Then, where that account can move Peel, as in the Applications folder of its own home folder, choose Remove
+Peel. Where it can't, as in the Applications folder every account shares, quit Peel and drag it to the Trash in
+Finder, which asks for an administrator too. Finder moves only the app: the files Peel keeps in that account stay, and
+so does its login item unless you turn off Open Peel at login first, and the helper's folder in `/private/var/db`,
+when it has one, stays for an administrator to remove.
 
 If you dragged Peel to the Trash instead, its helper stays registered: System Settings > General > Login Items &
 Extensions still lists Peel among the apps with background activity. Put Peel back from the Trash in Finder, open it,
