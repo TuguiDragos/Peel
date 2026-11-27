@@ -153006,13 +153006,13 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na tomto účtu nejdřív zvolte „Odinstalovat pomocníka“ v Nastavení > Pomocník, kde správce zadá jméno a heslo, a potom zvolte „Odstranit Peel“."
+            "value" : "Na tomto účtu nejdřív zvolte „Odinstalovat pomocníka“ v Nastavení > Pomocník, kde správce zadá jméno a heslo, a potom zvolte „Odstranit Peel“."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wähle mit diesem Benutzeraccount zuerst „Hilfsprogramm deinstallieren“ unter „Einstellungen“ > „Hilfsprogramm“, wo ein Administrator einen Namen und ein Passwort eingibt, und dann „Peel entfernen“."
+            "value" : "Wähle mit diesem Benutzeraccount zuerst „Hilfsprogramm deinstallieren“ unter „Einstellungen“ > „Hilfsprogramm“, wo ein Administrator einen Namen und ein Passwort eingibt, und dann „Peel entfernen“."
           }
         },
         "es" : {
@@ -153036,7 +153036,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このアカウントでは、まず“設定” > “ヘルパー”で“ヘルパーをアンインストール”を選択して管理者が名前とパスワードを入力し、そのあと“Peelをアンインストール”を選択してください。"
+            "value" : "このアカウントでは、まず“設定”＞“ヘルパー”で“ヘルパーをアンインストール”を選択して管理者が名前とパスワードを入力し、そのあと“Peelをアンインストール”を選択してください。"
           }
         },
         "ko" : {
@@ -153054,7 +153054,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na tym koncie najpierw wybierz „Odinstaluj pomocnika” w Ustawienia > Pomocnik, gdzie administrator wpisuje nazwę i hasło, a potem wybierz „Odinstaluj Peel”."
+            "value" : "Na tym koncie najpierw wybierz „Odinstaluj pomocnika” w Ustawieniach > Pomocnik, gdzie administrator wpisuje nazwę i hasło, a potem wybierz „Odinstaluj Peel”."
           }
         },
         "pt" : {
@@ -153078,7 +153078,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "På det här kontot väljer du först ”Avinstallera hjälpprogram” under Inställningar > Hjälpprogram, där en administratör anger namn och lösenord, och sedan ”Ta bort Peel”."
+            "value" : "På det här kontot väljer du först ”Avinstallera hjälpprogram” i Inställningar > Hjälpprogram, där en administratör anger namn och lösenord, och sedan ”Ta bort Peel”."
           }
         },
         "tr" : {
@@ -153090,13 +153090,13 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У цьому обліковому записі спершу виберіть «Деінсталювати помічника» в «Параметри» > «Помічник», де адміністратор вводить імʼя та пароль, а потім виберіть «Вилучити Peel»."
+            "value" : "У цьому обліковому записі спершу виберіть «Деінсталювати помічника» в розділі Параметри > Помічник, де адміністратор вводить імʼя та пароль, а потім виберіть «Вилучити Peel»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在此账户中，请先在“设置” > “帮助程序”中选取“卸载帮助程序”，由管理员输入名称和密码，然后选取“移除Peel”。"
+            "value" : "在此账户中，请先在“设置”>“帮助程序”中选取“卸载帮助程序”，由管理员输入名称和密码，然后选取“移除Peel”。"
           }
         },
         "zh-Hant" : {
