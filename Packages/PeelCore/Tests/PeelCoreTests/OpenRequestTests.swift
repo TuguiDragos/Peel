@@ -94,15 +94,33 @@ struct OpenRequestTests {
         #expect(OpenRequest.hostApplication(ofExtensionAt: alone) == nil)
     }
 
-    @Test func watchesTheStartupDiskAndEveryOtherVolumeThatCanBeWrittenTo() {
+    @Test func watchesAnotherDiskOnlyInsideItsApplicationsFolder() {
         let volumes = [
             (url: URL(filePath: "/", directoryHint: .isDirectory), isReadOnly: true),
             (url: URL(filePath: "/Volumes/Work", directoryHint: .isDirectory), isReadOnly: false),
             (url: URL(filePath: "/Volumes/Example Installer", directoryHint: .isDirectory), isReadOnly: true),
         ]
+        let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)
 
-        #expect(OpenRequest.foldersToWatch(volumes) == [
-            URL(filePath: "/", directoryHint: .isDirectory), URL(filePath: "/Volumes/Work", directoryHint: .isDirectory),
+        #expect(OpenRequest.foldersToWatch(volumes, home: home) == [
+            URL(filePath: "/", directoryHint: .isDirectory),
+            URL(filePath: "/Volumes/Work/Applications", directoryHint: .isDirectory),
+        ])
+    }
+
+    @Test func watchesTheHomeFoldersApplicationsOnTheDiskItIsOn() {
+        let volumes = [
+            (url: URL(filePath: "/", directoryHint: .isDirectory), isReadOnly: true),
+            (url: URL(filePath: "/Volumes/Home", directoryHint: .isDirectory), isReadOnly: false),
+            (url: URL(filePath: "/Volumes/Work", directoryHint: .isDirectory), isReadOnly: false),
+        ]
+        let home = URL(filePath: "/Volumes/Home/Users/example", directoryHint: .isDirectory)
+
+        #expect(OpenRequest.foldersToWatch(volumes, home: home) == [
+            URL(filePath: "/", directoryHint: .isDirectory),
+            URL(filePath: "/Volumes/Home/Applications", directoryHint: .isDirectory),
+            URL(filePath: "/Volumes/Home/Users/example/Applications", directoryHint: .isDirectory),
+            URL(filePath: "/Volumes/Work/Applications", directoryHint: .isDirectory),
         ])
     }
 }

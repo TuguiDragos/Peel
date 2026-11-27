@@ -16,6 +16,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Fixed
 
+#### Finder
+
+- Another disk, or a network share, keeps its own icon in the Finder sidebar while the Finder extension is on.
+  Uninstall with Peel is offered there for an app in its Applications folder, or in yours when your home folder is on
+  it, no longer for an app anywhere on it.
+
 #### Applications
 
 - Uninstalling Msty, Msty Studio, BoltAI, 5ire, Witsy, DeepChat, ChatALL, macai, or Ollamac no longer selects the

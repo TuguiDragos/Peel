@@ -5,9 +5,8 @@ import PeelLink
 final class FinderExtension: FIFinderSync {
     override init() {
         super.init()
-        // Finder tells the extension what is selected only inside the folders it watches (`selectedItemURLs` in
-        // FinderSync.h). An app can sit anywhere, so the extension watches the startup disk and every other disk
-        // mounted, again as disks come and go.
+        // Finder says what is selected only inside watched folders (`selectedItemURLs` in FinderSync.h), read again
+        // as disks come and go.
         FIFinderSyncController.default().directoryURLs = OpenRequest.foldersToWatchNow()
         let center = NSWorkspace.shared.notificationCenter
         for name in [NSWorkspace.didMountNotification, NSWorkspace.didUnmountNotification] {

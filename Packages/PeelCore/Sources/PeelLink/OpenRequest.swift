@@ -1,3 +1,4 @@
+import Darwin
 public import Foundation
 
 public enum OpenRequest {
@@ -16,13 +17,18 @@ public enum OpenRequest {
         return components?.url
     }
 
-    /// The folders the Finder extension watches, since Finder says what is selected only inside them: the startup disk,
-    /// and every other volume `volumes` names that can be written to, where an app can be moved from. `volumes` leaves
-    /// out the hidden ones.
-    public static func foldersToWatch(_ volumes: [(url: URL, isReadOnly: Bool)]) -> Set<URL> {
+    /// The folders the Finder extension watches: the startup disk, and on every other writable volume its Applications
+    /// folder and, when `home` is there, the account's own.
+    public static func foldersToWatch(_ volumes: [(url: URL, isReadOnly: Bool)], home: URL?) -> Set<URL> {
         // The startup disk's system volume is sealed and read only, and its apps are on the data volume it shows.
         let others = volumes.filter { !$0.isReadOnly && $0.url.path(percentEncoded: false) != "/" }.map(\.url)
-        return Set([URL(filePath: "/", directoryHint: .isDirectory)] + others)
+        // Finder's sidebar shows a watched folder with the extension's icon, so another disk's top is never watched.
+        let inside = others.flatMap { volume in
+            var places = [volume]
+            if let home, home.pathComponents.starts(with: volume.pathComponents) { places.append(home) }
+            return places.map { $0.appending(path: "Applications", directoryHint: .isDirectory) }
+        }
+        return Set([URL(filePath: "/", directoryHint: .isDirectory)] + inside)
     }
 
     /// The folders to watch among the volumes mounted now.
@@ -32,7 +38,27 @@ public enum OpenRequest {
         ) ?? []
         return foldersToWatch(volumes.map { volume in
             (volume, (try? volume.resourceValues(forKeys: [.volumeIsReadOnlyKey]))?.volumeIsReadOnly ?? true)
-        })
+        }, home: accountsHome())
+    }
+
+    /// The account's real home: a sandboxed process's own home is its container.
+    private static func accountsHome() -> URL? {
+        var capacity = 1_024
+        while capacity <= 65_536 {
+            var entry = passwd()
+            var found: UnsafeMutablePointer<passwd>?
+            var buffer = [CChar](repeating: 0, count: capacity)
+            // `pw_dir` points into the buffer, which stays pinned only for this call.
+            let (result, home) = buffer.withUnsafeMutableBufferPointer { bytes -> (Int32, String?) in
+                let result = getpwuid_r(getuid(), &entry, bytes.baseAddress, bytes.count, &found)
+                guard result == 0, found != nil, let directory = entry.pw_dir else { return (result, nil) }
+                return (result, String(cString: directory))
+            }
+            if result == 0 { return home.map { URL(filePath: $0, directoryHint: .isDirectory) } }
+            guard result == ERANGE else { return nil }
+            capacity *= 4
+        }
+        return nil
     }
 
     public static func hostApplication(ofExtensionAt bundle: URL) -> URL? {

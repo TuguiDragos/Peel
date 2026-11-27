@@ -69,8 +69,10 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   Duplicates it has no Select All, since one copy of every group always stays.
 - **Several ways in.** Choose an app in the list, drop one or more on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel, once the Finder extension is on in System
-  Settings. Finder offers it on every disk that can be written to; an app in macOS's own `/System` folder, or on a
-  disk that can only be read, such as an installer's disk image, doesn't offer it, since nothing moves from there.
+  Settings. Finder offers it anywhere on the startup disk. On another disk or a network share that can be written
+  to, it offers it for an app in the Applications folder there, or in yours when your home folder is there, so the
+  disk or the share keeps its own icon in the Finder sidebar. An app in macOS's own `/System` folder, or on a disk
+  that can only be read, such as an installer's disk image, doesn't offer it, since nothing moves from there.
   With Watch the Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear
   what it left behind, while Peel is open or in the menu bar, and once it has Full Disk Access. An old copy thrown
   away while another copy of the app is still installed brings no such offer, since nothing was left behind. Apps
