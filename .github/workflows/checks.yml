@@ -45,8 +45,8 @@ jobs:
       # The app's targets treat warnings as errors in the project, and the package in its manifest, for every build;
       # the flag here names it on the command line too. The tests write to a file, since a test that writes a line
       # waits for whoever reads it, and the log is read late here. A green run takes minutes, so tests still running
-      # after 20 have hung: the step shows the programs they started and where each of their threads stands, which the
-      # log can't, since its last lines are still in the process when it is stopped.
+      # after 20 have hung: the step shows the programs they started, every issue recorded so far, and where each of
+      # their threads stands, which the log can't, since its last lines are still in the process when it is stopped.
       - name: Test PeelCore
         timeout-minutes: 30
         run: |
@@ -61,6 +61,8 @@ jobs:
             ps -o pid,ppid,etime,command -p "$(echo "$tests" $started | tr ' ' ',')" || true
             echo "The last lines the tests wrote:"
             tail -n 60 "$log" || true
+            echo "Every issue the tests recorded:"
+            grep -E -A 12 "recorded an issue" "$log" | head -n 400 || true
             for helper in $(pgrep -P "$tests" -f swiftpm-testing-helper); do
               sample "$helper" 5 -file "$RUNNER_TEMP/sample-$helper.txt" > /dev/null 2>&1 \
                 || sudo -n sample "$helper" 5 -file "$RUNNER_TEMP/sample-$helper.txt" > /dev/null 2>&1 || true
