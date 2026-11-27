@@ -52,6 +52,7 @@ final class HelperModel {
     @ObservationIgnored private let announcing: (AttributedString) -> Void
     @ObservationIgnored private let reading: () async -> Reading
     @ObservationIgnored private let approving: () async -> PrivilegedHelper.ChangeApproval
+    @ObservationIgnored private let openingLoginItems: () -> Void
 
     /// What a check of the helper reads: its status, whether this account is an administrator, whether the helper
     /// answers, and whether another copy of Peel registered it.
@@ -67,13 +68,15 @@ final class HelperModel {
         announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() },
         status: PrivilegedHelper.Status = PrivilegedHelper.status,
         reading: @escaping () async -> Reading = HelperModel.read,
-        approving: @escaping () async -> PrivilegedHelper.ChangeApproval = PrivilegedHelper.approvalToChange
+        approving: @escaping () async -> PrivilegedHelper.ChangeApproval = PrivilegedHelper.approvalToChange,
+        openingLoginItems: @escaping () -> Void = PrivilegedHelper.openLoginItemsSettings
     ) {
         self.performing = performing
         self.announcing = announcing
         self.status = status
         self.reading = reading
         self.approving = approving
+        self.openingLoginItems = openingLoginItems
     }
 
     /// Asks macOS and the helper, the helper only once it is registered.
@@ -117,19 +120,23 @@ final class HelperModel {
         guard !isChanging, !isRegisteredByAnotherCopy else { return nil }
         let (approval, error) = await change(.install)
         if approval == .approved, status == .requiresApproval {
-            PrivilegedHelper.openLoginItemsSettings()
+            openingLoginItems()
         }
         guard let error, status != .requiresApproval, status != .enabled else { return told(.install, approval, nil) }
         return Failure(action: .install, reason: error.localizedDescription)
     }
 
+    /// Registering again throws while macOS waits for the approval too, so an error is a failure only when the helper
+    /// neither waits for it nor answers afterward.
     func repair() async -> Failure? {
         guard !isChanging else { return nil }
         let (approval, error) = await change(.repair)
         if approval == .approved, status == .requiresApproval {
-            PrivilegedHelper.openLoginItemsSettings()
+            openingLoginItems()
         }
-        return told(.repair, approval, error.map { Failure(action: .repair, reason: $0.localizedDescription) })
+        let stateSaysWhatHappened = standing == .waitingForApproval || standing == .ready
+        let reason = stateSaysWhatHappened ? nil : error?.localizedDescription
+        return told(.repair, approval, reason.map { Failure(action: .repair, reason: $0) })
     }
 
     func uninstall() async -> Failure? {

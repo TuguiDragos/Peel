@@ -22,6 +22,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Uninstall with Peel is offered there for an app in its Applications folder, or in yours when your home folder is on
   it, no longer for an app anywhere on it.
 
+#### Settings
+
+- Repair, on Home and in Settings > Helper, no longer says the helper could not be repaired while macOS only waits for
+  you to allow it in Login Items & Extensions, which Peel opens, as it does after Install.
+
 #### Applications
 
 - Uninstalling Msty, Msty Studio, BoltAI, 5ire, Witsy, DeepChat, ChatALL, macai, or Ollamac no longer selects the
