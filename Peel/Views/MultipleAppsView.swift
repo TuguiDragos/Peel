@@ -147,9 +147,7 @@ struct MultipleAppsView: View {
 
     private var foundSection: some View {
         let items = plan.applications + plan.recommendedFiles + plan.filesToReview
-        return FoundOnThisMacSection(
-            count: items.count, size: SizeTotal(items.map { $0.isMeasured ? $0.size : nil })
-        ) {
+        return FoundOnThisMacSection(count: items.count, size: plan.foundSize) {
             RemovalColumnHeaders()
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 row(item, isFirst: index == 0, isReadOnly: true)
@@ -287,6 +285,7 @@ struct MultipleAppsView: View {
     private func row(_ item: BulkUninstallation.Item, isFirst: Bool, isReadOnly: Bool = false) -> some View {
         RemovalRow(
             url: item.url,
+            insideListed: plan.itemsInsideOthers.holder(of: item.url)?.abbreviatedPath,
             icon: item.isApplication ? .file(item.url) : .symbol(item.kind?.symbolName ?? "doc"),
             detail: item.isApplication ? nil : item.match?.reason.title,
             kind: item.isApplication ? "Application" : item.kind?.title,

@@ -84908,6 +84908,112 @@
         }
       }
     },
+    "Inside %@, also on this list" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ve složce %@, která je také na tomto seznamu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Ordner %@, der ebenfalls in der Liste steht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dentro de %@, que también está en la lista"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans %@, qui figure aussi dans la liste"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@, presente anche in questo elenco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このリストにもある%@の中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 목록에도 있는 %@ 안에 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@, een map die ook in deze lijst staat"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W folderze %@, który też jest na tej liście"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dentro de %@, que também está na lista"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În %@, care este și el în listă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В папке %@, которая тоже есть в этом списке"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I %@, som också finns i listan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu listede de olan %@ klasörünün içinde"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У папці %@, яка теж є в цьому списку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位于%@内，该文件夹也在此列表中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位於%@內，該檔案夾也在此列表中"
+          }
+        }
+      }
+    },
     "Inside Other Apps" : {
       "localizations" : {
         "cs" : {
@@ -126489,6 +126595,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「TV」App保留在這部Mac上的電影和節目，包括下載或匯入的項目。"
+          }
+        }
+      }
+    },
+    "Moving %@ moves this too, so the total counts it once." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunutím složky %@ se přesune i tato položka, takže ji součet započítá jen jednou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn %@ in den Papierkorb gelegt wird, kommt dieses Objekt mit, daher zählt es in der Summe nur einmal."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al trasladar %@ también se traslada este elemento, así que el total lo cuenta una sola vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer %@ déplace aussi cet élément, donc le total le compte une seule fois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spostando %@ si sposta anche questo elemento, quindi il totale lo conta una sola volta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@を移動すると、この項目も一緒に移動するため、合計では1回だけ数えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@을(를) 이동하면 이 항목도 함께 이동하므로 합계에서는 한 번만 셉니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als %@ wordt verplaatst, gaat dit onderdeel mee, dus het totaal telt het één keer."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeniesienie %@ przenosi też ten element, więc suma liczy go tylko raz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover %@ também move este item, então o total o conta uma única vez."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când se mută %@, se mută și acesta, așa că totalul îl numără o singură dată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вместе с %@ перемещается и этот объект, поэтому итог учитывает его один раз."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ flyttas följer det här objektet med, så summan räknar det en gång."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ taşındığında bu öğe de taşınır, bu yüzden toplam onu bir kez sayar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разом із %@ переміщується й цей елемент, тому підсумок враховує його один раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动%@时也会移动此项，因此总计只计算一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動%@時也會移動此項目，因此總計只計算一次。"
           }
         }
       }

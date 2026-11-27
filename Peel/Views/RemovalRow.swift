@@ -11,6 +11,8 @@ struct RemovalRow: View {
     var name: String?
     /// The folder shown under `name`, when the name is the file's own and a cut path would hide it.
     var folder: String?
+    /// The item of the same list this one sits inside, which takes it along when it moves, shown under its name.
+    var insideListed: String?
     let icon: Icon
     let detail: LocalizedStringResource?
     /// The kind of item, shown in a column of its own, or on macOS 27 the day a File Search file was modified.
@@ -64,7 +66,7 @@ struct RemovalRow: View {
     }
 
     private var hasExplanation: Bool {
-        detail != nil || warning != nil || lastWritten != nil
+        detail != nil || warning != nil || lastWritten != nil || insideListed != nil
     }
 
     var body: some View {
@@ -137,7 +139,8 @@ struct RemovalRow: View {
     private var spokenItem: String {
         let badge = badgeKind.map { String(localized: $0.title) }
         let size = isMeasured ? size.byteCount : String(localized: "Unknown")
-        return [name ?? url.abbreviatedPath, folder, badge, kind.map { String(localized: $0) }, size]
+        let title = caption == nil ? name ?? url.abbreviatedPath : name ?? url.lastPathComponent
+        return [title, caption, badge, kind.map { String(localized: $0) }, size]
             .compactMap(\.self)
             .joined(separator: ", ")
     }
@@ -206,15 +209,20 @@ struct RemovalRow: View {
         }
     }
 
+    /// What the row says under the item's own name: the folder it is in, or the listed item it sits inside.
+    private var caption: String? {
+        folder ?? insideListed.map { String(localized: "Inside \($0), also on this list") }
+    }
+
     @ViewBuilder
     private var path: some View {
-        if let folder {
+        if let caption {
             VStack(alignment: .leading, spacing: 1) {
                 Text(name ?? url.lastPathComponent)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .checkboxTitleLine()
-                Text(verbatim: folder)
+                Text(verbatim: caption)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -311,6 +319,10 @@ struct RemovalRow: View {
         }
         if let detail {
             text += AttributedString(String(localized: detail))
+        }
+        if let insideListed {
+            let goesWith = String(localized: "Moving \(insideListed) moves this too, so the total counts it once.")
+            text += AttributedString(text.characters.isEmpty ? goesWith : "\n\n\(goesWith)")
         }
         if let lastWritten {
             let written = String(localized: "Last changed \(lastWritten, format: .relative(presentation: .named))")

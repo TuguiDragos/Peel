@@ -37,6 +37,32 @@ struct UninstallationTests {
         )
     }
 
+    /// A cask names `Steam.AppBundle` inside the Steam folder the scan finds by name: both are listed, and what the
+    /// page found counts its bytes once.
+    @Test func countsWhatItFoundOnceWhenOneItemSitsInsideAnother() {
+        let folder = Leftover(
+            url: URL(filePath: "/Users/me/Library/Application Support/Steam", directoryHint: .isDirectory),
+            kind: .applicationSupport,
+            match: LeftoverMatch(reason: .name, confidence: .likely, sharedWith: []),
+            size: 1_300,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
+        let bundle = Leftover(
+            url: folder.url.appending(path: "Steam.AppBundle", directoryHint: .isDirectory),
+            kind: .applicationSupport,
+            match: LeftoverMatch(reason: .homebrewCask, confidence: .likely, sharedWith: []),
+            size: 1_290,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
+        let plan = uninstallation(leftovers: [bundle, leftover("Steam"), folder])
+
+        #expect(plan.foundSize == SizeTotal(known: 10_000 + 1_000 + 1_300, isComplete: true))
+        #expect(plan.itemsInsideOthers.holder(of: bundle.url) == folder.url)
+        #expect(plan.itemsInsideOthers.holder(of: folder.url) == nil)
+    }
+
     @Test func anAppOnADiskThatCanOnlyBeReadStaysAndNeedsNoAdministrator() async throws {
         let directory = try TemporaryDirectory()
         let disk = try await ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))

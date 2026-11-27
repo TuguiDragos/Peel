@@ -52,6 +52,17 @@ struct BulkUninstallationTests {
         #expect(bulk.cutShortLocations == [support])
     }
 
+    @Test func countsWhatItFoundOnceWhenOneItemSitsInsideAnother() {
+        let folder = leftover("/Users/example/Library/Application Support/Steam", size: 1_300)
+        let bundle = leftover("/Users/example/Library/Application Support/Steam/Steam.AppBundle", size: 1_290)
+        let bulk = BulkUninstallation(
+            uninstallations: [uninstallation(app("org.example.steam", "Steam"), [bundle, folder], appSize: 11)]
+        )
+
+        #expect(bulk.foundSize == SizeTotal(known: 11 + 1_300, isComplete: true))
+        #expect(bulk.itemsInsideOthers.holder(of: bundle.url) == folder.url)
+    }
+
     @Test func countsWhatWaitsForTheHelperOnlyOnceTheHelperCanAct() {
         let synth = app("org.example.synth", "Synth")
         let own = leftover("/Users/example/Library/Application Support/Synth", size: 10)

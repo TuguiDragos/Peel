@@ -793,13 +793,43 @@ struct CommandLineTests {
         let app = URL(filePath: "/Applications/Steam.app", directoryHint: .isDirectory)
         let support = URL(filePath: "/Users/me/Library/Application Support/Steam", directoryHint: .isDirectory)
         let bundle = support.appending(path: "Steam.AppBundle", directoryHint: .isDirectory)
-        let plan = UninstallPlan(app: app, items: [
+        let items = [
             UninstallPlan.Item(url: app, size: 7, refusal: nil),
             UninstallPlan.Item(url: support, size: 800, refusal: nil),
             UninstallPlan.Item(url: bundle, size: 700, refusal: nil),
-        ], needsAdministrator: 0, needsReview: 0)
+        ]
+        let plan = UninstallPlan(app: app, items: items, needsAdministrator: 0, needsReview: 0)
 
         #expect(plan.total == SizeTotal(known: 807, isComplete: true))
+        #expect(plan.goesWith(items[2]) == support)
+        #expect(plan.goesWith(items[1]) == nil)
+        let kept = UninstallPlan(app: app, items: [
+            items[0], UninstallPlan.Item(url: support, size: 800, refusal: .guarded(.excluded)), items[2],
+        ], needsAdministrator: 0, needsReview: 0)
+        #expect(kept.goesWith(items[2]) == nil)
+    }
+
+    /// A folder a cask names inside one the scan found is listed on its own, and its line says which listed folder
+    /// holds it, so the sizes are not read as adding up.
+    @Test func aLeftoverInsideAnotherListedOneSaysWhichHoldsIt() throws {
+        let folder = URL(filePath: "/Users/me/Library/Application Support/Tide", directoryHint: .isDirectory)
+        let leftover = Leftover(
+            url: folder.appending(path: "Tide.AppBundle", directoryHint: .isDirectory),
+            kind: .applicationSupport,
+            match: LeftoverMatch(reason: .homebrewCask, confidence: .likely, sharedWith: []),
+            size: 512,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
+
+        let json = try Output.jsonText([LeftoverRecord(leftover, inside: folder), LeftoverRecord(leftover)])
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+
+        #expect(records[0]["inside"] as? String == "/Users/me/Library/Application Support/Tide")
+        #expect(records[1]["inside"] is NSNull)
+        #expect(LeftoversCommand.summary(of: leftover, inside: folder)
+            .hasSuffix(", inside /Users/me/Library/Application Support/Tide, also listed"))
+        #expect(!LeftoversCommand.summary(of: leftover).contains("inside"))
     }
 
     @Test func saysWhyAnAppsIconStayedInTheDock() throws {
@@ -847,6 +877,7 @@ struct CommandLineTests {
         let items = try #require(report["items"] as? [[String: Any]])
         #expect(items.map { $0["stays"] as? String } == [nil, nil, "excluded"])
         #expect(items[0]["stays"] is NSNull)
+        #expect(items.allSatisfy { $0["inside"] is NSNull })
         #expect(items[1]["size"] is NSNull)
         let failed = try #require(report["failed"] as? [[String: Any]])
         #expect(failed.first?["reason"] as? String == "failed")

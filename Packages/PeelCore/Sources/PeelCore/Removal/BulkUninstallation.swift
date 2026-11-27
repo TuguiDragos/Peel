@@ -194,6 +194,17 @@ public struct BulkUninstallation: Sendable {
         }.map(\.url))
     }
 
+    /// What the page lists, each item once: one inside another listed item is part of that one's size.
+    public var foundSize: SizeTotal {
+        SizeTotal(
+            movingItemsAt: Dictionary(items.map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first }
+        )
+    }
+
+    public var itemsInsideOthers: ItemsInsideOthers {
+        ItemsInsideOthers(items.map(\.url))
+    }
+
     /// The size of what a checkbox can select now, counted by the same rule as an app's own page: rows Peel leaves
     /// alone, and those waiting for the helper, are not counted. An unmeasured row is never counted as zero: it makes
     /// the total incomplete.

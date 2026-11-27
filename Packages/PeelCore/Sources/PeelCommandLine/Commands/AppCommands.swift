@@ -167,7 +167,8 @@ struct LeftoversCommand: AsyncParsableCommand {
         ) {
             self.app = AppRecord(app)
             self.appSize = appSize
-            self.leftovers = leftovers.map(LeftoverRecord.init)
+            let inside = ItemsInsideOthers(leftovers.map(\.url))
+            self.leftovers = leftovers.map { LeftoverRecord($0, inside: inside.holder(of: $0.url)) }
             needsReview = scan.leftovers.count { !$0.match.isRecommended }
             unreadableLocations = scan.unreadableLocations.map { Output.path($0.url) }
             needsFullDiskAccess = scan.needsFullDiskAccess
@@ -252,7 +253,11 @@ struct LeftoversCommand: AsyncParsableCommand {
             Output.line(Self.whenNothingIsShown(hidden: hidden))
         } else {
             Output.line()
-            Output.table(leftovers.map { [Output.size(Self.measured($0)), Output.path($0.url), Self.summary(of: $0)] })
+            let inside = ItemsInsideOthers(leftovers.map(\.url))
+            Output.table(leftovers.map { leftover in
+                let summary = Self.summary(of: leftover, inside: inside.holder(of: leftover.url))
+                return [Output.size(Self.measured(leftover)), Output.path(leftover.url), summary]
+            })
         }
     }
 
@@ -264,7 +269,7 @@ struct LeftoversCommand: AsyncParsableCommand {
 
     /// Describes `leftover` in one line: why it matched, why it needs review when it isn't suggested (held
     /// back, shared with other apps, or only a possible match), and whether it needs administrator access.
-    static func summary(of leftover: Leftover) -> String {
+    static func summary(of leftover: Leftover, inside: URL? = nil) -> String {
         var summary = leftover.match.reason.summary
         if let heldBack = leftover.match.heldBack {
             summary += ", review: \(heldBack.summary(keptInStepBy: leftover.syncedBy))"
@@ -285,6 +290,9 @@ struct LeftoversCommand: AsyncParsableCommand {
         }
         if leftover.holdsDamagedSettings {
             summary += ", settings file is damaged"
+        }
+        if let inside {
+            summary += ", inside \(Output.path(inside)), also listed"
         }
         return summary
     }
@@ -360,6 +368,8 @@ struct UninstallCommand: AsyncParsableCommand {
             var leadsTo: String?
             /// True for a job's file whose job launchd has loaded from it: moved, the job stops; left, it stays loaded.
             var loaded = false
+            /// The listed item it sits inside, which takes it along when that one moves, or `null`.
+            var inside: String?
 
             private enum CodingKeys: String, CodingKey {
                 case path
@@ -367,6 +377,7 @@ struct UninstallCommand: AsyncParsableCommand {
                 case stays
                 case leadsTo
                 case loaded
+                case inside
             }
 
             func encode(to encoder: any Encoder) throws {
@@ -376,6 +387,7 @@ struct UninstallCommand: AsyncParsableCommand {
                 try container.encode(stays, forKey: .stays)
                 try container.encode(leadsTo, forKey: .leadsTo)
                 try container.encode(loaded, forKey: .loaded)
+                try container.encode(inside, forKey: .inside)
             }
         }
 
@@ -485,7 +497,8 @@ struct UninstallCommand: AsyncParsableCommand {
             items: plan.items.map { item in
                 Report.Item(
                     path: Output.path(item.url), size: MeasuredSize(item.size), stays: plan.whyItStays(item)?.word,
-                    leadsTo: item.leadsTo.map(Output.path), loaded: item.isALoadedJob
+                    leadsTo: item.leadsTo.map(Output.path), loaded: item.isALoadedJob,
+                    inside: plan.itemsInsideOthers.holder(of: item.url).map(Output.path)
                 )
             },
             moved: (result?.trashed ?? []).map { Output.path($0.originalURL) },
@@ -878,12 +891,14 @@ struct UninstallCommand: AsyncParsableCommand {
             Output.note("\(wontMove) While it stays, none of its files moves.")
         }
         if !output.json {
-            // The third column appears only when some item stays, so an ordinary list has no trailing spaces.
-            let saysWhy = plan.moving.count < plan.items.count
+            // The third column appears only when some item stays or goes with another, so an ordinary list has no
+            // trailing spaces.
+            let saysWhy = plan.moving.count < plan.items.count || plan.items.contains { plan.goesWith($0) != nil }
             if !plan.items.isEmpty {
                 Output.table(plan.items.map { item in
-                    let stays = plan.whyItStays(item).map { "stays: \($0.summary)" }
-                    return [Output.size(item.size), Output.path(item.url)] + (saysWhy ? [stays ?? "moves"] : [])
+                    let fate = plan.whyItStays(item).map { "stays: \($0.summary)" }
+                        ?? plan.goesWith(item).map { "moves with \(Output.path($0))" } ?? "moves"
+                    return [Output.size(item.size), Output.path(item.url)] + (saysWhy ? [fate] : [])
                 })
             }
             Output.line(plan.moving.isEmpty ? "Nothing here can be moved." : "Total: \(Output.size(plan.total))")

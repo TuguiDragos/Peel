@@ -57,8 +57,10 @@ struct LeftoverRecord: Encodable {
     let otherCopies: [String]
     let isRecommended: Bool
     let needsAdministrator: Bool
+    /// The listed item it sits inside, which takes it along when that one moves, or `null`.
+    let inside: String?
 
-    init(_ leftover: Leftover) {
+    init(_ leftover: Leftover, inside: URL? = nil) {
         path = Output.path(leftover.url)
         size = LeftoversCommand.measured(leftover)
         reason = leftover.match.reason.rawValue
@@ -72,6 +74,7 @@ struct LeftoverRecord: Encodable {
         otherCopies = leftover.match.otherCopies.map(Output.path)
         isRecommended = leftover.match.isRecommended
         needsAdministrator = leftover.requiresPrivileges
+        self.inside = inside.map(Output.path)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -88,6 +91,7 @@ struct LeftoverRecord: Encodable {
         case otherCopies
         case isRecommended
         case needsAdministrator
+        case inside
     }
 
     /// Encodes an unknown size and a missing `heldBack` as `null`, for the reason `AppRecord` gives.
@@ -106,6 +110,7 @@ struct LeftoverRecord: Encodable {
         try container.encode(otherCopies, forKey: .otherCopies)
         try container.encode(isRecommended, forKey: .isRecommended)
         try container.encode(needsAdministrator, forKey: .needsAdministrator)
+        try container.encode(inside, forKey: .inside)
     }
 }
 

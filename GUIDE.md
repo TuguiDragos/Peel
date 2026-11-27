@@ -13,7 +13,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **Each file comes with a reason.** Peel searches the places apps keep files: Application Support, caches,
   containers and group containers, preferences, saved state, logs, launch agents and daemons, plug-in folders, and
   more. For each file, Peel says what tied it to the app, such as the app's bundle identifier, its signing team, or a
-  Homebrew cask that names it.
+  Homebrew cask that names it. An item inside another one on the list, such as the part of a folder that a Homebrew
+  cask names, says so under its name: moving that folder moves it too, and the total counts it once.
 - **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier or its name, and its
   installer's receipt when nothing else on it is left outside the app, are selected for you, and so is the folder
   Homebrew keeps for an app it installed, so that

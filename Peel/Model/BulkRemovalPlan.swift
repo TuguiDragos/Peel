@@ -32,6 +32,9 @@ final class BulkRemovalPlan {
     private(set) var recommendedFiles: [BulkUninstallation.Item] = []
     /// The files nothing selects for the person, as an app's own page lists them under Review Before Removing.
     private(set) var filesToReview: [BulkUninstallation.Item] = []
+    /// What the page lists, each item once, for a page where nothing can be selected.
+    private(set) var foundSize = SizeTotal([])
+    private(set) var itemsInsideOthers = ItemsInsideOthers([])
     /// The chosen apps already in the Trash, which neither go nor stay: only what they left behind can move.
     private(set) var appsInTheTrash: Set<URL> = []
     /// The chosen apps the Dock holds a tile for, read once per scan, so Rescan shows it as it is now.
@@ -164,6 +167,8 @@ final class BulkRemovalPlan {
         applications = result.items.filter(\.isApplication)
         recommendedFiles = result.items.filter { !$0.isApplication && $0.isRecommended }
         filesToReview = result.items.filter { !$0.isApplication && !$0.isRecommended }
+        foundSize = result.foundSize
+        itemsInsideOthers = result.itemsInsideOthers
         appsInTheTrash = Set(result.uninstallations.filter(\.isAppInTheTrash).map(\.app.url))
         measuredSizes = [URL: Int64](measured: result.items.map { ($0.url, $0.isMeasured ? $0.size : nil) })
         suggested = result.suggestedSelection(canUseHelper: canUseHelper)

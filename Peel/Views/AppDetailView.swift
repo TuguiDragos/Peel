@@ -298,10 +298,7 @@ struct AppDetailView: View {
 
     private var foundSection: some View {
         let leftovers = plan.recommended + plan.needsReview
-        return FoundOnThisMacSection(
-            count: 1 + leftovers.count,
-            size: SizeTotal([plan.isAppMeasured ? plan.appSize : nil] + leftovers.map { $0.isMeasured ? $0.size : nil })
-        ) {
+        return FoundOnThisMacSection(count: 1 + leftovers.count, size: plan.foundSize) {
             RemovalColumnHeaders()
             appRow(isReadOnly: true)
                 .listRowSeparator(.hidden)
@@ -315,6 +312,7 @@ struct AppDetailView: View {
     private func appRow(isReadOnly: Bool = false) -> some View {
         RemovalRow(
             url: plan.app.url,
+            insideListed: plan.itemsInsideOthers.holder(of: plan.app.url)?.abbreviatedPath,
             icon: .file(plan.app.url),
             detail: "The app itself. Everything under it is what Peel found for this app elsewhere on this Mac.",
             kind: "Application",
@@ -461,6 +459,7 @@ struct AppDetailView: View {
     private func row(for leftover: Leftover, isReadOnly: Bool = false) -> some View {
         RemovalRow(
             url: leftover.url,
+            insideListed: plan.itemsInsideOthers.holder(of: leftover.url)?.abbreviatedPath,
             icon: .symbol(leftover.kind.symbolName),
             detail: leftover.match.reason.title,
             kind: leftover.kind.title,

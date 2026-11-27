@@ -19,11 +19,19 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Uninstalling Msty, Msty Studio, or BoltAI no longer selects the folders where they keep their conversations, which
   exist only on this Mac.
+- On the page of an app, or of several, an item inside another one on the list, such as the part of the Steam folder
+  that its Homebrew cask names, says so under its name. Where nothing on the page can be selected, the total counts
+  such an item once.
 
 #### Orphaned Files
 
 - This Belongs To also offers an app with no bundle identifier, such as a game launcher, and keeps it by the place it
   had when you chose it.
+
+#### `peel`
+
+- `peel leftovers` and `peel uninstall` name the listed item an item sits inside, in their lines and in their JSON as
+  `inside`.
 
 ## 1.4.0 (2026-11-21)
 
