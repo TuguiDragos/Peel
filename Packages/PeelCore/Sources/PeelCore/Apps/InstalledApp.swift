@@ -54,11 +54,26 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// Whether the whole seal of the bundle holds, read only for an app whose maker keeps its uninstall script in it.
     public let isSealIntact: Bool?
 
+    /// What tells one build of the app at a path from another, for a reading of the apps and for the app's page alike.
+    public struct Build: Hashable, Sendable {
+        let version: String?
+        let runningVersion: String?
+        let buildVersion: String?
+        let architectures: Set<Architecture>
+        let teamIdentifier: String?
+    }
+
+    public var build: Build {
+        Build(
+            version: version, runningVersion: runningVersion, buildVersion: buildVersion,
+            architectures: architectures, teamIdentifier: teamIdentifier
+        )
+    }
+
     /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
     /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
     public func isTheSameBuild(as other: InstalledApp) -> Bool {
-        version == other.version && runningVersion == other.runningVersion && buildVersion == other.buildVersion
-            && architectures == other.architectures && teamIdentifier == other.teamIdentifier
+        build == other.build
     }
 
     /// The version the app runs: the one it updated itself to, or its own.

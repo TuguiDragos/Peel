@@ -282,6 +282,7 @@ struct PeelApp: App {
             try? await Task.sleep(for: .seconds(Self.updateCheckInterval), tolerance: .seconds(60))
             guard !Task.isCancelled, checksForAppUpdates else { continue }
             await followHomebrewsChecks()
+            await library.readAgainIfAnAppUpdatedItself()
             await library.checkForUpdates(library.apps)
         }
     }

@@ -100,11 +100,14 @@ public enum AppCatalog {
     }
 
     /// Reads the apps in the Applications folders and in the folders the person chose, and says which of those it
-    /// looked in (`chosenFolders`, nil when their list cannot be read).
+    /// looked in (`chosenFolders`, nil when their list cannot be read). `home` is the account each app is read for.
     @concurrent
-    public static func scan(choices: AppFolders = AppFolders()) async -> AppScan {
+    public static func scan(choices: AppFolders = AppFolders(), home: URL = .homeDirectory) async -> AppScan {
         let chosen = choices.load()
-        let found = await scan(in: chosen.map(directories(adding:)) ?? standardDirectories)
+        let found = await scan(
+            in: chosen.map(directories(adding:)) ?? standardDirectories, within: FileSize.budget,
+            walking: { appBundles(in: $0, unless: $1) }, reading: { Reading.of($0, home: home) }
+        )
         return AppScan(
             apps: found.apps,
             unreadable: found.unreadable,
@@ -132,7 +135,7 @@ public enum AppCatalog {
     @concurrent
     static func scan(
         in directories: [URL], within budget: TimeInterval, walking walk: @escaping Walk,
-        reading readApp: @escaping @Sendable (URL) -> InstalledApp? = { Reading.of($0) }
+        reading readApp: @escaping @Sendable (URL) -> InstalledApp? = { Reading.of($0, home: .homeDirectory) }
     ) async -> AppScan {
         let walks = await withTaskGroup(of: (index: Int, walk: (bundles: [URL], unreadable: [URL])?).self) { group in
             for (index, directory) in directories.enumerated() {
@@ -203,6 +206,13 @@ public enum AppCatalog {
         )
     }
 
+    /// Whether one of `apps` now runs another version than it is listed with, for the account at `home`. An app that
+    /// updates itself outside its bundle changes nothing in the folders of apps, so no watch of them says so.
+    @concurrent
+    public static func runsAnotherVersion(oneOf apps: [InstalledApp], home: URL = .homeDirectory) async -> Bool {
+        apps.contains { AppInspector.runningVersion(ofAppAt: $0.url, home: home) != $0.runningVersion }
+    }
+
     /// Whether what was read about `bundle` is kept, so the next reading of its folder does not read it again.
     static func remembers(_ bundle: URL) -> Bool {
         Reading.remembers(bundle)
@@ -222,15 +232,15 @@ public enum AppCatalog {
 
         private static let known = Mutex<[String: (identity: Identity, app: InstalledApp)]>([:])
 
-        static func of(_ bundle: URL) -> InstalledApp? {
+        static func of(_ bundle: URL, home: URL) -> InstalledApp? {
             let path = PathPattern.comparablePath(of: bundle)
             let identity = identity(of: bundle)
             if let remembered = known.withLock({ $0[path] }), remembered.identity == identity {
                 let use = AppInspector.use(of: bundle)
                 return remembered.app.withUse(lastUsedDate: use.lastUsedDate, isUseRecorded: use.isRecorded)
-                    .withRunningVersion(AppInspector.runningVersion(ofAppAt: bundle, home: .homeDirectory))
+                    .withRunningVersion(AppInspector.runningVersion(ofAppAt: bundle, home: home))
             }
-            guard let app = AppInspector.inspect(bundle) else { return nil }
+            guard let app = AppInspector.inspect(bundle, home: home) else { return nil }
             known.withLock { $0[path] = (identity, app) }
             return app
         }

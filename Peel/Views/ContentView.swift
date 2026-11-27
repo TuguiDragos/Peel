@@ -580,8 +580,13 @@ struct ContentView: View {
     }
 
     /// What makes a page a new page: where the app is, and which build of it is there.
-    private static func build(of app: InstalledApp) -> [String] {
-        [app.id.path(percentEncoded: false), app.version ?? "", app.buildVersion ?? ""]
+    struct AppPage: Hashable {
+        let path: String
+        let build: InstalledApp.Build
+    }
+
+    static func page(of app: InstalledApp) -> AppPage {
+        AppPage(path: app.id.path(percentEncoded: false), build: app.build)
     }
 
     @ViewBuilder
@@ -590,10 +595,10 @@ struct ContentView: View {
             // Keyed to the build, not only to the path: a page keeps the app it was made with, so after an
             // upgrade made elsewhere it would show the old version, and Rescan would ask about that one.
             AppDetailView(app: app)
-                .id(Self.build(of: app))
+                .id(Self.page(of: app))
         } else if library.isShowingSeveral {
             MultipleAppsView(apps: library.selectedApps)
-                .id(library.selectedApps.map(Self.build))
+                .id(library.selectedApps.map(Self.page))
         } else {
             ApplicationsPlaceholder()
         }

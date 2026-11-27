@@ -191,6 +191,8 @@ final class AppLibrary {
     private let defaults: UserDefaults
     private let appFolders: AppFolders
     private let appMemory: AppMemory
+    /// The home of the account each app is read for, since what an app runs can be kept there (`runningVersion`).
+    private let home: URL
     /// Apps shown from outside the scanned folders, such as one in Downloads or in the Trash. Kept apart,
     /// because the next reading of the folders doesn't find them and would drop their row and their page.
     private var revealed: [InstalledApp] = []
@@ -214,13 +216,15 @@ final class AppLibrary {
         updateChecker: UpdateChecker = UpdateChecker(),
         releaseNotesStore: ReleaseNotesStore = ReleaseNotesStore(),
         appFolders: AppFolders = AppFolders(),
-        appMemory: AppMemory = AppMemory()
+        appMemory: AppMemory = AppMemory(),
+        home: URL = .homeDirectory
     ) {
         self.defaults = defaults
         self.updateChecker = updateChecker
         self.releaseNotesStore = releaseNotesStore
         self.appFolders = appFolders
         self.appMemory = appMemory
+        self.home = home
         folders = appFolders.load()
         ignoredApps = Set(defaults.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? [])
         skippedVersions = defaults.dictionary(forKey: SettingsKey.skippedUpdateVersions) as? [String: String] ?? [:]
@@ -287,8 +291,8 @@ final class AppLibrary {
         let changes = folderChanges
         askedForReading = true
         let shown = revealed.map(\.url)
-        let read = await scanRun.run { [appFolders] in
-            (await AppCatalog.scan(choices: appFolders), await AppCatalog.gone(shown))
+        let read = await scanRun.run { [appFolders, home] in
+            (await AppCatalog.scan(choices: appFolders, home: home), await AppCatalog.gone(shown))
         }
         let found = read?.0
         if !scanRun.isRunning { askedForReading = false }
@@ -323,9 +327,21 @@ final class AppLibrary {
     }
 
     /// Calls `refresh()` unless a reading of the folders started in the last 30 seconds, even one still running. For
-    /// Peel coming forward: the folder watcher sees every real change, so a recent read is enough.
+    /// Peel coming forward: the folder watcher sees every change in the folders of apps, so a recent read is enough
+    /// for all but an app that updated itself outside its bundle.
     func refreshUnlessRecent() async {
-        if let lastRead, ContinuousClock.now - lastRead < .seconds(30) { return }
+        if let lastRead, ContinuousClock.now - lastRead < .seconds(30) {
+            await readAgainIfAnAppUpdatedItself()
+        } else {
+            await refresh()
+        }
+    }
+
+    /// Reads the folders again when an app runs another version than it is listed with, which nothing in the watched
+    /// folders shows. An app shown from outside them is left out: no reading reads it again.
+    func readAgainIfAnAppUpdatedItself() async {
+        let scanned = apps.filter { app in !revealed.contains { $0.id == app.id } }
+        guard await AppCatalog.runsAnotherVersion(oneOf: scanned, home: home) else { return }
         await refresh()
     }
 
@@ -385,8 +401,8 @@ final class AppLibrary {
         lastRead = .now
         let changes = folderChanges
         let shown = revealed.map(\.url)
-        let read = await scanRun.run { [appFolders] in
-            (await AppCatalog.scan(choices: appFolders), await AppCatalog.gone(shown))
+        let read = await scanRun.run { [appFolders, home] in
+            (await AppCatalog.scan(choices: appFolders, home: home), await AppCatalog.gone(shown))
         }
         if !scanRun.isRunning { askedForReading = false }
         guard case let (scan, vanished)? = read else { return }

@@ -129,6 +129,19 @@ struct ObsidianLoaderTests {
         #expect(ElectronArchive.file(named: "package.json", in: part) == Data("{}".utf8))
     }
 
+    @Test func tellsWhenAListedAppCameToRunAnotherVersion() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try app(in: directory)
+        let listed = try #require(AppInspector.inspect(bundle, home: home(directory)))
+        #expect(await !AppCatalog.runsAnotherVersion(oneOf: [listed], home: home(directory)))
+
+        try directory.file("home/Library/Application Support/obsidian/obsidian-1.15.1.asar")
+
+        #expect(await AppCatalog.runsAnotherVersion(oneOf: [listed], home: home(directory)))
+        let readAgain = try #require(AppInspector.inspect(bundle, home: home(directory)))
+        #expect(await !AppCatalog.runsAnotherVersion(oneOf: [readAgain], home: home(directory)))
+    }
+
     @Test func aNewVersionIsAnotherBuild() {
         let app = InstalledApp(
             url: URL(filePath: "/Applications/Obsidian.app"), bundleIdentifier: "md.obsidian", name: "Obsidian",
