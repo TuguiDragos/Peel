@@ -4,9 +4,9 @@ import Foundation
 /// Obsidian's loader (`main.js` in its `app.asar`) runs the newest `obsidian-<version>.asar` in the account's data
 /// folder that isn't older than the app, so the app keeps the version it was installed at.
 enum ObsidianLoader {
-    /// The version Obsidian runs for the account at `home`, when it isn't the app's own.
-    static func runningVersion(ofAppAt url: URL, home: URL) -> String? {
-        guard let bundleVersion = loaderVersion(ofAppAt: url) else { return nil }
+    /// The version an Obsidian whose loader is at `bundleVersion` runs for the account at `home`, when it isn't the
+    /// app's own. Only the account's data folder is read.
+    static func runningVersion(loader bundleVersion: String, home: URL) -> String? {
         let folder = home.appending(path: "Library/Application Support/obsidian", directoryHint: .isDirectory)
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
         else { return nil }
@@ -25,8 +25,8 @@ enum ObsidianLoader {
         return newest.version
     }
 
-    /// The version of Obsidian's loader, from the `package.json` in `app.asar`.
-    private static func loaderVersion(ofAppAt url: URL) -> String? {
+    /// The version of Obsidian's loader, from the `package.json` in `app.asar`, or nil for any other app.
+    static func loaderVersion(ofAppAt url: URL) -> String? {
         let resources = url.appending(path: "Contents/Resources", directoryHint: .isDirectory)
         guard BoundedRead.opens(resources.appending(path: "obsidian.asar"), maximum: .max),
               let archive = BoundedRead.data(at: resources.appending(path: "app.asar"), maximum: 1_048_576),

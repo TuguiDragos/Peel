@@ -210,7 +210,7 @@ public enum AppCatalog {
     /// updates itself outside its bundle changes nothing in the folders of apps, so no watch of them says so.
     @concurrent
     public static func runsAnotherVersion(oneOf apps: [InstalledApp], home: URL = .homeDirectory) async -> Bool {
-        apps.contains { AppInspector.runningVersion(ofAppAt: $0.url, home: home) != $0.runningVersion }
+        apps.contains { AppInspector.runningVersion(of: $0, home: home) != $0.runningVersion }
     }
 
     /// Whether what was read about `bundle` is kept, so the next reading of its folder does not read it again.
@@ -238,7 +238,7 @@ public enum AppCatalog {
             if let remembered = known.withLock({ $0[path] }), remembered.identity == identity {
                 let use = AppInspector.use(of: bundle)
                 return remembered.app.withUse(lastUsedDate: use.lastUsedDate, isUseRecorded: use.isRecorded)
-                    .withRunningVersion(AppInspector.runningVersion(ofAppAt: bundle, home: home))
+                    .withRunningVersion(AppInspector.runningVersion(of: remembered.app, home: home))
             }
             guard let app = AppInspector.inspect(bundle, home: home) else { return nil }
             known.withLock { $0[path] = (identity, app) }

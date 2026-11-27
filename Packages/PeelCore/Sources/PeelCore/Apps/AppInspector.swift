@@ -196,6 +196,7 @@ public enum AppInspector {
         let architectures = executable.flatMap(MachOHeader.architectures(ofExecutableAt:)) ?? []
         let asksForIntelFirst = (info["LSArchitecturePriority"] as? [String])?.first == "x86_64"
         let vsCodeProduct = ProductFolders.vsCodeProduct(of: url)
+        let loaderVersion = ObsidianLoader.loaderVersion(ofAppAt: url)
 
         return InstalledApp(
             url: url,
@@ -203,7 +204,8 @@ public enum AppInspector {
             name: displayName(of: url, identifier: bundleIdentifier),
             bundleName: info["CFBundleName"] as? String,
             version: statedVersion(in: info),
-            runningVersion: runningVersion(ofAppAt: url, home: home),
+            runningVersion: loaderVersion.flatMap { ObsidianLoader.runningVersion(loader: $0, home: home) },
+            loaderVersion: loaderVersion,
             buildVersion: stated(info["CFBundleVersion"]),
             teamIdentifier: signing.teamIdentifier,
             developer: signing.developer,
@@ -239,9 +241,10 @@ public enum AppInspector {
         )
     }
 
-    /// The version the app runs for the account at `home` when it updated itself outside its bundle.
-    static func runningVersion(ofAppAt url: URL, home: URL) -> String? {
-        ObsidianLoader.runningVersion(ofAppAt: url, home: home)
+    /// The version `app` runs for the account at `home` when it updated itself outside its bundle, asked again from
+    /// what the listing knows of its loader, so nothing in the bundle is opened.
+    static func runningVersion(of app: InstalledApp, home: URL) -> String? {
+        app.loaderVersion.flatMap { ObsidianLoader.runningVersion(loader: $0, home: home) }
     }
 
     private static func iPhoneAndiPadListing(metadataAt url: URL) -> AppStoreListing {

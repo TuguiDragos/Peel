@@ -10,6 +10,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let version: String?
     /// The version the app runs when it updated itself outside its bundle, as Obsidian does (`ObsidianLoader`).
     public private(set) var runningVersion: String?
+    /// The version of the loader such an app carries in its bundle, which picks what the app runs. Kept here so the
+    /// version it runs can be asked again without opening the bundle.
+    public let loaderVersion: String?
     public let buildVersion: String?
     public let teamIdentifier: String?
     /// The maker, as the app's signature names it. Nil when the signature names nobody, as for an App Store
@@ -86,6 +89,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         bundleName: String? = nil,
         version: String? = nil,
         runningVersion: String? = nil,
+        loaderVersion: String? = nil,
         buildVersion: String? = nil,
         teamIdentifier: String? = nil,
         developer: String? = nil,
@@ -114,6 +118,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.bundleName = bundleName
         self.version = version
         self.runningVersion = runningVersion
+        self.loaderVersion = loaderVersion
         self.buildVersion = buildVersion
         self.teamIdentifier = teamIdentifier
         self.developer = developer
