@@ -298,8 +298,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 
 - An administrator installs, repairs, or uninstalls it, and another account only once an administrator approves the
   change in macOS's own window, asked at that moment (`PrivilegedHelper.changeAsAnAdministrator`), since macOS lets
-  any account unregister a daemon. Remove Peel, from an account that isn't an administrator, leaves the helper and
-  Peel where they are, and says to uninstall the helper first in Settings > Helper.
+  any account unregister a daemon. Remove Peel, from an account that isn't an administrator, leaves a registered
+  helper and Peel where they are, and says the steps that account can take: Uninstall Helper in Settings > Helper
+  first, then Remove Peel, or, where the account may not move Peel, Finder, which asks for an administrator
+  (`SelfUninstall.helperGoesFirst`, `explanation(of:isAdministrator:helperIsRegistered:)`).
 - It answers an administrator, and another account only with an administrator's approval for each action, which
   Peel asks for once per action in macOS's own window (`AdministratorConsent`, for `system.privilege.admin`), asked
   again with each message, and it accepts only a copy of Peel signed by the same team and no older a build than

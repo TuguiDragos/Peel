@@ -190631,6 +190631,112 @@
         }
       }
     },
+    "Peel will not move itself from here: this account is not allowed to move it. Choose Uninstall Helper in Settings > Helper first, where an administrator enters a name and password, then quit Peel and drag it to the Trash in Finder, which asks for an administrator too. The files Peel keeps in this account stay behind, and so does its login item while “Open Peel at login” is on." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se odsud sám nepřesune: tento účet nemá oprávnění ho přesunout. Nejdřív zvolte „Odinstalovat pomocníka“ v Nastavení > Pomocník, kde správce zadá jméno a heslo, potom Peel ukončete a přetáhněte ho do koše ve Finderu, který také požádá o údaje správce. Soubory, které si Peel na tomto účtu uchovává, zůstanou na místě, stejně jako jeho položka přihlášení, dokud je zapnutá volba „Otevírat Peel při přihlášení“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt sich von hier aus nicht selbst: Dieser Benutzeraccount darf Peel nicht verschieben. Wähle zuerst „Hilfsprogramm deinstallieren“ unter „Einstellungen“ > „Hilfsprogramm“, wo ein Administrator einen Namen und ein Passwort eingibt, beende dann Peel und ziehe es im Finder in den Papierkorb; der Finder fragt ebenfalls nach einem Administrator. Die Dateien, die Peel in diesem Benutzeraccount aufbewahrt, bleiben zurück, ebenso das Anmeldeobjekt, solange „Peel bei der Anmeldung öffnen“ aktiviert ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no se trasladará a sí mismo desde aquí: esta cuenta no tiene permiso para trasladarlo. Elige primero “Desinstalar asistente” en Ajustes > Asistente, donde un administrador introduce un nombre y una contraseña; luego sal de Peel y arrástralo a la papelera en el Finder, que también pide un administrador. Los archivos que Peel guarda en esta cuenta se quedan atrás, y también su ítem de inicio mientras “Abrir Peel al iniciar sesión” esté activado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : ce compte n’est pas autorisé à le déplacer. Choisissez d’abord « Désinstaller l’utilitaire » dans Réglages > Utilitaire, où un administrateur saisit un nom et un mot de passe, puis quittez Peel et faites-le glisser dans la corbeille depuis le Finder, ce qui demande aussi l’autorisation d’un administrateur. Les fichiers que Peel conserve sur ce compte restent en place, tout comme son élément d’ouverture tant que « Ouvrir Peel avec la session » est activé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da qui Peel non sposta sé stesso: questo account non è autorizzato a spostarlo. Scegli prima “Disinstalla assistente” in Impostazioni > Assistente, dove un amministratore inserisce nome e password, poi esci da Peel e trascinalo nel Cestino dal Finder, operazione che richiede anch’essa l’autorizzazione di un amministratore. I file che Peel conserva in questo account restano, e così il suo elemento login finché “Apri Peel al login” è attivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここから自身を移動しません。このアカウントにはPeelを移動する権限がないためです。まず“設定”＞“ヘルパー”で“ヘルパーをアンインストール”を選択して管理者が名前とパスワードを入力し、そのあとPeelを終了してFinderでゴミ箱にドラッグしてください。その際も、Finderが管理者の認証を求めます。Peelがこのアカウントに保存しているファイルは残ります。“ログイン時にPeelを開く”がオンの間は、ログイン項目も残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. 이 계정에는 Peel을 이동할 권한이 없기 때문입니다. 먼저 설정 > 보조 프로그램에서 ‘보조 프로그램 제거’를 선택하여 관리자가 이름과 암호를 입력한 다음, Peel을 종료하고 Finder에서 휴지통으로 드래그하십시오. 이때도 Finder가 관리자 인증을 요청합니다. Peel이 이 계정에 보관하는 파일은 남게 되며, ‘로그인 시 Peel 열기’가 켜져 있는 동안에는 로그인 항목도 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: deze account mag Peel niet verplaatsen. Kies eerst 'Deïnstalleer hulpprogramma' in Instellingen > Hulpprogramma, waar een beheerder een naam en wachtwoord invoert, stop daarna Peel en sleep het in Finder naar de prullenmand, waarna Finder ook om een beheerder vraagt. De bestanden die Peel in deze account bewaart, blijven achter, net als het inlogonderdeel zolang 'Open Peel bij inloggen' aanstaat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: to konto nie ma pozwolenia, aby go przenieść. Najpierw wybierz „Odinstaluj pomocnika” w Ustawieniach > Pomocnik, gdzie administrator wpisuje nazwę i hasło, a potem zakończ Peel i przeciągnij go do Kosza w Finderze, który także poprosi o dane administratora. Pliki, które Peel przechowuje na tym koncie, pozostaną, podobnie jak jego rzecz otwierana podczas logowania, dopóki opcja „Otwieraj Peel podczas logowania” jest włączona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai se mover daqui: esta conta não tem permissão para movê-lo. Escolha primeiro “Desinstalar Auxiliar” em Ajustes > Auxiliar, onde um administrador digita um nome e uma senha, depois encerre o Peel e arraste-o para o Lixo no Finder, o que também pede um administrador. Os arquivos que o Peel mantém nesta conta ficam para trás, assim como o item de início de sessão enquanto a opção “Abrir o Peel ao iniciar a sessão” estiver ativada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu se mută singur de aici: acest cont nu are permisiunea să îl mute. Alegeți întâi „Dezinstalați instrumentul de ajutor” în Configurări > Instrument de ajutor, unde un administrator introduce un nume și o parolă, apoi închideți Peel și trageți‑l în Coș din Finder, care cere și el un administrator. Fișierele pe care Peel le păstrează în acest cont rămân în urmă, la fel și articolul său de lansat la login cât timp opțiunea „Deschideți Peel la login” este activată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет перемещать себя отсюда: этой учетной записи не разрешено его перемещать. Сначала выберите «Удалить помощника» в разделе «Настройки» > «Помощник», где администратор вводит имя и пароль, а затем завершите Peel и перетащите его в Корзину в Finder: Finder тоже запросит данные администратора. Файлы, которые Peel хранит в этой учетной записи, останутся, как и его объект входа, пока включен параметр «Открывать Peel при входе»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte sig själv härifrån: det här kontot får inte flytta appen. Välj först ”Avinstallera hjälpprogram” i Inställningar > Hjälpprogram, där en administratör anger namn och lösenord, avsluta sedan Peel och dra appen till papperskorgen i Finder, varpå Finder också ber om en administratör. Filerna som Peel sparar på det här kontot blir kvar, liksom startobjektet så länge ”Öppna Peel vid inloggning” är aktiverat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini buradan taşımaz: bu hesabın onu taşımaya izni yok. Önce Ayarlar > Yardımcı bölümünde “Yardımcıyı Kaldır” düğmesini tıklayın; burada bir yönetici ad ve parola girer. Ardından Peel’den çıkın ve onu Finder’da Çöp Sepeti’ne sürükleyin; Finder da bir yönetici ister. Peel’in bu hesapta tuttuğu dosyalar geride kalır; “Oturum açıldığında Peel’i aç” açık olduğu sürece oturum açma öğesi de kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить себе звідси: цьому обліковому запису не дозволено її переміщувати. Спершу виберіть «Деінсталювати помічника» в розділі Параметри > Помічник, де адміністратор вводить імʼя та пароль, а потім завершіть програму «Peel» і перетягніть її в Смітник у Finder, після чого Finder також попросить дані адміністратора. Файли, які Peel зберігає в цьому обліковому записі, залишаться, як і її елемент автозапуску, доки увімкнено «Відкривати Peel під час входу в систему»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会从此处移动自己：此账户无权移动它。请先在“设置”>“帮助程序”中选取“卸载帮助程序”，由管理员输入名称和密码，然后退出Peel并在“访达”中将它拖到废纸篓，“访达”也会要求管理员授权。Peel在此账户中保留的文件会留下；只要“登录时打开Peel”已打开，它的登录项也会留下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會從這裡移動自己：此帳號無權移動它。請先在「設定」>「輔助程式」中選擇「解除安裝輔助程式」，由管理者輸入名稱和密碼，然後結束Peel並在Finder中將它拖到「垃圾桶」，Finder也會要求管理者驗證。Peel在此帳號中保留的檔案會留下；只要「登入時打開Peel」已開啟，它的登入項目也會留下。"
+          }
+        }
+      }
+    },
     "Peel will not move itself from here: this account is not allowed to move it. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind." : {
       "localizations" : {
         "cs" : {
@@ -190733,6 +190839,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會從這裡移動自己：此帳號無權移動它。在Finder中將Peel拖到「垃圾桶」會留下它的輔助程式、登入項目和檔案。"
+          }
+        }
+      }
+    },
+    "Peel will not move itself from here: this account is not allowed to move it. Quit Peel and drag it to the Trash in Finder, which asks for an administrator name and password. The files Peel keeps in this account stay behind, and so does its login item while “Open Peel at login” is on." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se odsud sám nepřesune: tento účet nemá oprávnění ho přesunout. Ukončete Peel a přetáhněte ho do koše ve Finderu, který si vyžádá jméno a heslo správce. Soubory, které si Peel na tomto účtu uchovává, zůstanou na místě, stejně jako jeho položka přihlášení, dokud je zapnutá volba „Otevírat Peel při přihlášení“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt sich von hier aus nicht selbst: Dieser Benutzeraccount darf Peel nicht verschieben. Beende Peel und ziehe es im Finder in den Papierkorb; der Finder fragt nach Namen und Passwort eines Administrators. Die Dateien, die Peel in diesem Benutzeraccount aufbewahrt, bleiben zurück, ebenso das Anmeldeobjekt, solange „Peel bei der Anmeldung öffnen“ aktiviert ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no se trasladará a sí mismo desde aquí: esta cuenta no tiene permiso para trasladarlo. Sal de Peel y arrástralo a la papelera en el Finder, que pide el nombre y la contraseña de un administrador. Los archivos que Peel guarda en esta cuenta se quedan atrás, y también su ítem de inicio mientras “Abrir Peel al iniciar sesión” esté activado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : ce compte n’est pas autorisé à le déplacer. Quittez Peel et faites-le glisser dans la corbeille depuis le Finder, qui demande le nom et le mot de passe d’un administrateur. Les fichiers que Peel conserve sur ce compte restent en place, tout comme son élément d’ouverture tant que « Ouvrir Peel avec la session » est activé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da qui Peel non sposta sé stesso: questo account non è autorizzato a spostarlo. Esci da Peel e trascinalo nel Cestino dal Finder, che chiede il nome e la password di un amministratore. I file che Peel conserva in questo account restano, e così il suo elemento login finché “Apri Peel al login” è attivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここから自身を移動しません。このアカウントにはPeelを移動する権限がないためです。Peelを終了して、Finderでゴミ箱にドラッグしてください。その際、Finderが管理者の名前とパスワードを求めます。Peelがこのアカウントに保存しているファイルは残ります。“ログイン時にPeelを開く”がオンの間は、ログイン項目も残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. 이 계정에는 Peel을 이동할 권한이 없기 때문입니다. Peel을 종료하고 Finder에서 휴지통으로 드래그하십시오. 이때 Finder가 관리자 이름 및 암호를 요청합니다. Peel이 이 계정에 보관하는 파일은 남게 되며, ‘로그인 시 Peel 열기’가 켜져 있는 동안에는 로그인 항목도 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: deze account mag Peel niet verplaatsen. Stop Peel en sleep het in Finder naar de prullenmand, waarna Finder om de naam en het wachtwoord van een beheerder vraagt. De bestanden die Peel in deze account bewaart, blijven achter, net als het inlogonderdeel zolang 'Open Peel bij inloggen' aanstaat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: to konto nie ma pozwolenia, aby go przenieść. Zakończ Peel i przeciągnij go do Kosza w Finderze, który poprosi o nazwę i hasło administratora. Pliki, które Peel przechowuje na tym koncie, pozostaną, podobnie jak jego rzecz otwierana podczas logowania, dopóki opcja „Otwieraj Peel podczas logowania” jest włączona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai se mover daqui: esta conta não tem permissão para movê-lo. Encerre o Peel e arraste-o para o Lixo no Finder, que pede o nome e a senha de um administrador. Os arquivos que o Peel mantém nesta conta ficam para trás, assim como o item de início de sessão enquanto a opção “Abrir o Peel ao iniciar a sessão” estiver ativada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu se mută singur de aici: acest cont nu are permisiunea să îl mute. Închideți Peel și trageți‑l în Coș din Finder, care cere numele și parola unui administrator. Fișierele pe care Peel le păstrează în acest cont rămân în urmă, la fel și articolul său de lansat la login cât timp opțiunea „Deschideți Peel la login” este activată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет перемещать себя отсюда: этой учетной записи не разрешено его перемещать. Завершите Peel и перетащите его в Корзину в Finder: Finder запросит имя и пароль администратора. Файлы, которые Peel хранит в этой учетной записи, останутся, как и его объект входа, пока включен параметр «Открывать Peel при входе»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte sig själv härifrån: det här kontot får inte flytta appen. Avsluta Peel och dra appen till papperskorgen i Finder, varpå Finder ber om en administratörs namn och lösenord. Filerna som Peel sparar på det här kontot blir kvar, liksom startobjektet så länge ”Öppna Peel vid inloggning” är aktiverat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini buradan taşımaz: bu hesabın onu taşımaya izni yok. Peel’den çıkın ve onu Finder’da Çöp Sepeti’ne sürükleyin; Finder bir yönetici adı ve parolası ister. Peel’in bu hesapta tuttuğu dosyalar geride kalır; “Oturum açıldığında Peel’i aç” açık olduğu sürece oturum açma öğesi de kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить себе звідси: цьому обліковому запису не дозволено її переміщувати. Завершіть програму «Peel» і перетягніть її в Смітник у Finder, після чого Finder попросить імʼя та пароль адміністратора. Файли, які Peel зберігає в цьому обліковому записі, залишаться, як і її елемент автозапуску, доки увімкнено «Відкривати Peel під час входу в систему»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会从此处移动自己：此账户无权移动它。请退出Peel并在“访达”中将它拖到废纸篓，“访达”会要求输入管理员名称和密码。Peel在此账户中保留的文件会留下；只要“登录时打开Peel”已打开，它的登录项也会留下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會從這裡移動自己：此帳號無權移動它。請結束Peel並在Finder中將它拖到「垃圾桶」，Finder會要求輸入管理者的名稱和密碼。Peel在此帳號中保留的檔案會留下；只要「登入時打開Peel」已開啟，它的登入項目也會留下。"
           }
         }
       }

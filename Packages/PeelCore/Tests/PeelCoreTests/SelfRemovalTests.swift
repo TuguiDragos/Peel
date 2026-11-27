@@ -523,9 +523,7 @@ struct SelfRemovalTests {
         {
             SelfRemoval.block(
                 forAnAccountThatMayNotMove: bundle, outOf: parent, account: account,
-                isAdministrator: groups[account, default: []].contains(administrators),
                 isMember: { groups[$0, default: []].contains($1) },
-                isAdministratorsGroup: { $0 == administrators },
                 name: { [alex: "Alex", blair: "Blair", sam: "Sam"][$0] }
             )
         }
@@ -543,7 +541,7 @@ struct SelfRemovalTests {
         #expect(block(sams, in: staffs, for: blair) == .needsItsOwner("Sam"))
         #expect(block(roots, for: blair) == .leftToFinder)
         #expect(block(roots, for: sam) == .leftToFinder)
-        #expect(block(everyAdministrators, for: sam) == .needsAnAdministrator)
+        #expect(block(everyAdministrators, for: sam) == .leftToFinder)
         #expect(block(everyAdministrators, in: sticky, for: sam) == .leftToFinder)
         #expect(block(alexs, in: sticky, for: blair) == .needsItsOwner("Alex"))
         let lockedByAlex = FolderPermissions(owner: alex, group: administrators, mode: 0o40555)

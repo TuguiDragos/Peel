@@ -86,12 +86,13 @@ public enum SelfRemoval {
         /// Peel runs from a copy that can't be moved: the read-only copy macOS runs an app from while it is still
         /// marked as downloaded, or its disk image.
         case readOnlyCopy
-        /// Peel's folder needs an administrator, which only Finder asks for.
+        /// The plan chose nothing of Peel's, as it does when its folder needs an administrator, and nothing known
+        /// ahead says more.
         case needsAnAdministrator
         /// Peel belongs to another account, named here, which may move it from where it is.
         case needsItsOwner(String)
-        /// Neither this account, the one Peel belongs to, nor an administrator may move Peel from where it is, so
-        /// only Finder can, asking for an administrator.
+        /// Neither this account nor the one Peel belongs to may move Peel from where it is, so only Finder can,
+        /// asking for an administrator.
         case leftToFinder
     }
 
@@ -110,19 +111,16 @@ public enum SelfRemoval {
             forAnAccountThatMayNotMove: FolderPermissions(of: app, followingALink: false),
             outOf: FolderPermissions(of: app.deletingLastPathComponent(), followingALink: true),
             account: getuid(),
-            isAdministrator: PrivilegedHelper.isAdministrator,
             isMember: GroupMembership.isMember(_:of:),
-            isAdministratorsGroup: GroupMembership.isTheAdministratorsGroup(_:),
             name: AccountRecord.name(of:)
         )
     }
 
-    /// Who may move Peel when this account may not: the account Peel belongs to when that one may, else an
-    /// administrator when this account isn't one and any administrator may, else nobody but Finder.
+    /// Who may move Peel when this account may not: the account Peel belongs to when that one may, else nobody but
+    /// Finder.
     static func block(
         forAnAccountThatMayNotMove bundle: FolderPermissions?, outOf parent: FolderPermissions?, account: uid_t,
-        isAdministrator: Bool, isMember: (uid_t, gid_t) -> Bool, isAdministratorsGroup: (gid_t) -> Bool,
-        name: (uid_t) -> String?
+        isMember: (uid_t, gid_t) -> Bool, name: (uid_t) -> String?
     ) -> Block {
         guard let bundle, let parent else { return .leftToFinder }
         let owner = bundle.owner
@@ -131,16 +129,13 @@ public enum SelfRemoval {
            let ownersName = name(owner) {
             return .needsItsOwner(ownersName)
         }
-        if !isAdministrator, mayMove(bundle, outOf: parent, as: nil, isInGroup: isAdministratorsGroup) {
-            return .needsAnAdministrator
-        }
         return .leftToFinder
     }
 
     /// Whether `account` may move a folder out of its parent, as `rename(2)` and `man 7 sticky` judge it: it writes
-    /// in both, and a sticky parent lets only the folder's owner or the parent's do it. A nil account owns neither.
+    /// in both, and a sticky parent lets only the folder's owner or the parent's do it.
     static func mayMove(
-        _ bundle: FolderPermissions, outOf parent: FolderPermissions, as account: uid_t?, isInGroup: (gid_t) -> Bool
+        _ bundle: FolderPermissions, outOf parent: FolderPermissions, as account: uid_t, isInGroup: (gid_t) -> Bool
     ) -> Bool {
         if parent.mode & S_ISVTX != 0, account != bundle.owner, account != parent.owner { return false }
         return parent.lets(account, write: isInGroup) && bundle.lets(account, write: isInGroup)

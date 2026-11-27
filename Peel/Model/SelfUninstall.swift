@@ -177,7 +177,10 @@ final class SelfUninstall {
         let plan = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions)
         let urls = plan.unreviewedSelection
         if let block = SelfRemoval.block(selection: urls, isExcluded: plan.isExcluded, app: bundleURL) {
-            tell(.stayed(Self.explanation(of: block)), words)
+            let reason = Self.explanation(
+                of: block, isAdministrator: helper.isAdministrator, helperIsRegistered: helper.isRegistered
+            )
+            tell(.stayed(reason), words)
             return
         }
 
@@ -220,18 +223,23 @@ final class SelfUninstall {
         Self.quit()
     }
 
-    static func explanation(of block: SelfRemoval.Block) -> String {
-        switch block {
-        case .excluded:
+    /// Why Peel stays and what to do. An account that is not an administrator is told only the steps it can take.
+    static func explanation(of block: SelfRemoval.Block, isAdministrator: Bool, helperIsRegistered: Bool) -> String {
+        switch (block, isAdministrator) {
+        case (.excluded, _):
             String(localized: "Peel won’t move itself: it is excluded in Settings > Exclusions. Take it off the list there, then choose Remove Peel again.")
-        case .readOnlyCopy:
+        case (.readOnlyCopy, _):
             String(localized: "Peel runs from a copy it cannot move. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
-        case .needsAnAdministrator:
+        case (.needsAnAdministrator, true):
             String(localized: "Peel will not move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
-        case .needsItsOwner(let owner):
+        case (.needsItsOwner(let owner), true):
             String(localized: "Peel will not move itself from here: it belongs to the account \(owner). Log in to that account and choose Remove Peel there. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
-        case .leftToFinder:
+        case (.leftToFinder, true):
             String(localized: "Peel will not move itself from here: this account is not allowed to move it. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
+        case (.needsAnAdministrator, false), (.needsItsOwner, false), (.leftToFinder, false):
+            helperIsRegistered
+                ? String(localized: "Peel will not move itself from here: this account is not allowed to move it. Choose Uninstall Helper in Settings > Helper first, where an administrator enters a name and password, then quit Peel and drag it to the Trash in Finder, which asks for an administrator too. The files Peel keeps in this account stay behind, and so does its login item while “Open Peel at login” is on.")
+                : String(localized: "Peel will not move itself from here: this account is not allowed to move it. Quit Peel and drag it to the Trash in Finder, which asks for an administrator name and password. The files Peel keeps in this account stay behind, and so does its login item while “Open Peel at login” is on.")
         }
     }
 

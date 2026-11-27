@@ -522,7 +522,10 @@ struct GeneralSettingsView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if let block = Self.blockAhead {
-                        Text(SelfUninstall.explanation(of: block))
+                        Text(SelfUninstall.explanation(
+                            of: block, isAdministrator: helper.isAdministrator,
+                            helperIsRegistered: helper.isRegistered
+                        ))
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if waitsForAnAdministrator {

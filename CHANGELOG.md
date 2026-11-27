@@ -11,8 +11,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - On an account that is not an administrator, Peel installs, repairs, and uninstalls its helper once an administrator
   enters a name and password in the window macOS shows, where before an administrator had to set it up on their own
-  account. Home and Settings > Helper say where the helper stands and offer the step it needs, and Remove Peel says to
-  uninstall the helper there first.
+  account. Home and Settings > Helper say where the helper stands and offer the step it needs, and Remove Peel gives
+  the steps that account can take: uninstall the helper there first, then Remove Peel, or, where the account can't move
+  Peel, as in the Applications folder, quit Peel and drag it to the Trash in Finder, which asks for an administrator
+  too. It says what Finder leaves: the files Peel keeps in that account, and its login item while Open Peel at login is
+  on.
 
 ### Fixed
 

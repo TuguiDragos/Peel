@@ -54,9 +54,14 @@ struct SettingsTextTests {
     }
 
     @Test func removePeelsRefusalsSayTheStep() {
-        #expect(SelfUninstall.explanation(of: .readOnlyCopy) == "Peel runs from a copy it cannot move. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
-        #expect(SelfUninstall.explanation(of: .leftToFinder) == "Peel will not move itself from here: this account is not allowed to move it. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
-        #expect(SelfUninstall.explanation(of: .needsAnAdministrator).hasSuffix("Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind."))
-        #expect(SelfUninstall.explanation(of: .needsItsOwner("sam")).hasSuffix("Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind."))
+        func words(_ block: SelfRemoval.Block, isAdministrator: Bool = true, helper: Bool = true) -> String {
+            SelfUninstall.explanation(of: block, isAdministrator: isAdministrator, helperIsRegistered: helper)
+        }
+        #expect(words(.readOnlyCopy) == "Peel runs from a copy it cannot move. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
+        #expect(words(.leftToFinder) == "Peel will not move itself from here: this account is not allowed to move it. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
+        #expect(words(.needsAnAdministrator).hasSuffix("Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind."))
+        #expect(words(.needsItsOwner("sam")).hasSuffix("Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind."))
+        #expect(words(.leftToFinder, isAdministrator: false) == "Peel will not move itself from here: this account is not allowed to move it. Choose Uninstall Helper in Settings > Helper first, where an administrator enters a name and password, then quit Peel and drag it to the Trash in Finder, which asks for an administrator too. The files Peel keeps in this account stay behind, and so does its login item while “Open Peel at login” is on.")
+        #expect(words(.leftToFinder, isAdministrator: false, helper: false) == "Peel will not move itself from here: this account is not allowed to move it. Quit Peel and drag it to the Trash in Finder, which asks for an administrator name and password. The files Peel keeps in this account stay behind, and so does its login item while “Open Peel at login” is on.")
     }
 }

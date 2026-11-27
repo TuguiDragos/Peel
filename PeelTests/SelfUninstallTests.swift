@@ -65,4 +65,24 @@ struct SelfUninstallAccountTests {
         #expect(SelfUninstall.helperGoesFirst.contains(String(localized: "Uninstall Helper")))
         #expect(SelfUninstall.helperGoesFirst.contains(String(localized: "Remove Peel")))
     }
+
+    @Test func anAccountThatIsNotAnAdministratorIsToldOnlyTheStepsItCanTake() {
+        func words(_ block: SelfRemoval.Block, isAdministrator: Bool = false, helper: Bool) -> String {
+            SelfUninstall.explanation(of: block, isAdministrator: isAdministrator, helperIsRegistered: helper)
+        }
+        for block in [SelfRemoval.Block.needsAnAdministrator, .needsItsOwner("Alex"), .leftToFinder] {
+            #expect(words(block, helper: true).contains(String(localized: "Uninstall Helper")))
+            #expect(!words(block, helper: false).contains(String(localized: "Uninstall Helper")))
+            for said in [words(block, helper: true), words(block, helper: false)] {
+                #expect(!said.contains("Log in"))
+                #expect(!said.contains("Alex"))
+                #expect(said.localizedCaseInsensitiveContains("quit Peel and drag it to the Trash in Finder"))
+                #expect(said.contains("stay behind"))
+                #expect(said.contains(String(localized: "Open Peel at login")))
+            }
+        }
+        for block in [SelfRemoval.Block.excluded, .readOnlyCopy] {
+            #expect(words(block, helper: true) == words(block, isAdministrator: true, helper: true))
+        }
+    }
 }
