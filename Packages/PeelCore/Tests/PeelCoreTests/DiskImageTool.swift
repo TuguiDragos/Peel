@@ -24,15 +24,20 @@ enum DiskImageTool {
 
     @discardableResult
     static func diskutil(_ arguments: String...) async throws -> Data {
+        try await diskutil(arguments)
+    }
+
+    @discardableResult
+    static func diskutil(_ arguments: [String]) async throws -> Data {
         try await onAThreadOfItsOwn("/usr/sbin/diskutil", arguments, input: Data()).output
     }
 
     /// Takes the disk at `place`, a mount point or a device, away with `diskutil eject`, which `hdiutil` itself names
     /// in place of its `detach` on macOS 27, where `detach` waits on the disk image driver with the volume still
-    /// mounted. Without `force`, a disk in use stays and the failure says what objects. Answers what the tool said.
+    /// mounted. Answers what the tool said.
     @discardableResult
-    static func eject(_ place: String, force: Bool = true) throws -> String {
-        let said = try streams("/usr/sbin/diskutil", ["eject"] + (force ? ["force"] : []) + [place], input: Data())
+    static func eject(_ place: String) throws -> String {
+        let said = try streams("/usr/sbin/diskutil", ["eject", "force", place], input: Data())
         return String(decoding: said.output + said.errors, as: UTF8.self)
     }
 

@@ -136,21 +136,40 @@ final class ScratchVolume {
             == PathPattern.comparablePath(of: url.resolvingSymlinksInPath())
     }
 
-    /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere, or,
-    /// `readOnly`, as the disk image an app came on is mounted. It is unmounted without force, since a forced unmount
-    /// skips writing out what the file system still holds.
+    /// The same disk mounted again at `place`, as a disk renamed or plugged in again lands elsewhere, or, `readOnly`,
+    /// as the disk image an app came on is mounted. Only the volume is unmounted, without force, since a forced unmount
+    /// skips writing out what the file system still holds, and the image stays attached: ejecting it too can fail
+    /// under load once the volume is already unmounted.
     func remount(at place: URL, readOnly: Bool = false) async throws {
+        let device = try await volumeDevice()
         do {
-            try DiskImageTool.eject(url.path, force: false)
+            try await DiskImageTool.diskutil("unmount", url.path)
         } catch let failure as DiskImageTool.Failure {
             throw DiskImageTool.Failure(
                 command: failure.command, status: failure.status, said: failure.said + "\nIn use: " + holders()
             )
         }
-        try await attach(at: place, readOnly: readOnly)
+        try FileManager.default.createDirectory(at: place, withIntermediateDirectories: true)
+        try await DiskImageTool.diskutil(
+            ["mount"] + (readOnly ? ["readOnly"] : []) + ["nobrowse", "-mountPoint", place.path, device]
+        )
+        url = place
+        try requireMounted()
+        isMeantToBeMounted = true
     }
 
-    /// What keeps the disk from being detached without force: what this process holds open on it, read at once, then
+    private func volumeDevice() async throws -> String {
+        let answer = try await DiskImageTool.diskutil("info", "-plist", url.path)
+        let info = try PropertyListSerialization.propertyList(from: answer, format: nil) as? [String: Any]
+        guard let device = info?["DeviceIdentifier"] as? String else {
+            throw DiskImageTool.Failure(
+                command: "diskutil info", status: 0, said: "no volume is mounted at \(url.path)"
+            )
+        }
+        return device
+    }
+
+    /// What keeps the disk from being unmounted without force: what this process holds open on it, read at once, then
     /// what `lsof` names, which sees no process of another account.
     private func holders() -> String {
         let here = Self.openInThisProcess(under: [url.path, "/private" + url.path])
@@ -159,6 +178,7 @@ final class ScratchVolume {
         process.executableURL = URL(filePath: "/usr/sbin/lsof")
         process.arguments = ["-w", "+f", "--", url.path]
         process.standardOutput = output
+        process.standardError = output
         try? process.run()
         let said = output.fileHandleForReading.readDataToEndOfFile()
         process.waitUntilExit()
@@ -188,12 +208,11 @@ final class ScratchVolume {
     }
 
     /// The disk plugged in again at `place`, once something took it away.
-    func attach(at place: URL, readOnly: Bool = false) async throws {
+    func attach(at place: URL) async throws {
         try FileManager.default.createDirectory(at: place, withIntermediateDirectories: true)
         let file = image.url.appending(path: "disk.dmg")
         try await DiskImageTool.hdiutil(
-            ["attach", "-nobrowse", "-noautoopen", "-noverify"] + (readOnly ? ["-readonly"] : [])
-                + ["-mountpoint", place.path, file.path]
+            ["attach", "-nobrowse", "-noautoopen", "-noverify", "-mountpoint", place.path, file.path]
         )
         url = place
         try requireMounted()
